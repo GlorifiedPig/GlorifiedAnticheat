@@ -1,27 +1,18 @@
 
-function gAC.AddDetection( displayReason, shouldPunish, banTime )
+function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
 
-    gAC.AdminMessage( displayReason, shouldPunish, banTime )
+    gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
     if !shouldPunish then return end
-    local banString = "_____________[ g-AC DETECTION ]_____________\n\nReason: '" .. displayReason .. "'\n\n"
 
-    if( banTime == -1 ) then
-        banString = banString .. "Type: Kick"
-    elseif( banTime >= 0 ) then
-            if( banTime == 0 ) then
-                banString = banString .. "Type: Permanent Ban\n\nPlease appeal if you believe this is false."
-            else
-                banString = banString .. "Type: Temporary Ban\n\nPlease appeal if you believe this is false."
-            end
-            ply:Ban( banTime, false )
-        end
+    if( banTime >= 0 ) then
+        gAC.AddBan( ply, displayReason, banTime )
     end
 
-    ply:Kick( banString )
+    ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
 
 end
 
-function gAC.AdminMessage( ply, displayReason, wasPunished, banTime ) then
+function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
     for k, v in pairs( player.GetAll() ) do
         if( v:IsAdmin() ) then
             v:PrintMessage( HUD_PRINTTALK, "[g-AC] Detection from '" .. ply:Nick() .. "'" )

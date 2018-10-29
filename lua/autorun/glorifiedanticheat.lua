@@ -55,4 +55,4 @@ end
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
 frile.includeFolder( "glorifiedanticheat/", false, true )
 frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
-frile.includeFolder( "glorifiedanticheat/modules" )
+frile.includeFolder( "glorifiedanticheat/modules/" )
