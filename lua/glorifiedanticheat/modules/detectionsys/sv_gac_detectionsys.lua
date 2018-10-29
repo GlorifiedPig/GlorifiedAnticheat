@@ -16,8 +16,6 @@ function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
             v:PrintMessage( HUD_PRINTTALK, "[g-AC] Detection from '" .. ply:Nick() .. "'" )
             v:PrintMessage( HUD_PRINTTALK, "Reasoning: '" .. displayReason .. "'" )
             if( wasPunished ) then
-                v:PrintMessage( HUD_PRINTTALK, "Punishment: None" )
-            else
                 if( banTime == -1 ) then
                     v:PrintMessage( HUD_PRINTTALK, "Punishment: Kick" )
                 elseif( banTime == 0 ) then
