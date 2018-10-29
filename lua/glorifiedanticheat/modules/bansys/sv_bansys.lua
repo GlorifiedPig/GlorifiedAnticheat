@@ -46,5 +46,7 @@ end
 hook.Add( "PlayerInitialSpawn", "g-ACPlayerInitialSPawnBanSys", function( ply )
     if( !gAC.config.DEVELOPER_DEBUG ) then
         gAC.BanCheck( ply )
+    else
+        gAC.RemoveBan( ply )
     end
 end )

@@ -1,4 +1,6 @@
 
+util.AddNetworkString( "g-ACReceiveClientMessage" )
+
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
 
     gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
@@ -13,17 +15,9 @@ end
 function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
     for k, v in pairs( player.GetAll() ) do
         if( v:IsAdmin() ) then
-            v:PrintMessage( HUD_PRINTTALK, "[g-AC] Detection from '" .. ply:Nick() .. "'" )
-            v:PrintMessage( HUD_PRINTTALK, "Reasoning: '" .. displayReason .. "'" )
-            if( wasPunished ) then
-                if( banTime == -1 ) then
-                    v:PrintMessage( HUD_PRINTTALK, "Punishment: Kick" )
-                elseif( banTime == 0 ) then
-                    v:PrintMessage( HUD_PRINTTALK, "Punishment: Permanent Ban" )
-                elseif( banTime >= 0 ) then
-                    v:PrintMessage( HUD_PRINTTALK, "Punishment: Temporary Ban (" .. banTime .. " minutes)" )
-                end
-            end
+            net.Start( "g-ACReceiveClientMessage" )
+            net.WriteTable( { ply:Nick(), displayReason, wasPunished, banTime } )
+            net.Send( v )
         end
     end
 end
