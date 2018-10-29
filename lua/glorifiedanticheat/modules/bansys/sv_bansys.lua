@@ -1,6 +1,6 @@
 
 function gAC.GetFormattedBanText( displayReason, banTime )
-    local banString = "_____________[ g-AC DETECTION ]_____________\n\nReason: '" .. displayReason .. "'\n\n"
+    local banString = "_____[ g-AC DETECTION ]_____\n\nReason: '" .. displayReason .. "'\n\n"
 
     if( banTime == -1 ) then
         banString = banString .. "Type: Kick"
@@ -33,7 +33,7 @@ end
 
 function gAC.BanCheck( ply )
     if( ply:GetPData( "gAC_IsBanned" ) == true ) then
-        if( ( CurTime() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) == 0 ) then
+        if( ( CurTime() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) != 0 ) then
             gAC.RemoveBan( ply )
         else
             ply:Kick( gAC.GetFormattedBanText( ply:GetPData( "gAC_BanDisplayReason" ), ply:GetPData( "gAC_BanTime" ) ) )

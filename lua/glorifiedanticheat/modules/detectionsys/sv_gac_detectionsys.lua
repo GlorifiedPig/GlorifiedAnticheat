@@ -8,8 +8,6 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
         gAC.AddBan( ply, displayReason, banTime )
     end
 
-    ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
-
 end
 
 function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
