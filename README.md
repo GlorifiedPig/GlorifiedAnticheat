@@ -10,3 +10,4 @@
 | 101                       | C-var manipulation results haven't returned |
 | 102                       | Suspicious keybind pressed |
 | 103                       | Illegal net message called (backdoor) |
+| 104                       | Illegal console command detected |
