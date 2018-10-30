@@ -14,11 +14,13 @@ net.Receive( "G-ACcVarManipSV1", function( len, ply )
 
 end )
 
-timer.Create( "G-ACcVarManipSV2T", 5, 0, function()
-    for k, v in pairs( player.GetAll() ) do
-        gAC.CheckForConvarManipulation( v )
-    end
-end )
+if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true ) then
+    timer.Create( "G-ACcVarManipSV2T", 5, 0, function()
+        for k, v in pairs( player.GetAll() ) do
+            gAC.CheckForConvarManipulation( v )
+        end
+    end )
+end
 
 function gAC.CheckForConvarManipulation( ply )
     net.Start( "G-ACcVarManipCS1" )

@@ -1,4 +1,6 @@
 
+if !gAC.config.KEYBIND_CHECKS then return end
+
 hook.Add( "PlayerButtonDown", "g-ACPlayerButtonDownKeyBindCheck", function( ply, button )
 
     if( ( button == KEY_HOME || button == KEY_INSERT || button == KEY_END ) && ( ply.gAC_TimeSinceKeyCheck == nil || CurTime() >= ply.gAC_TimeSinceKeyCheck + 10 ) ) then
