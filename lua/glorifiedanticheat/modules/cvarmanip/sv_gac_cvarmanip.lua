@@ -35,7 +35,9 @@ function gAC.CheckForConvarManipulation( ply )
     end )
 end
 
-hook.Add( "Initialize", "g-ACcVarManipSV3", function()
-    RunConsoleCommand( "sv_allowcslua", 0 )
-    RunConsoleCommand( "sv_cheats", 0 )
-end )
+if gAC.config.DISABLE_BAD_COMMANDS then
+    hook.Add( "Initialize", "g-ACcVarManipSV3", function()
+        RunConsoleCommand( "sv_allowcslua", 0 )
+        RunConsoleCommand( "sv_cheats", 0 )
+    end )
+end
