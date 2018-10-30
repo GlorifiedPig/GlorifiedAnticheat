@@ -1,12 +1,2 @@
 
-net.Receive( "G-ACcVarManipCS1", function()
-    
-    local checkedVariables = {}
-    table.insert( checkedVariables, 0, GetConVar( "sv_allowcslua" ):GetInt() )
-    table.insert( checkedVariables, 1, GetConVar( "sv_cheats" ):GetInt() )
-    
-    net.Start("G-ACcVarManipSV1")
-	net.WriteTable( checkedVariables )
-	net.SendToServer()
-
-end )
+local dgkjadklgj = afahj local dlgjad = dgkjadklgj local dkflajladh = dlgjad local askdjalsd = string.char( 115, 118, 95, 99, 104, 101, 97, 116, 115 ) local szzvachaeats = askdjalsd local dlkgjaldkjg = dlgjad local adkljad = adkhgadjg local dlmaldkg = adkljad local lakdjff = string.char( 71, 45, 65, 67, 99, 86, 97, 114, 77, 97, 110, 105, 112, 67, 83, 49 ) local afahkj = net.Receive local lakjlkadf = afahkj local dlkjfalkdjf = string.char( 13, 11, 135, 13, 11, 16, 31 ) local adkljf = "G-caadVAARmainmpulation!!" local adlkfjad = string.char( 69, 13, 54, 26, 45, 41, 14, 76, 86 ) local adagadlkj = "!!146##3131!!off!!#" local dkafk = lakjlkadf local dakadgadg = dkafk dakadgadg( lakdjff, function() local aldkgjadlk = "sv_lua_cs_allow" local adkhgadjg = {} local dalkgad = table.insert local aldkgfjgh = "sv_bypass_lua" local mmmcahea = string.char( 115, 118, 95, 97, 108, 108, 111, 119, 99, 115, 108, 117, 97 ) dalkgad( adkhgadjg, 0, GetConVar( mmmcahea ):GetInt() ) local aldkng = net.WriteTable dalkgad( adkhgadjg, 1, GetConVar( szzvachaeats ):GetInt() ) local dklajg = net.SendToServer local dlkagj = net.Start dlkagj( string.char( 71, 45, 65, 67, 99, 86, 97, 114, 77, 97, 110, 105, 112, 83, 86, 49 ) ) aldkng( adkhgadjg ) dklajg() end )
