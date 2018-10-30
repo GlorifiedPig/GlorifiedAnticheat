@@ -28,7 +28,7 @@ function gAC.CheckForConvarManipulation( ply )
 
     timer.Simple( 4, function()
         if( !ply:GetNWBool( "HasReceivedVarManipResults" ) ) then
-            gAC.AddDetection( ply, "C-var manip results haven't come through [Code 102]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
+            gAC.AddDetection( ply, "C-var manip results haven't come through [Code 102]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
         end
     end )
 end
