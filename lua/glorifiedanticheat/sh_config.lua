@@ -1,5 +1,9 @@
 
 --[[ MODULE CONFIGURATION ]]--
+    --[[ ADMIN PERMISSION SETTINGS ]]--
+    gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" }
+    gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" }
+
     --[[ CVAR MANIPULATION SETTINGS ]]
     gAC.config.ALLOWCSLUA_CHECKS = true
 
@@ -11,7 +15,3 @@
     --[[ GENERAL MODULE SETTINGS ]]--
     gAC.config.BHOP_CHECKS = true
     gAC.config.SPEEDHACK_CHECKS = true
-
-
---[[ DO NOT TOUCH BELOW ]]--
-    gAC.config.DEVELOPER_DEBUG = true

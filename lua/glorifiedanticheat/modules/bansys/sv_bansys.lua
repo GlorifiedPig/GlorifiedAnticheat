@@ -31,12 +31,34 @@ function gAC.RemoveBan( ply )
     ply:SetPData( "gAC_BanDisplayReason", "nil" )
 end
 
+function gAC.UnbanCommand( caller, plySID64 )
+    if( !gAC.PlayerHasUnbanPerm( caller ) ) then return end
+    if( !file.IsDir( "g-AC", "DATA" ) ) then
+        file.CreateDir( "g-AC" )
+    end
+
+    if( file.Exists( "g-AC/" .. plySID64 .. ".txt", "DATA" ) ) then gAC.ClientMessage( caller, "That player is already due for an unban.", Color( 225, 150, 25 ) ) return end
+    file.Write( "g-AC/" .. plySID64 .. ".txt", "" )
+    gAC.AdminMessage( plySID64, "Ban removed by " .. caller:Nick() .. "" )
+end
+
 function gAC.BanCheck( ply )
+    if( file.Exists( "g-AC/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
+        file.Delete( "g-AC/" .. ply:SteamID64() .. ".txt" )
+
+        if( ply:GetPData( "gAC_IsBanned" ) ) then
+            gAC.RemoveBan( ply )
+
+            gAC.AdminMessage( ply:Nick(), "Player's ban removed upon login (admin manually unbanned)", false )
+            return
+        end
+    end
+
     if( ply:GetPData( "gAC_IsBanned" ) == true ) then
         if( ( CurTime() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) != 0 ) then
             gAC.RemoveBan( ply )
 
-            gAC.AdminMessage( ply, "Player's ban expired.", false )
+            gAC.AdminMessage( ply:Nick(), "Player's ban expired.", false )
         else
             ply:Kick( gAC.GetFormattedBanText( ply:GetPData( "gAC_BanDisplayReason" ), ply:GetPData( "gAC_BanTime" ) ) )
         end
@@ -44,9 +66,15 @@ function gAC.BanCheck( ply )
 end
 
 hook.Add( "PlayerInitialSpawn", "g-ACPlayerInitialSPawnBanSys", function( ply )
-    if( !gAC.config.DEVELOPER_DEBUG ) then
-        gAC.BanCheck( ply )
-    else
-        gAC.RemoveBan( ply )
-    end
+    gAC.BanCheck( ply )
+end )
+
+concommand.Add( "gac-unban", function( ply, cmd, args )
+    if( !gAC.PlayerHasUnbanPerm( ply ) ) then gAC.ClientMessage( ply, "You don't have permission to do that!", Color( 225, 150, 25 ) ) return end
+
+    local steamid64 = args[1]
+    
+    if( steamid64 == "" || steamid64 == nil ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", Color( 225, 150, 25 ) ) return end
+    if( string.len( steamid64 ) != 17 ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", Color( 225, 150, 25 ) ) return end
+    gAC.UnbanCommand( ply, steamid64 )
 end )
