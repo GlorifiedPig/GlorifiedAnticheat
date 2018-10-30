@@ -1,5 +1,6 @@
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
+    if !gAC.isflyon then return end
 
     gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
     if !shouldPunish then return end
