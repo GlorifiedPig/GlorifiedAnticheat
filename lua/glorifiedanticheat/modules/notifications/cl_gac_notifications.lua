@@ -7,8 +7,6 @@ net.Receive( "g-ACReceiveClientMessage1", function()
     local wasPunished = infoTable[3]
     local banTime = infoTable[4]
     
-    chat.AddText( "" )
-    
     if( isstring( ply ) && string.len( ply ) == 17 ) then
         chat.AddText( Color( 255, 55, 55 ), "[g-AC] ", Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply, Color( 15, 75, 185 ), "'" )
     else
@@ -28,10 +26,9 @@ net.Receive( "g-ACReceiveClientMessage1", function()
         elseif( banTime == 0 ) then
             chat.AddText( Color( 15, 75, 185 ), "Punishment: ", Color( 35, 135, 225 ), "Permanent Ban" )
         elseif( banTime >= 0 ) then
-            chat.AddText( Color( 15, 75, 185 ), "Punishment: ", Color( 35, 135, 225 ), "Temporary Ban (", banTime, " minutes)" )
+            chat.AddText( Color( 15, 75, 185 ), "Punishment: ", Color( 35, 135, 225 ), "Temporary Ban (" .. banTime .. " minutes)" )
         end
     end
-    chat.AddText( "" )
 end )
 
 net.Receive( "g-ACReceiveClientMessage2", function()
