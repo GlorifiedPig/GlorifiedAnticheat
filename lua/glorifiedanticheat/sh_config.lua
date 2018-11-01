@@ -23,6 +23,23 @@
     gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT = true -- Set to 'true' if you want using net exploits to be punishable.
     gAC.config.ILLEGAL_CONCOMMAND_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
+    --[[ FAMILY SHARING CHECK ]]--
+
+    --[[ GUIDE FOR GETTING A STEAM API KEY:
+        1. Go to https://steamcommunity.com/dev/apikey
+        2. Name the key
+        3. Create the key and paste it below
+
+        Your key should look something like this: 1369GJ41970G26891B26AGGFAD526B49
+    ]]--
+
+    gAC.config.STEAM_API_KEY = "" -- Steam API key for the family sharing module.
+
+    gAC.config.ENABLE_FAMILY_SHARE_CHECKS = true -- Whether or not to check if the player is using a family shared account.
+
+    gAC.config.FAMILY_SHARE_PUNISHMENT = true -- Set to 'true' if you want using a family shared account to be punishable. 
+    gAC.config.FAMILY_SHARE_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+
     --[[ GENERAL MODULE SETTINGS ]]--
     gAC.config.BHOP_CHECKS = true -- Set to 'true' if you wish for the anti-bhop module to be enabled.
     gAC.config.KEYBIND_CHECKS = true -- Set to 'true' if you wish for suspicious keybindings to be logged.
