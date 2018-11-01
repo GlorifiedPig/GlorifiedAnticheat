@@ -17,7 +17,7 @@ end
 
 function gAC.AddBan( ply, displayReason, banTime )
     ply:SetPData( "gAC_IsBanned", true )
-    ply:SetPData( "gAC_BannedAtTime", CurTime() )
+    ply:SetPData( "gAC_BannedAtTime", os.time() )
     ply:SetPData( "gAC_BanTime", banTime )
     ply:SetPData( "gAC_BanDisplayReason", displayReason )
 
@@ -59,7 +59,7 @@ function gAC.BanCheck( ply )
     end
 
     if( ply:GetPData( "gAC_IsBanned" ) == true ) then
-        if( ( CurTime() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) != 0 ) then
+        if( ( os.time() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) != 0 ) then
             gAC.RemoveBan( ply )
 
             gAC.AdminMessage( ply:Nick(), "Player's ban expired.", false )
