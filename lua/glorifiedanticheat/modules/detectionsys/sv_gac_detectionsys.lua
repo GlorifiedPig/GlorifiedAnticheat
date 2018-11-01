@@ -7,6 +7,8 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
 
     if( banTime >= 0 ) then
         gAC.AddBan( ply, displayReason, banTime )
+    elseif( banTime == -1 ) then
+        gAC.Kick( ply, displayReason )
     end
 
 end

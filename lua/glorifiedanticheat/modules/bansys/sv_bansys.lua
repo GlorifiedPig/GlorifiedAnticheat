@@ -24,6 +24,10 @@ function gAC.AddBan( ply, displayReason, banTime )
     ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
 end
 
+function gAC.Kick( ply, displayReason )
+    ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
+end
+
 function gAC.RemoveBan( ply )
     ply:SetPData( "gAC_IsBanned", false )
     ply:SetPData( "gAC_BannedAtTime", 0 )
