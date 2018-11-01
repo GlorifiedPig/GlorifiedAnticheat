@@ -11,3 +11,4 @@
 | 102                       | Suspicious keybind pressed |
 | 103                       | Illegal net message called (backdoor) |
 | 104                       | Illegal console command detected |
+| 105                       | Joined from family shared account |
