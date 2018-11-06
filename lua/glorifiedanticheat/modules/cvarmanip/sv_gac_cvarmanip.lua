@@ -1,7 +1,6 @@
 
 util.AddNetworkString( "G-ACcVarManipCS1" )
 util.AddNetworkString( "G-ACcVarManipSV1" )
-util.AddNetworkString( "G-ACcVarManipSV2" )
 
 net.Receive( "G-ACcVarManipSV1", function( len, ply )
 
@@ -25,16 +24,19 @@ end
 
 function gAC.CheckForConvarManipulation( ply )
     if !gAC.isflyon then return end
-    net.Start( "G-ACcVarManipCS1" )
-    net.Send( ply )
 
     ply:SetNWBool( "HasReceivedVarManipResults", false )
 
-    timer.Simple( 4, function()
-        if( !ply:GetNWBool( "HasReceivedVarManipResults" ) ) then
-            gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
-        end
-    end )
+    net.Start( "G-ACcVarManipCS1" )
+    net.Send( ply )
+
+    if gAC.config.CVARMANIP_RETURN_PUNISHMENT then
+        timer.Simple( 4, function()
+            if( ply:GetNWBool( "HasReceivedVarManipResults" ) == false ) then
+                gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
+            end
+        end )
+    end
 end
 
 if gAC.config.DISABLE_BAD_COMMANDS then
