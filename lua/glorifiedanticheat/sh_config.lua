@@ -24,9 +24,16 @@
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
-    gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT = true -- Set to 'true' if you want using net exploits to be punishable.
+    gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT = true -- Set to 'true' if you want using illegal concommands to be punishable.
     gAC.config.ILLEGAL_CONCOMMAND_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ILLEGAL CONCOMMAND SETTINGS END ]]--
+
+--[[ RENDER HACK SETTINGS ]]--
+    gAC.config.RENDER_HACK_CHECKS = true -- Set to 'true' if you want to check for render rewrites.
+
+    gAC.config.RENDER_HACK_PUNISHMENT = true -- Set to 'true' if you want using potential render hacks to be punishable.
+    gAC.config.RENDER_HACK_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ RENDER HACK SETTINGS END ]]--
 
 --[[ FAMILY SHARING CHECK ]]--
 --[[ GUIDE FOR GETTING A STEAM API KEY:
