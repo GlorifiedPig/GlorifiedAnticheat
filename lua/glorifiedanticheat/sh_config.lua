@@ -4,6 +4,10 @@
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
+--[[ BAN SYSTEM SETTINGS ]]--
+    gAC.config.BAN_TYPE = "custom" -- Set to 'custom' for the custom banning system, set to 'ulx' to use ulx.
+--[[ BAN SYSTEM SETTINGS END ]]--
+
 --[[ CVAR MANIPULATION SETTINGS ]]
     gAC.config.ALLOWCSLUA_CHECKS = true -- Set to 'true' if you wish to check for sv_allowcslua being set to active.
     gAC.config.SVCHEATS_CHECKS = true -- Set to 'true' if you wish to check for sv_cheats being set to active.
@@ -50,6 +54,16 @@
     gAC.config.FAMILY_SHARE_PUNISHMENT = true -- Set to 'true' if you want using a family shared account to be punishable. 
     gAC.config.FAMILY_SHARE_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ FAMILY SHARING CHECK END ]]--
+
+--[[ EXTERNAL CHECKS ]]--
+    gAC.config.EXTERNAL_LUA_CHECKS = true -- Set to 'true' if you want to check for external checks.
+
+    gAC.config.EXTERNAL_LUA_PUNISHMENT = true -- Set to 'true' if you want using potential render hacks to be punishable.
+    gAC.config.EXTERNAL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+
+    -- Do NOT touch the line below!
+    gAC.adfkjlk1238123adjfl = { pcall, error, jit.util.funck, net.Start, net.SendToServer, net.ReadHeader, net.WriteString, util.NetworkIDToString, TypeID, debug.getinfo }
+--[[ EXTERNAL CHECKS END ]]--
 
 --[[ GENERAL MODULE SETTINGS ]]--
     gAC.config.BHOP_CHECKS = true -- Set to 'true' if you wish for the anti-bhop module to be enabled.
