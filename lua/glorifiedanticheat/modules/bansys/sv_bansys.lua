@@ -16,19 +16,19 @@ end
 
 if gAC.config.BAN_TYPE != "ulx" then
     function gAC.AddBan( ply, displayReason, banTime )
-        ply:SetPData( "gAC_IsBanned", true )
-        ply:SetPData( "gAC_BannedAtTime", os.time() )
-        ply:SetPData( "gAC_BanTime", banTime )
-        ply:SetPData( "gAC_BanDisplayReason", displayReason )
+        ply:SetUPData( "gAC_IsBanned", true )
+        ply:SetUPData( "gAC_BannedAtTime", os.time() )
+        ply:SetUPData( "gAC_BanTime", banTime )
+        ply:SetUPData( "gAC_BanDisplayReason", displayReason )
 
         ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
     end
 
     function gAC.RemoveBan( ply )
-        ply:SetPData( "gAC_IsBanned", false )
-        ply:SetPData( "gAC_BannedAtTime", 0 )
-        ply:SetPData( "gAC_BanTime", 1 )
-        ply:SetPData( "gAC_BanDisplayReason", "nil" )
+        ply:SetUPData( "gAC_IsBanned", false )
+        ply:SetUPData( "gAC_BannedAtTime", 0 )
+        ply:SetUPData( "gAC_BanTime", 1 )
+        ply:SetUPData( "gAC_BanDisplayReason", "nil" )
     end
 
     function gAC.UnbanCommand( caller, plySID64 )
@@ -46,7 +46,7 @@ if gAC.config.BAN_TYPE != "ulx" then
         if( file.Exists( "g-AC/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
             file.Delete( "g-AC/" .. ply:SteamID64() .. ".txt" )
 
-            if( ply:GetPData( "gAC_IsBanned" ) ) then
+            if( ply:GetUPData( "gAC_IsBanned" ) ) then
                 gAC.RemoveBan( ply )
 
                 gAC.AdminMessage( ply:Nick(), "Player's ban removed upon login (admin manually unbanned)", false )
@@ -54,13 +54,13 @@ if gAC.config.BAN_TYPE != "ulx" then
             end
         end
 
-        if( ply:GetPData( "gAC_IsBanned" ) == true ) then
-            if( ( os.time() >= ( ply:GetPData( "gAC_BannedAtTime" ) + ( ply:GetPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetPData( "gAC_BanTime" ) != 0 ) then
+        if( ply:GetUPData( "gAC_IsBanned" ) == true ) then
+            if( ( os.time() >= ( ply:GetUPData( "gAC_BannedAtTime" ) + ( ply:GetUPData( "gAC_BanTime" ) * 60 ) ) ) && ply:GetUPData( "gAC_BanTime" ) != 0 ) then
                 gAC.RemoveBan( ply )
 
                 gAC.AdminMessage( ply:Nick(), "Player's ban expired.", false )
             else
-                ply:Kick( gAC.GetFormattedBanText( ply:GetPData( "gAC_BanDisplayReason" ), ply:GetPData( "gAC_BanTime" ) ) )
+                ply:Kick( gAC.GetFormattedBanText( ply:GetUPData( "gAC_BanDisplayReason" ), ply:GetUPData( "gAC_BanTime" ) ) )
             end
         end
     end
