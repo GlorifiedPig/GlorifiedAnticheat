@@ -16,6 +16,7 @@
     gAC.config.CVARMANIP_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
     gAC.config.CVARMANIP_RETURN_PUNISHMENT = true -- Set to 'true' if you wish to kick the player if the C-var manipulation results haven't returned.
+    gAC.config.CVARMANIP_RETURN_JOINTIMER = 30 -- How long after joining to check if results don't return.
 --[[ CVAR MANIPULATION SETTINGS END ]]
 
 --[[ BACKOOR EXPLOITATION SETTINGS ]]--
@@ -58,11 +59,10 @@
 --[[ EXTERNAL CHECKS ]]--
     gAC.config.EXTERNAL_LUA_CHECKS = true -- Set to 'true' if you want to check for external checks.
 
-    gAC.config.EXTERNAL_LUA_PUNISHMENT = true -- Set to 'true' if you want using potential render hacks to be punishable.
+    gAC.config.EXTERNAL_LUA_PUNISHMENT = true -- Set to 'true' if you want using external hacks to be punishable.
     gAC.config.EXTERNAL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
-    -- Do NOT touch the line below!
-    gAC.adfkjlk1238123adjfl = { pcall, error, jit.util.funck, net.Start, net.SendToServer, net.ReadHeader, net.WriteString, util.NetworkIDToString, TypeID, debug.getinfo }
+    gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to enable the external lua cheats heartbeat.
 --[[ EXTERNAL CHECKS END ]]--
 
 --[[ GENERAL MODULE SETTINGS ]]--

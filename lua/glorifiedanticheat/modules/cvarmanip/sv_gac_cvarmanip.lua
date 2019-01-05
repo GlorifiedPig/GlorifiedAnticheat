@@ -35,7 +35,7 @@ function gAC.CheckForConvarManipulation( ply )
 
     if gAC.config.CVARMANIP_RETURN_PUNISHMENT then
         timer.Simple( 4, function()
-            if( ply.JoinTimeGAC != nil && ply:GetNWBool( "HasReceivedVarManipResults" ) == false && CurTime() >= ply.JoinTimeGAC + 30 ) then
+            if( ply:IsValid() && !ply:IsTimingOut() && ply:PacketLoss() < 80 && ply.JoinTimeGAC != nil && ply:GetNWBool( "HasReceivedVarManipResults" ) == false && CurTime() >= ply.JoinTimeGAC + gAC.config.CVARMANIP_RETURN_JOINTIMER ) then
                 gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
             end
         end )
