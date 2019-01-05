@@ -13,3 +13,5 @@
 | 104                       | Illegal console command detected |
 | 105                       | Joined from family shared account |
 | 106                       | Anti render-hack detection triggered |
+| 107                       | Global 'external' function detected. |
+| 108                       | Anti-external cvar response received. |
