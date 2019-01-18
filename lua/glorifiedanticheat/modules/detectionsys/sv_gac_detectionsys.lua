@@ -3,6 +3,7 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     if !gAC.isflyon then return end
 
     gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
+    gAC.LogEvent( "Detection from " .. ply:Nick() .. ": " .. displayReason )
     if !shouldPunish then return end
 
     if( banTime >= 0 ) then
