@@ -22,11 +22,13 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
     end )
 end
 
+local InitialVarManipResults = InitialVarManipResults or false
 function gAC.CheckForConvarManipulation( ply )
     if !gAC.isflyon then return end
     if ply:IsBot() then return end
 
-    if( ply:GetNWBool( "HasReceivedVarManipResults" ) != false ) then
+    if( ply:GetNWBool( "HasReceivedVarManipResults" ) != false && InitialVarManipResults == false ) then
+        InitialVarManipResults = true
         ply:SetNWBool( "HasReceivedVarManipResults", false )
     end
 
