@@ -15,3 +15,4 @@
 | 106                       | Anti render-hack detection triggered |
 | 107                       | Global 'external' function detected |
 | 108                       | Anti-external cvar response not returned |
+| 109                       | Anti-aimbot detection triggered |
