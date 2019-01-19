@@ -1,10 +1,12 @@
+if !gAC.config.AIMBOT_PUNISHMENT then return end
+
 hook.Add("StartCommand", "gAC_ANTI.StartCommand", function( ply, cmd )
 
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !IsValid( ply ) ) then return end
 
-    ply.gAC_MX_AB = cmd:GetMouseX()
-    ply.gAC_MY_AB = cmd:GetMouseY()
+    ply.gAC_MX_AB = math.abs( cmd:GetMouseX() )
+    ply.gAC_MY_AB = math.abs( cmd:GetMouseY() )
     ply.gAC_View = cmd:GetViewAngles()
 
     if ply.gAC_OldView == nil then
@@ -14,9 +16,9 @@ hook.Add("StartCommand", "gAC_ANTI.StartCommand", function( ply, cmd )
 
     if ply.gAC_MX_AB > 0 or ply.gAC_MY_AB > 0 then
         if ply.gAC_View == ply.gAC_OldView then
-            if ply.gAC_AimbotDetections >= 25 then
+            if ply.gAC_AimbotDetections >= 120 then
                 ply.gAC_AimbotDetected = true
-                print( "stop cheating you little shit" )
+                gAC.AddDetection( ply, "Anti-aimbot detection triggered [Code 109]", gAC.config.AIMBOT_PUNISHMENT, gAC.config.AIMBOT_PUNSIHMENT_BANTIME )
             else
                 ply.gAC_AimbotDetections = ply.gAC_AimbotDetections + 1
             end

@@ -15,8 +15,8 @@
     gAC.config.CVARMANIP_PUNISHMENT = true -- Set to 'true' if you want to punish the player for C-var manipulation.
     gAC.config.CVARMANIP_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
-    gAC.config.CVARMANIP_RETURN_PUNISHMENT = true -- Set to 'true' if you wish to kick the player if the C-var manipulation results haven't returned.
-    gAC.config.CVARMANIP_RETURN_JOINTIMER = 30 -- How long after joining to check if results don't return.
+    gAC.config.CVARMANIP_RETURN_PUNISHMENT = false -- Recommended for this to be false! It can have false detections. Set to 'true' if you wish to kick the player if the C-var manipulation results haven't returned.
+    gAC.config.CVARMANIP_RETURN_JOINTIMER = 60 -- How long after joining to check if results don't return.
 --[[ CVAR MANIPULATION SETTINGS END ]]
 
 --[[ BACKOOR EXPLOITATION SETTINGS ]]--
@@ -25,6 +25,13 @@
     gAC.config.BACKDOOR_EXPLOITATION_PUNISHMENT = true -- Set to 'true' if you want using net exploits to be punishable.
     gAC.config.BACKDOOR_EXPLOITATION_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ BACKOOR EXPLOITATION SETTINGS END ]]--
+
+--[[ ANTI AIMBOT SETTINGS ]]--
+    gAC.config.ENABLE_AIMBOT_CHECKS = true -- Set to 'true' to enable aimbot checks.
+
+    gAC.config.AIMBOT_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using aimbot.
+    gAC.config.AIMBOT_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ANTI AIMBOT SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
