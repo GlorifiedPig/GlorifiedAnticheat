@@ -16,3 +16,5 @@
 | 107                       | Global 'external' function detected |
 | 108                       | Anti-external cvar response not returned |
 | 109                       | Anti-aimbot detection triggered |
+| 110                       | Ban evasion |
+| 111                       | HTML RunString detection triggered |
