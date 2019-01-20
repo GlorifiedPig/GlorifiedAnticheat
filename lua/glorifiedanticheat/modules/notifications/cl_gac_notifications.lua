@@ -8,14 +8,14 @@ net.Receive( "g-ACReceiveClientMessage1", function()
     local banTime = infoTable[4]
     
     if( isstring( ply ) && string.len( ply ) == 17 ) then
-        chat.AddText( Color( 255, 55, 55 ), "[g-AC] ", Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply, Color( 15, 75, 185 ), "'" )
+        chat.AddText( Color( 255, 55, 55 ), gAC.config.SYNTAX, Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply, Color( 15, 75, 185 ), "'" )
     else
         if( !isstring( ply ) && ply:IsValid() && ply:IsPlayer() ) then
-            chat.AddText( Color( 255, 55, 55 ), "[g-AC] ", Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply:Nick(), Color( 15, 75, 185 ), "'" )
+            chat.AddText( Color( 255, 55, 55 ), gAC.config.SYNTAX, Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply:Nick(), Color( 15, 75, 185 ), "'" )
         end
 
         if( isstring( ply ) ) then
-            chat.AddText( Color( 255, 55, 55 ), "[g-AC] ", Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply, Color( 15, 75, 185 ), "'" )
+            chat.AddText( Color( 255, 55, 55 ), gAC.config.SYNTAX, Color( 15, 75, 185 ), "Detection from '", Color( 35, 135, 225 ), ply, Color( 15, 75, 185 ), "'" )
         end
     end
 
@@ -37,6 +37,6 @@ net.Receive( "g-ACReceiveClientMessage2", function()
     local message = infoTable[1]
     local colour = infoTable[2]
     
-    chat.AddText( Color( 255, 55, 55 ), "[g-AC] ", colour, message )
+    chat.AddText( Color( 255, 55, 55 ), gAC.config.SYNTAX, colour, message )
 
 end )

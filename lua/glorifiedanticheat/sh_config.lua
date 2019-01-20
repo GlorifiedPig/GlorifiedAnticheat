@@ -2,6 +2,8 @@
 --[[ ADMIN PERMISSION SETTINGS ]]--
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
+    gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages
+    gAC.config.BAN_MESSAGE_SYNTAX = "[ g-AC DETECTION ]" -- Syntax for ban messages
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
 --[[ BAN SYSTEM SETTINGS ]]--

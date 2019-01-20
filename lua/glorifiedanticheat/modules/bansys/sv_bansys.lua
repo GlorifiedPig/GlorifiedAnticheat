@@ -1,6 +1,6 @@
 
 function gAC.GetFormattedBanText( displayReason, banTime )
-    local banString = "_____[ g-AC DETECTION ]_____\n\nReason: '" .. displayReason .. "'\n\n"
+    local banString = "_____"..gAC.config.BAN_MESSAGE_SYNTAX.."_____\n\nReason: '" .. displayReason .. "'\n\n"
     banTime = tonumber( banTime )
     if( banTime == -1 ) then
         banString = banString .. "Type: Kick"
