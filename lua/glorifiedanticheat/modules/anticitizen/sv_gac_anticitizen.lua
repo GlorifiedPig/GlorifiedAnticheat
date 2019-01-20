@@ -1,4 +1,4 @@
-if !gAC.config.AIMBOT_PUNISHMENT then return end
+if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
 hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
 
