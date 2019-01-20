@@ -1,6 +1,6 @@
 if !gAC.config.AIMBOT_PUNISHMENT then return end
 
-hook.Add( "StartCommand", "gAC_ANTI.StartCommand", function( ply, cmd )
+hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
 
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
@@ -24,7 +24,7 @@ hook.Add( "StartCommand", "gAC_ANTI.StartCommand", function( ply, cmd )
         if ply.gAC_View == ply.gAC_OldView then
             if ply.gAC_AimbotDetections >= 360 then
                 ply.gAC_AimbotDetected = true
-                gAC.AddDetection( ply, "Anti-aimbot detection triggered [Code 109]", gAC.config.AIMBOT_PUNISHMENT, gAC.config.AIMBOT_PUNSIHMENT_BANTIME )
+                gAC.AddDetection( ply, "Anti-citizen detection triggered [Code 109]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
             else
                 ply.gAC_AimbotDetections = ply.gAC_AimbotDetections + 1
             end

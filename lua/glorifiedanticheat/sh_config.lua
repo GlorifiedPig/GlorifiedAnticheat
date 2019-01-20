@@ -26,12 +26,12 @@
     gAC.config.BACKDOOR_EXPLOITATION_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ BACKOOR EXPLOITATION SETTINGS END ]]--
 
---[[ ANTI AIMBOT SETTINGS ]]--
-    gAC.config.ENABLE_AIMBOT_CHECKS = true -- Set to 'true' to enable aimbot checks.
+--[[ ANTI CITIZENHACK SETTINGS ]]--
+    gAC.config.ENABLE_CITIZENHACK_CHECKS = true -- Set to 'true' to enable citizenhack checks.
 
-    gAC.config.AIMBOT_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using aimbot.
-    gAC.config.AIMBOT_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ ANTI AIMBOT SETTINGS END ]]--
+    gAC.config.CITIZENHACK_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using citizenhack.
+    gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ANTI CITIZENHACK SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
