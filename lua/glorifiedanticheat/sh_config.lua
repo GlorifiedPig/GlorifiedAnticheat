@@ -47,6 +47,13 @@
     gAC.config.RENDER_HACK_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ RENDER HACK SETTINGS END ]]--
 
+--[[ ALT DETECT SETTINGS ]]--
+    gAC.config.ALT_DETECTION_CHECKS = true -- Set to 'true' if you want to check for alts.
+
+    gAC.config.ALT_DETECTION_NOTIFY_ALTS = true -- Set to 'true' if you want to notify all admins about alts.
+    gAC.config.ALT_DETECTION_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ALT DETECT SETTINGS END ]]--
+
 --[[ FAMILY SHARING CHECK ]]--
 --[[ GUIDE FOR GETTING A STEAM API KEY:
     1. Go to https://steamcommunity.com/dev/apikey
