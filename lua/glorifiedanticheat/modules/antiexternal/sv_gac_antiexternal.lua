@@ -37,25 +37,26 @@ end )
 CreateConVar("external", externalValue, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
 CreateConVar("require", requireValue, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
 
-hook.Add("PlayerAuthed", "g-ACAntiExternalPlayerAuthed", function( ply )
+hook.Add( "PlayerAuthed", "g-ACAntiExternalPlayerAuthed", function( ply )
     if( !ply:IsBot() ) then
 		ply:SendLua( [[CreateConVar("external","]] .. externalValue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY});vgui.GetControlTable("DHTML").ConsoleMessage=function() end]] )
 		ply:SendLua( [[CreateConVar("require","]] .. requireValue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})]] )
 		ply:SendLua( [[local b = net.Start local e = net.SendToServer local c = isfunction jit.attach(function(f) if(c(external)) then b("]] .. netStringName .. [[") e() end end, "bc")]] )
 		ply.gACPrevExternalTime = 0
 		ply.gACTimesNoResponse = 0
+		ply.PlayerFullyAuthenticated = true
 		timer.Create( "g-AC_External_Timer_Ply" .. ply:SteamID64(), 10, 0, function()
 			if( IsValid( ply ) ) then
 				if ( SysTime() - ply.gACPrevExternalTime >= 2.5 ) then
 					if ( !ply:IsTimingOut() && ply:PacketLoss() < 80 ) then
-                        if( ( ply:GetInfo( "external" ) != externalValue ) || (ply:GetInfo("require") != requireValue ) ) then
+                        if( ( ply:GetInfo( "external" ) != externalValue ) || ( ply:GetInfo("require") != requireValue ) ) then
                             ply.gACTimesNoResponse = ply.gACTimesNoResponse + 1
                             
                             if( timer.Exists( "g-AC_External_Timer_Ply" .. ply:SteamID64() ) ) then
                                 timer.Adjust( "g-AC_External_Timer_Ply" .. ply:SteamID64(), 3 )
                             end
                             
-							if( ply.gACTimesNoResponse >= 8 ) then
+							if( ply.gACTimesNoResponse >= 4 ) then
                                 gAC.AddDetection( ply, "Anti-external cvar response not returned [Code 108]", gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT, -1 )
 							end
 						else
