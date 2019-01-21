@@ -2,8 +2,8 @@
 --[[ ADMIN PERMISSION SETTINGS ]]--
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
-    gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages
-    gAC.config.BAN_MESSAGE_SYNTAX = "[ g-AC DETECTION ]" -- Syntax for ban messages
+    gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages.
+    gAC.config.BAN_MESSAGE_SYNTAX = "[ g-AC DETECTION ]" -- Syntax for ban messages.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
 --[[ BAN SYSTEM SETTINGS ]]--
@@ -53,6 +53,7 @@
     gAC.config.ALT_DETECTION_CHECKS = true -- Set to 'true' if you want to check for alts.
 
     gAC.config.ALT_DETECTION_NOTIFY_ALTS = true -- Set to 'true' if you want to notify all admins about alts.
+    gAC.config.ALT_DETECTION_PUNISHMENT = true -- Set to 'true' if you wish to punish players for having alts.
     gAC.config.ALT_DETECTION_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ALT DETECT SETTINGS END ]]--
 
