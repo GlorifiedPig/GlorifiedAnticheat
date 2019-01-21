@@ -20,7 +20,7 @@ function plyMeta:GetUPDataGAC( name, default )
 	return val
 end
 
-function GetUPDataGACSID64( steamId, default )
+function GetUPDataGACSID64( name, steamId, default )
 	name = Format( "%s[%s]", steamId, name )
     local val = sql.QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. SQLStr( name ) .. " LIMIT 1" )
 	if ( val == nil ) then return default end

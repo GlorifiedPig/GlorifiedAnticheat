@@ -20,7 +20,7 @@ net.Receive("g-AC_AltCheckResponse", function(len, ply)
 
 	local steamId64 = net.ReadString()
 
-	if ( ( gAC.config.BAN_TYPE == "custom" && GetUPDataGACSID64( steamId64 ) == true ) || ( gAC.config.BAN_TYPE == "ulx" && ULib.bans[util.SteamIDFrom64( steamId64 )] ) ) then
+	if ( ( gAC.config.BAN_TYPE == "custom" && GetUPDataGACSID64( "IsBanned", steamId64 ) == true ) || ( gAC.config.BAN_TYPE == "ulx" && ULib.bans[util.SteamIDFrom64( steamId64 )] ) ) then
 		gAC.AddDetection( ply, "Ban evasion [Code 110]", gAC.config.ALT_DETECTION_PUNISHMENT, gAC.config.ALT_DETECTION_BANTIME )
 	end
 
