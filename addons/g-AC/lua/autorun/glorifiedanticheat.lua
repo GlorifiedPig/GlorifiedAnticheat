@@ -1,4 +1,3 @@
-
 gAC = gAC or {
     config = {},
 
