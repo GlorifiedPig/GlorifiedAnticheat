@@ -41,27 +41,27 @@ hook.Add( "PlayerAuthed", "g-ACAntiNekoPlayerAuthed", function( ply )
 		ply:SendLua( [[CreateConVar("neko_exit","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY});vgui.GetControlTable("DHTML").ConsoleMessage=function() end]] )
         ply:SendLua( [[CreateConVar("neko_list","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})]] )
 		ply:SendLua( [[local b = net.Start local e = net.SendToServer local c = isfunction jit.attach(function(f) if(c(neko)) then b("]] .. netStringName .. [[") e() end end, "bc")]] )
-		ply.gACPrevExternalTime = 0
-		ply.gACTimesNoResponse = 0
+		ply.gACPrevNekoTime = 0
+		ply.gACTimesNoResponseNeko = 0
 		ply.PlayerFullyAuthenticated = true
 		timer.Create( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 10, 0, function()
 			if( IsValid( ply ) ) then
-				if ( SysTime() - ply.gACPrevExternalTime >= 2.5 ) then
+				if ( SysTime() - ply.gACPrevNekoTime >= 2.5 ) then
 					if ( !ply:IsTimingOut() && ply:PacketLoss() < 80 ) then
                         if( ( ply:GetInfo( "neko_exit" ) != dummyvalue ) || ( ply:GetInfo("neko_list") != dummyvalue ) ) then
-                            ply.gACTimesNoResponse = ply.gACTimesNoResponse + 1
+                            ply.gACTimesNoResponseNeko = ply.gACTimesNoResponseNeko + 1
                             
                             if( timer.Exists( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() ) ) then
                                 timer.Adjust( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 3 )
                             end
                             
-							if( ply.gACTimesNoResponse >= 4 ) then
+							if( ply.gACTimesNoResponseNeko >= 4 ) then
                                 gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, -1 )
 							end
 						else
 							timer.Remove( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() )
-							ply.gACTimesNoResponse = nil
-							ply.gACPrevExternalTime = nil
+							ply.gACTimesNoResponseNeko = nil
+							ply.gACPrevNekoTime = nil
 							return
 						end
 					else
@@ -69,7 +69,7 @@ hook.Add( "PlayerAuthed", "g-ACAntiNekoPlayerAuthed", function( ply )
                             timer.Adjust( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 3 )
                         end
 					end
-					ply.gACPrevExternalTime = SysTime()
+					ply.gACPrevNekoTime = SysTime()
 				end
 			end
 		end )
