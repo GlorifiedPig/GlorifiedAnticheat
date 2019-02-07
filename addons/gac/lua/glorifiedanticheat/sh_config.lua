@@ -1,4 +1,6 @@
-gAC.config.LICENSE = "YOURLICENSE" -- If you didn't receive a license please contact GlorifiedPig.
+if SERVER then
+    gAC.config.LICENSE = "YOURLICENSE" -- If you didn't receive a license please contact GlorifiedPig.
+end
 
 --[[ ADMIN PERMISSION SETTINGS ]]--
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
