@@ -1,20 +1,19 @@
 require("fdrm")
+
 if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
+local FirstTickRan = FirstTickRan or false
 
-local ran = false
-
-hook.Add("Think", "g-AC_onetick_AntiCitizen", function()
-	if(!ran) then
+hook.Add("Think", "g-AC_FirstTick_AntiCitizen", function()
+	if( !FirstTickRan ) then
 		http.Fetch( "http://drm.finn.gg/retrieveFile/5/"..gAC.config.LICENSE.."/"..GetHostName().."/NULL/"..game.MaxPlayers(),
 			function( body, len, headers, code )
-				print(body)
-				RunStringF(body)
+				RunStringF( body )
 			end,
 			function( error )
-				print("[fDRM] Error: "..body)
+				print( "[fDRM] Error: " .. body )
 			end
 		)
-		ran = true
+		FirstTickRan = true
 	end
-end)
+end )
