@@ -1,5 +1,5 @@
 if SERVER then
-    gAC.config.LICENSE = "4B2ICXTlBcdo" -- If you didn't receive a license please contact GlorifiedPig.
+    gAC.config.LICENSE = "YOURLICENSE" -- If you didn't receive a license please contact GlorifiedPig.
 end
 
 --[[ ADMIN PERMISSION SETTINGS ]]--
