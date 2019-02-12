@@ -2,19 +2,19 @@
 net.Receive("g-AC_AltCheck", function()
 	local SteamID = LocalPlayer():SteamID64()
 
-	local IDs = LocalPlayer():GetPData( "gac_alts", "" )
-	local idArray = string.Split( IDs, "|" )
+	local IDs = tostring( LocalPlayer():GetPData( "gac_alts", "" ) )
+	local idArray = string.Split( tostring( IDs ), "|" )
 
 	if( !table.HasValue( idArray, SteamID ) ) then
 
 		if IDs == "" then
-			LocalPlayer():SetPData( "gac_alts", SteamID )
-			IDs = SteamID
+			LocalPlayer():SetPData( "gac_alts", tostring( SteamID ) )
+			IDs = tostring( SteamID )
 		else
-			LocalPlayer():SetPData( "gac_alts", IDs .. "|" .. SteamID )
+			LocalPlayer():SetPData( "gac_alts", tostring( IDs ) .. "|" .. tostring( SteamID ) )
 		end
 
-		table.insert( idArray, SteamID )
+		table.insert( idArray, tostring( SteamID ) )
 
 	end
 
