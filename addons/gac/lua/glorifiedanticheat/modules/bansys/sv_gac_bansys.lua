@@ -17,6 +17,7 @@ end
 
 if gAC.config.BAN_TYPE != "ulx" then
     function gAC.AddBan( ply, displayReason, banTime )
+        banTime = tonumber( banTime )
         ply:SetUPDataGAC( "gAC_IsBanned", true )
         ply:SetUPDataGAC( "gAC_BannedAtTime", os.time() )
         ply:SetUPDataGAC( "gAC_BanTime", banTime )
