@@ -1,0 +1,1 @@
+gAC.config.LICENSE = "LICENSEHERE" -- If you didn't receive a license please contact GlorifiedPig.
