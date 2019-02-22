@@ -10,7 +10,7 @@ end
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
 --[[ BAN SYSTEM SETTINGS ]]--
-    gAC.config.BAN_TYPE = "custom" -- Set to 'custom' for the custom banning system, set to 'ulx' to use ulx.
+    gAC.config.BAN_TYPE = "custom" -- types: 'custom', 'ulx', 'd3a'.
 --[[ BAN SYSTEM SETTINGS END ]]--
 
 --[[ CVAR MANIPULATION SETTINGS ]]

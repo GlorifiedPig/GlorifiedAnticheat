@@ -15,7 +15,7 @@ function gAC.GetFormattedBanText( displayReason, banTime )
     return banString
 end
 
-if gAC.config.BAN_TYPE != "ulx" then
+if gAC.config.BAN_TYPE == "custom" then
     function gAC.AddBan( ply, displayReason, banTime )
         banTime = tonumber( banTime )
         ply:SetUPDataGAC( "gAC_IsBanned", true )
@@ -35,18 +35,18 @@ if gAC.config.BAN_TYPE != "ulx" then
 
     function gAC.UnbanCommand( caller, plySID64 )
         if( !gAC.PlayerHasUnbanPerm( caller ) ) then return end
-        if( !file.IsDir( "g-AC", "DATA" ) ) then
-            file.CreateDir( "g-AC" )
+        if( !file.IsDir( "g-ac", "DATA" ) ) then
+            file.CreateDir( "g-ac" )
         end
 
-        if( file.Exists( "g-AC/" .. plySID64 .. ".txt", "DATA" ) ) then gAC.ClientMessage( caller, "That player is already due for an unban.", Color( 225, 150, 25 ) ) return end
-        file.Write( "g-AC/" .. plySID64 .. ".txt", "" )
+        if( file.Exists( "g-ac/" .. plySID64 .. ".txt", "DATA" ) ) then gAC.ClientMessage( caller, "That player is already due for an unban.", Color( 225, 150, 25 ) ) return end
+        file.Write( "g-ac/" .. plySID64 .. ".txt", "" )
         gAC.AdminMessage( plySID64, "Ban removed by " .. caller:Nick() .. "" )
     end
 
     function gAC.BanCheck( ply )
-        if( file.Exists( "g-AC/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
-            file.Delete( "g-AC/" .. ply:SteamID64() .. ".txt" )
+        if( file.Exists( "g-ac/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
+            file.Delete( "g-ac/" .. ply:SteamID64() .. ".txt" )
 
             if( ply:GetUPDataGAC( "gAC_IsBanned" ) == true || ply:GetUPDataGAC( "gAC_IsBanned" ) == "true" || ply:GetUPDataGAC( "gAC_IsBanned" ) == 1 ) then
                 gAC.RemoveBan( ply )
@@ -82,7 +82,15 @@ if gAC.config.BAN_TYPE != "ulx" then
     end )
 else
     function gAC.AddBan( ply, displayReason, banTime )
-        RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
+        if gAC.config.BAN_TYPE == "ulx" then
+            RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
+        elseif gAC.config.BAN_TYPE == "d3a" then
+            if( tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
+                RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minute", displayReason )
+            else
+                RunConsoleCommand( "d3a", "perma", ply:SteamID(), displayReason )
+            end
+        end
     end
 end
 
