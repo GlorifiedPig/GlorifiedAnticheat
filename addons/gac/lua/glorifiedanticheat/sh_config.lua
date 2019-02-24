@@ -6,7 +6,7 @@
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
 --[[ BAN SYSTEM SETTINGS ]]--
-    gAC.config.BAN_TYPE = "custom" -- types: 'custom', 'ulx', 'd3a'.
+    gAC.config.BAN_TYPE = "custom" -- types: 'custom', 'ulx', 'd3a', 'serverguard'.
 --[[ BAN SYSTEM SETTINGS END ]]--
 
 --[[ CVAR MANIPULATION SETTINGS ]]

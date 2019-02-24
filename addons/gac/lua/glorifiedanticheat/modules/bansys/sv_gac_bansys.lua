@@ -90,6 +90,8 @@ else
             else
                 RunConsoleCommand( "d3a", "perma", ply:SteamID(), displayReason )
             end
+        elseif gAC.config.BAN_TYPE == "serverguard" then
+            RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
         end
     end
 end
