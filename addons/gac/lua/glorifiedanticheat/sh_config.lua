@@ -34,13 +34,6 @@
     gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI CITIZENHACK SETTINGS END ]]--
 
---[[ ILLEGAL CONCOMMAND SETTINGS ]]--
-    gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
-
-    gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT = true -- Set to 'true' if you want using illegal concommands to be punishable.
-    gAC.config.ILLEGAL_CONCOMMAND_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ ILLEGAL CONCOMMAND SETTINGS END ]]--
-
 --[[ RENDER HACK SETTINGS ]]--
     gAC.config.RENDER_HACK_CHECKS = true -- Set to 'true' if you want to check for render rewrites.
 
@@ -96,3 +89,12 @@ gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to e
     gAC.config.KEYBIND_CHECKS = true -- Set to 'true' if you wish for suspicious keybindings to be logged.
     gAC.config.DISABLE_BAD_COMMANDS = true -- Set to 'true' if you wish for sv_allowcslua and sv_cheats to be disabled on server startup.
 --[[ GENERAL MODULE SETTINGS END ]]--
+
+--[[ BELOW IS THE OBSOLETE MODULES, THEY ARE DUE FOR A REWRITE ]]--
+
+--[[ ILLEGAL CONCOMMAND SETTINGS ]]--
+    gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
+
+    gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT = true -- Set to 'true' if you want using illegal concommands to be punishable.
+    gAC.config.ILLEGAL_CONCOMMAND_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ILLEGAL CONCOMMAND SETTINGS END ]]--
