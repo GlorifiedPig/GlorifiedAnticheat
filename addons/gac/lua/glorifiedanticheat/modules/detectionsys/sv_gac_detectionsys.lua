@@ -2,7 +2,7 @@ util.AddNetworkString("g-AC_DetectionClientside")
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
-    gAC.LogEvent( "Detection from " .. ply:Nick() .. ": " .. displayReason )
+    gAC.LogEvent( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. displayReason )
     if !shouldPunish then return end
 
     if( banTime >= 0 ) then
