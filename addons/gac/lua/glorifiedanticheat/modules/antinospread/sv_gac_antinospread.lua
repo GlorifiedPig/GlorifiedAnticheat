@@ -12,7 +12,7 @@ function entityMeta:FireBullets( bullet, suppress )
 
         print(bullet.Dir.x)
         if( bullet.Dir.x <= 0.01 ) then
-            bullet.Dir = bullet.Dir + Vector( math.Rand( 0.01, 0.1 ), math.Rand( 0.01, 0.1 ), math.Rand( 0.01, 0.1 ) )
+            bullet.Dir = bullet.Dir + Vector( math.Rand( 0.01, 0.03 ), math.Rand( 0.01, 0.03 ), math.Rand( 0.01, 0.03 ) )
         end
 	end
 
