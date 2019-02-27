@@ -1,26 +1,23 @@
 
 if !gAC.config.ANTI_NOSPREAD_CHECKS then return end
 
-local entityMeta = FindMetaTable( "Entity" )
-entityMeta.OldFireBullets = entityMeta.OldFireBullets or entityMeta.FireBullets
+timer.Simple( 5, function()
+    local entityMeta = FindMetaTable( "Entity" )
 
-function entityMeta:FireBullets( bullet, suppress )
-    local spread = bullet.Spread
-    
-	if type( spread ) == "Vector" then
-		bullet.Spread = vector_origin
+    FBFunc = FBFunc or entityMeta.FireBullets
 
-        print(bullet.Dir.x)
-        if( bullet.Dir.x <= 0.01 && bullet.Dir.x >= -0.01 ) then
-            bullet.Dir = bullet.Dir + Vector( math.Rand( 0.01, 0.1 ), bullet.Dir.y, bullet.Dir.z )
+    function entityMeta:FireBullets( bulletInfo, suppressHostEvents )
+        if( !bulletInfo || !bulletInfo.Num || bulletInfo.Num > 1 ) then
+            return FBFunc( self, bulletInfo, suppressHostEvents )
         end
-        if( bullet.Dir.y <= 0.01 && bullet.Dir.y >= -0.01 ) then
-            bullet.Dir = bullet.Dir + Vector( bullet.Dir.x, math.Rand( 0.01, 0.1 ), bullet.Dir.z )
-        end
-        if( bullet.Dir.z <= 0.01 && bullet.Dir.z >= -0.01 ) then
-            bullet.Dir = bullet.Dir + Vector( bullet.Dir.x, bullet.Dir.y, math.Rand( 0.01, 0.1 ) )
-        end
-	end
 
-	self:OldFireBullets( bullet, suppress )
-end
+        local bulletSpread = bulletInfo.Spread
+        if type( bulletSpread ) == "Vector" then
+            bulletInfo.Spread = vector_origin
+            math.randomseed( CurTime() + math.sqrt( bulletInfo.Dir.x ^ 2 * bulletInfo.Dir.y ^ 2 * bulletInfo.Dir.z ^ 2 ) )
+            bulletInfo.Dir = bulletInfo.Dir + Vector( bulletSpread.x * ( ( math.random() * 2.5 ) - 1 ), bulletSpread.y * ( ( math.random() * 2.5 ) - 1 ), bulletSpread.z * ( ( math.random() * 2 ) - 1 ) )
+        end
+
+        return FBFunc(self, bulletInfo, suppressHostEvents )
+    end
+end )
