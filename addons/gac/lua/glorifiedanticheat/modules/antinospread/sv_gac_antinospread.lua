@@ -1,23 +1,20 @@
 
 if !gAC.config.ANTI_NOSPREAD_CHECKS then return end
 
-timer.Simple( 5, function()
-    local entityMeta = FindMetaTable( "Entity" )
+local entityMeta = FindMetaTable( "Entity" )
+entityMeta.OldFireBullets = entityMeta.OldFireBullets or entityMeta.FireBullets
 
-    FBFunc = FBFunc or entityMeta.FireBullets
+function entityMeta:FireBullets( bullet, suppress )
+    local spread = bullet.Spread
+    
+	if type( spread ) == "Vector" then
+		bullet.Spread = vector_origin
 
-    function entityMeta:FireBullets( bulletInfo, suppressHostEvents )
-        if( !bulletInfo || !bulletInfo.Num || bulletInfo.Num > 1 ) then
-            return FBFunc( self, bulletInfo, suppressHostEvents )
+        print(bullet.Dir.x)
+        if( bullet.Dir.x <= 0.01 ) then
+            bullet.Dir = bullet.Dir + Vector( math.Rand( 0.01, 0.1 ), math.Rand( 0.01, 0.1 ), math.Rand( 0.01, 0.1 ) )
         end
+	end
 
-        local bulletSpread = bulletInfo.Spread
-        if type( bulletSpread ) == "Vector" then
-            bulletInfo.Spread = vector_origin
-            math.randomseed( CurTime() + math.sqrt( bulletInfo.Dir.x ^ 2 * bulletInfo.Dir.y ^ 2 * bulletInfo.Dir.z ^ 2 ) )
-            bulletInfo.Dir = bulletInfo.Dir + Vector( bulletSpread.x * ( ( math.random() * 2.5 ) - 1 ), bulletSpread.y * ( ( math.random() * 2.5 ) - 1 ), bulletSpread.z * ( ( math.random() * 2 ) - 1 ) )
-        end
-
-        return FBFunc(self, bulletInfo, suppressHostEvents )
-    end
-end )
+	self:OldFireBullets( bullet, suppress )
+end
