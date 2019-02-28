@@ -15,6 +15,7 @@
 | 106                       | Anti render-hack detection triggered |
 | 107                       | Global 'external' function detected |
 | 108                       | Anti-external cvar response not returned |
-| 109                       | Anti-aimbot detection triggered |
+| 109                       | Anti-citizen detection triggered |
 | 110                       | Ban evasion |
 | 111                       | HTML RunString detected |
+| 112                       | Anti menuhook detected |
