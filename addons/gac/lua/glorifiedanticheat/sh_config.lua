@@ -92,10 +92,6 @@
 
 --[[ MENUHOOK CHECKS ]]--
     gAC.config.MENUHOOK_LUA_CHECKS = true -- Set to 'true' if you want to check for menuhook.
-
-    gAC.config.MENUHOOK_LUA_PUNISHMENT = true -- Set to 'true' if you want using menuhook to be punishable.
-    gAC.config.MENUHOOK_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
-
 --[[ MENUHOOK CHECKS END ]]--
 
 --[[ GENERAL MODULE SETTINGS ]]--
