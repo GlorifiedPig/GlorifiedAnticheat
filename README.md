@@ -19,3 +19,4 @@
 | 110                       | Ban evasion |
 | 111                       | HTML RunString detected |
 | 112                       | Anti menuhook detected |
+| 113                       | Methamphetamine detected |
