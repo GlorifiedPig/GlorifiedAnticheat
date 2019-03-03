@@ -1,4 +1,3 @@
-
 local plyMeta = FindMetaTable( "Player" )
 
 if( !plyMeta ) then return end
