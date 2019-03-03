@@ -22,7 +22,7 @@ hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
 
     if ply.gAC_MX_AB > 0 or ply.gAC_MY_AB > 0 then
         if ply.gAC_View == ply.gAC_OldView then
-            if ply.gAC_AimbotDetections >= 10 then
+            if ply.gAC_AimbotDetections >= 160 then
                 ply.gAC_AimbotDetected = true
                 gAC.AddDetection( ply, "Anti-citizen detection triggered [Code 109]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
             else
