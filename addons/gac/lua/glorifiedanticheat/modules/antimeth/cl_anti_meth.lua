@@ -2,9 +2,8 @@ local imaretard = imaretard or true
 
 local function fuckmethlol()
   render.CapturePixels()
-  local render_pixel_r, render_pixel_g, render_pixel_b = render.ReadPixel(ScrW() / 2, ScrH() / 2)
-  imaretard = false
-  return render_pixel_r + render_pixel_g + render_pixel_b
+  local negrofagr, negrofagg, negrofagb = render.ReadPixel(ScrW() / 2, ScrH() / 2)
+  return negrofagr + negrofagg + negrofagb
 end
 
 net.Receive("g-AC_meth1", function()
@@ -14,4 +13,5 @@ net.Receive("g-AC_meth1", function()
       end
     end)
     fuckmethlol()
+    imaretard = false
 end)

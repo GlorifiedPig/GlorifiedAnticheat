@@ -104,6 +104,13 @@
     gAC.config.MENUHOOK_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ MENUHOOK CHECKS END ]]--
 
+--[[ SOURCE CRASHER SETTINGS ]]-- WARNING: WE DO ADVISE OUR CUSTOMERS TO ALWAYS LEAVE THIS ENABLED. THIS IS A MAJOR FLAW IN SOURCE ENGINE AND HAS NOT BEEN FIXED YET. METH USES THIS TO CRASH GIANTIC SERVERS LIKE ICEFUSE.
+    gAC.config.ENABLE_SOURCECRASHER_CHECKS = true -- Set to 'true' to enable sourcecrasher checks.
+
+    gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
+    gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ GENERAL MODULE SETTINGS END ]]--
+
 --[[ GENERAL MODULE SETTINGS ]]--
     gAC.config.BHOP_CHECKS = true -- Set to 'true' if you wish for the anti-bhop module to be enabled.
     gAC.config.ANTI_NOSPREAD_CHECKS = true -- Set to 'true' if you wish for the anti-nospread module to be enabled.
