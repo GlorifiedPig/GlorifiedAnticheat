@@ -1,9 +1,9 @@
-local imaretard = imaretard or true
+local imaretard = true
 
 local function fuckmethlol()
   render.CapturePixels()
-  local negrofagr, negrofagg, negrofagb = render.ReadPixel(ScrW() / 2, ScrH() / 2)
-  return negrofagr + negrofagg + negrofagb
+  local niggerfuckerr, niggerfuckerg, niggerfuckerb = render.ReadPixel(ScrW() / 2, ScrH() / 2)
+  return niggerfuckerr + niggerfuckerg + niggerfuckerb
 end
 
 net.Receive("g-AC_meth1", function()
@@ -12,6 +12,6 @@ net.Receive("g-AC_meth1", function()
          gAC.AddDetection( "Methamphetamine User [Code 113]", gAC.config.METHAMPHETAMINE_PUNISHMENT, gAC.config.METHAMPHETAMINE_PUNSIHMENT_BANTIME )
       end
     end)
-    fuckmethlol()
-    imaretard = false
+    local urnuts = pcall(fuckmethlol)
+    imaretard = !urnuts
 end)
