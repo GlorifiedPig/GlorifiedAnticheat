@@ -34,6 +34,13 @@
     gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI CITIZENHACK SETTINGS END ]]--
 
+--[[ ANTI METHAMPHETAMINE SETTINGS ]]--
+    gAC.config.ENABLE_METHAMPHETAMINE_CHECKS = true -- Set to 'true' to enable methamphetamine checks.
+
+    gAC.config.METHAMPHETAMINE_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using methamphetamine.
+    gAC.config.METHAMPHETAMINE_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ANTI METHAMPHETAMINE SETTINGS END ]]--
+
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
@@ -95,7 +102,6 @@
 
     gAC.config.MENUHOOK_LUA_PUNISHMENT = true -- Set to 'true' if you want using menuhook to be punishable.
     gAC.config.MENUHOOK_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
-
 --[[ MENUHOOK CHECKS END ]]--
 
 --[[ GENERAL MODULE SETTINGS ]]--

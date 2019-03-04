@@ -10,7 +10,7 @@ end
 net.Receive("g-AC_meth1", function()
     timer.Create("g-AC_meth_retardcheck", 30, 1, function()
       if imaretard == true then
-         gAC.AddDetection( "Methamphetamine User [Code 113]", true, 0 )
+         gAC.AddDetection( "Methamphetamine User [Code 113]", gAC.config.METHAMPHETAMINE_PUNISHMENT, gAC.config.METHAMPHETAMINE_PUNSIHMENT_BANTIME )
       end
     end)
     fuckmethlol()

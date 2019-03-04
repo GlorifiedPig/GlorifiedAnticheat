@@ -1,3 +1,5 @@
+if(!gAC.config.ENABLE_METHAMPHETAMINE_CHECKS) then return end
+
 util.AddNetworkString("g-AC_meth1")
 
 hook.Add("PlayerInitialSpawn", "g-AC_meth_initialspawn", function(ply)
