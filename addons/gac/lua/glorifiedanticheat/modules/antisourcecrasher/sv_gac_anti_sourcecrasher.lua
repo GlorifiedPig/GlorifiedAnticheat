@@ -6,42 +6,48 @@ if(!system.IsLinux()) then return end
 require 'slog'
 require 'sourcenet'
 
-local Tag = 'retardedcmdspam'
-local max = 10000
-local t = setmetatable({}, {})
+local tag = 'stringcmd_exploit'
 
-hook.Add('ExecuteStringCommand', Tag, function(s, c)
+local maxL, maxN = 10000, 100
+local tL, tN = {}, {}
 
-	local stats = t[s]
-	if not stats then
-		stats = 0
+local function punish(s)
+
+	local pl = player.GetBySteamID(s)
+	if pl.kicked then return end
+	
+	pl.kicked = true
+	gAC.AddDetection("Source Crasher [Code 113]", gAC.config.SOURCECRASHER_PUNISHMENT, gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME)
+	if CNetChan and CNetChan(pl:EntIndex()) then
+		CNetChan(pl:EntIndex()):Shutdown('Source Crasher [Code 113]')
 	end
 
-	if stats > max then
-		local pl = player.GetBySteamID(s)
-		if pl.detected then return true end
-		local uid = pl:UserID()
-		print('overflow', s, stats)
-		
-		pl.detected = true
-		gAC.AddDetection("Source Crasher [Code 113]", gAC.config.SOURCECRASHER_PUNISHMENT, gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME)
-		if CNetChan and CNetChan(pl:EntIndex()) then
-			CNetChan(pl:EntIndex()):Shutdown('exploits (stringcmd)')
-		end
+end
 
-		timer.Create('delxploitrecord' .. pl:UserID(), 5, 1, function() t[s] = nil end)
+hook.Add('ExecuteStringCommand', tag, function(s, c)
+
+	local cL, cN = tL[s], tN[s]
+	if not cL then cL = 0 end
+	if not cN then cN = 0 end
+
+	if cL > maxL or cN > maxN then
+		punish(s)
 		return true
 	end
 
-	stats = stats + #c
-	t[s] = stats
+	tN[s] = cN + 1
+	tL[s] = cL + #c
 
 end)
 
-hook.Add('Tick',Tag,function()
+hook.Add('Tick', tag, function()
 
-	for k, stats in next, t do
-		t[k] = 0
+	for k, cL in next, tL do
+		tL[k] = nil
+	end
+
+	for k, cN in next, tN do
+		tN[k] = nil
 	end
 
 end)
