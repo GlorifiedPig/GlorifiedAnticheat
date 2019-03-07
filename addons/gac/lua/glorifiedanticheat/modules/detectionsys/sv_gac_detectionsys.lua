@@ -1,4 +1,4 @@
-util.AddNetworkString("g-AC_DetectionClientside")
+util.AddNetworkString(gAC.netMsgs.addDetection)
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
@@ -13,7 +13,7 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
 end
 
 
-net.Receive("g-AC_DetectionClientside", function(len, ply)
+net.Receive(gAC.netMsgs.addDetection, function(len, ply)
 	local dTable = net.ReadTable()
 	gAC.AddDetection( ply, dTable[1], dTable[2], dTable[3] )
 end)

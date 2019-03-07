@@ -1,9 +1,27 @@
+local function stringrandom(length)
+    local str = "‪"
+    for i = 1, length do
+        if math.Round(math.random(1, 2)) == 2 then
+            str = str..string.char(math.random(97, 122))
+        else
+            str = str.."‪"
+        end
+    end
+    return str
+end
+
 gAC = gAC or {
     config = {},
 
     IDENTIFIER = "gAC",
-    NICE_NAME = "gAC"
+    NICE_NAME = "gAC",
+
+    netMsgs = {
+        addDetection = stringrandom(12),
+        clMethCheck = stringrandom(12)
+    }
 }
+
 
 local version = 1
 
