@@ -1,10 +1,10 @@
 local function stringrandom(length)
-    local str = "‪"
+    local str = "?"
     for i = 1, length do
         if math.Round(math.random(1, 2)) == 2 then
             str = str..string.char(math.random(97, 122))
         else
-            str = str.."‪"
+            str = str.."?"
         end
     end
     return str
@@ -17,11 +17,11 @@ gAC = gAC or {
     NICE_NAME = "gAC",
 
     netMsgs = {
-        addDetection = stringrandom(12),
-        clMethCheck = stringrandom(12)
+        addDetection = stringrandom(25),
+        clMethCheck = stringrandom(25),
+        svMethCheck = stringrandom(25)
     }
 }
-
 
 local version = 1
 
@@ -69,7 +69,32 @@ if not frile or frile.VERSION < version then
     end
 end
 
--- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
-frile.includeFolder( "glorifiedanticheat/", false, true )
-frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
-frile.includeFolder( "glorifiedanticheat/modules/" )
+function finishedSetup()
+    -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
+    frile.includeFolder( "glorifiedanticheat/", false, true )
+    frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
+    frile.includeFolder( "glorifiedanticheat/modules/" )
+end
+
+
+
+// Net Randomization
+
+if CLIENT then
+    net.Receive("g-AC_finishsetup", function()
+        gAC.netMsgs = net.ReadTable()
+        finishedSetup()
+    end)
+
+else
+    util.AddNetworkString("g-AC_finishsetup")
+
+    hook.Add("PlayerInitialSpawn", "g_AC-finishsetupspawn", function(ply)
+        timer.Simple(10, function()
+            net.Start("g-AC_finishsetup")
+            net.WriteTable(gAC.netMsgs)
+            net.Send(ply)
+        end)        
+    end)
+    finishedSetup()
+end
