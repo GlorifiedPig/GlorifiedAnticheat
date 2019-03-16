@@ -13,7 +13,25 @@ function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
 end
 
 function gAC.ClientMessage( ply, message, colour )
+    if !IsValid(ply) then
+        MsgC( Color( 30, 150, 255 ), gAC.config.SYNTAX, colour, message .. "\n" )
+    else
+        net.Start( "g-ACReceiveClientMessage2" )
+        net.WriteTable( { message, colour } )
+        net.Send( ply )
+    end
+end
+
+function gAC.PrintMessage( ply, type, message )
+    if IsValid(ply) then
+        ply:PrintMessage(type, message)
+    else
+        print(message)
+    end
+end
+
+function gAC.Broadcast( message, colour )
     net.Start( "g-ACReceiveClientMessage2" )
     net.WriteTable( { message, colour } )
-    net.Send( ply )
+    net.Broadcast()
 end

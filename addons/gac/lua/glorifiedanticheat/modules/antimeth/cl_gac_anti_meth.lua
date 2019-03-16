@@ -1,11 +1,21 @@
-local
-_=!!1
-net.Receive(gAC.netMsgs.clMethCheck,function()timer.Create("g-AC_meth_retardcheck",10,1,function()if
-_==!!1
-then
-net.Start(gAC.netMsgs.svMethCheck)net.SendToServer()end
-end)render.CapturePixels()local
-a,b,c=render.ReadPixel(ScrH()/2,ScrW()/2)local
-d=a+b+c
-_=!1
+local lobgmBaLJe = lobgmBaLJe or true
+
+local function fuckmethlol()
+    render.CapturePixels()
+    local HhfLEXNZnu, RhHLuACbAd, VIfjWVvGVL = render.ReadPixel(ScrW() / 2, ScrH() / 2)
+    return HhfLEXNZnu + RhHLuACbAd + VIfjWVvGVL
+end
+
+gAC_AddReceiver("g-AC_meth1", function()
+    timer.Create("ggAC" .. math.random(5,20), 30, 1, function()
+        if lobgmBaLJe == true then
+            gAC_Send("g-AC_Detections", util.TableToJSON({
+                "Methamphetamine User [Code 113]", 
+                gAC.config.METH_PUNISHMENT, 
+                gAC.config.METH_BANTIME
+            }))
+        end
+    end)
+    local LRQFQqyLUB = pcall(fuckmethlol)
+    lobgmBaLJe = !LRQFQqyLUB
 end)

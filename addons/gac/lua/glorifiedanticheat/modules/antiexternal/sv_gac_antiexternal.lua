@@ -56,8 +56,8 @@ hook.Add( "PlayerAuthed", "g-ACAntiExternalPlayerAuthed", function( ply )
                                 timer.Adjust( "g-AC_External_Timer_Ply" .. ply:SteamID64(), 3 )
                             end
                             
-							if( ply.gACTimesNoResponse >= 4 ) then
-                                gAC.AddDetection( ply, "Anti-external cvar response not returned [Code 108]", gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT, -1 )
+							if( ply.gACTimesNoResponse >= 6 ) then
+                                gAC.AddDetection( ply, "Anti-external cvar response not returned [Code 108]", gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT, gAC.config.EXTERAL_LUA_RETRIVAL_BANTIME )
 							end
 						else
 							timer.Remove( "g-AC_External_Timer_Ply" .. ply:SteamID64() )

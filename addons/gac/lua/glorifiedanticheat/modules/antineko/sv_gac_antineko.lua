@@ -55,8 +55,8 @@ hook.Add( "PlayerAuthed", "g-ACAntiNekoPlayerAuthed", function( ply )
                                 timer.Adjust( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 3 )
                             end
                             
-							if( ply.gACTimesNoResponseNeko >= 4 ) then
-                                gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, -1 )
+							if( ply.gACTimesNoResponseNeko >= 6 ) then
+                                gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
 							end
 						else
 							timer.Remove( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() )
