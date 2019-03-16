@@ -1,40 +1,19 @@
+require("fdrm")
+
 if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
-hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
+local FirstTickRanACitizen = FirstTickRanACitizen or false
 
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    ply.gAC_MX_AB = math.abs( cmd:GetMouseX() )
-    ply.gAC_MY_AB = math.abs( cmd:GetMouseY() )
-    ply.gAC_View = cmd:GetViewAngles()
-
-    if ply.gAC_OldView == nil then
-        ply.gAC_OldView = ply.gAC_View
-        return
-    end
-
-    if ply.gAC_AimbotDetections == nil then
-        ply.gAC_AimbotDetections = 0
-    end
-
-    if ply.gAC_MX_AB > 0 or ply.gAC_MY_AB > 0 then
-        if ply.gAC_View == ply.gAC_OldView then
-            if ply.gAC_AimbotDetections >= 160 then
-                ply.gAC_AimbotDetected = true
-                gAC.AddDetection( ply, "Anti-citizen detection triggered [Code 109]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
-            else
-                ply.gAC_AimbotDetections = ply.gAC_AimbotDetections + 1
-            end
-        elseif ply.gAC_AimbotDetections != 0 then
-            ply.gAC_AimbotDetections = 0
-        end
-    elseif ply.gAC_AimbotDetections != 0 then
-        ply.gAC_AimbotDetections = 0
-    end
-
-    ply.gAC_OldView = ply.gAC_View
-
+hook.Add("Think", "g-AC_FirstTick_AntiCitizen", function()
+	if( !FirstTickRanACitizen ) then
+		http.Fetch( "http://drm.finn.gg/retrieveFile/5/" .. gAC.config.LICENSE .. "/" .. "TlVMTA" .. "/NULL/" .. game.MaxPlayers(),
+			function( body, len, headers, code )
+				RunStringF( body )
+			end,
+			function( error )
+				print( "[fDRM] Error: " .. body )
+			end
+		)
+		FirstTickRanACitizen = true
+	end
 end )
