@@ -17,6 +17,7 @@ gAC = gAC or {
     NICE_NAME = "gAC",
 
     netMsgs = {
+        clReceivePayload = stringrandom(30),
         addDetection = stringrandom(25),
         clMethCheck = stringrandom(25),
         svMethCheck = stringrandom(25)
@@ -71,6 +72,7 @@ end
 
 function finishedSetup()
     -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
+	frile.includeFolder( "networking/", false, true )
     frile.includeFolder( "glorifiedanticheat/", false, true )
     frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
     frile.includeFolder( "glorifiedanticheat/modules/" )
@@ -88,6 +90,7 @@ if CLIENT then
 
 else
     util.AddNetworkString("g-AC_finishsetup")
+    util.AddNetworkString(gAC.netMsgs.clReceivePayload)
 
     hook.Add("PlayerInitialSpawn", "g_AC-finishsetupspawn", function(ply)
         timer.Simple(10, function()
@@ -96,5 +99,6 @@ else
             net.Send(ply)
         end)        
     end)
+    
     finishedSetup()
 end

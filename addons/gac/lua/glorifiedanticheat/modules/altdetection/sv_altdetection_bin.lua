@@ -1,5 +1,4 @@
-
-net.Receive("g-AC_AltCheck", function()
+altdetectionpayload = [[
 	local SteamID = LocalPlayer():SteamID64()
 
 	local IDs = tostring( LocalPlayer():GetPData( "gac_alts", "" ) )
@@ -13,7 +12,7 @@ net.Receive("g-AC_AltCheck", function()
 		else
 			LocalPlayer():SetPData( "gac_alts", tostring( IDs ) .. "|" .. tostring( SteamID ) )
 		end
-
+		
 		table.insert( idArray, tostring( SteamID ) )
 
 	end
@@ -30,5 +29,5 @@ net.Receive("g-AC_AltCheck", function()
 	net.WriteInt( #idArray, 8 )
 	net.SendToServer()
 
-end)
-
+	print("YUP THATS FUCKING ME YES")
+	]]

@@ -10,8 +10,7 @@ end)
 
 hook.Add("PlayerInitialSpawn", "g-AC_meth_initialspawn", function(ply)
     timer.Simple(15, function()
-        net.Start(gAC.netMsgs.clMethCheck)
-        net.Send(ply)
+        gAC.sendPayload(ply, antimethpayload, "AreWeThereYet?")
     end)
 end)
 
