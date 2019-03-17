@@ -342,20 +342,21 @@ function gAC.Network:StreamPayload (data, player, split)
 end
 
 hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
-	if ply:IsBot() then
-		return
-	end
-	net.Start("g-AC_nonofurgoddamnbusiness")
-	net.WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
-	net.Send(ply)
-	if gAC.Debug then
-		gAC.Print("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
-	end
-	ply.gAC_Verifiying = true
-	timer.Simple(300, function()
-		if IsValid(ply) && ply.gAC_Verifiying == true then
-			gAC.AddDetection( ply, "Payload verification failure [Code 114]", true, -1 )
+	timer.Simple(1, function()
+		if !IsValid(ply) then return end
+		if ply:IsBot() then return end
+		net.Start("g-AC_nonofurgoddamnbusiness")
+		net.WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
+		net.Send(ply)
+		if gAC.Debug then
+			gAC.Print("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
 		end
+		ply.gAC_Verifiying = true
+		timer.Simple(300, function()
+			if IsValid(ply) && ply.gAC_Verifiying == true then
+				gAC.AddDetection( ply, "Payload verification failure [Code 114]", true, -1 )
+			end
+		end)
 	end)
 end)
 
