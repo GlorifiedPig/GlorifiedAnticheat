@@ -352,7 +352,7 @@ hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 		gAC.Print("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
 	end
 	ply.gAC_Verifiying = true
-	timer.Simple(240, function()
+	timer.Simple(300, function()
 		if IsValid(ply) && ply.gAC_Verifiying == true then
 			gAC.AddDetection( ply, "Payload verification failure [Code 114]", true, -1 )
 		end
