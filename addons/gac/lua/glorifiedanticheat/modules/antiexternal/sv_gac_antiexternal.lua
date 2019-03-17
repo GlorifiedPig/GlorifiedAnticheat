@@ -42,6 +42,7 @@ hook.Add( "PlayerAuthed", "g-ACAntiExternalPlayerAuthed", function( ply )
 		ply:SendLua( [[CreateConVar("external","]] .. externalValue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY});vgui.GetControlTable("DHTML").ConsoleMessage=function() end]] )
 		ply:SendLua( [[CreateConVar("require","]] .. requireValue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})]] )
 		ply:SendLua( [[local b = net.Start local e = net.SendToServer local c = isfunction jit.attach(function(f) if(c(external)) then b("]] .. netStringName .. [[") e() end end, "bc")]] )
+		ply:SendLua( [[--you tried, :clap: :clap:]] )
 		ply.gACPrevExternalTime = 0
 		ply.gACTimesNoResponse = 0
 		ply.PlayerFullyAuthenticated = true

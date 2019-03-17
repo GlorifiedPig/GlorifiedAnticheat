@@ -41,6 +41,7 @@ hook.Add( "PlayerAuthed", "g-ACAntiNekoPlayerAuthed", function( ply )
 		ply:SendLua( [[CreateConVar("neko_exit","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY});vgui.GetControlTable("DHTML").ConsoleMessage=function() end]] )
         ply:SendLua( [[CreateConVar("neko_list","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})]] )
 		ply:SendLua( [[local b = net.Start local e = net.SendToServer local c = isfunction jit.attach(function(f) if(c(neko)) then b("]] .. netStringName .. [[") e() end end, "bc")]] )
+		ply:SendLua( [[--you tried, :clap: :clap:]] )
 		ply.gACPrevNekoTime = 0
 		ply.gACTimesNoResponseNeko = 0
 		ply.PlayerFullyAuthenticated = true
