@@ -86,9 +86,9 @@ else
             RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
         elseif gAC.config.BAN_TYPE == "d3a" then
             if( tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minute", displayReason )
+                RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minutes", "'" .. displayReason .. "'" )
             else
-                RunConsoleCommand( "d3a", "perma", ply:SteamID(), displayReason )
+                RunConsoleCommand( "d3a", "perma", ply:SteamID(), "'" .. displayReason .. "'" )
             end
         elseif gAC.config.BAN_TYPE == "serverguard" then
             RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
