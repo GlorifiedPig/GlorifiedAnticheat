@@ -1,0 +1,5 @@
+/* Copyright (C) 2019 Ryan Cherry - All Rights Reserved
+ * You may use privately on your own server.
+ * You may not send the files to anybody, it stays within your own reach.
+ * You may not distribute the source code.
+*/
