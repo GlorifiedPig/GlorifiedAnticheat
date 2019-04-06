@@ -1,18 +1,16 @@
-
-util.AddNetworkString( "G-ACcVarManipCS1" )
-util.AddNetworkString( "G-ACcVarManipSV1" )
 gAC.isflyon = true
 
-net.Receive( "G-ACcVarManipSV1", function( len, ply )
-
-    local checkedVariables = net.ReadTable()
-
-    if( ( checkedVariables[0] >= 1 && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] >= 1 && gAC.config.SVCHEATS_CHECKS ) ) then
-        gAC.AddDetection( ply, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
+gAC.Network:AddReceiver(
+    "G-ACcVarManipSV1",
+    function(_, checkedVariables, plr)
+        checkedVariables = util.JSONToTable(checkedVariables)
+        if( ( checkedVariables[0] >= 1 && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] >= 1 && gAC.config.SVCHEATS_CHECKS ) ) then
+            gAC.AddDetection( ply, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
+        end
+        plr:SetNWBool( "HasReceivedVarManipResults", true )
     end
-    ply:SetNWBool( "HasReceivedVarManipResults", true )
+)
 
-end )
 
 if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true ) then
     timer.Create( "G-ACcVarManipSV2T", 5, 0, function()
@@ -31,8 +29,7 @@ function gAC.CheckForConvarManipulation( ply )
         ply:SetNWBool( "HasReceivedVarManipResults", false )
     end
 
-    net.Start( "G-ACcVarManipCS1" )
-    net.Send( ply )
+    gAC.Network:Send("G-ACcVarManipCS1", "", ply)
 
     if gAC.config.CVARMANIP_RETURN_PUNISHMENT then
         timer.Simple( 4, function()
