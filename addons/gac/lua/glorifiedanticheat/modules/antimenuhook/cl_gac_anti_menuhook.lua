@@ -4,7 +4,11 @@ local printreal = print
 
 function print(args)
     if(string.find(args, "[MenuHook] Files Module:")) then
-        gAC.AddDetection("MenuHook [Code 112]", gAC.config.MENUHOOK_LUA_PUNISHMENT, gAC.config.MENUHOOK_LUA_BANTIME)
+        gAC_Send("g-AC_Detections", util.TableToJSON({
+            "MenuHook [Code 112]", 
+            gAC.config.MENUHOOK_LUA_PUNISHMENT,
+            gAC.config.MENUHOOK_LUA_BANTIME
+        }))
     end
 
     printreal(args)
