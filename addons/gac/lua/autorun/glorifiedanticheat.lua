@@ -84,6 +84,11 @@ function gAC.Print(txt)
     print(gAC.NICE_NAME .. " > " .. txt)
 end
 
+function gAC.DBGPrint(txt)
+    if !gAC.Debug then return end
+    print(gAC.NICE_NAME .. " [DBG] > " .. txt)
+end
+
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
 frile.includeFolder( "glorifiedanticheat/", false, true )
 if SERVER then

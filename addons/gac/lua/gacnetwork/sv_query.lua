@@ -4,9 +4,7 @@ function gAC.AddQuery(filepath)
     local FileName = filepath
 	filepath = file.Read(filepath, "LUA")
 	gAC.FileQuery[#gAC.FileQuery + 1] = filepath
-    if gAC.Debug then
-        gAC.Print("Added file " .. FileName .. " to file query")
-    end
+    gAC.DBGPrint("Added file " .. FileName .. " to file query")
 end
 
 hook.Add("gAC.ClientLoaded", "SendPayload_LiveUpdates", function(ply)

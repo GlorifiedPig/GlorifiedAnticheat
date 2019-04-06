@@ -215,10 +215,7 @@ function gAC.Network:AddReceiver(channelName, handler)
 	
 	local channelId = gAC.Network:GetChannelId(channelName)
 	gAC.Network.Handlers[channelId] = handler
-
-	if gAC.Debug then
-		gAC.Print("Added network channel " .. channelName .. " - " .. channelId)
-	end
+	gAC.DBGPrint("Added network channel " .. channelName .. " - " .. channelId)
 end
 
 function gAC.Network:GetChannelId(channelName)
@@ -255,9 +252,7 @@ function gAC.Network:Send (channelName, data, player)
 	net.Start(gAC.Network.GlobalChannel)
 		net.WriteUInt (channelId, 32)
 		net.WriteData (data, #data)
-		if gAC.Debug then
-			gAC.Print("Sent data to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-		end
+		gAC.DBGPrint("Sent data to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 	net.Send(player)
 end
 
@@ -276,9 +271,7 @@ function gAC.Network:Stream (channelName, data, player, split)
 		return
 	end
 
-	if gAC.Debug then
-		gAC.Print("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-	end
+	gAC.DBGPrint("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 	local Debug_DATA = 0
 
 	for i=1, parts do
@@ -310,14 +303,9 @@ function gAC.Network:Stream (channelName, data, player, split)
 			net.Start(gAC.Network.GlobalChannel)
 				net.WriteUInt (channelId, 32)
 				net.WriteData (data, #data)
-				if gAC.Debug then
-					gAC.Print("Sent Network Stream [" .. i .. "/" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-					Debug_DATA = Debug_DATA + net.BytesWritten()
-				end
+				gAC.DBGPrint("Sent Network Stream [" .. i .. "/" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 			net.Send(player)
-			if gAC.Debug && i == parts then
-				gAC.Print("Finished Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-			end
+			gAC.DBGPrint("Finished Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 		end)
 	end
 end
@@ -348,9 +336,7 @@ hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	net.Start("g-AC_nonofurgoddamnbusiness")
 	net.WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
 	net.Send(ply)
-	if gAC.Debug then
-		gAC.Print("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
-	end
+	gAC.DBGPrint("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
 	ply.gAC_Verifiying = true
 	timer.Simple(300, function()
 		if IsValid(ply) && ply.gAC_Verifiying == true then
@@ -369,14 +355,10 @@ gAC.Network:AddReceiver(
     function(_, data, plr)
         plr.gAC_Verifiying = nil
 		hook.Run("gAC.ClientLoaded", plr)
-		if gAC.Debug then
-			gAC.Print(plr:Nick() .. " Payload Verified")
-		end
+		gAC.DBGPrint(plr:Nick() .. " Payload Verified")
     end
 )
 
-if gAC.Debug then
-	gAC.Print("Network ID: " .. gAC.Network.GlobalChannel)
-	gAC.Print("CRC Channel Scrammbler ID: " .. gAC.Network.Channel_Rand)
-	gAC.Print("CRC Channel Handler ID: " .. gAC.Network.Channel_Handler)
-end
+gAC.DBGPrint("Network ID: " .. gAC.Network.GlobalChannel)
+gAC.DBGPrint("CRC Channel Scrammbler ID: " .. gAC.Network.Channel_Rand)
+gAC.DBGPrint("CRC Channel Handler ID: " .. gAC.Network.Channel_Handler)
