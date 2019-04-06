@@ -5,7 +5,7 @@ gAC.Network:AddReceiver(
     function(_, checkedVariables, plr)
         checkedVariables = util.JSONToTable(checkedVariables)
         if( ( checkedVariables[0] >= 1 && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] >= 1 && gAC.config.SVCHEATS_CHECKS ) ) then
-            gAC.AddDetection( ply, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
+            gAC.AddDetection( plr, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
         end
         plr:SetNWBool( "HasReceivedVarManipResults", true )
     end
