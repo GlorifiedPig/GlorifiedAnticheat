@@ -11,9 +11,4 @@ hook.Add("gAC.CLFilesLoaded", "g-AC_meth_initialspawn", function(ply)
         if !IsValid(ply) then return end
         gAC.Network:Send("g-AC_meth1", "", ply)
     end)
-    timer.Simple(10, function()
-        if tonumber(ply:GetInfo("cl_interp")) != 0.1 then
-            gAC.AddDetection( ply, "Methamphetamine User [Code 113]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
-        end
-    end)
 end)
