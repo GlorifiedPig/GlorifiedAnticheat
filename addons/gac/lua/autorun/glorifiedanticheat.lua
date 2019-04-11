@@ -1,28 +1,5 @@
 --[[
-    So lately there was some sketchy people joining our servers
-    and you know what, turns out they where all file stealing cunts.
-    So consider this your consequence.
-
-    Also did i forget to mention all files are now server-side, now can you fuck off
-    and stop trying to steal my shit, honestly stop being spoon feed with code.
-    - directed to CH & Meth
-
-    Note to gAC dev's & contributors, remember to obfausticate the following,
-    !DO NOT USE RUNSTRING AS A DECODER IN OBFAUSTICATIONS!
-    cl_receivers.lua
-    cl_gac_anti_meth.lua
-    cl_verify.lua
-    cl_gac_antirenderhack.lua
-    cl_gac_concommand_abuse.lua
-    if not i can obc them with my obfausticator.
-    
-    Also fDRM,
-    sv_uniquepdata.lua
-    sv_gac_anticitizen.lua
-
-    And lastly be sure to study every line of change i did.
-    Use this to further enhance the anti-cheat without me.
-    - NiceCream, your friendly neighborhood developer
+    Hey there kinky shit ;D
 ]]
 
 gAC = gAC or {
