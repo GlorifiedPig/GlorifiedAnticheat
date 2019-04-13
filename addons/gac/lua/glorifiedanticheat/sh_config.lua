@@ -74,7 +74,7 @@
 --[[ ANTI MALFORMATION SETTINGS ]]--
     gAC.config.ANTI_MALFORM = true
     gAC.config.MALFORM_PUNISHMENT = true
-    gAC.config.MALFORM_BANTIME = -1 -- Could cause false positives if players are mentally ill, so better keep this on kick.
+    gAC.config.MALFORM_BANTIME = -1
 --[[ ANTI MALFORMATION SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
