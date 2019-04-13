@@ -65,6 +65,18 @@
     gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI CITIZENHACK SETTINGS END ]]--
 
+--[[ ANTI METH SETTINGS ]]--
+    gAC.config.ANTI_METH = true
+    gAC.config.METH_PUNISHMENT = true
+    gAC.config.METH_BANTIME = 0
+--[[ ANTI METH SETTINGS END ]]--
+
+--[[ ANTI MALFORMATION SETTINGS ]]--
+    gAC.config.ANTI_MALFORM = true
+    gAC.config.MALFORM_PUNISHMENT = true
+    gAC.config.MALFORM_BANTIME = -1 -- Could cause false positives if players are mentally ill, so better keep this on kick.
+--[[ ANTI MALFORMATION SETTINGS END ]]--
+
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
@@ -135,10 +147,4 @@
 
     gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
     gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ GENERAL MODULE SETTINGS END ]]--
-
---[[ ANTI METH ]]--
-    gAC.config.ANTI_METH = true
-    gAC.config.METH_PUNISHMENT = true
-    gAC.config.METH_BANTIME = 0
---[[ ANTI METH END ]]--
+--[[ SOURCE CRASHER SETTINGS END ]]--
