@@ -71,12 +71,6 @@
     gAC.config.METH_BANTIME = 0
 --[[ ANTI METH SETTINGS END ]]--
 
---[[ ANTI MALFORMATION SETTINGS ]]--
-    gAC.config.ANTI_MALFORM = true
-    gAC.config.MALFORM_PUNISHMENT = true
-    gAC.config.MALFORM_BANTIME = -1
---[[ ANTI MALFORMATION SETTINGS END ]]--
-
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
