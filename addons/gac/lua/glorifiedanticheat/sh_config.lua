@@ -6,7 +6,6 @@
     
     Always keep meth detection on!
     These guys even with other detections enabled will always try to do anything to ruin shit!
-
     Also a warning to those with lua systems like GM-LUAI
     DO NOT LIVE UPDATE THIS FILE, OR ELSE FILE VERIFICATION WILL FAIL!
 ]]
@@ -69,6 +68,9 @@
     gAC.config.ANTI_METH = true
     gAC.config.METH_PUNISHMENT = true
     gAC.config.METH_BANTIME = 0
+
+    gAC.config.METH_THRESHOLD_1 = false -- Inefficent detection, set to false to kick, true to ban
+    gAC.config.METH_THRESHOLD_2 = true -- Efficent detection but isn't found much, set to false to kick, true to ban
 --[[ ANTI METH SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
@@ -98,7 +100,6 @@
     1. Go to https://steamcommunity.com/dev/apikey
     2. Name the key.
     3. Create the key and paste it below.
-
     Your key should look something like this: 1369GJ41970G26891B26AGGFAD526B49
 ]]--
     gAC.config.STEAM_API_KEY = "" -- Steam API key for the family sharing module.
