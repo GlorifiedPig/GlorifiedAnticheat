@@ -70,6 +70,12 @@
     gAC.config.METH_BANTIME = 0
 --[[ ANTI METH SETTINGS END ]]--
 
+--[[ ANTI BigPackets SETTINGS ]]--
+    gAC.config.ANTI_BP = true
+    gAC.config.BP_PUNISHMENT = true
+    gAC.config.BP_BANTIME = 0
+--[[ ANTI BigPackets SETTINGS END ]]--
+
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
