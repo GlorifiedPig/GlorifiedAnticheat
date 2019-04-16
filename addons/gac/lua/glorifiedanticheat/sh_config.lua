@@ -68,9 +68,6 @@
     gAC.config.ANTI_METH = true
     gAC.config.METH_PUNISHMENT = true
     gAC.config.METH_BANTIME = 0
-
-    gAC.config.METH_THRESHOLD_1 = false -- Inefficent detection, set to false to kick, true to ban
-    gAC.config.METH_THRESHOLD_2 = true -- Efficent detection but isn't found much, set to false to kick, true to ban
 --[[ ANTI METH SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
