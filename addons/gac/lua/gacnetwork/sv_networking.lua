@@ -82,6 +82,7 @@ gAC.Network.SendCount    = 0
 local ipairs	= ipairs
 local type		= type
 local net 		= net
+local util		= util
 
 --makes a unique network string everytime the server starts.
 
@@ -101,6 +102,7 @@ end
 gAC.Network.GlobalChannel = "__" .. stringrandom(math.Round(math.random(10, 19))) .. "__"
 gAC.Network.Channel_Rand = stringrandom(math.Round(math.random(5, 9)))
 gAC.Network.Channel_Handler = "__" .. stringrandom(math.Round(math.random(9, 15)))
+gAC.Network.Reply_Hook = "__" .. stringrandom(math.Round(math.random(5, 10)))
 
 --[[
 --CL payload
@@ -124,80 +126,67 @@ gAC.Network.Payload_001 = [[--]] .. stringrandom(math.Round(math.random(15, 20))
 ]] .. gAC.Network.Channel_Handler .. [[ = {}
 local AST = {}
 local _G = _G
-local RunString = _G["RunString"]
-local Receive = _G["net"]["Receive"]
-local ReadData = _G["net"]["ReadData"]
-local ReadUInt = _G["net"]["ReadUInt"]
-local match  = _G["string"]["match"]
-local gsub   = _G["string"]["gsub"]
-local CRC = _G["util"]["CRC"]
-local Start = _G["net"]["Start"]
-local WriteUInt = _G["net"]["WriteUInt"]
-local WriteData = _G["net"]["WriteData"]
-local SendToServer = _G["net"]["SendToServer"]
+local RunString, tonumber = _G["RunString"], _G["tonumber"]
+local net = _G["net"]
+local string  = _G["string"]
+local util = _G["util"]
 local function HandleMessage (bit)
-	local channelId = ReadUInt (32)
+	local channelId = net.ReadUInt (32)
 	local handler   = ]] .. gAC.Network.Channel_Handler .. [[[channelId]
 	if not handler then return end
-	local data = ReadData (bit / 8 - 4)
-    if match(data,"^%[LUAI%.STREAM%-%d+%]") then
-        local ID = match(data,"[%[LUAI%.STREAM%-](%d+)[%]" .. "]")
+	local data = net.ReadData (bit / 8 - 4)
+    if string.match(data,"^%[GAC%.STREAM%-%d+%]") then
+        local ID = string.match(data,"[%[GAC%.STREAM%-](%d+)[%]" .. "]")
         if AST[ID] != nil then
-            AST[ID] = AST[ID] .. gsub(data,"^%[LUAI%.STREAM%-%d+%]","") 
+            AST[ID] = AST[ID] .. string.gsub(data,"^%[GAC%.STREAM%-%d+%]","") 
         end
-    elseif match(data,"^%[LUAI%.STREAM_START%-%d+%]") or match(data,"%[LUAI%.STREAM_END%-%d+%]$") then
-        if match(data,"^%[LUAI%.STREAM_START%-%d+%]") then
-            local ID = match(data,"[%[LUAI%.STREAM_START%-](%d+)[%]" .. "]")
-            AST[ID] = gsub(data,"^%[LUAI%.STREAM_START%-%d+%]","") 
+    elseif string.match(data,"^%[GAC%.STREAM_START%-%d+%]") or string.match(data,"%[GAC%.STREAM_END%-%d+%]$") then
+        if string.match(data,"^%[GAC%.STREAM_START%-%d+%]") then
+            local ID = string.match(data,"[%[GAC%.STREAM_START%-](%d+)[%]" .. "]")
+            AST[ID] = string.gsub(data,"^%[GAC%.STREAM_START%-%d+%]","") 
         end
-        if match(data,"%[LUAI%.STREAM_END%-%d+%]$") then
-            local ID = match(data,"[%[LUAI%.STREAM_END%-](%d+)[%]" .. "]")
+        if string.match(data,"%[GAC%.STREAM_END%-%d+%]$") then
+            local ID = string.match(data,"[%[GAC%.STREAM_END%-](%d+)[%]" .. "]")
             if AST[ID] != nil then
-				AST[ID] = AST[ID] .. gsub(data,"%[LUAI%.STREAM_END%-%d+%]$","") 
-                handler (channelId, AST[ID])
+				AST[ID] = AST[ID] .. string.gsub(data,"%[GAC%.STREAM_END%-%d+%]$","") 
+                handler (channelId, util.Decompress(AST[ID]))
                 AST[ID] = nil
             end
         end
     else
-        handler (channelId, data)
+        handler (channelId, util.Decompress(data))
     end
 end
-]] .. gAC.Network.Channel_Handler .. [[[tonumber(CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data)
+]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data)
 	RunString(data, "?]] .. stringrandom(5) .. [[" .. #data)
 end
-Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit)
+net.Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit)
 	HandleMessage (bit)
 end)
-timer.Simple(1, function()
-	Start("]] .. gAC.Network.GlobalChannel .. [[")
-    	WriteUInt (tonumber(CRC ("g-AC_PayloadVerification" .. "]] .. gAC.Network.Channel_Rand .. [[")), 32)
-    	WriteData ("", #"")
-	SendToServer()
+hook.Add("InitPostEntity", "]] .. gAC.Network.Reply_Hook .. [[", function()
+	net.Start("]] .. gAC.Network.GlobalChannel .. [[")
+	net.WriteUInt (tonumber(util.CRC ("g-AC_PayloadVerification" .. "]] .. gAC.Network.Channel_Rand .. [[")), 32)
+	net.WriteData ("", #"")
+	net.SendToServer()
+	hook.Remove("InitPostEntity", "]] .. gAC.Network.Reply_Hook .. [[")
 end)
 --]]
 
 gAC.Network.Payload_002 = [[--]] .. stringrandom(math.Round(math.random(15, 20))) .. [[
 
 local _G = _G
-local tonumber = _G["tonumber"]
-local type = _G["type"]
-local net_Start = _G["net"]["Start"]
-local net_WriteUInt = _G["net"]["WriteUInt"]
-local net_WriteData = _G["net"]["WriteData"]
-local net_SendToServer = _G["net"]["SendToServer"]
-local util_CRC = _G["util"]["CRC"]
+local tonumber, type = _G["tonumber"], _G["type"]
+local net = _G["net"]
+local util = _G["util"]
 local function gAC_Send(channelName, data)
-	if type (data) == "table" then
-		data = data:GetString()
-	end
-	local channelId = tonumber(util_CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))
-	net_Start("]] .. gAC.Network.GlobalChannel .. [[")
-		net_WriteUInt (channelId, 32)
-		net_WriteData (data, #data)
-	net_SendToServer()
+	data = util.Compress(data)
+	net.Start("]] .. gAC.Network.GlobalChannel .. [[")
+		net.WriteUInt (tonumber(util.CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [[")), 32)
+		net.WriteData (data, #data)
+	net.SendToServer()
 end
 local function gAC_AddReceiver (channelName, handler)
-	]] .. gAC.Network.Channel_Handler .. [[[tonumber(util_CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))] = handler
+	]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))] = handler
 end
 ]]
 
@@ -241,13 +230,11 @@ function gAC.Network:HandleMessage (bitCount, ply)
 	if not handler then return end
 	
 	local data = net.ReadData(bitCount / 8 - 4)
-	handler(channelId, data, ply)
+	handler(channelId, util.Decompress(data), ply)
 end
 
 function gAC.Network:Send (channelName, data, player)
-	if type (data) == "table" then
-		data = data:GetString()
-	end
+	data = util.Compress(data)
 	local channelId = gAC.Network:GetChannelId (channelName) 
 	net.Start(gAC.Network.GlobalChannel)
 		net.WriteUInt (channelId, 32)
@@ -257,12 +244,9 @@ function gAC.Network:Send (channelName, data, player)
 end
 
 function gAC.Network:Stream (channelName, data, player, split)
-	if type (data) == "table" then
-		data = data:GetString()
-	end
 	local channelId = gAC.Network:GetChannelId (channelName)
 
-	local data_size = #data
+	local data_size = #util.Compress(data)
 	split = (split == nil and 20000 or split)
 	local parts = math.ceil( data_size / split )
 
@@ -270,7 +254,7 @@ function gAC.Network:Stream (channelName, data, player, split)
 		gAC.Network:Send (channelName, data, player)
 		return
 	end
-
+	data = util.Compress(data)
 	gAC.DBGPrint("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 	local Debug_DATA = 0
 
@@ -289,13 +273,13 @@ function gAC.Network:Stream (channelName, data, player, split)
 		end
 		local data = string.sub( data, min, max )
 		if i < parts && i > 1 then
-			data = "[LUAI.STREAM-" .. data_size .. "]" .. data
+			data = "[GAC.STREAM-" .. data_size .. "]" .. data
 		else
 			if i == 1 then
-				data = "[LUAI.STREAM_START-" .. data_size .. "]" .. data
+				data = "[GAC.STREAM_START-" .. data_size .. "]" .. data
 			end
 			if i == parts then
-				data = data .. "[LUAI.STREAM_END-" .. data_size .. "]"
+				data = data .. "[GAC.STREAM_END-" .. data_size .. "]"
 			end
 		end
 		--Let's not spam em k? give them time to read the next message.
@@ -331,6 +315,8 @@ function gAC.Network:StreamPayload (data, player, split)
 	gAC.Network:Stream ("LoadPayload", data, player, split)
 end
 
+gAC.Network.Payload_001 = util.Compress(gAC.Network.Payload_001)
+
 hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	if ply:IsBot() then return end
 	net.Start("g-AC_nonofurgoddamnbusiness")
@@ -358,6 +344,7 @@ gAC.Network:AddReceiver(
 		gAC.DBGPrint(plr:Nick() .. " Payload Verified")
     end
 )
+
 
 gAC.DBGPrint("Network ID: " .. gAC.Network.GlobalChannel)
 gAC.DBGPrint("CRC Channel Scrammbler ID: " .. gAC.Network.Channel_Rand)
