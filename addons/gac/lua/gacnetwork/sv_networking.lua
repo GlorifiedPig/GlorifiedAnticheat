@@ -233,8 +233,8 @@ function gAC.Network:HandleMessage (bitCount, ply)
 	handler(channelId, util.Decompress(data), ply)
 end
 
-function gAC.Network:Send (channelName, data, player)
-	data = util.Compress(data)
+function gAC.Network:Send (channelName, data, player, israw)
+	if !israw then data = util.Compress(data) end
 	local channelId = gAC.Network:GetChannelId (channelName) 
 	net.Start(gAC.Network.GlobalChannel)
 		net.WriteUInt (channelId, 32)
@@ -243,18 +243,18 @@ function gAC.Network:Send (channelName, data, player)
 	net.Send(player)
 end
 
-function gAC.Network:Stream (channelName, data, player, split)
+function gAC.Network:Stream (channelName, data, player, split, israw)
 	local channelId = gAC.Network:GetChannelId (channelName)
 
-	local data_size = #util.Compress(data)
+	local data_size = (israw and data or #util.Compress(data))
 	split = (split == nil and 20000 or split)
 	local parts = math.ceil( data_size / split )
 
 	if parts == 1 then
-		gAC.Network:Send (channelName, data, player)
+		gAC.Network:Send (channelName, data, player, israw)
 		return
 	end
-	data = util.Compress(data)
+	if !israw then data = util.Compress(data) end
 	gAC.DBGPrint("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
 	local Debug_DATA = 0
 
@@ -294,9 +294,9 @@ function gAC.Network:Stream (channelName, data, player, split)
 	end
 end
 
-function gAC.Network:Broadcast (channelName, data)
+function gAC.Network:Broadcast (channelName, data, israw)
 	for k, v in ipairs(player.GetHumans()) do
-		gAC.Network:Send (channelName, data, v)
+		gAC.Network:Send (channelName, data, v, israw)
 	end
 end
 
