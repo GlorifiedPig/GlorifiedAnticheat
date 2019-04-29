@@ -13,6 +13,6 @@ hook.Add("gAC.ClientLoaded", "SendPayload_LiveUpdates", function(ply)
             if gAC.FileQuery[k] == nil then continue end
             gAC.Network:Send ("LoadPayload", gAC.FileQuery[k], ply, true)
         end
-        hook.Run("gAC.FilesInitalized", ply)
+        hook.Run("gAC.CLFilesLoaded", ply)
     end
 end)
