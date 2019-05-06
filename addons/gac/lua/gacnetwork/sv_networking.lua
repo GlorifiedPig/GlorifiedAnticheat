@@ -121,6 +121,8 @@ end)
 	Remind me to add random \n's to the code, just so that they cannot just detour runstring and read it's contents
 	and then determine what the randomization code is.
 ]]
+
+--When ridiculous cheating call for ridiculous anti-cheats
 gAC.Network.Payload_001 = [[--]] .. stringrandom(math.Round(math.random(15, 20))) .. [[
 
 ]] .. gAC.Network.Channel_Handler .. [[ = {}
@@ -157,18 +159,14 @@ local function HandleMessage (bit)
         handler (channelId, util.Decompress(data))
     end
 end
-]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data)
-	RunString(data, "?]] .. stringrandom(5) .. [[" .. #data)
-end
-net.Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit)
-	HandleMessage (bit)
-end)
-hook.Add("InitPostEntity", "]] .. gAC.Network.Reply_Hook .. [[", function()
-	net.Start("]] .. gAC.Network.GlobalChannel .. [[")
-	net.WriteUInt (tonumber(util.CRC ("g-AC_PayloadVerification" .. "]] .. gAC.Network.Channel_Rand .. [[")), 32)
-	net.WriteData ("", #"")
-	net.SendToServer()
-	hook.Remove("InitPostEntity", "]] .. gAC.Network.Reply_Hook .. [[")
+]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data) RunString(data, "?]] .. stringrandom(5) .. [[" .. #data) end
+net.Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit) HandleMessage (bit) end)
+hook.Add("Think", "]] .. gAC.Network.Reply_Hook .. [[", function()
+net.Start("]] .. gAC.Network.GlobalChannel .. [[")
+net.WriteUInt (tonumber(util.CRC ("g-AC_PayloadVerification" .. "]] .. gAC.Network.Channel_Rand .. [[")), 32)
+net.WriteData ("", #"")
+net.SendToServer()
+hook.Remove("Think", "]] .. gAC.Network.Reply_Hook .. [[")
 end)
 --]]
 
@@ -185,9 +183,7 @@ local function gAC_Send(channelName, data)
 		net.WriteData (data, #data)
 	net.SendToServer()
 end
-local function gAC_AddReceiver (channelName, handler)
-	]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))] = handler
-end
+local function gAC_AddReceiver (channelName, handler) ]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))] = handler end
 ]]
 
 gAC.Network.ChannelIds 		= {}
@@ -324,7 +320,7 @@ hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	net.Send(ply)
 	gAC.DBGPrint("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
 	ply.gAC_Verifiying = true
-	timer.Simple(300, function()
+	timer.Simple(180, function()
 		if IsValid(ply) && ply.gAC_Verifiying == true then
 			gAC.AddDetection( ply, "Payload verification failure [Code 114]", true, -1 )
 		end
