@@ -83,7 +83,7 @@ end
 hook.Add("Initialize", "gAC.Connect", gAC.DB.Connect)
 
 function gAC.LogEvent( plr, log )
-    gAC.DB.Query("INSERT INTO gac_detections (`time`, `steamid`, `detection`) VALUES (" .. os.time() .. ", " .. gAC.EscapeStr(plr:SteamID()) .. ", " .. gAC.EscapeStr(log) .. ")")
+    gAC.DB.Query("INSERT INTO gac_detections (`time`, `steamid`, `detection`) VALUES (" .. os.time() .. ", " .. gAC.EscapeStr(plr:SteamID()) .. ", '" .. gAC.EscapeStr(log) .. "')")
 end
 
 function gAC.GetLog( id, cb )
