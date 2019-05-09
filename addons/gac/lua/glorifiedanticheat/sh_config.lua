@@ -6,6 +6,7 @@
     
     Always keep meth detection on!
     These guys even with other detections enabled will always try to do anything to ruin shit!
+
     Also a warning to those with lua systems like GM-LUAI
     DO NOT LIVE UPDATE THIS FILE, OR ELSE FILE VERIFICATION WILL FAIL!
 ]]
@@ -22,18 +23,30 @@
     --[[
         Just because some servers want their ban functions to be unique.
         Like they always say, uniqueness is key.
+
+        Ban Types:
+            custom - gAC's custom ban system
+            ulx - use the ulx ban system
+            d3a - use D3vine's ban system
+            serverguard - server-guard's ban system
+            custom_func - uses BAN_FUNC to ban users, basically make your own ban type
+
+        Kick Types:
+            default - normal gAC kick system
+            custom_func - uses KICK_FUNC to kick users, basically make your own kick type
     ]]
-    gAC.config.BAN_TYPE = "custom_func" -- Set to 'custom' for the custom banning system, set to 'ulx' to use ulx.
-    gAC.config.BAN_FUNC = function(ply, displayReason, banTime)
+    -- set to 'custom_func' to use your own custom banning function
+    gAC.config.BAN_TYPE = "custom_func"
+    gAC.config.BAN_FUNC = function(ply, banTime, displayReason)
         local unit = "minute"
         if banTime < 1 then
             unit = "perm"
         end
         --Note 'NameID' is part of D3A & not part of g-AC
         gAC.Print("Banned " .. ply:NameID() .. " for cheating.")
-        gAC.Broadcast("Dropped " .. ply:NameID() .. " from the server, account is convicted of cheating.", Color(255,0,0))
         D3A.Bans.BanPlayer(ply:SteamID(), "g-AC", banTime, unit, gAC.config.BAN_MESSAGE_SYNTAX)
     end
+    gAC.config.KICK_TYPE = "custom_func" -- set to 'default' for normal kick
     gAC.config.KICK_FUNC = function(ply, displayReason) --only to override the kick function!
         ply:Kick(gAC.config.BAN_MESSAGE_SYNTAX)
     end
@@ -103,6 +116,7 @@
     1. Go to https://steamcommunity.com/dev/apikey
     2. Name the key.
     3. Create the key and paste it below.
+
     Your key should look something like this: 1369GJ41970G26891B26AGGFAD526B49
 ]]--
     gAC.config.STEAM_API_KEY = "" -- Steam API key for the family sharing module.
