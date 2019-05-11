@@ -197,7 +197,7 @@ local function HandleMessage (bit)
         handler (channelId, util.Decompress(data))
     end
 end
-]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data) print(data) RunString(data, "?]] .. gAC.Network.Decoder_Verify .. [[" .. #data) end
+]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data) RunString(data, "?]] .. gAC.Network.Decoder_Verify .. [[" .. #data) end
 net.Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit) HandleMessage (bit) end)
 hook.Add("Think", "]] .. gAC.Network.Reply_Hook .. [[", function()
 net.Start("]] .. gAC.Network.GlobalChannel .. [[")
