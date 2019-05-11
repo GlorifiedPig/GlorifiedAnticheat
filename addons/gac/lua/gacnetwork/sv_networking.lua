@@ -73,6 +73,52 @@
 	2% being the small network string made to load the first payload.
 ]]
 
+--[[
+    NiceCream's encoder library, making script hidden from reality.
+    My goals atleast: intense encoder, low performance decoder
+]]
+
+gAC.Encoder = {}
+
+gAC.Encoder.Existing_String = {}
+function gAC.Encoder.stringrandom(length, norm)
+	local str = "‪"
+	for i = 1, length do
+		if norm then
+			str = str .. string.char(math.Round(math.random(97, 122)))
+		elseif math.Round(math.random(1, 2)) == 2 then
+			str = str .. string.char(math.Round(math.random(97, 122)))
+		else
+			str = str .. "‪"
+		end
+	end
+	if gAC.Encoder.Existing_String[str] then
+		return gAC.Encoder.stringrandom(length, norm)
+	end
+	gAC.Encoder.Existing_String[str] = true
+	return str
+end
+
+function gAC.Encoder.KeyToFloat(s)
+    s = string.Explode("", s)
+    local z = 0
+    for i = 1, #s do 
+        z = z + string.byte(s[i])
+    end 
+    return z 
+end
+
+function gAC.Encoder.Encode(str, key)
+    local encode, byte = '', ''
+    for i = 1, #str do
+        encode = encode .. '|' .. string.byte(str:sub(i, i)) + gAC.Encoder.KeyToFloat(key)
+    end
+    for i = 1, #encode do
+        byte = byte .. '\\x' .. string.format('%02X', string.byte(encode:sub(i, i)))
+    end
+    return byte
+end
+
 if gAC.Network then return end --prevent lua refresh
 
 gAC.Network = gAC.Network or {}
@@ -84,25 +130,17 @@ local type		= type
 local net 		= net
 local util		= util
 
---makes a unique network string everytime the server starts.
-
-local function stringrandom(length)
-	local str = "‪"
-	for i = 1, length do
-		if math.Round(math.random(1, 2)) == 2 then
-			str = str..string.char(math.random(97, 122))
-		else
-			str = str.."‪" --This is an invisible unicode character, useful in trolling cheaters :)
-		end
-	end
-	return str
-end
-
 --Added __ to prevent conflicts with GM-LUAI's main network
-gAC.Network.GlobalChannel = "__" .. stringrandom(math.Round(math.random(10, 19))) .. "__"
-gAC.Network.Channel_Rand = stringrandom(math.Round(math.random(5, 9)))
-gAC.Network.Channel_Handler = "__" .. stringrandom(math.Round(math.random(9, 15)))
-gAC.Network.Reply_Hook = "__" .. stringrandom(math.Round(math.random(5, 10)))
+gAC.Network.GlobalChannel = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(10, 19))) .. "__"
+gAC.Network.Channel_Rand = gAC.Encoder.stringrandom(math.Round(math.random(5, 9)))
+gAC.Network.Channel_Handler = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)))
+gAC.Network.Reply_Hook = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(5, 10)))
+
+--Global Decoder, NiceCream got pissed
+gAC.Network.Global_Decoder = gAC.Encoder.stringrandom(math.Round(math.random(8, 15)), true)
+gAC.Network.Decoder_Var = gAC.Encoder.stringrandom(math.Round(math.random(8, 15)))
+gAC.Network.Decoder_Verify = gAC.Encoder.stringrandom(math.Round(math.random(9, 14)))
+gAC.Network.Table_Decoder = util.Compress(gAC.Network.Decoder_Var .. "%" .. gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder) .. "%" .. gAC.Network.Decoder_Verify)
 
 --[[
 --CL payload
@@ -123,7 +161,7 @@ end)
 ]]
 
 --When ridiculous cheating call for ridiculous anti-cheats
-gAC.Network.Payload_001 = [[--]] .. stringrandom(math.Round(math.random(15, 20))) .. [[
+gAC.Network.Payload_001 = [[--]] .. gAC.Encoder.stringrandom(math.Round(math.random(15, 20))) .. [[
 
 ]] .. gAC.Network.Channel_Handler .. [[ = {}
 local AST = {}
@@ -159,7 +197,7 @@ local function HandleMessage (bit)
         handler (channelId, util.Decompress(data))
     end
 end
-]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data) RunString(data, "?]] .. stringrandom(5) .. [[" .. #data) end
+]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC ("LoadPayload" .. "]] .. gAC.Network.Channel_Rand .. [["))] = function(ch, data) print(data) RunString(data, "?]] .. gAC.Network.Decoder_Verify .. [[" .. #data) end
 net.Receive ("]] .. gAC.Network.GlobalChannel .. [[",function (bit) HandleMessage (bit) end)
 hook.Add("Think", "]] .. gAC.Network.Reply_Hook .. [[", function()
 net.Start("]] .. gAC.Network.GlobalChannel .. [[")
@@ -170,7 +208,7 @@ hook.Remove("Think", "]] .. gAC.Network.Reply_Hook .. [[")
 end)
 --]]
 
-gAC.Network.Payload_002 = [[--]] .. stringrandom(math.Round(math.random(15, 20))) .. [[
+gAC.Network.Payload_002 = [[--]] .. gAC.Encoder.stringrandom(math.Round(math.random(15, 20))) .. [[
 
 local _G = _G
 local tonumber, type = _G["tonumber"], _G["type"]
@@ -316,6 +354,9 @@ gAC.Network.Payload_001 = util.Compress(gAC.Network.Payload_001)
 hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	if ply:IsBot() then return end
 	net.Start("g-AC_nonofurgoddamnbusiness")
+	net.WriteUInt(#gAC.Network.Table_Decoder, 16)
+	net.WriteData(gAC.Network.Table_Decoder, #gAC.Network.Table_Decoder)
+	net.WriteUInt(#gAC.Network.Payload_001, 16)
 	net.WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
 	net.Send(ply)
 	gAC.DBGPrint("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
@@ -336,8 +377,8 @@ gAC.Network:AddReceiver(
     "g-AC_PayloadVerification",
     function(_, data, plr)
         plr.gAC_Verifiying = nil
-		hook.Run("gAC.ClientLoaded", plr)
 		gAC.DBGPrint(plr:Nick() .. " Payload Verified")
+		hook.Run("gAC.ClientLoaded", plr)
     end
 )
 
