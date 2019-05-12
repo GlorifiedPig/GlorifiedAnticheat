@@ -80,6 +80,10 @@
 
 gAC.Encoder = {}
 
+gAC.Encoder.Unicode_String = "‪"
+
+gAC.Encoder.Decoder = string.rep(gAC.Encoder.Unicode_String,8)
+
 gAC.Encoder.Existing_String = {}
 function gAC.Encoder.stringrandom(length, norm)
 	local str = "‪"
@@ -89,7 +93,7 @@ function gAC.Encoder.stringrandom(length, norm)
 		elseif math.Round(math.random(1, 2)) == 2 then
 			str = str .. string.char(math.Round(math.random(97, 122)))
 		else
-			str = str .. "‪"
+			str = str .. gAC.Encoder.Unicode_String
 		end
 	end
 	if gAC.Encoder.Existing_String[str] then
@@ -109,15 +113,31 @@ function gAC.Encoder.KeyToFloat(s)
 end
 
 function gAC.Encoder.Encode(str, key)
-    local encode, byte = '', ''
+    local encode, byte, key = '', '', gAC.Encoder.KeyToFloat(key)
     for i = 1, #str do
-        encode = encode .. '|' .. string.byte(str:sub(i, i)) + gAC.Encoder.KeyToFloat(key)
+        encode = encode .. '|' .. ( key % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key ) or string.byte(str:sub(i, i)) + key )
     end
     for i = 1, #encode do
         byte = byte .. '\\x' .. string.format('%02X', string.byte(encode:sub(i, i)))
     end
     return byte
 end
+
+--[[
+local function ‪‪‪‪‪‪‪(s)
+    local d=''
+    for x in string.gmatch(s,'|(%d+)') do
+        if key % tonumber(2) == tonumber(0) then
+            d=d..string.reverse(string.char(x-key))
+            continue 
+        end
+        d=d..string.char(x-key))
+    end
+    return d
+end
+]]
+
+gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪='' for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do if ]] .. gAC.Encoder.Decoder .. [[ % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[) continue end ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[) end return ‪‪‪‪ end]]
 
 if gAC.Network then return end --prevent lua refresh
 

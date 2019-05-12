@@ -10,7 +10,8 @@ function gAC.AddQuery(filepath)
         for k, v in pairs(json) do
             filepath = string.Replace(filepath, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
         end
-        filepath = string.Replace(filepath, "__DECODER_STR__", "'" .. gAC.Network.Decoder_Var .. "'")
+        filepath = string.Replace(filepath, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. "['" .. gAC.Network.Decoder_Var .. "']()")
+        filepath = string.Replace(filepath, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
     else
         filepath = file.Read(filepath, "LUA")
     end
