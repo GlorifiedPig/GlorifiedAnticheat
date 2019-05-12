@@ -19,6 +19,10 @@ function gAC.AddQuery(filepath)
     gAC.DBGPrint("Added file " .. FileName .. " to file query")
 end
 
+hook.Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
+    gAC.FileQuery[#gAC.FileQuery + 1] = util.Compress("_G['" .. gAC.Network.Decoder_Var .. "'] = nil")
+end)
+
 hook.Add("gAC.ClientLoaded", "SendFiles", function(ply)
     if #gAC.FileQuery > 0 then
         for k, v in SortedPairs(gAC.FileQuery) do
