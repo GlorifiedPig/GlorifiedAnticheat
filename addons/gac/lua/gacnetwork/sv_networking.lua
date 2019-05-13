@@ -84,6 +84,11 @@ gAC.Encoder.Unicode_String = "‪"
 
 gAC.Encoder.Decoder = string.rep(gAC.Encoder.Unicode_String,8)
 
+--[[
+	String Randomizer
+	Generate randomize string including a Unicode character
+]]
+
 gAC.Encoder.Existing_String = {}
 function gAC.Encoder.stringrandom(length, norm)
 	local str = "‪"
@@ -103,19 +108,37 @@ function gAC.Encoder.stringrandom(length, norm)
 	return str
 end
 
+--[[
+	Key String to Key Float
+	Converts a table key into a table of values for encoders/decoders
+]]
+
 function gAC.Encoder.KeyToFloat(s)
-    s = string.Explode("", s)
-    local z = 0
-    for i = 1, #s do 
-        z = z + string.byte(s[i])
-    end 
-    return z 
+	local z = {}
+	for i = 1, #s do
+		local key = string.Explode("", s[i])
+		z[i] = 0
+		for v = 1, #key do 
+			z[i] = z[i] + string.byte(key[v])
+		end 
+	end
+    return z
 end
 
+--[[
+	Encoder
+	General purpose of encoding string into unreadable format.
+	Just cause someone tried to look into my creations.
+]]
+
 function gAC.Encoder.Encode(str, key)
-    local encode, byte, key = '', '', gAC.Encoder.KeyToFloat(key)
+    local encode, byte, key_dir, key = '', '', 0, gAC.Encoder.KeyToFloat(key)
     for i = 1, #str do
-        encode = encode .. '|' .. ( key % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key ) or string.byte(str:sub(i, i)) + key )
+		key_dir = key_dir + 1
+        encode = encode .. '|' .. ( key[key_dir] % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key[key_dir] ) or string.byte(str:sub(i, i)) + key[key_dir] )
+		if key_dir == #key then
+			key_dir = 0
+		end
     end
     for i = 1, #encode do
         byte = byte .. '\\x' .. string.format('%02X', string.byte(encode:sub(i, i)))
@@ -124,20 +147,11 @@ function gAC.Encoder.Encode(str, key)
 end
 
 --[[
-local function ‪‪‪‪‪‪‪(s)
-    local d=''
-    for x in string.gmatch(s,'|(%d+)') do
-        if key % tonumber(2) == tonumber(0) then
-            d=d..string.reverse(string.char(x-key))
-            continue 
-        end
-        d=d..string.char(x-key))
-    end
-    return d
-end
+	Decoder function
+	Used on the client-side realm, simply decodes string into readable format for lua to use.
 ]]
 
-gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪='' for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do if ]] .. gAC.Encoder.Decoder .. [[ % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[) continue end ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[) end return ‪‪‪‪ end]]
+gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪,‪‪‪‪‪‪='',‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do ‪‪‪‪‪‪=‪‪‪‪‪‪+‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') if ]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪] % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]) continue end ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]) if  ‪‪‪‪‪‪==#]] .. gAC.Encoder.Decoder .. [[ then ‪‪‪‪‪‪=‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') end end return ‪‪‪‪ end]]
 
 if gAC.Network then return end --prevent lua refresh
 
@@ -150,37 +164,26 @@ local type		= type
 local net 		= net
 local util		= util
 
---Added __ to prevent conflicts with GM-LUAI's main network
+--Added __ to prevent conflicts with GM-LUAI's main network < if you even have GM-LUAI >.>
 gAC.Network.GlobalChannel = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(10, 19))) .. "__"
 gAC.Network.Channel_Rand = gAC.Encoder.stringrandom(math.Round(math.random(5, 9)))
 gAC.Network.Channel_Handler = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)))
 gAC.Network.Reply_Hook = "__" .. gAC.Encoder.stringrandom(math.Round(math.random(5, 10)))
 
 --Global Decoder, NiceCream got pissed
-gAC.Network.Global_Decoder = gAC.Encoder.stringrandom(math.Round(math.random(8, 15)), true)
+gAC.Network.Global_Decoder = {}
+for i=1, math.Round(math.random(6,8)) do
+	gAC.Network.Global_Decoder[i] = gAC.Encoder.stringrandom(math.Round(math.random(4, 8)), true)
+end
 gAC.Network.Decoder_Var = gAC.Encoder.stringrandom(math.Round(math.random(8, 15)))
 gAC.Network.Decoder_Verify = gAC.Encoder.stringrandom(math.Round(math.random(9, 14)))
-gAC.Network.Table_Decoder = util.Compress(gAC.Network.Decoder_Var .. "%" .. gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder) .. "%" .. gAC.Network.Decoder_Verify)
+gAC.Network.Table_Decoder = util.Compress(gAC.Network.Decoder_Var .. "%" .. util.TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)) .. "%" .. gAC.Network.Decoder_Verify)
 
 --[[
---CL payload
-local _G = _G
-local RunString = _G["RunString"]
-local Receive = _G["net"]["Receive"]
-local ReadData = _G["net"]["ReadData"]
-
-Receive("g-AC_nonofurgoddamnbusiness", function(len)
-    RunString(ReadData(len), "eatmyassk?")
-end)
+	Payload 001
+	Loads in as the boot payload for g-AC
+	determines when to send files & handles network
 ]]
-
---AST = Active Streams
---[[
-	Remind me to add random \n's to the code, just so that they cannot just detour runstring and read it's contents
-	and then determine what the randomization code is.
-]]
-
---When ridiculous cheating call for ridiculous anti-cheats
 gAC.Network.Payload_001 = [[--]] .. gAC.Encoder.stringrandom(math.Round(math.random(15, 20))) .. [[
 
 ]] .. gAC.Network.Channel_Handler .. [[ = {}
@@ -228,6 +231,10 @@ hook.Remove("Think", "]] .. gAC.Network.Reply_Hook .. [[")
 end)
 --]]
 
+--[[
+	Payload 002 - aka communication payload.
+	allows g-AC scripts to securely contact the server without anyone attempting to detour functions.
+]]
 gAC.Network.Payload_002 = [[--]] .. gAC.Encoder.stringrandom(math.Round(math.random(15, 20))) .. [[
 
 local _G = _G
@@ -243,6 +250,8 @@ local function gAC_Send(channelName, data)
 end
 local function gAC_AddReceiver (channelName, handler) ]] .. gAC.Network.Channel_Handler .. [[[tonumber(util.CRC (channelName .. "]] .. gAC.Network.Channel_Rand .. [["))] = handler end
 ]]
+
+--Rest here is stated at the 1st line of this code.
 
 gAC.Network.ChannelIds 		= {}
 gAC.Network.IdChannels 		= {}
