@@ -4,49 +4,43 @@ gAC.Network:AddReceiver(
     "G-ACcVarManipSV1",
     function(_, checkedVariables, plr)
         checkedVariables = util.JSONToTable(checkedVariables)
-        if( ( checkedVariables[0] >= 1 && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] >= 1 && gAC.config.SVCHEATS_CHECKS ) ) then
+        if( ( checkedVariables[0] != GetConVar("sv_allowcslua"):GetInt() && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] != GetConVar("sv_cheats"):GetInt() && gAC.config.SVCHEATS_CHECKS ) ) then
             gAC.AddDetection( plr, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
         end
-        plr:SetNWBool( "HasReceivedVarManipResults", true )
+        plr.HasReceivedVarManipResults = true
     end
 )
 
 
 if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true ) then
-    timer.Create( "G-ACcVarManipSV2T", 5, 0, function()
-        for k, v in pairs( player.GetAll() ) do
-            gAC.CheckForConvarManipulation( v )
+    hook.Add("Tick", "gAC-CheckCvars", function()
+        for k, ply in ipairs( player.GetAll() ) do
+            if ply:IsBot() then continue end
+            if !ply.GAC_Cvar_Checks then continue end
+            if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks-1 < CurTime() then
+                gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
+            end
+            if ply.GAC_Cvar_Checks > CurTime() then continue end
+            if ply.HasReceivedVarManipResults != nil then
+                ply.HasReceivedVarManipResults = nil
+            end
+            gAC.Network:Send("G-ACcVarManipCS1", "", ply)
+            ply.GAC_Cvar_Checks = CurTime() + 20
         end
     end )
 end
 
-local InitialVarManipResults = InitialVarManipResults or false
-function gAC.CheckForConvarManipulation( ply )
-    if ply:IsBot() then return end
-
-    if( ply:GetNWBool( "HasReceivedVarManipResults" ) != false && InitialVarManipResults == false ) then
-        InitialVarManipResults = true
-        ply:SetNWBool( "HasReceivedVarManipResults", false )
-    end
-
-    gAC.Network:Send("G-ACcVarManipCS1", "", ply)
-
-    if gAC.config.CVARMANIP_RETURN_PUNISHMENT then
-        timer.Simple( 4, function()
-            if( ply:IsValid() && !ply:IsTimingOut() && ply:PacketLoss() < 80 && ply.JoinTimeGAC != nil && ply:GetNWBool( "HasReceivedVarManipResults" ) == false && CurTime() >= ply.JoinTimeGAC + gAC.config.CVARMANIP_RETURN_JOINTIMER ) then
-                gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
-            end
-        end )
-    end
-end
+hook.Add("gAC.CLFilesLoaded", "CheckCvars", function(ply)
+    ply.GAC_Cvar_Checks = 0
+end)
 
 if gAC.config.DISABLE_BAD_COMMANDS then
     hook.Add( "Initialize", "g-ACcVarManipSV3", function()
-        RunConsoleCommand( "sv_allowcslua", 0 )
-        RunConsoleCommand( "sv_cheats", 0 )
+        game.ConsoleCommand("sv_allowcslua 0\n")
+        game.ConsoleCommand("sv_cheats 0\n")
     end )
 end
 
-hook.Add( "PlayerInitialSpawn", "g-ACPlayerInitialSpawnJointimeChecker", function( ply )
+hook.Add( "gAC.CLFilesLoaded", "g-ACPlayerInitialSpawnJointimeChecker", function( ply )
     ply.JoinTimeGAC = CurTime()
 end )
