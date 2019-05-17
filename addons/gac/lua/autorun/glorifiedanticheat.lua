@@ -1,5 +1,14 @@
 --[[
-    Hey there kinky shit ;D
+    Hey nice job looking into the autorun file,
+    let's see if you can prove to me you are worthy of getting gAC unobfuscated.
+    Innovation is key to improvement.
+
+    Hello methamphetamine developers!
+    If you are the devs for methamphetamine, can you stop boasting about your cheat.
+    We already spanked your buyers twice, do you want me to make more detections?
+    "Drug cheat is best" yea bud, sure, maybe double check your code first before bragging?
+
+    Thumbs up to citizen for actually making detections challenging the first time unlike meth's autistic developers.
 ]]
 
 gAC = gAC or {
