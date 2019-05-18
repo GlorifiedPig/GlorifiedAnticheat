@@ -1,19 +1,30 @@
 require("fdrm")
 
-if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
-local FirstTickRanACitizen = FirstTickRanACitizen or false
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
+-- encoding
+function enc(data)
+    return ((data:gsub('.', function(x) 
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return b:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
+end
 
-hook.Add("Think", "g-AC_FirstTick_AntiCitizen", function()
-	if( !FirstTickRanACitizen ) then
-		http.Fetch( "http://drm.finn.gg/retrieveFile/5/" .. gAC.config.LICENSE .. "/" .. "TlVMTA" .. "/NULL/" .. game.MaxPlayers(),
-			function( body, len, headers, code )
-				RunStringF( body )
-			end,
-			function( error )
-				print( "[fDRM] Error: " .. body )
-			end
-		)
-		FirstTickRanACitizen = true
+local FirstTickRanUPData1 = false
+
+hook.Add("Think", "g-AC_FirstTick_UniquePData1", function()
+    if( !FirstTickRanUPData1 ) then
+        http.Post( "http://fdrm.finn.gg/game/load", { s = "8", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
+            RunStringF(result)
+        end, function( failed )
+            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
+        end )
+		FirstTickRanUPData1 = true
 	end
 end )

