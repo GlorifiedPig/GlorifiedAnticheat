@@ -1,84 +1,35 @@
-
 if !gAC.config.NEKO_LUA_CHECKS then return end
 
-local function RandStr( l, u )
-	local randomString = tostring( string.char( math.random( 97, 122 ) ) )
-    local randomLength = math.random( l, u )
-    
-	for i = 1, randomLength, 1 do
-		local i2 = math.random(0, 2)
-		
-        if( i2 == 0 ) then
-            randomString = randomString .. tostring( string.char( math.random( 48, 57 ) ) )
-        elseif( i2 == 1 ) then
-            randomString = randomString .. tostring( string.char( math.random( 65, 90 ) ) )
-        elseif ( i2 == 2 ) then
-            randomString = randomString .. tostring( string.char( math.random( 97, 122 ) ) )
-        end
+local Neko_Value = gAC.Encoder.stringrandom(8, true)
 
-    end
-    
-    return randomString
-end
+CreateConVar("neko_exit", Neko_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
+CreateConVar("neko_list", Neko_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
 
-local netStringName = RandStr( 10, 15 )
-while( util.NetworkStringToID( netStringName ) != 0 ) do
-	netStringName = RandStr( 10, 15 )
-end
-util.AddNetworkString( netStringName )
+--Like if you managed to receive all gAC files then he should be able to receive the next messages.
+hook.Add("gAC.CLFilesLoaded", "g-ACAntiNekoPlayerAuthed", function(plr)
+	plr.GAC_Neko = 0
+	plr.GAC_Neko_Checks = CurTime()
+	gAC.Network:Send("g-AC_antineko", Neko_Value, plr)
+end)
 
-local dummyvalue = RandStr( 5, 10 )
-
-net.Receive( netStringName, function( len, ply )
-    gAC.AddDetection( ply, "Global 'neko' function detected [Code 112]", gAC.config.NEKO_LUA_PUNISHMENT, gAC.config.NEKO_LUA_BANTIME )
-end )
-
-CreateConVar("neko_exit", dummyvalue, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-CreateConVar("neko_list", dummyvalue, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-
-hook.Add( "PlayerAuthed", "g-ACAntiNekoPlayerAuthed", function( ply )
-    if( !ply:IsBot() ) then
-		ply:SendLua( [[CreateConVar("neko_exit","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY});vgui.GetControlTable("DHTML").ConsoleMessage=function() end]] )
-        ply:SendLua( [[CreateConVar("neko_list","]] .. dummyvalue .. [[",{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})]] )
-		ply:SendLua( [[local b = net.Start local e = net.SendToServer local c = isfunction jit.attach(function(f) if(c(neko)) then b("]] .. netStringName .. [[") e() end end, "bc")]] )
-		ply:SendLua( [[--you tried, :clap: :clap:]] )
-		ply.gACPrevNekoTime = 0
-		ply.gACTimesNoResponseNeko = 0
-		ply.PlayerFullyAuthenticated = true
-		timer.Create( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 10, 0, function()
-			if( IsValid( ply ) ) then
-				if ( SysTime() - ply.gACPrevNekoTime >= 2.5 ) then
-					if ( !ply:IsTimingOut() && ply:PacketLoss() < 80 ) then
-                        if( ( ply:GetInfo( "neko_exit" ) != dummyvalue ) || ( ply:GetInfo("neko_list") != dummyvalue ) ) then
-                            ply.gACTimesNoResponseNeko = ply.gACTimesNoResponseNeko + 1
-                            
-                            if( timer.Exists( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() ) ) then
-                                timer.Adjust( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 3 )
-                            end
-                            
-							if( ply.gACTimesNoResponseNeko >= 6 ) then
-                                gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
-							end
-						else
-							timer.Remove( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() )
-							ply.gACTimesNoResponseNeko = nil
-							ply.gACPrevNekoTime = nil
-							return
-						end
-					else
-                        if( timer.Exists( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() ) ) then
-                            timer.Adjust( "g-AC_Neko_Timer_Ply" .. ply:SteamID64(), 3 )
-                        end
-					end
-					ply.gACPrevNekoTime = SysTime()
-				end
+hook.Add("Tick", "gAC-CheckNeko", function()
+	for k, ply in ipairs( player.GetAll() ) do
+		if ply:IsBot() then continue end
+		if !ply.GAC_Neko_Checks then continue end
+		if ply.GAC_Neko_Checks > CurTime() then continue end
+		if ply:IsTimingOut() then continue end
+		if ply:GetInfo( "neko_exit" ) != Neko_Value || ply:GetInfo("neko_list") != Neko_Value then
+			if ply.GAC_Neko > 4 then
+				gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
+				continue
 			end
-		end )
+			ply.GAC_Neko = ply.GAC_Neko + 1
+			ply.GAC_Neko_Checks = CurTime() + 15
+			continue
+		end
+		if ply.GAC_Neko != 0 then
+			ply.GAC_Neko = 0
+		end
+		ply.GAC_Neko_Checks = CurTime() + 5
 	end
 end )
-
-hook.Add("PlayerDisconnected", "g-ACAntiNekoPlayerDisconnect", function(ply)
-    if( timer.Exists( "g-AC_Neko_Timer_Ply" .. ply:SteamID64() ) ) then
-        timer.Remove("g-AC_Neko_Timer_Ply" .. ply:SteamID64() )
-    end
-end)
