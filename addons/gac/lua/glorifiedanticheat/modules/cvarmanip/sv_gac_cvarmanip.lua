@@ -1,5 +1,3 @@
-gAC.isflyon = true
-
 gAC.Network:AddReceiver(
     "G-ACcVarManipSV1",
     function(_, checkedVariables, plr)
@@ -10,7 +8,6 @@ gAC.Network:AddReceiver(
         plr.HasReceivedVarManipResults = true
     end
 )
-
 
 if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true ) then
     hook.Add("Tick", "gAC-CheckCvars", function()
