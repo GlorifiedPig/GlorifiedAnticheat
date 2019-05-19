@@ -14,20 +14,25 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
         for k, ply in ipairs( player.GetAll() ) do
             if ply:IsBot() then continue end
             if !ply.GAC_Cvar_Checks then continue end
-            if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 && ply.GAC_Cvar_Checks-1 < CurTime() then
-                gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
+            if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 then
+                if ply.GAC_Cvar > 4 then
+                    gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
+                end
+                ply.GAC_Cvar = ply.GAC_Cvar + 1
+                ply.GAC_Cvar_Checks = CurTime() + 20
+                continue
             end
             if ply.GAC_Cvar_Checks > CurTime() then continue end
-            if ply.HasReceivedVarManipResults != nil then
-                ply.HasReceivedVarManipResults = nil
-            end
+            ply.HasReceivedVarManipResults = nil
+            ply.GAC_Cvar = 0
+            ply.GAC_Cvar_Checks = CurTime() + 15
             gAC.Network:Send("G-ACcVarManipCS1", "", ply)
-            ply.GAC_Cvar_Checks = CurTime() + 20
         end
     end )
 end
 
 hook.Add("gAC.CLFilesLoaded", "CheckCvars", function(ply)
+    ply.GAC_Cvar = 0
     ply.GAC_Cvar_Checks = 0
 end)
 
