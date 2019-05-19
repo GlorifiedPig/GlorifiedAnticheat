@@ -23,6 +23,7 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
                 end
                 ply.GAC_Cvar = ply.GAC_Cvar + 1
                 ply.GAC_Cvar_Checks = CurTime() + 20
+                gAC.Network:Send("G-ACcVarManipCS1", "", ply)
                 continue
             end
             if ply.GAC_Cvar_Checks > CurTime() then continue end
