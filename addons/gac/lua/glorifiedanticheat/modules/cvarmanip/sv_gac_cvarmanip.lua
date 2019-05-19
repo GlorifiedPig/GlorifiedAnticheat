@@ -18,6 +18,7 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
             if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 && ply.GAC_Cvar_Checks <= CurTime() then
                 if ply.GAC_Cvar > 4 then
                     gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
+                    ply.GAC_Cvar_Checks = nil
                     continue
                 end
                 ply.GAC_Cvar = ply.GAC_Cvar + 1
