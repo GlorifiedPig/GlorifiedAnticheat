@@ -14,7 +14,7 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
         for k, ply in ipairs( player.GetAll() ) do
             if ply:IsBot() then continue end
             if !ply.GAC_Cvar_Checks then continue end
-            if !ply.GAC_Cvar then ply.GAC_Cvar = 0 end
+            if ply:IsTimingOut() then continue end
             if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 && ply.GAC_Cvar_Checks <= CurTime() then
                 if ply.GAC_Cvar > 6 then
                     gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
