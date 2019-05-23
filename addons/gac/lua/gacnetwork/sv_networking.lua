@@ -135,7 +135,7 @@ function gAC.Encoder.Encode(str, key)
     local encode, byte, key_dir, key = '', '', 0, gAC.Encoder.KeyToFloat(key)
     for i = 1, #str do
 		key_dir = key_dir + 1
-        encode = encode .. '|' .. ( key[key_dir] % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key[key_dir] ) or string.byte(str:sub(i, i)) + key[key_dir] )
+        encode = encode .. '|' .. ( key[key_dir] % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key[key_dir] + (#str * #key) ) or string.byte(str:sub(i, i)) + key[key_dir] + (#str * #key) )
 		if key_dir == #key then
 			key_dir = 0
 		end
@@ -151,7 +151,7 @@ end
 	Used on the client-side realm, simply decodes string into readable format for lua to use.
 ]]
 
-gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪,‪‪‪‪‪‪='',‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do ‪‪‪‪‪‪=‪‪‪‪‪‪+‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') if ]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪] % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]) else ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]) end if  ‪‪‪‪‪‪==#]] .. gAC.Encoder.Decoder .. [[ then ‪‪‪‪‪‪=‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') end end return ‪‪‪‪ end]]
+gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪,‪‪‪‪‪‪,‪‪‪‪‪‪‪‪‪‪‪‪='',‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30'),#‪['\x73\x74\x72\x69\x6e\x67']['\x45\x78\x70\x6c\x6f\x64\x65']('\x28\x25\x64\x2b\x29',‪‪‪,‪['\x74\x6f\x62\x6f\x6f\x6c'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31')))-‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do ‪‪‪‪‪‪=‪‪‪‪‪‪+‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') if ]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪] % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]-(‪‪‪‪‪‪‪‪‪‪‪‪*#]] .. gAC.Encoder.Decoder .. [[)) else ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]-(‪‪‪‪‪‪‪‪‪‪‪‪*#]] .. gAC.Encoder.Decoder .. [[)) end if  ‪‪‪‪‪‪==#]] .. gAC.Encoder.Decoder .. [[ then ‪‪‪‪‪‪=‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') end end return ‪‪‪‪ end]]
 
 if gAC.Network then return end --prevent lua refresh
 
