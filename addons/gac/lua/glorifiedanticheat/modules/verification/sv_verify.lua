@@ -7,6 +7,8 @@
     all functions requiring the config file will fail.
 ]]
 
+if !gAC.config.INTEGRITY_CHECKS then return end
+
 local Configs = {}
 
 for k, v in pairs(gAC.config) do

@@ -1,5 +1,6 @@
 gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact GlorifiedPig.
 
+
 --[[
     MySQLOO Table Setup, Simply query this into the SQL query and it should auto generate a table.
 

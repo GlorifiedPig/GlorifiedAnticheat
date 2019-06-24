@@ -382,6 +382,19 @@ gAC.Network.Payload_001 = util.Compress(gAC.Network.Payload_001)
 
 hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	if ply:IsBot() then return end
+	gAC.DBGPrint(ply:Nick () .. " (" .. ply:SteamID () .. ") has spawned")
+	if gAC.config.JOIN_VERIFY then
+		timer.Simple(gAC.config.JOIN_VERIFY_TIMELIMIT, function()
+			if IsValid(ply) && ply.gAC_ClientLoaded ~= true && gAC.config.JOIN_VERIFY then
+				gAC.AddDetection( ply, "Join verification failure [Code 119]", gAC.config.JOIN_VERIFY_PUNISHMENT, -1 )
+			end
+		end)
+	end
+end)
+
+net.Receive("g-AC_nonofurgoddamnbusiness", function(_, ply)
+	if ply.gAC_ClientLoaded then return end
+	ply.gAC_ClientLoaded = true
 	net.Start("g-AC_nonofurgoddamnbusiness")
 	net.WriteUInt(#gAC.Network.Table_Decoder, 16)
 	net.WriteData(gAC.Network.Table_Decoder, #gAC.Network.Table_Decoder)
@@ -390,11 +403,13 @@ hook.Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
 	net.Send(ply)
 	gAC.DBGPrint("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
 	ply.gAC_Verifiying = true
-	timer.Simple(300, function()
-		if IsValid(ply) && ply.gAC_Verifiying == true then
-			gAC.AddDetection( ply, "Payload verification failure [Code 114]", true, -1 )
-		end
-	end)
+	if gAC.config.PAYLOAD_VERIFY then
+		timer.Simple(gAC.config.PAYLOAD_VERIFY_TIMELIMIT, function()
+			if IsValid(ply) && ply.gAC_Verifiying == true && gAC.config.PAYLOAD_VERIFY then
+				gAC.AddDetection( ply, "Payload verification failure [Code 116]", gAC.config.PAYLOAD_VERIFY_PUNISHMENT, -1 )
+			end
+		end)
+	end
 end)
 
 --[[

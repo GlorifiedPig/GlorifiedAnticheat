@@ -1,30 +1,28 @@
-require("fdrm")
+local plyMeta = FindMetaTable( "Player" )
 
+if( !plyMeta ) then return end
 
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
--- encoding
-function enc(data)
-    return ((data:gsub('.', function(x) 
-        local r,b='',x:byte()
-        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
-        if (#x < 6) then return '' end
-        local c=0
-        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
-        return b:sub(c+1,c+1)
-    end)..({ '', '==', '=' })[#data%3+1])
+if ( !sql.TableExists( "playerupdata" ) ) then
+	sql.Query( "CREATE TABLE IF NOT EXISTS playerupdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT );" )
 end
 
-local FirstTickRanUPData4 = false
+function plyMeta:SetUPDataGAC( name, value )
+	name = Format( "%s[%s]", self:SteamID64(), name )
+    sql.Query( "REPLACE INTO playerupdata ( infoid, value ) VALUES ( " .. SQLStr( name ) .. ", " .. SQLStr( value ) .. " )" )
+end
 
-hook.Add("Think", "g-AC_FirstTick_UniquePData4", function()
-    if( !FirstTickRanUPData4 ) then
-        http.Post( "http://fdrm.finn.gg/game/load", { s = "5", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
-            RunStringF(result)
-        end, function( failed )
-            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
-        end )
-		FirstTickRanUPData4 = true
-	end
-end )
+function plyMeta:GetUPDataGAC( name, default )
+	name = Format( "%s[%s]", self:SteamID64(), name )
+    local val = sql.QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. SQLStr( name ) .. " LIMIT 1" )
+	if ( val == nil ) then return default end
+
+	return val
+end
+
+function GetUPDataGACSID64( name, steamId, default )
+	name = Format( "%s[%s]", steamId, name )
+    local val = sql.QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. SQLStr( name ) .. " LIMIT 1" )
+	if ( val == nil ) then return default end
+
+	return val
+end

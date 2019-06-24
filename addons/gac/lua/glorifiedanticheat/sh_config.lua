@@ -36,21 +36,51 @@
             custom_func - uses KICK_FUNC to kick users, basically make your own kick type
     ]]
     -- set to 'custom_func' to use your own custom banning function
-    gAC.config.BAN_TYPE = "custom_func"
-    gAC.config.BAN_FUNC = function(ply, banTime, displayReason)
-        local unit = "minute"
-        if banTime < 1 then
-            unit = "perm"
-        end
-        --Note 'NameID' is part of D3A & not part of g-AC
-        gAC.Print("Banned " .. ply:NameID() .. " for cheating.")
-        D3A.Bans.BanPlayer(ply:SteamID(), "g-AC", banTime, unit, gAC.config.BAN_MESSAGE_SYNTAX)
-    end
+    gAC.config.BAN_TYPE = "ulx"
+    gAC.config.BAN_FUNC = function(ply, banTime, displayReason) end -- Only if you want custom ban names & etc.
     gAC.config.KICK_TYPE = "custom_func" -- set to 'default' for normal kick
     gAC.config.KICK_FUNC = function(ply, displayReason) --only to override the kick function!
+        if displayReason == "Payload verification failure [Code 116]" or displayReason == "Join verification failure [Code 119]" then
+            ply:Kick("Client failed to respond to server in time, rejoin.")
+            return
+        end
         ply:Kick(gAC.config.BAN_MESSAGE_SYNTAX)
     end
 --[[ BAN SYSTEM SETTINGS END ]]--
+
+--[[ Payload Verification & Integrity Checks ]]
+
+--Checks of gAC was altered by an external source.
+gAC.config.INTEGRITY_CHECKS = true
+gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
+gAC.config.INTEGRITY_CHECKS_BANTIME = -1
+
+--Checks if the player has successfuly loaded with gAC's payload loader.
+--Verification failure means they did not receive the payload in required time.
+gAC.config.PAYLOAD_VERIFY = true
+gAC.config.PAYLOAD_VERIFY_PUNISHMENT = true
+gAC.config.PAYLOAD_VERIFY_TIMELIMIT = 120 --300 seconds to verify or else do an action
+
+--Checks if the player has successfuly loaded into garrysmod.
+--Verification failure means they did not receive the payload in required time.
+gAC.config.JOIN_VERIFY = true
+gAC.config.JOIN_VERIFY_PUNISHMENT = true
+gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an action
+
+--[[ Payload Verification & Integrity Checks End]]
+
+--[[ Lua Execution ]]
+    --This does nothing, yet, still in development.
+    --Checks if certain functions in lua has been detoured by an external source.
+    gAC.config.DETOUR_CHECK = true
+    gAC.config.DETOUR_CHECK_PUNISHMENT = true
+    gAC.config.DETOUR_CHECK_BANTIME = 0
+
+    -- This does nothing, yet, still in development.
+    gAC.config.LUAEXEC_CHECK = true
+    gAC.config.LUAEXEC_PUNISHMENT = true
+    gAC.config.LUAEXEC_BANTIME = 0
+--[[ Lua Execution End]]
 
 --[[ CVAR MANIPULATION SETTINGS ]]
     gAC.config.ALLOWCSLUA_CHECKS = true -- Set to 'true' if you wish to check for sv_allowcslua being set to active.

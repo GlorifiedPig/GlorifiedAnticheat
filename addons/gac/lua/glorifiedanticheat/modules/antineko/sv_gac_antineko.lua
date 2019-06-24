@@ -20,7 +20,7 @@ hook.Add("Tick", "gAC-CheckNeko", function()
 		if ply:IsTimingOut() then continue end
 		if ply:GetInfo( "neko_exit" ) != Neko_Value || ply:GetInfo("neko_list") != Neko_Value then
 			if ply.GAC_Neko > 4 then
-				gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 113]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
+				gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 114]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
 				ply.GAC_Neko_Checks = nil
 				continue
 			end
