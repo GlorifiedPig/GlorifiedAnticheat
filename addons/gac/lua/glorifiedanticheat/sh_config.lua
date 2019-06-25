@@ -15,6 +15,9 @@
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
     gAC.config.ADMIN_MESSAGE_PING = "garrysmod/content_downloaded.wav"
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
+    gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
+        "76561198061230671", -- NiceCream - Remove me if you want.
+    }
     gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages.
     gAC.config.BAN_MESSAGE_SYNTAX = "Cheating/Hacking" -- Syntax for ban messages.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
@@ -59,7 +62,7 @@ gAC.config.INTEGRITY_CHECKS_BANTIME = -1
 --Verification failure means they did not receive the payload in required time.
 gAC.config.PAYLOAD_VERIFY = true
 gAC.config.PAYLOAD_VERIFY_PUNISHMENT = true
-gAC.config.PAYLOAD_VERIFY_TIMELIMIT = 120 --300 seconds to verify or else do an action
+gAC.config.PAYLOAD_VERIFY_TIMELIMIT = 120 --120 seconds to verify or else do an action
 
 --Checks if the player has successfuly loaded into garrysmod.
 --Verification failure means they did not receive the payload in required time.
@@ -70,11 +73,17 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 --[[ Payload Verification & Integrity Checks End]]
 
 --[[ Lua Execution ]]
-    --This does nothing, yet, still in development.
-    --Checks if certain functions in lua has been detoured by an external source.
-    gAC.config.DETOUR_CHECK = true
-    gAC.config.DETOUR_CHECK_PUNISHMENT = true
-    gAC.config.DETOUR_CHECK_BANTIME = 0
+    --Checks if certain functions in lua has been detoured by an external source or an external source added blacklisted functions.
+    gAC.config.DEBUGLIB_CHECK = true
+    gAC.config.DEBUGLIB_PUNISHMENT = true
+    gAC.config.DEBUGLIB_BANTIME = 0
+
+    gAC.config.DEBUGLIB_FAIL_PUNISHMENT = true
+    gAC.config.DEBUGLIB_FAIL_BANTIME = -1
+
+    gAC.config.DEBUGLIB_RESPONSE_TIME = 120
+    gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT = true
+    gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
 
     -- This does nothing, yet, still in development.
     gAC.config.LUAEXEC_CHECK = true

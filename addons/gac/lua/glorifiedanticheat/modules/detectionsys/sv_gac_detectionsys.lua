@@ -1,6 +1,8 @@
 util.AddNetworkString("g-AC_DetectionCL")
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
+    if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
+
     gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
     if gAC.Debug then return end
     
