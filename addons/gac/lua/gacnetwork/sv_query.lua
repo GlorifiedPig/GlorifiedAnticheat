@@ -10,7 +10,7 @@ function gAC.AddQuery(filepath)
         for k, v in pairs(json) do
             filepath = string.Replace(filepath, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
         end
-        filepath = string.Replace(filepath, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. "['" .. gAC.Network.Decoder_Var .. "']()")
+        filepath = string.Replace(filepath, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
         filepath = string.Replace(filepath, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
     else
         filepath = file.Read(filepath, "LUA")
@@ -20,7 +20,7 @@ function gAC.AddQuery(filepath)
 end
 
 hook.Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
-    gAC.FileQuery[#gAC.FileQuery + 1] = util.Compress("_G['" .. gAC.Network.Decoder_Var .. "'] = nil")
+    gAC.FileQuery[#gAC.FileQuery + 1] = util.Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
 end)
 
 hook.Add("gAC.ClientLoaded", "SendFiles", function(ply)

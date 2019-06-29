@@ -126,13 +126,25 @@ function gAC.Encoder.KeyToFloat(s)
 end
 
 --[[
+	String to Hex
+]]
+
+function gAC.Encoder.ToHex(str)
+	local byte = ''
+    for i = 1, #str do
+        byte = byte .. '\\x' .. string.format('%02X', string.byte(str:sub(i, i)))
+    end
+	return byte
+end
+
+--[[
 	Encoder
 	General purpose of encoding string into unreadable format.
 	Just cause someone tried to look into my creations.
 ]]
 
 function gAC.Encoder.Encode(str, key)
-    local encode, byte, key_dir, key = '', '', 0, gAC.Encoder.KeyToFloat(key)
+    local encode, key_dir, key = '', 0, gAC.Encoder.KeyToFloat(key)
     for i = 1, #str do
 		key_dir = key_dir + 1
         encode = encode .. '|' .. ( key[key_dir] % 2 == 0 and string.reverse( string.byte(str:sub(i, i)) + key[key_dir] + (#str * #key) ) or string.byte(str:sub(i, i)) + key[key_dir] + (#str * #key) )
@@ -140,10 +152,7 @@ function gAC.Encoder.Encode(str, key)
 			key_dir = 0
 		end
     end
-    for i = 1, #encode do
-        byte = byte .. '\\x' .. string.format('%02X', string.byte(encode:sub(i, i)))
-    end
-    return byte
+    return gAC.Encoder.ToHex(encode)
 end
 
 --[[
@@ -175,9 +184,30 @@ gAC.Network.Global_Decoder = {}
 for i=1, math.Round(math.random(6,8)) do
 	gAC.Network.Global_Decoder[i] = gAC.Encoder.stringrandom(math.Round(math.random(4, 8)), true)
 end
-gAC.Network.Decoder_Var = gAC.Encoder.stringrandom(math.Round(math.random(8, 15)))
+local Rand_StrFunc = math.Round(math.random(1, 2))
+gAC.Network.Decoder_Var = {"string.lower", "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
+"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString", "string." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true),
+"jit." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true), "math." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true), "os." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true),
+"util." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true), "system." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true), "file." .. gAC.Encoder.stringrandom(math.Round(math.random(9, 15)), true)}
+gAC.Network.Decoder_Var = gAC.Network.Decoder_Var[math.Round(math.random(1, #gAC.Network.Decoder_Var))]
 gAC.Network.Decoder_Verify = gAC.Encoder.stringrandom(math.Round(math.random(9, 14)))
-gAC.Network.Table_Decoder = util.Compress(gAC.Network.Decoder_Var .. "%" .. util.TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)) .. "%" .. gAC.Network.Decoder_Verify)
+gAC.Network.Decoder_Get = string.rep(gAC.Encoder.Unicode_String,math.Round(math.random(5, 12)))
+gAC.Network.Decoder_Undo = string.rep(gAC.Encoder.Unicode_String,math.Round(math.random(15, 19)))
+gAC.Network.Table_Decoder = util.Compress(gAC.Network.Decoder_Var .. "%" .. util.TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)) .. "%" .. gAC.Network.Decoder_Verify .. "%" .. gAC.Network.Decoder_Get .. "%" .. gAC.Network.Decoder_Undo)
+
+local function PerformG(str)
+    local tbl = string.Explode(".", str)
+    local unloadervar = "['"
+    for k, v in ipairs(tbl) do
+        if tbl[k + 1] then
+            unloadervar = unloadervar .. gAC.Encoder.ToHex(v) .. "']['"
+        else
+            unloadervar = unloadervar .. gAC.Encoder.ToHex(v) .. "']"
+        end
+    end
+    return unloadervar
+end
+gAC.Network.Decoder_Var = PerformG(gAC.Network.Decoder_Var)
 
 --[[
 	Payload 001
