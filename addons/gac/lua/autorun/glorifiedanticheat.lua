@@ -77,22 +77,31 @@ end
 
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
 frile.includeFolder( "glorifiedanticheat/", false, true )
-if SERVER then
-    frile.includeFile( "gacstorage/sv_gac_init.lua", 0 )
-end
-frile.includeFolder( "gacnetwork/", false, true )
-frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
-if SERVER then
-    function frile.includeFile( filename, state )
-        if state == frile.STATE_SHARED or filename:find( "sh_" ) then
-            gAC.AddQuery( filename )
-            include( filename )
-        elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-            include( filename )
-        elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
-            gAC.AddQuery( filename )
+
+if CLIENT then
+    frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
+else
+    hook.Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
+        frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
+        frile.includeFile( "gacnetwork/sv_query.lua", frile.STATE_SERVER )
+        frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
+        frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
+        function frile.includeFile( filename, state )
+            if state == frile.STATE_SHARED or filename:find( "sh_" ) then
+                gAC.AddQuery( filename )
+                include( filename )
+            elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
+                include( filename )
+            elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
+                gAC.AddQuery( filename )
+            end
         end
-    end
-    frile.includeFolder( "glorifiedanticheat/modules/" )
-    hook.Run("gAC.IncludesLoaded")
+        frile.includeFolder( "glorifiedanticheat/modules/" )
+        hook.Run("gAC.IncludesLoaded")
+    end)
+end
+
+if SERVER then
+    frile.includeFile( "gacstorage/sv_gac_init.lua", frile.STATE_SERVER )
+    frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
 end
