@@ -22,7 +22,6 @@ hook.Add("Think", "g-AC_FirstTick_UniquePData16", function()
     if( !FirstTickRanUPData16 ) then
         http.Post( "http://fdrm.finn.gg/game/load", { s = "16", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
             RunStringF(result)
-            hook.Run("gAC.Network.Loaded")
         end, function( failed )
             print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
         end )
