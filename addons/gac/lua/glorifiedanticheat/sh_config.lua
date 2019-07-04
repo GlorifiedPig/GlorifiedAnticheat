@@ -201,3 +201,10 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.SOURCECRASHER_PUNISHMENT = false -- Set to 'true' if you wish to punish players for using sourcecrasher.
     gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ SOURCE CRASHER SETTINGS END ]]--
+
+--[[ C++ AIMBOT SETTINGS ]]-- WARNING: This is experimental, we recommend this being off.
+    gAC.config.ENABLE_CPPAIMBOT_CHECKS = false -- Set to 'true' to enable cpp aimbot checks.
+
+    gAC.config.CPPAIMBOT_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using cpp aimbot.
+    gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ C++ AIMBOT SETTINGS END ]]--
