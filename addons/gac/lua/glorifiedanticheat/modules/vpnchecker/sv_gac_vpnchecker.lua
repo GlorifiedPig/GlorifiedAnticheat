@@ -1,7 +1,7 @@
 
 if !gAC.config.VPN_CHECKER then return end
 
-hook.Add( "PlayerInitialSpawn", "g-ACPlayerInitialSpawnVPNChecker", function( ply, button )
+hook.Add( "gAC.ClientLoaded", "g-ACPlayerInitialSpawnVPNChecker", function( ply )
 
     local vpnChance = 0
     local vpnTable = string.Split( ply:IPAddress(), ":" )
