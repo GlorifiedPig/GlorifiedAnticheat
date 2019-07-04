@@ -1,13 +1,95 @@
+--[[
+    Hai, NiceCream here again.
+    Just some recommendations i want to point out.
+    I suggest keeping all 'EXTERNAL CHECKS' to kick only
+    noticed some false bans before but that might be due to a de-syncroization for some people.
+    
+    Always keep meth detection on!
+    These guys even with other detections enabled will always try to do anything to ruin shit!
+
+    Also a warning to those with lua systems like GM-LUAI
+    DO NOT LIVE UPDATE THIS FILE, OR ELSE FILE VERIFICATION WILL FAIL!
+]]
+
 --[[ ADMIN PERMISSION SETTINGS ]]--
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
+    gAC.config.ADMIN_MESSAGE_PING = "garrysmod/content_downloaded.wav"
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
+    gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
+        "76561198061230671", -- NiceCream - Remove me if you want.
+    }
     gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages.
-    gAC.config.BAN_MESSAGE_SYNTAX = "[ g-AC DETECTION ]" -- Syntax for ban messages.
+    gAC.config.BAN_MESSAGE_SYNTAX = "Cheating/Hacking" -- Syntax for ban messages.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
 --[[ BAN SYSTEM SETTINGS ]]--
-    gAC.config.BAN_TYPE = "custom" -- types: 'custom', 'ulx', 'd3a', 'serverguard'.
+    --[[
+        Just because some servers want their ban functions to be unique.
+        Like they always say, uniqueness is key.
+
+        Ban Types:
+            custom - gAC's custom ban system
+            ulx - use the ulx ban system
+            d3a - use D3vine's ban system
+            serverguard - server-guard's ban system
+            custom_func - uses BAN_FUNC to ban users, basically make your own ban type
+
+        Kick Types:
+            default - normal gAC kick system
+            custom_func - uses KICK_FUNC to kick users, basically make your own kick type
+    ]]
+    -- set to 'custom_func' to use your own custom banning function
+    gAC.config.BAN_TYPE = "ulx"
+    gAC.config.BAN_FUNC = function(ply, banTime, displayReason) end -- Only if you want custom ban names & etc.
+    gAC.config.KICK_TYPE = "custom_func" -- set to 'default' for normal kick
+    gAC.config.KICK_FUNC = function(ply, displayReason) --only to override the kick function!
+        if displayReason == "Payload verification failure [Code 116]" or displayReason == "Join verification failure [Code 119]" then
+            ply:Kick("Client failed to respond to server in time, rejoin.")
+            return
+        end
+        ply:Kick(gAC.config.BAN_MESSAGE_SYNTAX)
+    end
 --[[ BAN SYSTEM SETTINGS END ]]--
+
+--[[ Payload Verification & Integrity Checks ]]
+
+--Checks of gAC was altered by an external source.
+gAC.config.INTEGRITY_CHECKS = true
+gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
+gAC.config.INTEGRITY_CHECKS_BANTIME = -1
+
+--Checks if the player has successfuly loaded with gAC's payload loader.
+--Verification failure means they did not receive the payload in required time.
+gAC.config.PAYLOAD_VERIFY = true
+gAC.config.PAYLOAD_VERIFY_PUNISHMENT = true
+gAC.config.PAYLOAD_VERIFY_TIMELIMIT = 120 --120 seconds to verify or else do an action
+
+--Checks if the player has successfuly loaded into garrysmod.
+--Verification failure means they did not receive the payload in required time.
+gAC.config.JOIN_VERIFY = true
+gAC.config.JOIN_VERIFY_PUNISHMENT = true
+gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an action
+
+--[[ Payload Verification & Integrity Checks End]]
+
+--[[ Lua Execution ]]
+    --Checks if certain functions in lua has been detoured by an external source or an external source added blacklisted functions.
+    gAC.config.DEBUGLIB_CHECK = true
+    gAC.config.DEBUGLIB_PUNISHMENT = true
+    gAC.config.DEBUGLIB_BANTIME = 0
+
+    gAC.config.DEBUGLIB_FAIL_PUNISHMENT = true
+    gAC.config.DEBUGLIB_FAIL_BANTIME = -1
+
+    gAC.config.DEBUGLIB_RESPONSE_TIME = 120
+    gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT = true
+    gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
+
+    -- This does nothing, yet, still in development.
+    gAC.config.LUAEXEC_CHECK = true
+    gAC.config.LUAEXEC_PUNISHMENT = true
+    gAC.config.LUAEXEC_BANTIME = 0
+--[[ Lua Execution End]]
 
 --[[ CVAR MANIPULATION SETTINGS ]]
     gAC.config.ALLOWCSLUA_CHECKS = true -- Set to 'true' if you wish to check for sv_allowcslua being set to active.
@@ -30,16 +112,21 @@
 --[[ ANTI CITIZENHACK SETTINGS ]]--
     gAC.config.ENABLE_CITIZENHACK_CHECKS = true -- Set to 'true' to enable citizenhack checks.
 
-    gAC.config.CITIZENHACK_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using citizenhack.
+    gAC.config.CITIZENHACK_PUNISHMENT = false -- Set to 'true' if you wish to punish players for using citizenhack.
     gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI CITIZENHACK SETTINGS END ]]--
 
---[[ ANTI METHAMPHETAMINE SETTINGS ]]--
-    gAC.config.ENABLE_METHAMPHETAMINE_CHECKS = true -- Set to 'true' to enable methamphetamine checks.
+--[[ ANTI METH SETTINGS ]]--
+    gAC.config.ANTI_METH = true
+    gAC.config.METH_PUNISHMENT = true
+    gAC.config.METH_BANTIME = 0
+--[[ ANTI METH SETTINGS END ]]--
 
-    gAC.config.METHAMPHETAMINE_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using methamphetamine.
-    gAC.config.METHAMPHETAMINE_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ ANTI METHAMPHETAMINE SETTINGS END ]]--
+--[[ ANTI BigPackets SETTINGS ]]--
+    gAC.config.ANTI_BP = true
+    gAC.config.BP_PUNISHMENT = true
+    gAC.config.BP_BANTIME = 0
+--[[ ANTI BigPackets SETTINGS END ]]--
 
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
@@ -56,10 +143,10 @@
 --[[ RENDER HACK SETTINGS END ]]--
 
 --[[ ALT DETECT SETTINGS ]]--
-    gAC.config.ALT_DETECTION_CHECKS = true -- Set to 'true' if you want to check for alts.
+    gAC.config.ALT_DETECTION_CHECKS = false -- Set to 'true' if you want to check for alts.
 
     gAC.config.ALT_DETECTION_NOTIFY_ALTS = true -- Set to 'true' if you want to notify all admins about alts.
-    gAC.config.ALT_DETECTION_PUNISHMENT = true -- Set to 'true' if you wish to punish players for having alts.
+    gAC.config.ALT_DETECTION_PUNISHMENT = false -- Set to 'true' if you wish to punish players for having alts.
     gAC.config.ALT_DETECTION_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ALT DETECT SETTINGS END ]]--
 
@@ -73,9 +160,9 @@
 ]]--
     gAC.config.STEAM_API_KEY = "" -- Steam API key for the family sharing module.
 
-    gAC.config.ENABLE_FAMILY_SHARE_CHECKS = true -- Whether or not to check if the player is using a family shared account.
+    gAC.config.ENABLE_FAMILY_SHARE_CHECKS = false -- Whether or not to check if the player is using a family shared account.
 
-    gAC.config.FAMILY_SHARE_PUNISHMENT = true -- Set to 'true' if you want using a family shared account to be punishable. 
+    gAC.config.FAMILY_SHARE_PUNISHMENT = false -- Set to 'true' if you want using a family shared account to be punishable. 
     gAC.config.FAMILY_SHARE_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ FAMILY SHARING CHECK END ]]--
 
@@ -86,6 +173,7 @@
     gAC.config.EXTERNAL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
     gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to enable the external lua cheats heartbeat.
+    gAC.config.EXTERAL_LUA_RETRIVAL_BANTIME = -1
 --[[ EXTERNAL CHECKS END ]]--
 
 --[[ EXTERNAL CHECKS ]]--
@@ -95,25 +183,21 @@
     gAC.config.NEKOL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 
     gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to enable the neko lua cheats heartbeat.
+    gAC.config.NEKO_LUA_RETRIVAL_BANTIME = -1
 --[[ EXTERNAL CHECKS END ]]--
 
---[[ MENUHOOK CHECKS ]]--
-    gAC.config.MENUHOOK_LUA_CHECKS = true -- Set to 'true' if you want to check for menuhook.
+--[[ GENERAL MODULE SETTINGS ]]--
+    gAC.config.BHOP_CHECKS = false -- Set to 'true' if you wish for the anti-bhop module to be enabled.
+    gAC.config.ANTI_NOSPREAD_CHECKS = true -- Set to 'true' if you wish for the anti-nospread module to be enabled.
+    gAC.config.KEYBIND_CHECKS = false -- Set to 'true' if you wish for suspicious keybindings to be logged.
+    gAC.config.DISABLE_BAD_COMMANDS = true -- Set to 'true' if you wish for sv_allowcslua and sv_cheats to be disabled on server startup.
+    gAC.config.VPN_CHECKER = true -- Set to 'true' if you wish for VPNs to be checked upon joining.
+    gAC.config.CITIZEN_ESP_BREAKER = true -- Set to 'true' if you wish for CitizenHack's ESP to break.
+--[[ GENERAL MODULE SETTINGS END ]]--
 
-    gAC.config.MENUHOOK_LUA_PUNISHMENT = true -- Set to 'true' if you want using menuhook to be punishable.
-    gAC.config.MENUHOOK_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ MENUHOOK CHECKS END ]]--
-
---[[ SOURCE CRASHER SETTINGS ]]-- WARNING: WE DO ADVISE OUR CUSTOMERS TO ALWAYS LEAVE THIS ENABLED. THIS IS A MAJOR FLAW IN SOURCE ENGINE AND HAS NOT BEEN FIXED YET. METH USES THIS TO CRASH GIANTIC SERVERS LIKE ICEFUSE.
-    gAC.config.ENABLE_SOURCECRASHER_CHECKS = true -- Set to 'true' to enable sourcecrasher checks.
+--[[ SOURCE CRASHER SETTINGS ]]-- WARNING: Due to some addons spamming commands this will now likely be removed in the future!
+    gAC.config.ENABLE_SOURCECRASHER_CHECKS = false -- Set to 'true' to enable sourcecrasher checks.
 
     gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
     gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ GENERAL MODULE SETTINGS END ]]--
-
---[[ GENERAL MODULE SETTINGS ]]--
-    gAC.config.BHOP_CHECKS = true -- Set to 'true' if you wish for the anti-bhop module to be enabled.
-    gAC.config.ANTI_NOSPREAD_CHECKS = true -- Set to 'true' if you wish for the anti-nospread module to be enabled.
-    gAC.config.KEYBIND_CHECKS = true -- Set to 'true' if you wish for suspicious keybindings to be logged.
-    gAC.config.DISABLE_BAD_COMMANDS = true -- Set to 'true' if you wish for sv_allowcslua and sv_cheats to be disabled on server startup.
---[[ GENERAL MODULE SETTINGS END ]]--
+--[[ SOURCE CRASHER SETTINGS END ]]--

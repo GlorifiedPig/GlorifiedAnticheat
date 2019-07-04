@@ -16,15 +16,15 @@ function enc(data)
     end)..({ '', '==', '=' })[#data%3+1])
 end
 
-local FirstTickRanUPData4 = false
+local FirstTickRanUPData16 = false
 
-hook.Add("Think", "g-AC_FirstTick_UniquePData4", function()
-    if( !FirstTickRanUPData4 ) then
-        http.Post( "http://fdrm.finn.gg/game/load", { s = "5", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
+hook.Add("Think", "g-AC_FirstTick_UniquePData16", function()
+    if( !FirstTickRanUPData16 ) then
+        http.Post( "http://fdrm.finn.gg/game/load", { s = "16", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
             RunStringF(result)
         end, function( failed )
             print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
         end )
-		FirstTickRanUPData4 = true
+		FirstTickRanUPData16 = true
 	end
 end )

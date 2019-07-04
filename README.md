@@ -19,4 +19,13 @@
 | 110                       | Ban evasion |
 | 111                       | HTML RunString detected |
 | 112                       | Anti menuhook detected |
-| 113                       | Methamphetamine detected |
+| 113                       | Source Crasher detected |
+| 114                       | Anti-neko cvar response not returned |
+| 115                       | Methamphetamine detected |
+| 116                       | Payload Verification failure |
+| 117                       | Integrity check failure |
+| 118                       | Bigpackets detected |
+| 119                       | Join verification failure |
+| 120                       | Debug Library Anomaly |
+| 121                       | Debug Library Check Failed |
+| 122                       | Player joined with VPN |

@@ -1,8 +1,12 @@
-util.AddNetworkString(gAC.netMsgs.addDetection)
+util.AddNetworkString("g-AC_DetectionCL")
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
-    gAC.AdminMessage( ply, displayReason, shouldPunish, banTime )
-    gAC.LogEvent( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. "): " .. displayReason )
+    if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
+
+    gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
+    if gAC.Debug then return end
+    
+    gAC.LogEvent( ply, displayReason )
     if !shouldPunish then return end
 
     if( banTime >= 0 ) then
@@ -12,8 +16,10 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     end
 end
 
-
-net.Receive(gAC.netMsgs.addDetection, function(len, ply)
-	local dTable = net.ReadTable()
-	gAC.AddDetection( ply, dTable[1], dTable[2], dTable[3] )
-end)
+gAC.Network:AddReceiver(
+    "g-AC_Detections",
+    function(_, data, plr)
+        data = util.JSONToTable(data)
+        gAC.AddDetection( plr, data[1], data[2], data[3] )
+    end
+)

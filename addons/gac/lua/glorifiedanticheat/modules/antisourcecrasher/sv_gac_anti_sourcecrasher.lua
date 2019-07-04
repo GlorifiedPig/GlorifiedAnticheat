@@ -17,7 +17,7 @@ local function punish(s)
 	if pl.kicked then return end
 	
 	pl.kicked = true
-	gAC.AddDetection("Source Crasher [Code 113]", gAC.config.SOURCECRASHER_PUNISHMENT, gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME)
+	gAC.AddDetection(pl, "Source Crasher [Code 113]", gAC.config.SOURCECRASHER_PUNISHMENT, gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME)
 	if CNetChan and CNetChan(pl:EntIndex()) then
 		CNetChan(pl:EntIndex()):Shutdown('Source Crasher [Code 113]')
 	end

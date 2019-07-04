@@ -92,10 +92,16 @@ else
             end
         elseif gAC.config.BAN_TYPE == "serverguard" then
             RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
+        elseif gAC.config.BAN_TYPE == "custom_func" then
+            gAC.config.BAN_FUNC( ply, banTime, displayReason )
         end
     end
 end
 
 function gAC.Kick( ply, displayReason )
-    ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
+    if gAC.config.KICK_TYPE == "default" then
+        ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
+    elseif gAC.config.KICK_TYPE == "custom_func" then
+        gAC.config.KICK_FUNC( ply, displayReason )
+    end
 end
