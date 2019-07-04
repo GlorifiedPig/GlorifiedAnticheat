@@ -1,17 +1,14 @@
-if(!gAC.config.ENABLE_METHAMPHETAMINE_CHECKS) then return end
+if !gAC.config.ANTI_METH then return end
 
-util.AddNetworkString(gAC.netMsgs.clMethCheck)
-util.AddNetworkString(gAC.netMsgs.svMethCheck)
+--[[
+    Once again, these god dam dev's of meth are fucking retarded.
+    They keep thinking their 'drugged' cheat is superior when they cannot solve a simple fucking task
+    of detouring the [redacted] function.
+]]
 
-
-net.Receive(gAC.netMsgs.svMethCheck, function(len, ply)
-    gAC.AddDetection(ply, "Methamphetamine User [Code 113]", gAC.config.METHAMPHETAMINE_PUNISHMENT, gAC.config.METHAMPHETAMINE_PUNSIHMENT_BANTIME)
-end)
-
-hook.Add("PlayerInitialSpawn", "g-AC_meth_initialspawn", function(ply)
-    timer.Simple(15, function()
-        gAC.sendPayload(ply, antimethpayload, "AreWeThereYet?")
+hook.Add("gAC.CLFilesLoaded", "g-AC_meth_initialspawn", function(ply)
+    timer.Simple(30, function()
+        if !IsValid(ply) then return end
+        gAC.Network:Send("g-AC_meth1", "", ply)
     end)
 end)
-
-

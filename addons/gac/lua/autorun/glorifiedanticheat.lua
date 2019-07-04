@@ -1,27 +1,23 @@
-local function stringrandom(length)
-    local str = "?"
-    for i = 1, length do
-        if math.Round(math.random(1, 2)) == 2 then
-            str = str..string.char(math.random(97, 122))
-        else
-            str = str.."?"
-        end
-    end
-    return str
-end
+--[[
+    Hey nice job looking into the autorun file,
+    let's see if you can prove to me you are worthy of getting gAC unobfuscated.
+    Innovation is key to improvement.
+
+    Hello methamphetamine developers!
+    If you are the devs for methamphetamine, can you stop boasting about your cheat.
+    We already spanked your buyers twice, do you want me to make more detections?
+    "Drug cheat is best" yea bud, sure, maybe double check your code first before bragging?
+
+    Thumbs up to citizen for actually making detections challenging the first time unlike meth's autistic developers.
+]]
 
 gAC = gAC or {
     config = {},
+    storage = {},
 
-    IDENTIFIER = "gAC",
-    NICE_NAME = "gAC",
-
-    netMsgs = {
-        clReceivePayload = stringrandom(30),
-        addDetection = stringrandom(25),
-        clMethCheck = stringrandom(25),
-        svMethCheck = stringrandom(25)
-    }
+    IDENTIFIER = "g-AC",
+    NICE_NAME = "g-AC",
+    Debug = false
 }
 
 local version = 1
@@ -70,35 +66,42 @@ if not frile or frile.VERSION < version then
     end
 end
 
-function finishedSetup()
-    -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
-	frile.includeFolder( "networking/", false, true )
-    frile.includeFolder( "glorifiedanticheat/", false, true )
-    frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
-    frile.includeFolder( "glorifiedanticheat/modules/" )
+function gAC.Print(txt)
+    print(gAC.NICE_NAME .. " > " .. txt)
 end
 
+function gAC.DBGPrint(txt)
+    if !gAC.Debug then return end
+    print(gAC.NICE_NAME .. " [DBG] > " .. txt)
+end
 
-
-// Net Randomization
+-- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
+frile.includeFolder( "glorifiedanticheat/", false, true )
 
 if CLIENT then
-    net.Receive("g-AC_finishsetup", function()
-        gAC.netMsgs = net.ReadTable()
-        finishedSetup()
-    end)
-
+    frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
 else
-    util.AddNetworkString("g-AC_finishsetup")
-    util.AddNetworkString(gAC.netMsgs.clReceivePayload)
-
-    hook.Add("PlayerInitialSpawn", "g_AC-finishsetupspawn", function(ply)
-        timer.Simple(10, function()
-            net.Start("g-AC_finishsetup")
-            net.WriteTable(gAC.netMsgs)
-            net.Send(ply)
-        end)        
+    hook.Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
+        frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
+        frile.includeFile( "gacnetwork/sv_query.lua", frile.STATE_SERVER )
+        frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
+        frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
+        function frile.includeFile( filename, state )
+            if state == frile.STATE_SHARED or filename:find( "sh_" ) then
+                gAC.AddQuery( filename )
+                include( filename )
+            elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
+                include( filename )
+            elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
+                gAC.AddQuery( filename )
+            end
+        end
+        frile.includeFolder( "glorifiedanticheat/modules/" )
+        hook.Run("gAC.IncludesLoaded")
     end)
-    
-    finishedSetup()
+end
+
+if SERVER then
+    frile.includeFile( "gacstorage/sv_gac_init.lua", frile.STATE_SERVER )
+    frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
 end
