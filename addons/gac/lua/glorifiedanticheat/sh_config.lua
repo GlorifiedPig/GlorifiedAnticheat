@@ -198,6 +198,6 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 --[[ SOURCE CRASHER SETTINGS ]]-- WARNING: Due to some addons spamming commands this will now likely be removed in the future!
     gAC.config.ENABLE_SOURCECRASHER_CHECKS = false -- Set to 'true' to enable sourcecrasher checks.
 
-    gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
+    gAC.config.SOURCECRASHER_PUNISHMENT = false -- Set to 'true' if you wish to punish players for using sourcecrasher.
     gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ SOURCE CRASHER SETTINGS END ]]--
