@@ -192,7 +192,7 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.KEYBIND_CHECKS = false -- Set to 'true' if you wish for suspicious keybindings to be logged.
     gAC.config.DISABLE_BAD_COMMANDS = true -- Set to 'true' if you wish for sv_allowcslua and sv_cheats to be disabled on server startup.
     gAC.config.VPN_CHECKER = true -- Set to 'true' if you wish for VPNs to be checked upon joining.
-    gAC.config.CITIZEN_ESP_BREAKER = true -- Set to 'true' if you wish for CitizenHack's ESP to break.
+    gAC.config.CITIZEN_ESP_BREAKER = false -- Set to 'true' if you wish for CitizenHack's ESP to break. WARNING: This is experimental, things may break!
 --[[ GENERAL MODULE SETTINGS END ]]--
 
 --[[ SOURCE CRASHER SETTINGS ]]-- WARNING: Due to some addons spamming commands this will now likely be removed in the future!
