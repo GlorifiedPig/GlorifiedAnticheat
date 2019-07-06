@@ -1,30 +1,58 @@
-require("fdrm")
+if !gAC.config.ENABLE_CPPAIMBOT_CHECKS then return end
 
+local Blacklisted_Weapons = {
+    ["weapon_physgun"] = true,
+    ["gmod_tool"] = true,
+    ["weapon_physcannon"] = true
+}
 
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
--- encoding
-function enc(data)
-    return ((data:gsub('.', function(x) 
-        local r,b='',x:byte()
-        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
-        if (#x < 6) then return '' end
-        local c=0
-        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
-        return b:sub(c+1,c+1)
-    end)..({ '', '==', '=' })[#data%3+1])
-end
+local tr
 
-local FirstTickRanUPData17 = false
+hook.Add( "StartCommand", "gAC_AntiCobalt.StartCommand", function( ply, cmd )
 
-hook.Add("Think", "g-AC_FirstTick_UniquePData5", function()
-    if( !FirstTickRanUPData17 ) then
-        http.Post( "http://fdrm.finn.gg/game/load", { s = "17", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
-            RunStringF(result)
-        end, function( failed )
-            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
-        end )
-		FirstTickRanUPData17 = true
-	end
+    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
+    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
+
+    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
+
+    if IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
+        ply.gAC_CPPAimbotDetections = 0
+        return 
+    end
+
+    ply.gAC_CPPMX = math.abs( cmd:GetMouseX() )
+    ply.gAC_CPPMY = math.abs( cmd:GetMouseY() )
+    ply.gAC_CPPAimView = cmd:GetViewAngles()
+
+    if ply.gAC_CPPAimViewOld == nil then
+        ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
+        return
+    end
+
+    if ply.gAC_CPPAimbotDetections == nil then
+        ply.gAC_CPPAimbotDetections = 0
+    end
+
+    if ply.gAC_CPPMX == 0 && ply.gAC_CPPMY == 0 then
+        if ( ply.gAC_CPPAimView.p ~= ply.gAC_CPPAimViewOld.p && ply.gAC_CPPAimView.y ~= ply.gAC_CPPAimViewOld.y ) then
+            tr = util.TraceLine({start = ply:EyePos(), endpos = ply:EyePos() + ((ply.gAC_CPPAimView):Forward() * (4096 * 8) ), filter = ply})
+        	if tr.Entity:IsPlayer() then
+                if ply.gAC_CPPAimbotDetections >= 40 then
+                    ply.gAC_AimbotDetected = true
+                    gAC.AddDetection( ply, "C++ Aimbot detection triggered [Code 123]", gAC.config.CPPAIMBOT_PUNISHMENT, gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME )
+                else
+                    ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections + 1
+                end
+            elseif ply.gAC_CPPAimbotDetections != 0 then
+                ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections - 1
+            end
+        elseif ply.gAC_CPPAimbotDetections != 0 then
+            ply.gAC_CPPAimbotDetections = 0
+        end
+    elseif ply.gAC_CPPAimbotDetections != 0 then
+        ply.gAC_CPPAimbotDetections = 0
+    end
+
+    ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
+
 end )

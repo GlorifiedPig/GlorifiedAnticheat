@@ -1,1 +1,92 @@
-local ‪ = _G local ‪‪ = ‪['\x73\x74\x72\x69\x6e\x67'] local function ‪‪‪‪‪‪‪( true‪‪‪) return true‪‪‪ end local return‪‪‪‪‪‪=‪‪‪‪‪‪‪__STRING_0__ local ‪‪‪‪‪‪‪‪‪‪‪‪=#'\x6c\x77\x58\x4e\x74\x48\x52\x65\x7a\x63\x42\x74\x66\x46\x59\x47\x67\x56\x70\x75\x66\x75\x4d\x6f\x56\x77\x54\x52\x69\x6b\x68\x62\x4a\x6c\x79\x4b\x65\x61\x79\x66\x42\x45\x4f\x43\x57\x6f\x71\x59\x56\x46\x55\x77\x4d\x48\x5a\x79\x73\x4a\x46\x77\x48\x4a\x4f\x4f\x5a\x4f\x75\x63' local ‪‪‪‪‪‪‪do=function (‪‪‪‪‪‪‪‪‪‪elseif)‪‪‪‪‪‪‪‪‪‪‪‪=‪‪‪‪‪‪‪‪‪‪‪‪..'\x50\x62\x51\x65\x43\x72\x69\x41\x4e\x55\x50\x6a\x75\x54\x49\x50\x42\x47\x67\x4a\x57\x64\x47\x56\x46\x52\x79\x52\x79\x48\x45\x54\x79\x72\x66\x43\x61\x6f\x45\x4b\x69\x56\x45\x78\x50\x42\x75\x6f\x46\x51\x6d\x62' return return‪‪‪‪‪‪..‪‪‪‪‪‪‪__STRING_1__ end ‪‪‪‪‪‪‪‪‪‪‪‪='\x4f\x61\x51\x51\x41\x4e\x4e\x52\x67\x57\x4d\x74\x4f\x58\x73\x65\x72\x70\x54\x74\x41\x64\x55\x56\x66\x63\x54\x66\x6e\x74\x41\x6b\x44\x61\x50\x42\x6c\x66\x6f\x6f\x49\x48\x63\x6d\x51\x75\x61\x4d\x73\x79\x70' ‪‪‪‪‪‪‪do()return‪‪‪‪‪‪=27706 local ‪‪‪until=#‪‪‪‪‪‪‪__STRING_2__ local ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪if = [[Ey, if your looking for some kinky shit i got 3 points for you, 1. Welcome to Obfuscation 2. Ur not getting it 3. Do us a favor and fuck off, leech.]] local ‪‪‪‪‪‪function={[‪‪‪‪‪‪‪__STRING_3__]=‪‪‪‪‪‪‪__STRING_4__,[‪‪‪‪‪‪‪__STRING_5__]=#‪‪‪‪‪‪‪__STRING_6__,[‪‪‪‪‪‪‪__STRING_7__]=‪‪‪‪‪‪‪__STRING_8__}__DECODER_STR__ ‪‪‪‪‪‪function[‪‪‪‪‪‪‪__STRING_9__]=#‪‪‪‪‪‪‪__STRING_10__ return‪‪‪‪‪‪=39044 local ‪continue=function (‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif,‪‪‪‪‪continue)‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif=‪‪‪‪‪continue..‪‪‪‪‪‪‪__STRING_11__ ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif=‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif..#‪‪‪‪‪‪‪__STRING_12__ ‪‪‪‪‪‪‪‪‪‪‪‪=#‪‪‪‪‪‪‪‪‪‪‪‪-‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x35\x35\x39\x32\x32') return ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif end ‪‪‪‪‪‪‪‪‪‪‪‪=‪‪‪‪‪‪‪‪‪‪‪‪..'\x74\x4e\x4e\x56\x79\x41\x6f\x47\x74\x74\x4f\x50\x74\x48\x6d\x62\x50\x53\x7a\x65\x4c\x49\x75\x58\x47\x77\x76\x57\x4d\x6f\x59\x50\x53\x4c\x54\x4f\x75\x44\x69\x64\x52\x4d\x71\x4a\x4e\x46\x4f\x71\x62\x4c' ‪continue(‪‪‪‪‪‪‪__STRING_13__,‪‪‪‪‪‪‪__STRING_14__)__DECODER_FUNC__ return‪‪‪‪‪‪=52573 ‪‪‪until=true return‪‪‪‪‪‪=#‪‪‪‪‪‪‪__STRING_15__ local elseif‪‪‪‪‪‪‪‪={}elseif‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__TABLE_Utils_FIELD_GetTableValue__]=function (false‪‪‪‪‪‪‪‪‪‪‪‪‪‪,‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function,goto‪‪)goto‪‪=goto‪‪ or ‪[‪‪‪‪‪‪‪__GLOBAL_tonumber__](‪‪‪‪‪‪‪__STRING_16__)if goto‪‪>‪[‪‪‪‪‪‪‪__GLOBAL_tonumber__](‪‪‪‪‪‪‪__STRING_17__)then return nil end if ‪[‪‪‪‪‪‪‪__GLOBAL_istable__](false‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function[goto‪‪]])then return elseif‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__TABLE_Utils_FIELD_GetTableValue__](false‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function[goto‪‪]],‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function,goto‪‪+‪[‪‪‪‪‪‪‪__GLOBAL_tonumber__](‪‪‪‪‪‪‪__STRING_18__))elseif ‪[‪‪‪‪‪‪‪__GLOBAL_isfunction__](false‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function[goto‪‪]])then return false‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪function[goto‪‪]]end return nil end gAC_AddReceiver(‪‪‪‪‪‪‪__STRING_19__,function (‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪if,‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪true)local until‪‪‪=‪[‪‪‪‪‪‪‪__GLOBAL_pcall__](function ()local ‪‪‪‪‪‪‪‪‪‪‪‪‪elseif={}local false‪=function (goto‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪,in‪‪‪‪,for‪‪‪‪‪‪‪)local ‪‪‪‪elseif=0 local ‪‪‪‪‪‪‪‪‪‪‪‪‪continue=0 local ‪‪‪‪‪‪‪‪goto=‪[‪‪‪‪‪‪‪__GLOBAL_coroutine__][‪‪‪‪‪‪‪__TABLE_coroutine_FIELD_create__](function ()local function for‪‪()goto‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪(in‪‪‪‪,for‪‪‪‪‪‪‪)‪‪‪‪elseif=‪‪‪‪elseif+1 for‪‪()end for‪‪()end )‪[‪‪‪‪‪‪‪__GLOBAL_coroutine__][‪‪‪‪‪‪‪__TABLE_coroutine_FIELD_resume__](‪‪‪‪‪‪‪‪goto)return ‪‪‪‪elseif end ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪true=‪[‪‪‪‪‪‪‪__GLOBAL_util__][‪‪‪‪‪‪‪__TABLE_util_FIELD_JSONToTable__](‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪true)local continue‪‪‪‪‪‪‪ for ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪repeat,until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪ in ‪[‪‪‪‪‪‪‪__GLOBAL_ipairs__](‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪true)do if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_20__]then if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_21__]~=nil then continue‪‪‪‪‪‪‪=#‪‪‪‪‪‪‪‪‪‪‪‪‪elseif+1 ‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪]={}‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪][‪‪‪‪‪‪‪__STRING_22__]=(elseif‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__TABLE_Utils_FIELD_GetTableValue__](‪[‪‪‪‪‪‪‪__GLOBAL__G__],‪[‪‪‪‪‪‪‪__GLOBAL_string__][‪‪‪‪‪‪‪__TABLE_string_FIELD_Explode__](‪‪‪‪‪‪‪__STRING_23__,until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_24__]))~=nil )continue end until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_25__]=elseif‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__TABLE_Utils_FIELD_GetTableValue__](‪[‪‪‪‪‪‪‪__GLOBAL__G__],‪[‪‪‪‪‪‪‪__GLOBAL_string__][‪‪‪‪‪‪‪__TABLE_string_FIELD_Explode__](‪‪‪‪‪‪‪__STRING_26__,until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_27__]))if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_28__]==nil then continue end continue‪‪‪‪‪‪‪=#‪‪‪‪‪‪‪‪‪‪‪‪‪elseif+1 ‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪]={}if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_29__]~=nil then ‪[‪‪‪‪‪‪‪__GLOBAL_jit__][‪‪‪‪‪‪‪__TABLE_jit_FIELD_off__]()‪[‪‪‪‪‪‪‪__GLOBAL_jit__][‪‪‪‪‪‪‪__TABLE_jit_FIELD_flush__]()‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪][‪‪‪‪‪‪‪__STRING_30__]=false‪(until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_31__],until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_32__]and function ()end or until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_33__])‪[‪‪‪‪‪‪‪__GLOBAL_jit__][‪‪‪‪‪‪‪__TABLE_jit_FIELD_on__]()end if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_34__]~=nil then ‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪][‪‪‪‪‪‪‪__STRING_35__]=‪[‪‪‪‪‪‪‪__GLOBAL_tostring__](until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_36__])‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪][‪‪‪‪‪‪‪__STRING_37__]=‪[‪‪‪‪‪‪‪__GLOBAL_string__][‪‪‪‪‪‪‪__TABLE_string_FIELD_format__](‪‪‪‪‪‪‪__STRING_38__,until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_39__])end if until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_40__]~=nil then ‪‪‪‪‪‪‪‪‪‪‪‪‪elseif[continue‪‪‪‪‪‪‪][‪‪‪‪‪‪‪__STRING_41__]=‪[‪‪‪‪‪‪‪__GLOBAL_pcall__](‪[‪‪‪‪‪‪‪__GLOBAL_string__][‪‪‪‪‪‪‪__TABLE_string_FIELD_dump__],until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_42__])end end end gAC_Send(‪‪‪‪‪‪‪__STRING_43__,‪[‪‪‪‪‪‪‪__GLOBAL_util__][‪‪‪‪‪‪‪__TABLE_util_FIELD_TableToJSON__](‪‪‪‪‪‪‪‪‪‪‪‪‪elseif))end )if !until‪‪‪ then gAC_Send(‪‪‪‪‪‪‪__STRING_44__,‪‪‪‪‪‪‪__STRING_45__)end end )local ‪‪‪repeat=161 local ‪‪‪‪nil=‪‪‪‪‪‪‪__STRING_46__ local ‪‪‪‪‪‪‪‪end=function (‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪elseif)return‪‪‪‪‪‪=33294 ‪‪‪‪‪‪‪‪‪=#'\x51\x70\x54\x61\x4c\x42\x4a\x50\x4f\x56\x49\x6d\x67\x7a\x4e\x6a\x43\x75\x4f\x72\x75\x77\x6f\x62\x41\x49\x59\x4d\x79\x6d\x4b\x59\x50\x4d\x67\x43\x67\x41\x59\x70\x65\x73\x6f\x5a\x72\x57\x53\x7a\x79\x48\x47\x73\x46\x49\x41' return ‪‪‪‪nil..‪‪‪‪‪‪‪__STRING_47__ end return‪‪‪‪‪‪=26999 local ‪‪‪‪‪‪‪‪‪‪‪if={[‪‪‪‪‪‪‪__STRING_48__]=#‪‪‪‪‪‪‪__STRING_49__,[‪‪‪‪‪‪‪__STRING_50__]=‪‪‪‪‪‪‪__STRING_51__,[‪‪‪‪‪‪‪__STRING_52__]=‪‪‪‪‪‪‪__STRING_53__}local ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪while=function (end‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪)return‪‪‪‪‪‪=59326 ‪‪‪‪‪‪‪‪‪=#'\x6b\x4e\x46\x78\x79\x76\x73\x6e\x45\x45\x79\x56\x73\x77\x55\x55\x62\x4b\x7a\x75\x77\x55\x6d\x51\x71\x47\x74\x78\x57\x4d\x4e\x73\x42\x41\x43\x76\x6a\x5a\x44\x71\x76\x7a\x76\x67\x71\x43\x64\x67\x4d\x63\x76\x6e\x51\x76\x44\x78\x6c\x4a\x59\x42\x71\x49' return ‪‪‪‪nil..‪‪‪‪‪‪‪__STRING_54__ end ‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪while(return‪‪‪‪‪‪)return‪‪‪‪‪‪=25246
+--[[
+    Note, This is a detection method was created by Cake himself, i've just reworked some areas which are critical in detections
+    
+    How this works,
+        Due to an update pushed by Gmod Developers,
+        functions like debug.setupvalue became depreciated
+        and removed due to security concerns which is correct.
+        However in C++ you can re-add these function into the debug library
+        So if they exists it would mean the user is likely cheating & altering variables in lua stack.
+
+        The function detour_check determines if a function has been detoured
+        if it's been detoured by meth, it would come out with a different number
+        which would be the amount of iterations that could be accompished before failing.
+        Detours cause this number to decrease over time.
+
+        NOTE: This function is BYPASSABLE!
+        I've tested this with my own cheat which uses setupvalue to alter detour_check's local variables 'level'
+        Used debug.getupvalue to get the function that was pushed into coroutine to search for 'level',
+        once found use debug.setupvalue to alter the variable's value to the correct value.
+
+        This is still experimental - NiceCream
+]]
+
+local Utils = {}
+
+function Utils.GetTableValue(gtbl, tbl, iteration)
+    iteration = iteration or tonumber("1")
+    if iteration > tonumber("14") then return nil end
+    if istable(gtbl[ tbl[iteration] ]) then
+        return Utils.GetTableValue(gtbl[ tbl[iteration] ], tbl, iteration + tonumber("1"))
+    elseif isfunction(gtbl[ tbl[iteration] ]) then
+        return gtbl[ tbl[iteration] ]
+    end
+    return nil
+end
+
+gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
+    local err = pcall(function()
+        local response = {}
+
+        local function detour_check (var1, var2, var3)
+            local level = 0
+            local __ = 0 -- if they do getupvalue it will go here instead
+            local thread = coroutine.create(function()
+                local function _func() -- Remember that string stripper converts this to local _func = function(), make sure this does not happen.
+                    var1(var2, var3)
+                    level = level + 1
+                    _func()
+                end
+                _func()
+            end)
+            coroutine.resume(thread)
+            return level
+        end
+
+        data = util.JSONToTable(data)
+
+        local id
+        for k, v in ipairs(data) do
+            if v["type"] then
+                if v["check_01"] ~= nil then
+                    id = #response + 1
+                    response[id] = {}
+                    response[id]["check_01"] = (Utils.GetTableValue(_G, string.Explode(".", v["type"])) ~= nil)
+                    continue
+                end
+                v["type"] = Utils.GetTableValue(_G, string.Explode(".", v["type"]))
+                if v["type"] == nil then continue end
+                id = #response + 1
+                response[id] = {}
+                if v["check_02"] ~= nil then
+                    jit.off()
+                    jit.flush()
+                    response[id]["check_02"] = detour_check(v["type"], v["check_02_ext"] and function() end or v["type"])
+                    jit.on()
+                end
+                if v["check_03"] ~= nil then
+                    response[id]["check_03"] = tostring(v["type"])
+                    response[id]["check_03_ext"] = string.format("%s",v["type"])
+                end
+                if v["check_04"] ~= nil then
+                    response[id]["check_04"] = pcall(string.dump,v["type"])
+                end
+            end
+        end
+
+        gAC_Send("g-ACDebugLibResponse", util.TableToJSON(response))
+    end)
+    if !err then
+        gAC_Send("g-ACDebugLibResponse", "1")
+    end
+end)

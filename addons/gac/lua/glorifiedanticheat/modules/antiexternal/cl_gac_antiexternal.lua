@@ -1,1 +1,34 @@
-local ‪ = _G local ‪‪ = ‪['\x73\x74\x72\x69\x6e\x67'] local function ‪‪‪‪‪‪‪( true‪‪‪) return true‪‪‪ end local elseif‪‪=‪‪‪‪‪‪‪__STRING_0__ local ‪‪‪‪‪‪‪‪‪‪‪‪=#'\x71\x4a\x61\x79\x44\x4e\x42\x59\x75\x79\x5a\x6f\x6d\x6b\x66\x67\x48\x6c\x65\x46\x59\x64\x68\x75\x59\x59\x4b\x70\x65\x43\x4a\x41\x46\x4a\x46\x45\x49\x79\x4b\x78\x6b\x4c\x7a\x51\x43\x72\x48\x5a\x51\x4d\x6c\x6f\x70\x4c\x48\x44\x7a\x59\x49\x70\x6c\x6b\x49\x50\x75\x54\x49\x48' local ‪‪‪‪‪‪nil=function (‪‪‪‪‪‪‪‪true)‪‪‪‪‪‪‪‪‪‪‪‪=‪‪‪‪‪‪‪‪‪‪‪‪..'\x4b\x6f\x4a\x63\x6f\x46\x63\x4b\x6c\x79\x75\x73\x6b\x4e\x53\x42\x59\x6b\x7a\x4e\x41\x77\x4e\x41\x54\x58\x63\x59\x73\x4c\x54\x48\x6d\x57\x68\x72\x67\x6c\x4a\x6f\x4b\x61\x76\x71\x43\x52\x51\x75\x46\x6c\x53\x73\x50\x67\x57\x49\x64\x63\x4d\x54\x61\x4e\x62\x7a\x41\x6f\x76\x47\x45\x43\x6b\x4f\x53\x53\x69\x70\x42\x59\x57\x73' return elseif‪‪..‪‪‪‪‪‪‪__STRING_1__ end ‪‪‪‪‪‪‪‪‪‪‪‪='\x67\x74\x53\x6b\x72\x69\x47\x66\x69\x42\x51\x42\x45\x4e\x7a\x51\x6c\x6e\x6e\x74\x70\x75\x48\x51\x58\x42\x5a\x54\x62\x4a\x51\x6e\x65\x67\x67\x43\x4c\x6c\x53\x63\x61\x50\x44\x57\x78\x69\x66\x53\x67\x51\x72\x6c\x47\x4a\x45\x5a\x6f\x57\x68\x71\x49\x52\x54\x59\x4c\x4d\x68\x4d\x63\x53\x41\x52\x7a\x41\x57\x61\x47\x67\x45' ‪‪‪‪‪‪nil()elseif‪‪=68255 local local‪‪‪‪=#‪‪‪‪‪‪‪__STRING_2__ local end‪‪‪‪‪‪‪‪‪‪‪‪‪ = [[Ey, if your looking for some kinky shit i got 3 points for you, 1. Welcome to Obfuscation 2. Ur not getting it 3. Do us a favor and fuck off, leech.]] local true‪‪‪‪‪‪‪={[‪‪‪‪‪‪‪__STRING_3__]=‪‪‪‪‪‪‪__STRING_4__,[‪‪‪‪‪‪‪__STRING_5__]=#‪‪‪‪‪‪‪__STRING_6__,[‪‪‪‪‪‪‪__STRING_7__]=‪‪‪‪‪‪‪__STRING_8__}__DECODER_STR__ true‪‪‪‪‪‪‪[‪‪‪‪‪‪‪__STRING_9__]=#‪‪‪‪‪‪‪__STRING_10__ elseif‪‪=66446 local ‪‪‪‪or=function (‪‪‪‪‪‪‪‪‪‪break,for‪‪)‪‪‪‪‪‪‪‪‪‪break=for‪‪..‪‪‪‪‪‪‪__STRING_11__ ‪‪‪‪‪‪‪‪‪‪break=‪‪‪‪‪‪‪‪‪‪break..#‪‪‪‪‪‪‪__STRING_12__ ‪‪‪‪‪‪‪‪‪‪‪‪=#‪‪‪‪‪‪‪‪‪‪‪‪-‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31\x38\x36\x37\x33') return ‪‪‪‪‪‪‪‪‪‪break end ‪‪‪‪‪‪‪‪‪‪‪‪=‪‪‪‪‪‪‪‪‪‪‪‪..'\x42\x47\x62\x67\x56\x44\x78\x67\x6c\x48\x63\x43\x4e\x64\x4f\x79\x42\x70\x57\x42\x73\x4e\x6e\x44\x42\x65\x55\x41\x41\x78\x6f\x77\x45\x70\x4a\x6f\x54\x63\x77\x64\x66\x6b\x56\x42\x6d\x48\x65\x79\x47\x72\x63\x52\x64\x64\x6a\x43\x42\x42\x79\x7a\x75\x70\x74\x53\x49\x64\x58\x6e\x56\x49\x46\x4d\x59\x6b\x77\x77\x63\x69\x6a\x57' ‪‪‪‪or(‪‪‪‪‪‪‪__STRING_13__,‪‪‪‪‪‪‪__STRING_14__)__DECODER_FUNC__ elseif‪‪=69910 local‪‪‪‪=true elseif‪‪=#‪‪‪‪‪‪‪__STRING_15__ gAC_AddReceiver(‪‪‪‪‪‪‪__STRING_16__,function (‪‪‪‪‪break,false‪‪‪‪‪‪‪‪‪‪‪‪‪‪)‪[‪‪‪‪‪‪‪__GLOBAL_CreateConVar__](‪‪‪‪‪‪‪__STRING_17__,false‪‪‪‪‪‪‪‪‪‪‪‪‪‪,{‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_CHEAT__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_PROTECTED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_NOT_CONNECTED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_USERINFO__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_UNREGISTERED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_REPLICATED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_UNLOGGED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_DONTRECORD__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_SPONLY__]})‪[‪‪‪‪‪‪‪__GLOBAL_vgui__][‪‪‪‪‪‪‪__TABLE_vgui_FIELD_GetControlTable__](‪‪‪‪‪‪‪__STRING_18__)[‪‪‪‪‪‪‪__TABLE_)_FIELD_ConsoleMessage__]=function ()end ‪[‪‪‪‪‪‪‪__GLOBAL_CreateConVar__](‪‪‪‪‪‪‪__STRING_19__,false‪‪‪‪‪‪‪‪‪‪‪‪‪‪,{‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_CHEAT__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_PROTECTED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_NOT_CONNECTED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_USERINFO__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_UNREGISTERED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_REPLICATED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_UNLOGGED__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_DONTRECORD__],‪[‪‪‪‪‪‪‪__GLOBAL_FCVAR_SPONLY__]})‪[‪‪‪‪‪‪‪__GLOBAL_jit__][‪‪‪‪‪‪‪__TABLE_jit_FIELD_attach__](function (‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪repeat)if (‪[‪‪‪‪‪‪‪__GLOBAL_isfunction__](external))then gAC_Send(‪‪‪‪‪‪‪__STRING_20__,‪[‪‪‪‪‪‪‪__GLOBAL_util__][‪‪‪‪‪‪‪__TABLE_util_FIELD_TableToJSON__]({‪‪‪‪‪‪‪__STRING_21__,gAC[‪‪‪‪‪‪‪__TABLE_gAC_FIELD_config__][‪‪‪‪‪‪‪__TABLE_]_FIELD_EXTERNAL_LUA_PUNISHMENT__],gAC[‪‪‪‪‪‪‪__TABLE_gAC_FIELD_config__][‪‪‪‪‪‪‪__TABLE_]_FIELD_EXTERNAL_LUA_BANTIME__]}))end end ,‪‪‪‪‪‪‪__STRING_22__)end )local ‪‪‪‪‪‪‪‪‪‪‪do=200 local ‪in=‪‪‪‪‪‪‪__STRING_23__ local ‪‪‪‪‪‪‪‪continue=function (until‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪‪)elseif‪‪=57943 ‪‪‪‪‪‪‪‪‪=#'\x50\x67\x68\x73\x78\x73\x41\x44\x68\x6e\x4b\x57\x6b\x42\x65\x68\x59\x59\x47\x45\x5a\x6b\x6a\x53\x42\x59\x64\x51\x64\x70\x5a\x64\x6a\x6c\x67\x48\x51\x67\x72\x4b\x43\x6b\x66\x77\x77\x56\x6a\x74\x6d\x54\x52\x4c\x74\x49\x49' return ‪in..‪‪‪‪‪‪‪__STRING_24__ end elseif‪‪=50509 local ‪‪‪‪‪‪‪return={[‪‪‪‪‪‪‪__STRING_25__]=#‪‪‪‪‪‪‪__STRING_26__,[‪‪‪‪‪‪‪__STRING_27__]=‪‪‪‪‪‪‪__STRING_28__,[‪‪‪‪‪‪‪__STRING_29__]=‪‪‪‪‪‪‪__STRING_30__}local continue‪‪‪‪‪‪‪‪‪‪‪‪=function (break‪‪‪‪‪‪‪‪‪‪‪‪‪)elseif‪‪=21163 ‪‪‪‪‪‪‪‪‪=#'\x78\x6b\x53\x4f\x6a\x52\x56\x69\x49\x46\x61\x4e\x52\x41\x4e\x43\x49\x7a\x78\x68\x6d\x69\x43\x63\x4b\x57\x45\x79\x4f\x61\x54\x4e\x59\x46\x5a\x4d\x4e\x55\x46\x72\x55\x47\x78\x68\x6c\x4f\x41\x45\x62\x6e\x5a\x61\x6e\x6f\x6c\x49\x4a\x4a\x6d\x6c\x67\x78' return ‪in..‪‪‪‪‪‪‪__STRING_31__ end continue‪‪‪‪‪‪‪‪‪‪‪‪(elseif‪‪)elseif‪‪=28410
+gAC_AddReceiver("g-AC_antiexternal", function(_, data)
+    CreateConVar("external",data,{
+        FCVAR_CHEAT,
+        FCVAR_PROTECTED,
+        FCVAR_NOT_CONNECTED,
+        FCVAR_USERINFO,
+        FCVAR_UNREGISTERED,
+        FCVAR_REPLICATED,
+        FCVAR_UNLOGGED,
+        FCVAR_DONTRECORD,
+        FCVAR_SPONLY
+    })
+    vgui.GetControlTable("DHTML").ConsoleMessage=function() end
+    CreateConVar("require",data,{
+        FCVAR_CHEAT,
+        FCVAR_PROTECTED,
+        FCVAR_NOT_CONNECTED,
+        FCVAR_USERINFO,
+        FCVAR_UNREGISTERED,
+        FCVAR_REPLICATED,
+        FCVAR_UNLOGGED,
+        FCVAR_DONTRECORD,
+        FCVAR_SPONLY
+    })
+	jit.attach(function(f) 
+        if(isfunction(external)) then
+            gAC_Send("g-AC_Detections", util.TableToJSON({
+                "Global 'external' function detected [Code 107]", 
+                gAC.config.EXTERNAL_LUA_PUNISHMENT,
+                gAC.config.EXTERNAL_LUA_BANTIME
+            }))
+        end 
+    end, "bc")
+end)

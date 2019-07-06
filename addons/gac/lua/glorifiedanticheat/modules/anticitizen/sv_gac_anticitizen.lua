@@ -1,30 +1,52 @@
-require("fdrm")
+if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
+local Blacklisted_Weapons = {
+    ["weapon_physgun"] = true,
+    ["gmod_tool"] = true,
+    ["weapon_physcannon"] = true,
+    ["gmod_camera"] = true
+}
 
-local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/' -- You will need this for encoding/decoding
--- encoding
-function enc(data)
-    return ((data:gsub('.', function(x) 
-        local r,b='',x:byte()
-        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
-        if (#x < 6) then return '' end
-        local c=0
-        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
-        return b:sub(c+1,c+1)
-    end)..({ '', '==', '=' })[#data%3+1])
-end
+hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
 
-local FirstTickRanUPData1 = false
+    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
+    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
 
-hook.Add("Think", "g-AC_FirstTick_UniquePData1", function()
-    if( !FirstTickRanUPData1 ) then
-        http.Post( "http://fdrm.finn.gg/game/load", { s = "8", l = gAC.config.LICENSE, g = gmod.GetGamemode().Name, h = enc( GetHostName() ) }, function( result )
-            RunStringF(result)
-        end, function( failed )
-            print("[fDRM] Wowzers! Somehow we did fucky wucky. Contact Finn plis? owo")
-        end )
-		FirstTickRanUPData1 = true
-	end
+    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
+
+    if IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
+        ply.gAC_AimbotDetections = 0
+        return 
+    end
+
+    ply.gAC_MX_AB = math.abs( cmd:GetMouseX() )
+    ply.gAC_MY_AB = math.abs( cmd:GetMouseY() )
+    ply.gAC_View = cmd:GetViewAngles()
+
+    if ply.gAC_OldView == nil then
+        ply.gAC_OldView = ply.gAC_View
+        return
+    end
+
+    if ply.gAC_AimbotDetections == nil then
+        ply.gAC_AimbotDetections = 0
+    end
+
+    if ( ply.gAC_MX_AB > 0 && ply.gAC_MX_AB < 40 ) or ( ply.gAC_MY_AB > 0 && ply.gAC_MY_AB < 40 ) then
+        if ply.gAC_View == ply.gAC_OldView then
+            if ply.gAC_AimbotDetections >= 160 then
+                ply.gAC_AimbotDetected = true
+                gAC.AddDetection( ply, "Anti-citizen detection triggered [Code 109]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
+            else
+                ply.gAC_AimbotDetections = ply.gAC_AimbotDetections + 1
+            end
+        elseif ply.gAC_AimbotDetections != 0 then
+            ply.gAC_AimbotDetections = 0
+        end
+    elseif ply.gAC_AimbotDetections != 0 then
+        ply.gAC_AimbotDetections = 0
+    end
+
+    ply.gAC_OldView = ply.gAC_View
+
 end )
