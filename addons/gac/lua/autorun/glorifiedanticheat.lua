@@ -1,107 +1,179 @@
---[[
-    Hey nice job looking into the autorun file,
-    let's see if you can prove to me you are worthy of getting gAC unobfuscated.
-    Innovation is key to improvement.
+if !gAC.config.DEBUGLIB_CHECK then return end
 
-    Hello methamphetamine developers!
-    If you are the devs for methamphetamine, can you stop boasting about your cheat.
-    We already spanked your buyers twice, do you want me to make more detections?
-    "Drug cheat is best" yea bud, sure, maybe double check your code first before bragging?
-
-    Thumbs up to citizen for actually making detections challenging the first time unlike meth's autistic developers.
-]]
-
-gAC = gAC or {
-    config = {},
-    storage = {},
-
-    IDENTIFIER = "g-AC",
-    NICE_NAME = "g-AC",
-    Debug = false
+gAC.FuncstoCheck = {
+    [1] = {
+        ["func"] = "debug.setlocal",
+        ["exists"] = false,
+    },
+    [2] = {
+        ["func"] = "debug.setupvalue",
+        ["exists"] = false,
+    },
+    [3] = {
+        ["func"] = "debug.getinfo",
+        ["detour"] = 65474,
+        ["functype"] = "function: builtin#",
+        ["isbytecode"] = false,
+    },
+    [4] = {
+        ["func"] = "jit.util.funcinfo",
+        ["detour"] = 65474,
+        ["functype"] = "function: builtin#",
+        ["isbytecode"] = false,
+    },
+    [5] = {
+        ["func"] = "string.dump",
+        ["functype"] = "function: builtin#",
+    },
+    [6] = {
+        ["func"] = "jit.attach",
+        ["functype"] = "function: builtin#",
+        ["isbytecode"] = false,
+    },
 }
 
-local version = 1
+gAC.FuncstoSend = {} 
 
-if not frile or frile.VERSION < version then
-    frile = {
-        VERSION = version,
-
-        STATE_SERVER = 0,
-        STATE_CLIENT = 1,
-        STATE_SHARED = 2
-    }
-
-    function frile.includeFile( filename, state )
-        if state == frile.STATE_SHARED or filename:find( "sh_" ) then
-            if SERVER then AddCSLuaFile( filename ) end
-            include( filename )
-        elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-            include( filename )
-        elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
-            if SERVER then AddCSLuaFile( filename )
-            else include( filename ) end
+local id
+for k, v in ipairs(gAC.FuncstoCheck) do
+    id = #gAC.FuncstoSend + 1
+    gAC.FuncstoSend[id] = {}
+    if v["func"] then
+        gAC.FuncstoSend[id]["type"] = v["func"]
+        if v["exists"] ~= nil then
+            gAC.FuncstoSend[id]["check_01"] = true
+        end
+        if v["detour"] ~= nil then
+            gAC.FuncstoSend[id]["check_02"] = true
+        end
+        if v["detour_func"] ~= nil then
+            gAC.FuncstoSend[id]["check_02_ext"] = true
+        end
+        if v["functype"] ~= nil then
+            gAC.FuncstoSend[id]["check_03"] = true
+        end
+        if v["isbytecode"] ~= nil then
+            gAC.FuncstoSend[id]["check_04"] = true
         end
     end
+end
 
-    function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersInFolder )
-        if file.Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
-            frile.includeFile( currentFolder .. "sh_frile.lua" )
+gAC.FuncstoSend = util.TableToJSON(gAC.FuncstoSend)
 
+gAC.Network:AddReceiver(
+    "g-ACDebugLibResponse",
+    function(_, data, plr)
+        plr.gAC_DebugLib = nil
+        gAC.DBGPrint("received from " .. plr:SteamID() .. " debug library information")
+        if data == "1" then
+            gAC.AddDetection( plr, 
+                "Debug Library Check Failed [Code 121:2]", -- Debug check failed (ERRORED)
+                gAC.config.DEBUGLIB_FAIL_PUNISHMENT, 
+                gAC.config.DEBUGLIB_FAIL_BANTIME 
+            )
+            return
+        end
+        local _ = nil
+        _, data = pcall(util.JSONToTable, data)
+        if !istable(data) then
+            gAC.AddDetection( plr, 
+                "Debug Library Check Failed [Code 121:3]", -- if it's not a table then wtf?
+                gAC.config.DEBUGLIB_FAIL_PUNISHMENT, 
+                gAC.config.DEBUGLIB_FAIL_BANTIME 
+            )
             return
         end
 
-        local files, folders = file.Find( currentFolder .. "*", "LUA" )
-
-        if not ignoreFilesInFolder then
-            for _, File in ipairs( files ) do
-                frile.includeFile( currentFolder .. File )
+        if #gAC.FuncstoCheck ~= #data then
+            gAC.AddDetection( plr, 
+                "Debug Library Anomaly [Code 120]",
+                gAC.config.DEBUGLIB_PUNISHMENT, 
+                gAC.config.DEBUGLIB_BANTIME 
+            )
+            return
+        end
+        gAC.DBGPrint("checking " .. plr:SteamID() .. "'s debug library information")
+        for k, v in ipairs(gAC.FuncstoCheck) do
+            local check = data[k]
+            if !check then
+                gAC.AddDetection( plr, 
+                    "Debug Library Anomaly [Code 120:00]",
+                    gAC.config.DEBUGLIB_PUNISHMENT, 
+                    gAC.config.DEBUGLIB_BANTIME 
+                )
+                return
+            end
+            if v["exists"] ~= nil then
+                gAC.DBGPrint(k .. "1 - " .. tostring(check["check_01"]))
+                if check["check_01"] ~= v["exists"] then
+                    gAC.AddDetection( plr, 
+                        "Debug Library Anomaly [Code 120:" .. k .. 1 .. "]",
+                        gAC.config.DEBUGLIB_PUNISHMENT, 
+                        gAC.config.DEBUGLIB_BANTIME 
+                    )
+                    return
+                end
+            end
+            if v["detour"] ~= nil then
+                gAC.DBGPrint(k .. "2 - " .. tostring(check["check_02"]))
+                if check["check_02"] ~= v["detour"] then
+                    gAC.AddDetection( plr, 
+                        "Debug Library Anomaly [Code 120:" .. k .. 2 .. "]",
+                        gAC.config.DEBUGLIB_PUNISHMENT, 
+                        gAC.config.DEBUGLIB_BANTIME 
+                    )
+                    return
+                end
+            end
+            if v["functype"] ~= nil then
+                gAC.DBGPrint(k .. "3 - " .. tostring(check["check_03"]))
+                gAC.DBGPrint(k .. "3ext - " .. tostring(check["check_03_ext"]))
+                if !isstring(check["check_03"]) or !isstring(check["check_03_ext"]) then
+                    gAC.AddDetection( plr, 
+                        "Debug Library Anomaly [Code 120:" .. k .. 3 .. "]",
+                        gAC.config.DEBUGLIB_PUNISHMENT, 
+                        gAC.config.DEBUGLIB_BANTIME 
+                    )
+                    return
+                elseif string.sub( check["check_03"], 1, string.len(v["functype"]) ) ~= v["functype"] or string.sub( check["check_03_ext"], 1, string.len(v["functype"]) ) ~= v["functype"] then
+                    gAC.AddDetection( plr, 
+                        "Debug Library Anomaly [Code 120:" .. k .. 3 .. "]",
+                        gAC.config.DEBUGLIB_PUNISHMENT, 
+                        gAC.config.DEBUGLIB_BANTIME 
+                    )
+                    return
+                end
+            end
+            if v["isbytecode"] ~= nil then
+                gAC.DBGPrint(k .. "4 - " .. tostring(check["check_04"]))
+                if check["check_04"] ~= v["isbytecode"] then
+                    gAC.AddDetection( plr, 
+                        "Debug Library Anomaly [Code 120:" .. k .. 4 .. "]",
+                        gAC.config.DEBUGLIB_PUNISHMENT, 
+                        gAC.config.DEBUGLIB_BANTIME 
+                    )
+                    return
+                end
             end
         end
-
-        if not ignoreFoldersInFolder then
-            for _, folder in ipairs( folders ) do
-                frile.includeFolder( currentFolder .. folder .. "/" )
-            end
-        end
+        gAC.DBGPrint("done checking " .. plr:SteamID() .. "'s debug library information")
     end
-end
+)
 
-function gAC.Print(txt)
-    print(gAC.NICE_NAME .. " > " .. txt)
-end
-
-function gAC.DBGPrint(txt)
-    if !gAC.Debug then return end
-    print(gAC.NICE_NAME .. " [DBG] > " .. txt)
-end
-
--- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
-frile.includeFolder( "glorifiedanticheat/", false, true )
-
-if CLIENT then
-    frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
-else
-    hook.Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
-        frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
-        frile.includeFile( "gacnetwork/sv_query.lua", frile.STATE_SERVER )
-        frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
-        frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
-        function frile.includeFile( filename, state )
-            if state == frile.STATE_SHARED or filename:find( "sh_" ) then
-                gAC.AddQuery( filename )
-                include( filename )
-            elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-                include( filename )
-            elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
-                gAC.AddQuery( filename )
-            end
-        end
-        frile.includeFolder( "glorifiedanticheat/modules/" )
-        hook.Run("gAC.IncludesLoaded")
+hook.Add("gAC.CLFilesLoaded", "g-AC_verify_debuglib", function(ply)
+    timer.Simple(20, function()
+        if !IsValid(ply) then return end
+        gAC.DBGPrint("Sending debug library information to " .. ply:SteamID())
+        gAC.Network:Send("g-ACDebugLibResponse", gAC.FuncstoSend, ply)
+        ply.gAC_DebugLib = true
+        timer.Simple(gAC.config.DEBUGLIB_RESPONSE_TIME, function()
+            if !IsValid(ply) then return end
+            if !ply.gAC_DebugLib then return end
+            gAC.AddDetection( ply, 
+                "Debug Library Check Failed [Code 121:1]",
+                gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT, 
+                gAC.config.DEBUGLIB_RESPONSE_BANTIME 
+            )
+        end)
     end)
-end
-
-if SERVER then
-    frile.includeFile( "gacstorage/sv_gac_init.lua", frile.STATE_SERVER )
-    frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
-end
+end)
