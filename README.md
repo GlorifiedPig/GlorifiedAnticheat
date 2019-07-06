@@ -29,3 +29,4 @@
 | 120                       | Debug Library Anomaly |
 | 121                       | Debug Library Check Failed |
 | 122                       | Player joined with VPN |
+| 123                       | Cobalt detected |
