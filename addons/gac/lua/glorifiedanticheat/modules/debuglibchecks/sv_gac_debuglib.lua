@@ -64,6 +64,7 @@ gAC.Network:AddReceiver(
     "g-ACDebugLibResponse",
     function(_, data, plr)
         plr.gAC_DebugLib = nil
+        gAC.DBGPrint("received from " .. plr:SteamID() .. " debug library information")
         if data == "1" then
             gAC.AddDetection( plr, 
                 "Debug Library Check Failed [Code 121:2]", -- Debug check failed (ERRORED)
@@ -91,7 +92,7 @@ gAC.Network:AddReceiver(
             )
             return
         end
-
+        gAC.DBGPrint("checking " .. plr:SteamID() .. "'s debug library information")
         for k, v in ipairs(gAC.FuncstoCheck) do
             local check = data[k]
             if !check then
@@ -103,6 +104,7 @@ gAC.Network:AddReceiver(
                 return
             end
             if v["exists"] ~= nil then
+                gAC.DBGPrint(k .. "1 - " .. tostring(check["check_01"]))
                 if check["check_01"] ~= v["exists"] then
                     gAC.AddDetection( plr, 
                         "Debug Library Anomaly [Code 120:" .. k .. 1 .. "]",
@@ -113,6 +115,7 @@ gAC.Network:AddReceiver(
                 end
             end
             if v["detour"] ~= nil then
+                gAC.DBGPrint(k .. "2 - " .. tostring(check["check_02"]))
                 if check["check_02"] ~= v["detour"] then
                     gAC.AddDetection( plr, 
                         "Debug Library Anomaly [Code 120:" .. k .. 2 .. "]",
@@ -123,6 +126,8 @@ gAC.Network:AddReceiver(
                 end
             end
             if v["functype"] ~= nil then
+                gAC.DBGPrint(k .. "3 - " .. tostring(check["check_03"]))
+                gAC.DBGPrint(k .. "3ext - " .. tostring(check["check_03_ext"]))
                 if !isstring(check["check_03"]) or !isstring(check["check_03_ext"]) then
                     gAC.AddDetection( plr, 
                         "Debug Library Anomaly [Code 120:" .. k .. 3 .. "]",
@@ -140,6 +145,7 @@ gAC.Network:AddReceiver(
                 end
             end
             if v["isbytecode"] ~= nil then
+                gAC.DBGPrint(k .. "4 - " .. tostring(check["check_04"]))
                 if check["check_04"] ~= v["isbytecode"] then
                     gAC.AddDetection( plr, 
                         "Debug Library Anomaly [Code 120:" .. k .. 4 .. "]",
@@ -150,12 +156,14 @@ gAC.Network:AddReceiver(
                 end
             end
         end
+        gAC.DBGPrint("done checking " .. plr:SteamID() .. "'s debug library information")
     end
 )
 
 hook.Add("gAC.CLFilesLoaded", "g-AC_verify_debuglib", function(ply)
     timer.Simple(20, function()
         if !IsValid(ply) then return end
+        gAC.DBGPrint("Sending debug library information to " .. ply:SteamID())
         gAC.Network:Send("g-ACDebugLibResponse", gAC.FuncstoSend, ply)
         ply.gAC_DebugLib = true
         timer.Simple(gAC.config.DEBUGLIB_RESPONSE_TIME, function()
