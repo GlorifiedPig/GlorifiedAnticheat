@@ -4,7 +4,7 @@ if(!gAC.config.ANTI_METH) then return end
 local detections = {
     {
         name = "rate",
-        value = 100000
+        value = 9999999
     },
 
     {
