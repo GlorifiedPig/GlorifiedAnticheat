@@ -11,13 +11,13 @@ gAC.FuncstoCheck = {
     },
     [3] = {
         ["func"] = "debug.getinfo",
-        ["detour"] = 65474,
+        --["detour"] = 65474,
         ["functype"] = "function: builtin#",
         ["isbytecode"] = false,
     },
     [4] = {
         ["func"] = "jit.util.funcinfo",
-        ["detour"] = 65474,
+        --["detour"] = 65474,
         ["functype"] = "function: builtin#",
         ["isbytecode"] = false,
     },
@@ -177,3 +177,5 @@ hook.Add("gAC.CLFilesLoaded", "g-AC_verify_debuglib", function(ply)
         end)
     end)
 end)
+
+print("[g-AC] Loaded DebugLib")

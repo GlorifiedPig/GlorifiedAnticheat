@@ -50,3 +50,5 @@ hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
     ply.gAC_OldView = ply.gAC_View
 
 end )
+
+print("[g-AC] Loaded AntiCitizen")

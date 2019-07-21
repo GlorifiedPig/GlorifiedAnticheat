@@ -30,3 +30,5 @@ hook.Add("gAC.ClientLoaded", "g-AC.GetMethInformation", function(ply)
         gAC.AddDetection( ply, "Methamphetamine User [Code 115]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
     end
 end)
+
+print("[g-AC] Loaded AntiMeth v2")

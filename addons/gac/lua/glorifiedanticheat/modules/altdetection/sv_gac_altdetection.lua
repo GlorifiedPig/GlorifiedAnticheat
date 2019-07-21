@@ -1,5 +1,3 @@
-
-util.AddNetworkString( "g-AC_AltCheck" )
 util.AddNetworkString( "g-AC_AltCheckResponse" )
 util.AddNetworkString( "g-AC_AltCheckResponse2" )
 
@@ -8,8 +6,7 @@ hook.Add( "PlayerSpawn", "gac-alt-spawn", function( ply )
 	if( !gAC.config.ALT_DETECTION_CHECKS ) then return end
 
 	timer.Simple( 15, function()
-		net.Start( "g-AC_AltCheck" )
-		net.Send( ply )
+		gAC.sendPayload( ply, altdetectionpayload, "AreWeThereYet?" )
 	end )
 
 end)

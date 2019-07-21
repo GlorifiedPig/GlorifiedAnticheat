@@ -26,3 +26,5 @@ function GetUPDataGACSID64( name, steamId, default )
 
 	return val
 end
+
+print("[g-AC] Loaded UniquePData")

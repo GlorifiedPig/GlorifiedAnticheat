@@ -56,3 +56,5 @@ hook.Add( "StartCommand", "gAC_AntiCobalt.StartCommand", function( ply, cmd )
     ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
 
 end )
+
+print("[g-AC] Loaded CPPAimbot")

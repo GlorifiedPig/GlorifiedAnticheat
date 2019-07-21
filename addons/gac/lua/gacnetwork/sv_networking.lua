@@ -461,3 +461,5 @@ gAC.DBGPrint("Network ID: " .. gAC.Network.GlobalChannel)
 gAC.DBGPrint("CRC Channel Scrammbler ID: " .. gAC.Network.Channel_Rand)
 gAC.DBGPrint("CRC Channel Handler ID: " .. gAC.Network.Channel_Handler)
 hook.Run("gAC.Network.Loaded")
+
+print("[g-AC] Loaded Network")

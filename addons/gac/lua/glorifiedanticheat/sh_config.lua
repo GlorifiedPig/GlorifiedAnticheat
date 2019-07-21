@@ -191,11 +191,20 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.ANTI_NOSPREAD_CHECKS = true -- Set to 'true' if you wish for the anti-nospread module to be enabled.
     gAC.config.KEYBIND_CHECKS = false -- Set to 'true' if you wish for suspicious keybindings to be logged.
     gAC.config.DISABLE_BAD_COMMANDS = true -- Set to 'true' if you wish for sv_allowcslua and sv_cheats to be disabled on server startup.
+    gAC.config.VPN_CHECKER = true -- Set to 'true' if you wish for VPNs to be checked upon joining.
+    gAC.config.CITIZEN_ESP_BREAKER = false -- Set to 'true' if you wish for CitizenHack's ESP to break. WARNING: This is experimental, things may break!
 --[[ GENERAL MODULE SETTINGS END ]]--
 
 --[[ SOURCE CRASHER SETTINGS ]]-- WARNING: Due to some addons spamming commands this will now likely be removed in the future!
     gAC.config.ENABLE_SOURCECRASHER_CHECKS = false -- Set to 'true' to enable sourcecrasher checks.
 
-    gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
+    gAC.config.SOURCECRASHER_PUNISHMENT = false -- Set to 'true' if you wish to punish players for using sourcecrasher.
     gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ SOURCE CRASHER SETTINGS END ]]--
+
+--[[ C++ AIMBOT SETTINGS ]]-- WARNING: This is experimental, we recommend this being off.
+    gAC.config.ENABLE_CPPAIMBOT_CHECKS = false -- Set to 'true' to enable cpp aimbot checks.
+
+    gAC.config.CPPAIMBOT_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using cpp aimbot.
+    gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ C++ AIMBOT SETTINGS END ]]--
