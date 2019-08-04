@@ -1,3 +1,11 @@
+local _AddCSLuaFile = AddCSLuaFile
+local _file_Exists = file.Exists
+local _file_Find = file.Find
+local _hook_Add = hook.Add
+local _hook_Run = hook.Run
+local _include = include
+local _print = print
+
 --[[
     Hey nice job looking into the autorun file,
     let's see if you can prove to me you are worthy of getting gAC unobfuscated.
@@ -17,7 +25,7 @@ gAC = gAC or {
 
     IDENTIFIER = "g-AC",
     NICE_NAME = "g-AC",
-    Debug = false
+    Debug = true
 }
 
 local version = 1
@@ -33,33 +41,35 @@ if not frile or frile.VERSION < version then
 
     function frile.includeFile( filename, state )
         if state == frile.STATE_SHARED or filename:find( "sh_" ) then
-            if SERVER then AddCSLuaFile( filename ) end
-            include( filename )
+            if SERVER then _AddCSLuaFile( filename ) end
+            _include( filename )
         elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-            include( filename )
+            _include( filename )
         elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
-            if SERVER then AddCSLuaFile( filename )
-            else include( filename ) end
+            if SERVER then _AddCSLuaFile( filename )
+            else _include( filename ) end
         end
     end
 
     function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersInFolder )
-        if file.Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
+        if _file_Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
             frile.includeFile( currentFolder .. "sh_frile.lua" )
 
             return
         end
 
-        local files, folders = file.Find( currentFolder .. "*", "LUA" )
+        local files, folders = _file_Find( currentFolder .. "*", "LUA" )
 
         if not ignoreFilesInFolder then
-            for _, File in ipairs( files ) do
+            for _=1, #files   do
+            	local File = files[_]
                 frile.includeFile( currentFolder .. File )
             end
         end
 
         if not ignoreFoldersInFolder then
-            for _, folder in ipairs( folders ) do
+            for _=1, #folders   do
+            	local folder = folders[_]
                 frile.includeFolder( currentFolder .. folder .. "/" )
             end
         end
@@ -67,12 +77,12 @@ if not frile or frile.VERSION < version then
 end
 
 function gAC.Print(txt)
-    print(gAC.NICE_NAME .. " > " .. txt)
+    _print(gAC.NICE_NAME .. " > " .. txt)
 end
 
 function gAC.DBGPrint(txt)
     if !gAC.Debug then return end
-    print(gAC.NICE_NAME .. " [DBG] > " .. txt)
+    _print(gAC.NICE_NAME .. " [DBG] > " .. txt)
 end
 
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
@@ -81,7 +91,7 @@ frile.includeFolder( "glorifiedanticheat/", false, true )
 if CLIENT then
     frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
 else
-    hook.Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
+    _hook_Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
         frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
         frile.includeFile( "gacnetwork/sv_query.lua", frile.STATE_SERVER )
         frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
@@ -89,15 +99,15 @@ else
         function frile.includeFile( filename, state )
             if state == frile.STATE_SHARED or filename:find( "sh_" ) then
                 gAC.AddQuery( filename )
-                include( filename )
+                _include( filename )
             elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-                include( filename )
+                _include( filename )
             elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
                 gAC.AddQuery( filename )
             end
         end
         frile.includeFolder( "glorifiedanticheat/modules/" )
-        hook.Run("gAC.IncludesLoaded")
+        _hook_Run("gAC.IncludesLoaded")
     end)
 end
 

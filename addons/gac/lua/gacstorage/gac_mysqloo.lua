@@ -1,4 +1,11 @@
-require "mysqloo"
+local _hook_Add = hook.Add
+local _include = include
+local _print = print
+local _require = require
+local _table_insert = table.insert
+local _tostring = tostring
+
+_require "mysqloo"
 
 gAC.DB = gAC.DB or {}
 
@@ -11,9 +18,9 @@ function gAC.DB.Connect()
 	local db = mysqloo.connect(gAC.storage.hostname, gAC.storage.username, gAC.storage.password, gAC.storage.database, gAC.storage.port)
 	
 	db.onConnectionFailed = function(msg, err)
-		gAC.Print("MySQL connection failed: " .. tostring(err))
+		gAC.Print("MySQL connection failed: " .. _tostring(err))
         gAC.Print("Resorting to SQLite")
-        include("gacstorage/gac_sqlite.lua")
+        _include("gacstorage/gac_sqlite.lua")
 	end
 	
 	db.onConnected = function()
@@ -31,12 +38,12 @@ function gAC.DB.Connect()
 end
 
 function gAC.EscapeStr(txt)
-	return gAC.DB.Handler:escape(tostring(txt or ""))
+	return gAC.DB.Handler:escape(_tostring(txt or ""))
 end
 
 function gAC.DB.Query(query, callback, ret)
 	if (!query) then
-		print("No query given.")
+		_print("No query given.")
 		return
 	end
 	
@@ -46,7 +53,7 @@ function gAC.DB.Query(query, callback, ret)
 	
 	q.onData = function(self, dat)
 		d = d or {}
-		table.insert(d, dat)
+		_table_insert(d, dat)
 	end
 	
 	q.onSuccess = function()
@@ -80,7 +87,7 @@ function gAC.DB.QueryReturn(query, callback)
 	return gAC.DB.Query(query, callback, true)
 end
 
-hook.Add("Initialize", "gAC.Connect", gAC.DB.Connect)
+_hook_Add("Initialize", "gAC.Connect", gAC.DB.Connect)
 
 function gAC.LogEvent( plr, log )
     gAC.DB.Query("INSERT INTO `gac_detections` (`time`, `steamid`, `detection`) VALUES (" .. os.time() .. ", '" .. gAC.EscapeStr(plr:SteamID()) .. "', '" .. gAC.EscapeStr(log) .. "')")

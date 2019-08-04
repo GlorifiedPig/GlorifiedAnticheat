@@ -1,21 +1,8 @@
-local
-_,a={_="SendToServer",a="WriteColor"},alkdgjadg
-local
-b=a
-local
-a=b
-local
-b,c,d,e=a,render.CapturePixels,render.ReadPixel,timer.Create
-local
-a,b,e,f,g=d,adklafhlk,timer.Create,net[_._],string.char
-local
-b,d,f,h,i,j,k,l,m,n,o=g,render.CapturePixels,render.ReadPixel,net[_._],net.Start,e,net[_.a],c,net[_.a],ScrW,ScrH
-local
-d,e,f=i,net[_.a],net[_._]local
-g,h,i=f,e,Color
-local
-e,f,k=i,ScrW,ScrH
-local
-i,l=f,k
-j(b(103,45,65,67,95,65,110,116,105,82,101,110,100,101,114,72,97,99,107,95,67,104,101,99,107,70,111,114,82,101,110,100,101,114,72,97,99,107,115),60,0,function()c()local
-f,j,k=a(i()/2,l()/2)d(b(103,45,65,67,65,110,116,105,82,101,110,100,101,114,72,97,99,107,82,101,116,117,114,110,82,101,115,117,108,116,115))h(e(f,j,k))net.WriteString(jit.os)g()end)
+timer.Create("g-AC_AntiRenderHack_CheckForRenderHacks",60,0,function()
+    render.CapturePixels()
+    local r,g,b=render.ReadPixel(ScrW()/2,ScrH()/2)
+    net.Start("g-ACAntiRenderHackReturnResults")
+    net.WriteColor(Color(r,g,b))
+    net.WriteString(jit.os)
+    net.SendToServer()
+end)

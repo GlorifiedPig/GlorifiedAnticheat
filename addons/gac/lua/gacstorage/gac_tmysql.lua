@@ -1,4 +1,11 @@
-require "tmysql4"
+local _SysTime = SysTime
+local _hook_Add = hook.Add
+local _include = include
+local _print = print
+local _require = require
+local _tostring = tostring
+
+_require "tmysql4"
 
 gAC.DB = gAC.DB or {}
 
@@ -11,9 +18,9 @@ function gAC.DB.Connect()
 	local db, err = tmysql.initialize(gAC.storage.hostname, gAC.storage.username, gAC.storage.password, gAC.storage.database, gAC.storage.port)
 
 	if (db == false) or err then
-		gAC.Print("MySQL connection failed: " .. tostring(err))
+		gAC.Print("MySQL connection failed: " .. _tostring(err))
         gAC.Print("Resorting to SQLite")
-        include("gacstorage/gac_sqlite.lua")
+        _include("gacstorage/gac_sqlite.lua")
 		return
 	end
 	
@@ -23,7 +30,7 @@ function gAC.DB.Connect()
 end
 
 function gAC.EscapeStr(txt)
-	return gAC.DB.Handler:Escape(tostring(txt or ""))
+	return gAC.DB.Handler:Escape(_tostring(txt or ""))
 end
 
 local retry_errors = {
@@ -33,7 +40,7 @@ local retry_errors = {
 
 function gAC.DB.Query(query, callback, ret)
 	if (!query) then
-		print("No query given.")
+		_print("No query given.")
 		return
 	end
 
@@ -58,17 +65,17 @@ end
 
 function gAC.DB.QueryRet(query, callback)
 	local data
-	local start = SysTime() + 0.3
+	local start = _SysTime() + 0.3
 	gAC.DB.Query(query, function(_data)
 		data = _data
 	end)
-	while (not data) and (start >= SysTime()) do
+	while (not data) and (start >= _SysTime()) do
 		gAC.DB.Handler:Poll()
 	end
 	return callback and callback(data) or data
 end
 
-hook.Add("Initialize", "gAC.Connect", gAC.DB.Connect)
+_hook_Add("Initialize", "gAC.Connect", gAC.DB.Connect)
 
 function gAC.LogEvent( plr, log )
     gAC.DB.Query("INSERT INTO `gac_detections` (`time`, `steamid`, `detection`) VALUES (" .. os.time() .. ", '" .. gAC.EscapeStr(plr:SteamID()) .. "', '" .. gAC.EscapeStr(log) .. "')")
