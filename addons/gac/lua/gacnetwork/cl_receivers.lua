@@ -3,6 +3,7 @@ local _net_ReadData = net.ReadData
 local _net_Receive = net.Receive
 local _string_Explode = string.Explode
 local _util_Decompress = util.Decompress
+local _util_JSONToTable = util.JSONToTable
 local _debug_getinfo = debug.getinfo
 local _string_match = string.match
 local _hook_Add = hook.Add
@@ -61,16 +62,17 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
         codec[i] = _util_Decompress(codec[i])
     end
 
+    codec[_10] = _util_JSONToTable(codec[_10])
+
     local var = _string_Explode(".", codec[_9])
     local _oldfunc = TBL.GetTableValue(_G, var)
-    if _oldfunc == nil then 
-        print ("ERROR: Couldn't find func '" .. codec[_9] .. "'")
+    if _oldfunc == nil then
         return 
     end
 
     local succ = TBL.SetTableValue(_G, var, function(check, ...)
         local d = _debug_getinfo(_2, "S")
-        if _string_match(d.short_src, "%?".. codec[_11] .. "(%d+)") then
+        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%d+") then
             if check == codec[_12] then
                 return codec[_10]
             elseif check == codec[_13] then
@@ -80,8 +82,7 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
         return _oldfunc(check, ...)
     end)
 
-    if succ == false then 
-        print ("ERROR: Couldn't replace func '" .. codec[_9] .. "'")
+    if succ == false then
         return 
     end
 

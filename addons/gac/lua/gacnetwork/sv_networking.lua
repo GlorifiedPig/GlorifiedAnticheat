@@ -218,7 +218,7 @@ gAC.Network.Decoder_Var = {"string.lower", "string.upper", "string.Left", "strin
 "gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"}
 gAC.Network.Decoder_Var = gAC.Network.Decoder_Var[_math_Round(_math_random(1, #gAC.Network.Decoder_Var))]
 gAC.Network.Decoder_VarName = gAC.Network.Decoder_Var
-gAC.Network.Decoder_Verify = gAC.Encoder.stringrandom(_math_Round(_math_random(9, 14)))
+gAC.Network.Decoder_Verify = "GAC_" .. gAC.Encoder.stringrandom(_math_Round(_math_random(9, 14))) .. "_"
 gAC.Network.Decoder_Get = _string_rep(gAC.Encoder.Unicode_String,_math_Round(_math_random(5, 12)))
 gAC.Network.Decoder_Undo = _string_rep(gAC.Encoder.Unicode_String,_math_Round(_math_random(15, 19)))
 
@@ -261,7 +261,7 @@ local _RunString = RunString
 local _CompileString = CompileString
 local _tonumber = tonumber
 local args = {...}
-local _1, _2, _3, _4, _5, _6, _7, _8, _32 = 1,2,3,4,5,6,7,8,32
+local _1, _2, _3, _4, _5, _6, _7, _8, _11, _32 = 1,2,3,4,5,6,7,8,11,32
 args = args[_1]
 _G[args[_6] ] = {}
 _G[args[_4] ] = 1
@@ -297,7 +297,7 @@ _G[args[_6] ][_tonumber(_util_CRC ("LoadString" .. args[_5]))] = function(ch, da
     _RunString(data, args[_8] .. "GAC.LoadString-" .. #data) 
 end
 _G[args[_6] ][_tonumber(_util_CRC ("LoadPayload" .. args[_5]))] = function(ch, data)
-    local func = _CompileString(data, args[_8] .. "GAC.LoadPayload-" .. #data)
+    local func = _CompileString(data, args[_8] .. args[_11] .. #data)
     func(args[_3], args[_4], args[_5], args[_6])
 end
 _net_Receive (args[_3],function(bit) HandleMessage(bit) end)
