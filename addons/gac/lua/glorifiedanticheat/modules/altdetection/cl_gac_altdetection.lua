@@ -1,34 +1,46 @@
+local _net_Receive = net.Receive
+local _net_Start = net.Start
+local _net_WriteInt = net.WriteInt
+local _net_WriteString = net.WriteString
+local _pairs = pairs
+local _string_Split = string.Split
+local _table_HasValue = table.HasValue
+local _table_insert = table.insert
 
-net.Receive("g-AC_AltCheck", function()
-	local SteamID = LocalPlayer():SteamID64()
+local _LocalPlayer = (CLIENT and LocalPlayer or NULL)
+local _net_SendToServer = (CLIENT and net.SendToServer or NULL)
 
-	local IDs = LocalPlayer():GetPData( "gac_alts", "" )
-	local idArray = string.Split( IDs, "|" )
 
-	if( !table.HasValue( idArray, SteamID ) ) then
+_net_Receive("g-AC_AltCheck", function()
+	local SteamID = _LocalPlayer():SteamID64()
+
+	local IDs = _LocalPlayer():GetPData( "gac_alts", "" )
+	local idArray = _string_Split( IDs, "|" )
+
+	if( !_table_HasValue( idArray, SteamID ) ) then
 
 		if IDs == "" then
-			LocalPlayer():SetPData( "gac_alts", SteamID )
+			_LocalPlayer():SetPData( "gac_alts", SteamID )
 			IDs = SteamID
 		else
-			LocalPlayer():SetPData( "gac_alts", IDs .. "|" .. SteamID )
+			_LocalPlayer():SetPData( "gac_alts", IDs .. "|" .. SteamID )
 		end
 
-		table.insert( idArray, SteamID )
+		_table_insert( idArray, SteamID )
 
 	end
 
-	for k, v in pairs( idArray ) do
+	for k, v in _pairs( idArray ) do
 		if v == "" then return end
 
-		net.Start( "g-AC_AltCheckResponse" )
-		net.WriteString( v )
-		net.SendToServer()
+		_net_Start( "g-AC_AltCheckResponse" )
+		_net_WriteString( v )
+		_net_SendToServer()
 	end 
 
-	net.Start( "g-AC_AltCheckResponse2" )
-	net.WriteInt( #idArray, 8 )
-	net.SendToServer()
+	_net_Start( "g-AC_AltCheckResponse2" )
+	_net_WriteInt( #idArray, 8 )
+	_net_SendToServer()
 
 end)
 

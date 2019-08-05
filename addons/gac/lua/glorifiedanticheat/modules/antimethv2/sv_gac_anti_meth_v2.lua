@@ -1,3 +1,6 @@
+local _hook_Add = hook.Add
+local _tonumber = tonumber
+
 if(!gAC.config.ANTI_METH) then return end
 
 
@@ -18,10 +21,11 @@ local detections = {
     }
 }
 
-hook.Add("gAC.ClientLoaded", "g-AC.GetMethInformation", function(ply)
+_hook_Add("gAC.ClientLoaded", "g-AC.GetMethInformation", function(ply)
     ply.Meth_Detections = 0
-    for k, v in ipairs(detections) do
-        if(tonumber(ply:GetInfo(v.name)) == v.value) then 
+    for k=1, #detections do
+    	local v = detections[k]
+        if(_tonumber(ply:GetInfo(v.name)) == v.value) then 
             ply.Meth_Detections = ply.Meth_Detections + 1 
         end
     end

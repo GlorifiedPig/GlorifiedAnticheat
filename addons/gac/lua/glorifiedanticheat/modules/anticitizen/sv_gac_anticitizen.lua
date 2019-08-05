@@ -1,3 +1,8 @@
+local _CurTime = CurTime
+local _IsValid = IsValid
+local _hook_Add = hook.Add
+local _math_abs = math.abs
+
 if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
 
 local Blacklisted_Weapons = {
@@ -7,20 +12,20 @@ local Blacklisted_Weapons = {
     ["gmod_camera"] = true
 }
 
-hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
+_hook_Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
 
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
+    || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
 
-    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
+    if( ply.JoinTimeGAC == nil || !( _CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
 
-    if IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
+    if _IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
         ply.gAC_AimbotDetections = 0
         return 
     end
 
-    ply.gAC_MX_AB = math.abs( cmd:GetMouseX() )
-    ply.gAC_MY_AB = math.abs( cmd:GetMouseY() )
+    ply.gAC_MX_AB = _math_abs( cmd:GetMouseX() )
+    ply.gAC_MY_AB = _math_abs( cmd:GetMouseY() )
     ply.gAC_View = cmd:GetViewAngles()
 
     if ply.gAC_OldView == nil then

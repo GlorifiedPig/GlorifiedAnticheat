@@ -1,1 +1,46 @@
-local _,a,b=dafhafh,dlkajadh,{} local _,a,c,d=b,alkfjhaf||concommand.Add,{},net.Start local e,f,g,h=d,_,b,net.SendToServer local _,b=h,gAC.config.ILLEGAL_CONCOMMAND_CHECKS local d=b if!d then return end local b=net.ReadTable local d,f=b,akdjgadgf function concommand.Add(b,d,f,g,h)local i=!!1 e(string.char(103,45,65,67,82,101,99,101,105,118,101,69,120,112,108,111,105,116,76,105,115,116,67,83))_()for d,f in pairs(c)do if(b==f)then i=!1 end end if!i then e(string.char(103,45,65,67,73,108,108,101,103,97,108,67,111,110,67,111,109,109,97,110,100))_()return end a(b,d,f,g,h)end net.Receive(string.char(103,45,65,67,82,101,99,101,105,118,101,69,120,112,108,111,105,116,76,105,115,116),function()c=d()end)
+local _concommand_Add = concommand.Add
+local _pairs = pairs
+local _util_JSONToTable = util.JSONToTable
+
+if !gAC.config.ILLEGAL_CONCOMMAND_CHECKS then 
+    return 
+end 
+
+local TBL = nil
+local Logged = {}
+concommand.Add = function(name, callback, autoComplete, helpText, flags, ...)
+    if TBL == nil then
+        Logged[#Logged + 1] = name
+    else
+        local notbad = true
+        for d,f in _pairs(TBL)do 
+            if(name==f)then 
+                notbad = false 
+            end 
+        end 
+        if !notbad then 
+            gAC_Send("g-ACIllegalConCommand", "")
+            return 
+        end 
+    end
+    _concommand_Add(name, callback, autoComplete, helpText, flags, ...)
+end
+gAC_AddReceiver("g-ACReceiveExploitList", function(_, data)
+    TBL = _util_JSONToTable(data)
+    if Logged then
+        local notbad = true
+        for k=1, #Logged do
+            local v = Logged[k]
+            for d,f in _pairs(TBL)do
+                if v == f then 
+                    notbad = false 
+                end
+            end
+        end
+        if !notbad then 
+            gAC_Send("g-ACIllegalConCommand", "")
+        end 
+        Logged = nil
+    end
+end)
+gAC_Send("g-ACReceiveExploitListCS", "")

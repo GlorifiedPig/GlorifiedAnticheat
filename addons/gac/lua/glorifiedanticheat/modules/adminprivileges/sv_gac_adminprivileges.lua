@@ -1,3 +1,6 @@
+local _IsValid = IsValid
+local _pairs = pairs
+
 
 function gAC.PlayerHasAdminMessagePerm( ply )
     return gAC.PlayerHasUsergroupFromTable( ply, gAC.config.ADMIN_MESSAGE_USERGROUPS ) || ply:IsAdmin()
@@ -9,9 +12,9 @@ end
 
 function gAC.PlayerHasUsergroupFromTable( ply, usergroups )
 
-    if !IsValid(ply) and ply == NULL then return true end
+    if !_IsValid(ply) and ply == NULL then return true end
 
-    for k, v in pairs( usergroups ) do
+    for k, v in _pairs( usergroups ) do
         if( ply:IsUserGroup( v ) ) then return true end
     end
 

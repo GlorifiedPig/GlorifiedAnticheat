@@ -1,3 +1,19 @@
+local _isfunction = isfunction
+local _istable = istable
+local _pcall = pcall
+local _tonumber = tonumber
+local _util_JSONToTable = util.JSONToTable
+local _util_TableToJSON = util.TableToJSON
+local _coroutine_create = coroutine.create
+local _coroutine_resume = coroutine.resume
+local _string_Explode = string.Explode
+local _tostring = tostring
+local _string_format = string.format
+local _string_dump = string.dump
+local _jit_off = jit.off
+local _jit_on = jit.on
+local _jit_flush = jit.flush
+
 --[[
     Note, This is a detection method was created by Cake himself, i've just reworked some areas which are critical in detections
     
@@ -24,24 +40,24 @@
 local Utils = {}
 
 function Utils.GetTableValue(gtbl, tbl, iteration)
-    iteration = iteration or tonumber("1")
-    if iteration > tonumber("14") then return nil end
-    if istable(gtbl[ tbl[iteration] ]) then
-        return Utils.GetTableValue(gtbl[ tbl[iteration] ], tbl, iteration + tonumber("1"))
-    elseif isfunction(gtbl[ tbl[iteration] ]) then
+    iteration = iteration or _tonumber("1")
+    if iteration > _tonumber("14") then return nil end
+    if _istable(gtbl[ tbl[iteration] ]) then
+        return Utils.GetTableValue(gtbl[ tbl[iteration] ], tbl, iteration + _tonumber("1"))
+    elseif _isfunction(gtbl[ tbl[iteration] ]) then
         return gtbl[ tbl[iteration] ]
     end
     return nil
 end
 
 gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
-    local err = pcall(function()
+    local err = _pcall(function()
         local response = {}
 
         local function detour_check (var1, var2, var3)
             local level = 0
             local __ = 0 -- if they do getupvalue it will go here instead
-            local thread = coroutine.create(function()
+            local thread = _coroutine_create(function()
                 local function _func() -- Remember that string stripper converts this to local _func = function(), make sure this does not happen.
                     var1(var2, var3)
                     level = level + 1
@@ -49,42 +65,43 @@ gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
                 end
                 _func()
             end)
-            coroutine.resume(thread)
+            _coroutine_resume(thread)
             return level
         end
 
-        data = util.JSONToTable(data)
+        data = _util_JSONToTable(data)
 
         local id
-        for k, v in ipairs(data) do
+        for k=1, #data do
+        	local v = data[k]
             if v["type"] then
                 if v["check_01"] ~= nil then
                     id = #response + 1
                     response[id] = {}
-                    response[id]["check_01"] = (Utils.GetTableValue(_G, string.Explode(".", v["type"])) ~= nil)
+                    response[id]["check_01"] = (Utils.GetTableValue(_G, _string_Explode(".", v["type"])) ~= nil)
                     continue
                 end
-                v["type"] = Utils.GetTableValue(_G, string.Explode(".", v["type"]))
+                v["type"] = Utils.GetTableValue(_G, _string_Explode(".", v["type"]))
                 if v["type"] == nil then continue end
                 id = #response + 1
                 response[id] = {}
                 if v["check_02"] ~= nil then
-                    jit.off()
-                    jit.flush()
+                    _jit_off()
+                    _jit_flush()
                     response[id]["check_02"] = detour_check(v["type"], v["check_02_ext"] and function() end or v["type"])
-                    jit.on()
+                    _jit_on()
                 end
                 if v["check_03"] ~= nil then
-                    response[id]["check_03"] = tostring(v["type"])
-                    response[id]["check_03_ext"] = string.format("%s",v["type"])
+                    response[id]["check_03"] = _tostring(v["type"])
+                    response[id]["check_03_ext"] = _string_format("%s",v["type"])
                 end
                 if v["check_04"] ~= nil then
-                    response[id]["check_04"] = pcall(string.dump,v["type"])
+                    response[id]["check_04"] = _pcall(_string_dump,v["type"])
                 end
             end
         end
 
-        gAC_Send("g-ACDebugLibResponse", util.TableToJSON(response))
+        gAC_Send("g-ACDebugLibResponse", _util_TableToJSON(response))
     end)
     if !err then
         gAC_Send("g-ACDebugLibResponse", "1")

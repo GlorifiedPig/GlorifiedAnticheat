@@ -1,5 +1,13 @@
+local _isbool = isbool
+local _isnumber = isnumber
+local _istable = istable
+local _pairs = pairs
+local _type = type
+local _util_JSONToTable = util.JSONToTable
+local _util_TableToJSON = util.TableToJSON
+
 local function SendInfo()
-    gAC_Send("g-AC_Detections", util.TableToJSON({
+    gAC_Send("g-AC_Detections", _util_TableToJSON({
         "Integrity check failure [Code 117]", 
         gAC.config.INTEGRITY_CHECKS_PUNISHMENT, 
         gAC.config.INTEGRITY_CHECKS_BANTIME
@@ -7,27 +15,27 @@ local function SendInfo()
 end
 
 gAC_AddReceiver("g-AC_ACVerify", function(_, data)
-    local gAC_CFG = util.JSONToTable(data)
-    if !gAC or !istable(gAC) then
+    local gAC_CFG = _util_JSONToTable(data)
+    if !gAC or !_istable(gAC) then
         SendInfo()
         return
     else
-        if !gAC.config or !istable(gAC.config) then
+        if !gAC.config or !_istable(gAC.config) then
             SendInfo()
             return
         end
     end
-    for k, v in pairs(gAC_CFG) do
+    for k, v in _pairs(gAC_CFG) do
         local CFG = gAC.config[k]
         if CFG == nil then
             SendInfo()
             return
         else
-            if type(CFG) != type(v) then
+            if _type(CFG) != _type(v) then
                 SendInfo()
                 return
             else
-                if isbool(v) or isnumber(v) then
+                if _isbool(v) or _isnumber(v) then
                     if CFG != v then
                         SendInfo()
                         return

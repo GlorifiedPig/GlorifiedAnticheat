@@ -1,3 +1,7 @@
+local _IsValid = IsValid
+local _hook_Add = hook.Add
+local _timer_Simple = timer.Simple
+
 if !gAC.config.ANTI_METH then return end
 
 --[[
@@ -6,9 +10,9 @@ if !gAC.config.ANTI_METH then return end
     of detouring the [redacted] function.
 ]]
 
-hook.Add("gAC.CLFilesLoaded", "g-AC_meth_initialspawn", function(ply)
-    timer.Simple(30, function()
-        if !IsValid(ply) then return end
+_hook_Add("gAC.CLFilesLoaded", "g-AC_meth_initialspawn", function(ply)
+    _timer_Simple(30, function()
+        if !_IsValid(ply) then return end
         gAC.Network:Send("g-AC_meth1", "", ply)
     end)
 end)

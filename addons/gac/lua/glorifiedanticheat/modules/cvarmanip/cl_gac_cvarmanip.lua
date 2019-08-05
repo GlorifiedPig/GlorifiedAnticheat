@@ -1,16 +1,20 @@
+local _GetConVar = GetConVar
+local _table_insert = table.insert
+local _util_TableToJSON = util.TableToJSON
+
 gAC_AddReceiver("G-ACcVarManipCS1", function()
     local convars = {}
-    if GetConVar( "sv_allowcslua" ) != nil then
-        table.insert( convars, 0, GetConVar( "sv_allowcslua" ):GetInt() )
+    if _GetConVar( "sv_allowcslua" ) != nil then
+        _table_insert( convars, 0, _GetConVar( "sv_allowcslua" ):GetInt() )
     else
-        table.insert( convars, 0, 1 )
+        _table_insert( convars, 0, 1 )
     end
 
-    if GetConVar( "sv_cheats" ) != nil then
-        table.insert( convars, 1, GetConVar( "sv_cheats" ):GetInt() )
+    if _GetConVar( "sv_cheats" ) != nil then
+        _table_insert( convars, 1, _GetConVar( "sv_cheats" ):GetInt() )
     else
-        table.insert( convars, 1, 1 )
+        _table_insert( convars, 1, 1 )
     end
 
-    gAC_Send("G-ACcVarManipSV1", util.TableToJSON(convars))
+    gAC_Send("G-ACcVarManipSV1", _util_TableToJSON(convars))
 end )
