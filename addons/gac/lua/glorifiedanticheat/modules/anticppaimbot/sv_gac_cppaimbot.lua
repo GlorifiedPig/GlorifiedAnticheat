@@ -1,60 +1,63 @@
-if !gAC.config.ENABLE_CPPAIMBOT_CHECKS then return end
-
-local Blacklisted_Weapons = {
-    ["weapon_physgun"] = true,
-    ["gmod_tool"] = true,
-    ["weapon_physcannon"] = true
-}
-
-local tr
-
-hook.Add( "StartCommand", "gAC_AntiCobalt.StartCommand", function( ply, cmd )
-
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    if IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
-        ply.gAC_CPPAimbotDetections = 0
-        return 
-    end
-
-    ply.gAC_CPPMX = math.abs( cmd:GetMouseX() )
-    ply.gAC_CPPMY = math.abs( cmd:GetMouseY() )
-    ply.gAC_CPPAimView = cmd:GetViewAngles()
-
-    if ply.gAC_CPPAimViewOld == nil then
-        ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
-        return
-    end
-
-    if ply.gAC_CPPAimbotDetections == nil then
-        ply.gAC_CPPAimbotDetections = 0
-    end
-
-    if ply.gAC_CPPMX == 0 && ply.gAC_CPPMY == 0 then
-        if ( ply.gAC_CPPAimView.p ~= ply.gAC_CPPAimViewOld.p && ply.gAC_CPPAimView.y ~= ply.gAC_CPPAimViewOld.y ) then
-            tr = util.TraceLine({start = ply:EyePos(), endpos = ply:EyePos() + ((ply.gAC_CPPAimView):Forward() * (4096 * 8) ), filter = ply})
-        	if tr.Entity:IsPlayer() then
-                if ply.gAC_CPPAimbotDetections >= 40 then
-                    ply.gAC_AimbotDetected = true
-                    gAC.AddDetection( ply, "C++ Aimbot detection triggered [Code 123]", gAC.config.CPPAIMBOT_PUNISHMENT, gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME )
-                else
-                    ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections + 1
-                end
-            elseif ply.gAC_CPPAimbotDetections != 0 then
-                ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections - 1
-            end
-        elseif ply.gAC_CPPAimbotDetections != 0 then
-            ply.gAC_CPPAimbotDetections = 0
-        end
-    elseif ply.gAC_CPPAimbotDetections != 0 then
-        ply.gAC_CPPAimbotDetections = 0
-    end
-
-    ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
-
-end )
-
-print("[g-AC] Loaded CPPAimbot")
+local
+_,a,b,c,d,e,f={_="gAC_AimbotDetected",a="gAC_CPPAimbotDetections",b="gAC_CPPAimView",c="gAC_CPPAimViewOld"},CurTime,IsValid,hook.Add,math.abs,util.TraceLine,CLIENT&&EyePos||NULL
+if!gAC.config.ENABLE_CPPAIMBOT_CHECKS
+then
+return
+end
+local
+f,g={["weapon_physgun"]=!!1,["gmod_tool"]=!!1,["weapon_physcannon"]=!!1}c("StartCommand","gAC_AntiCobalt.StartCommand",function(c,h)if
+c:InVehicle()||c[_._]||!c:Alive()||c:GetObserverMode()~=OBS_MODE_NONE||c:IsBot()||!b(c)||c:IsTimingOut()||c:PacketLoss()>80
+then
+return
+end
+if
+c.JoinTimeGAC==nil||!(a()>=c.JoinTimeGAC+25)||c.PlayerFullyAuthenticated~=!!1
+then
+return
+end
+if
+b(c:GetActiveWeapon())&&f[c:GetActiveWeapon():GetClass()]then
+c[_.a]=0
+return
+end
+c.gAC_CPPMX=d(h:GetMouseX())c.gAC_CPPMY=d(h:GetMouseY())c[_.b]=h:GetViewAngles()if
+c[_.c]==nil
+then
+c[_.c]=c[_.b]return
+end
+if
+c[_.a]==nil
+then
+c[_.a]=0
+end
+if
+c.gAC_CPPMX==0&&c.gAC_CPPMY==0
+then
+if
+c[_.b].p~=c[_.c].p&&c[_.b].y~=c[_.c].y
+then
+g=e{start=c:EyePos(),endpos=c:EyePos()+(c[_.b]:Forward()*32768),filter=c}if
+g.Entity:IsPlayer()then
+if
+c[_.a]>=40
+then
+c[_._]=!!1
+gAC.AddDetection(c,"C++ Aimbot detection triggered [Code 123]",gAC.config.CPPAIMBOT_PUNISHMENT,gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME)else
+c[_.a]=c[_.a]+1
+end
+elseif
+c[_.a]~=0
+then
+c[_.a]=c[_.a]-1
+end
+elseif
+c[_.a]~=0
+then
+c[_.a]=0
+end
+elseif
+c[_.a]~=0
+then
+c[_.a]=0
+end
+c[_.c]=c[_.b]end)

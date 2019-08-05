@@ -302,7 +302,7 @@ local TBL = {
 	_util_TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)),
 	gAC.Network.Decoder_Verify,
 	gAC.Network.Decoder_Get,
-	gAC.Network.Decoder_Undo --13
+	gAC.Network.Decoder_Undo --12
 }
 
 gAC.Network.Payload_001 = ""

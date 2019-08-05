@@ -1,3 +1,11 @@
+local _IsValid = IsValid
+local _hook_Add = hook.Add
+local _isbool = isbool
+local _isnumber = isnumber
+local _pairs = pairs
+local _timer_Simple = timer.Simple
+local _util_TableToJSON = util.TableToJSON
+
 --[[
     Considering how you can block certain functions and values in C++
     this is just to check if there was any alterations to gAC's config
@@ -11,17 +19,17 @@ if !gAC.config.INTEGRITY_CHECKS then return end
 
 local Configs = {}
 
-for k, v in pairs(gAC.config) do
-    if isbool(v) or isnumber(v) then
+for k, v in _pairs(gAC.config) do
+    if _isbool(v) or _isnumber(v) then
         Configs[k] = v
     end
 end
 
-Configs = util.TableToJSON(Configs)
+Configs = _util_TableToJSON(Configs)
 
-hook.Add("gAC.CLFilesLoaded", "g-AC_verify_initialspawn", function(ply)
-    timer.Simple(30, function()
-        if !IsValid(ply) then return end
+_hook_Add("gAC.CLFilesLoaded", "g-AC_verify_initialspawn", function(ply)
+    _timer_Simple(30, function()
+        if !_IsValid(ply) then return end
         gAC.Network:Send("g-AC_ACVerify", Configs, ply)
     end)
 end)

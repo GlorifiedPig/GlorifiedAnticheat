@@ -1,10 +1,15 @@
+local _hook_Add = hook.Add
+local _next = next
+local _player_GetBySteamID = player.GetBySteamID
+local _require = require
+
 -- CREDITS TO Octothorp TEAM FOR SLOG AND DETAILS.
 
 if(!gAC.config.ENABLE_SOURCECRASHER_CHECKS) then return end
 if(!system.IsLinux()) then return end
 
-require 'slog'
-require 'sourcenet'
+_require 'slog'
+_require 'sourcenet'
 
 local tag = 'stringcmd_exploit'
 
@@ -13,7 +18,7 @@ local tL, tN = {}, {}
 
 local function punish(s)
 
-	local pl = player.GetBySteamID(s)
+	local pl = _player_GetBySteamID(s)
 	if pl.kicked then return end
 	
 	pl.kicked = true
@@ -24,7 +29,7 @@ local function punish(s)
 
 end
 
-hook.Add('ExecuteStringCommand', tag, function(s, c)
+_hook_Add('ExecuteStringCommand', tag, function(s, c)
 
 	local cL, cN = tL[s], tN[s]
 	if not cL then cL = 0 end
@@ -40,13 +45,13 @@ hook.Add('ExecuteStringCommand', tag, function(s, c)
 
 end)
 
-hook.Add('Tick', tag, function()
+_hook_Add('Tick', tag, function()
 
-	for k, cL in next, tL do
+	for k, cL in _next, tL do
 		tL[k] = nil
 	end
 
-	for k, cN in next, tN do
+	for k, cN in _next, tN do
 		tN[k] = nil
 	end
 

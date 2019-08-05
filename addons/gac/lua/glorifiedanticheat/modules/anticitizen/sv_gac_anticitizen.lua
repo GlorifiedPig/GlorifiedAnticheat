@@ -1,54 +1,53 @@
-if !gAC.config.ENABLE_CITIZENHACK_CHECKS then return end
-
-local Blacklisted_Weapons = {
-    ["weapon_physgun"] = true,
-    ["gmod_tool"] = true,
-    ["weapon_physcannon"] = true,
-    ["gmod_camera"] = true
-}
-
-hook.Add( "StartCommand", "gAC_AntiCitizen.StartCommand", function( ply, cmd )
-
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    if IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
-        ply.gAC_AimbotDetections = 0
-        return 
-    end
-
-    ply.gAC_MX_AB = math.abs( cmd:GetMouseX() )
-    ply.gAC_MY_AB = math.abs( cmd:GetMouseY() )
-    ply.gAC_View = cmd:GetViewAngles()
-
-    if ply.gAC_OldView == nil then
-        ply.gAC_OldView = ply.gAC_View
-        return
-    end
-
-    if ply.gAC_AimbotDetections == nil then
-        ply.gAC_AimbotDetections = 0
-    end
-
-    if ( ply.gAC_MX_AB > 0 && ply.gAC_MX_AB < 40 ) or ( ply.gAC_MY_AB > 0 && ply.gAC_MY_AB < 40 ) then
-        if ply.gAC_View == ply.gAC_OldView then
-            if ply.gAC_AimbotDetections >= 160 then
-                ply.gAC_AimbotDetected = true
-                gAC.AddDetection( ply, "Anti-citizen detection triggered [Code 109]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
-            else
-                ply.gAC_AimbotDetections = ply.gAC_AimbotDetections + 1
-            end
-        elseif ply.gAC_AimbotDetections != 0 then
-            ply.gAC_AimbotDetections = 0
-        end
-    elseif ply.gAC_AimbotDetections != 0 then
-        ply.gAC_AimbotDetections = 0
-    end
-
-    ply.gAC_OldView = ply.gAC_View
-
-end )
-
-print("[g-AC] Loaded AntiCitizen")
+local
+_,a,b,c,d={_="gAC_AimbotDetected",a="gAC_AimbotDetections",b="gAC_MX_AB",c="gAC_MY_AB",d="gAC_View",e="gAC_OldView"},CurTime,IsValid,hook.Add,math.abs
+if!gAC.config.ENABLE_CITIZENHACK_CHECKS
+then
+return
+end
+local
+e={["weapon_physgun"]=!!1,["gmod_tool"]=!!1,["weapon_physcannon"]=!!1,["gmod_camera"]=!!1}c("StartCommand","gAC_AntiCitizen.StartCommand",function(c,f)if
+c:InVehicle()||c[_._]||!c:Alive()||c:GetObserverMode()~=OBS_MODE_NONE||c:IsBot()||!b(c)||c:IsTimingOut()||c:PacketLoss()>80
+then
+return
+end
+if
+c.JoinTimeGAC==nil||!(a()>=c.JoinTimeGAC+25)||c.PlayerFullyAuthenticated~=!!1
+then
+return
+end
+if
+b(c:GetActiveWeapon())&&e[c:GetActiveWeapon():GetClass()]then
+c[_.a]=0
+return
+end
+c[_.b]=d(f:GetMouseX())c[_.c]=d(f:GetMouseY())c[_.d]=f:GetViewAngles()if
+c[_.e]==nil
+then
+c[_.e]=c[_.d]return
+end
+if
+c[_.a]==nil
+then
+c[_.a]=0
+end
+if(c[_.b]>0&&c[_.b]<40)||(c[_.c]>0&&c[_.c]<40)then
+if
+c[_.d]==c[_.e]then
+if
+c[_.a]>=160
+then
+c[_._]=!!1
+gAC.AddDetection(c,"Anti-citizen detection triggered [Code 109]",gAC.config.CITIZENHACK_PUNISHMENT,gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME)else
+c[_.a]=c[_.a]+1
+end
+elseif
+c[_.a]~=0
+then
+c[_.a]=0
+end
+elseif
+c[_.a]~=0
+then
+c[_.a]=0
+end
+c[_.e]=c[_.d]end)

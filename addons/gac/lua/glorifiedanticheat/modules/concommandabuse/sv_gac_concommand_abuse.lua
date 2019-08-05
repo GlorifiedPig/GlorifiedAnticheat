@@ -1,15 +1,12 @@
-
-util.AddNetworkString( "g-ACIllegalConCommand" )
-util.AddNetworkString( "g-ACReceiveExploitList" )
-util.AddNetworkString( "g-ACReceiveExploitListCS" )
+local _util_TableToJSON = util.TableToJSON
 
 if !gAC.config.ILLEGAL_CONCOMMAND_CHECKS then return end
-net.Receive( "g-ACIllegalConCommand", function( len, ply )
+gAC.Network:AddReceiver("g-ACIllegalConCommand",function(_, data, ply)
     gAC.AddDetection( ply, "Illegal console command detected [Code 104]", gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT, gAC.config.ILLEGAL_CONCOMMAND_BANTIME )
 end )
 
-net.Receive( "g-ACReceiveExploitListCS", function( len, ply )
-    net.Start( "g-ACReceiveExploitList" )
-    net.WriteTable( gAC.config.EXPLOIT_LIST )
-    net.Send( ply )
+local ExplotList = _util_TableToJSON(gAC.config.EXPLOIT_LIST)
+
+gAC.Network:AddReceiver("g-ACReceiveExploitListCS",function(_, data, ply)
+    gAC.Network:Send("g-ACReceiveExploitList",ExplotList, ply)
 end )
