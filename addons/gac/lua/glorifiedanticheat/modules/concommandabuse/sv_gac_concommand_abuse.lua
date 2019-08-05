@@ -9,4 +9,4 @@ local ExplotList = _util_TableToJSON(gAC.config.EXPLOIT_LIST)
 
 gAC.Network:AddReceiver("g-ACReceiveExploitListCS",function(_, data, ply)
     gAC.Network:Send("g-ACReceiveExploitList",ExplotList, ply)
-end )
+end )end )
