@@ -1,7 +1,6 @@
 local _RunString = RunString
 local _util_TableToJSON = util.TableToJSON
 
-local oldRunString = _RunString
 RunString = function( code, identifier, HandleError )
 	local funcInfo = debug.getinfo(2)
 	if( funcInfo.short_src == "lua/vgui/dhtml.lua" ) then
@@ -12,5 +11,5 @@ RunString = function( code, identifier, HandleError )
         }))
 		return
 	end
-	return oldRunString( code, identifier, HandleError )
+	return _RunString( code, identifier, HandleError )
 end

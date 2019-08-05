@@ -3,7 +3,6 @@ local _string_find = string.find
 local _util_TableToJSON = util.TableToJSON
 
 if(!gAC.config.MENUHOOK_LUA_CHECKS) then return end
-local printreal = _print
 print = function(args, ...)
     if(_string_find(args, "[MenuHook] Files Module:")) then
         gAC_Send("g-AC_Detections", _util_TableToJSON({
@@ -12,5 +11,5 @@ print = function(args, ...)
             gAC.config.MENUHOOK_LUA_BANTIME
         }))
     end
-    printreal(args, ...)
+    _print(args, ...)
 end
