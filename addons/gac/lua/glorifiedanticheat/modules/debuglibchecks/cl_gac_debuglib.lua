@@ -39,13 +39,17 @@ local _jit_flush = jit.flush
 
 local Utils = {}
 
-function Utils.GetTableValue(gtbl, tbl, iteration)
-    iteration = iteration or _tonumber("1")
-    if iteration > _tonumber("14") then return nil end
-    if _istable(gtbl[ tbl[iteration] ]) then
-        return Utils.GetTableValue(gtbl[ tbl[iteration] ], tbl, iteration + _tonumber("1"))
-    elseif _isfunction(gtbl[ tbl[iteration] ]) then
-        return gtbl[ tbl[iteration] ]
+function Utils.GetTableValue(gtbl, tbl)
+    local TBL = gtbl
+    for k=1, #tbl do
+        local v = tbl[k]
+        if _istable(TBL[v]) then
+            TBL = TBL[v]
+        elseif k == #tbl then
+            return TBL[v]
+        else
+            return nil 
+        end
     end
     return nil
 end
@@ -86,10 +90,13 @@ gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
                 id = #response + 1
                 response[id] = {}
                 if v["check_02"] ~= nil then
+                    local func = (v["check_02_ext"] and function() end or v["type"])
+                    local iteration = 0
                     _jit_off()
                     _jit_flush()
-                    response[id]["check_02"] = detour_check(v["type"], v["check_02_ext"] and function() end or v["type"])
+                    iteration = detour_check(v["type"], func)
                     _jit_on()
+                    response[id]["check_02"] = iteration
                 end
                 if v["check_03"] ~= nil then
                     response[id]["check_03"] = _tostring(v["type"])
