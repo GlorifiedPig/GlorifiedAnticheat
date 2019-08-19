@@ -13,6 +13,7 @@ local _string_dump = string.dump
 local _jit_off = jit.off
 local _jit_on = jit.on
 local _jit_flush = jit.flush
+local _collectgarbage = collectgarbage
 
 --[[
     Note, This is a detection method was created by Cake himself, i've just reworked some areas which are critical in detections
@@ -94,8 +95,10 @@ gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
                     local iteration = 0
                     _jit_off()
                     _jit_flush()
+                    _collectgarbage("stop")
                     iteration = detour_check(v["type"], func)
                     _jit_on()
+                    _collectgarbage("restart")
                     response[id]["check_02"] = iteration
                 end
                 if v["check_03"] ~= nil then
