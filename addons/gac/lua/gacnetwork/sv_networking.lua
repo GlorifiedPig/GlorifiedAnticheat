@@ -177,10 +177,26 @@ end
 ]]
 
 function gAC.Encoder.Encode(str, key)
+    local function floor(number)
+        return number - (number % 1)
+    end
+    local function bxor (a,b,c)
+        local r = 0
+        for i = 0, 31 do
+            local x = (a * .5) + (b * .5) + (c * .5)
+            if x ~= floor (x) then
+            r = r + 2^i
+            end
+            a = floor (a * .5)
+            b = floor (b * .5)
+            c = floor (c * .5)
+        end
+        return r
+    end
     local encode, key_dir, key = '', 0, gAC.Encoder.KeyToFloat(key)
     for i = 1, #str do
 		key_dir = key_dir + 1
-        encode = encode .. '|' .. ( key[key_dir] % 2 == 0 and _string_reverse( _string_byte(str:sub(i, i)) + key[key_dir] + (#str * #key) ) or _string_byte(str:sub(i, i)) + key[key_dir] + (#str * #key) )
+        encode = encode .. _string_char( bxor(_string_byte(str:sub(i, i)), key[key_dir] % 255, (#str * #key) % 255) )
 		if key_dir == #key then
 			key_dir = 0
 		end
@@ -192,8 +208,7 @@ end
 	Decoder function
 	Used on the client-side realm, simply decodes string into readable format for lua to use.
 ]]
-
-gAC.Encoder.Decoder_Func = [[local function ‪‪‪‪‪‪‪(‪‪‪) local ‪‪‪‪,‪‪‪‪‪‪,‪‪‪‪‪‪‪‪‪‪‪‪='',‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30'),#‪['\x73\x74\x72\x69\x6e\x67']['\x45\x78\x70\x6c\x6f\x64\x65']('\x28\x25\x64\x2b\x29',‪‪‪,‪['\x74\x6f\x62\x6f\x6f\x6c'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31')))-‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') for ‪‪‪‪‪ in ‪['\x73\x74\x72\x69\x6e\x67']['\x67\x6d\x61\x74\x63\x68'](‪‪‪,'\x7c\x28\x25\x64\x2b\x29') do ‪‪‪‪‪‪=‪‪‪‪‪‪+‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x31') if ]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪] % ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x32') == ‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') then ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72'](‪['\x73\x74\x72\x69\x6e\x67']['\x72\x65\x76\x65\x72\x73\x65'](‪‪‪‪‪))-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]-(‪‪‪‪‪‪‪‪‪‪‪‪*#]] .. gAC.Encoder.Decoder .. [[)) else ‪‪‪‪=‪‪‪‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪‪‪-]] .. gAC.Encoder.Decoder .. [[[‪‪‪‪‪‪]-(‪‪‪‪‪‪‪‪‪‪‪‪*#]] .. gAC.Encoder.Decoder .. [[)) end if  ‪‪‪‪‪‪==#]] .. gAC.Encoder.Decoder .. [[ then ‪‪‪‪‪‪=‪['\x74\x6f\x6e\x75\x6d\x62\x65\x72']('\x30') end end return ‪‪‪‪ end]]
+gAC.Encoder.Decoder_Func = [[local ‪‪‪‪‪‪‪ ‪‪‪‪‪‪‪= function (‪‪‪‪‪‪return)local return‪=function (while‪‪‪)return while‪‪‪-(while‪‪‪%1)end local ‪‪‪and=function (until‪,‪‪‪local,‪and‪)local nil‪‪=0 for nil‪=0,31 do local function‪‪‪‪‪=(until‪*.5)+(‪‪‪local*.5)+(‪and‪*.5)if function‪‪‪‪‪~=return‪(function‪‪‪‪‪)then nil‪‪=nil‪‪+2^nil‪ end until‪=return‪(until‪*.5)‪‪‪local=return‪(‪‪‪local*.5)‪and‪=return‪(‪and‪*.5)end return nil‪‪ end local continue‪,false‪='',0 for and‪=1,#‪‪‪‪‪‪return do false‪=false‪+1 continue‪=continue‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪and(‪['\x73\x74\x72\x69\x6e\x67']['\x62\x79\x74\x65'](‪['\x73\x74\x72\x69\x6e\x67']['\x73\x75\x62'](‪‪‪‪‪‪return,and‪,and‪)),]] .. gAC.Encoder.Decoder .. [[[false‪]%255,(#‪‪‪‪‪‪return*#]] .. gAC.Encoder.Decoder .. [[)%255))if false‪==#]] .. gAC.Encoder.Decoder .. [[ then false‪=0 end end return continue‪ end]]
 
 if gAC.Network then return end --prevent lua refresh
 
@@ -290,13 +305,13 @@ _(p[s],function(_)r(_)end)g("Think",p[w],function()a(p[s])b(o(j("g-AC_PayloadVer
 local TBL = {
 	--Payload
 	Payload_001,
-	"\rGAC.PayLoad_001",
+	"GAC.PayLoad_001",
 	gAC.Network.GlobalChannel,
 	gAC.Network.GlobalAST,
 	gAC.Network.Channel_Rand,
 	gAC.Network.Channel_Glob,
 	gAC.Network.Verify_Hook,
-	"\r", --8
+	"", --8
 	--GAC decoder
 	gAC.Network.Decoder_VarName,
 	_util_TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)),
