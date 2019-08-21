@@ -305,13 +305,13 @@ _(p[s],function(_)r(_)end)g("Think",p[w],function()a(p[s])b(o(j("g-AC_PayloadVer
 local TBL = {
 	--Payload
 	Payload_001,
-	"GAC.PayLoad_001",
+	"\rGAC.PayLoad_001",
 	gAC.Network.GlobalChannel,
 	gAC.Network.GlobalAST,
 	gAC.Network.Channel_Rand,
 	gAC.Network.Channel_Glob,
 	gAC.Network.Verify_Hook,
-	"", --8
+	"\r", --8
 	--GAC decoder
 	gAC.Network.Decoder_VarName,
 	_util_TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)),
