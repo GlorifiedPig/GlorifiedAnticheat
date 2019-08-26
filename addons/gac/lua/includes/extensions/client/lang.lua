@@ -37,7 +37,7 @@ local _engine_TickInterval = engine.TickInterval
 
 local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
 local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
-local _750 = 750
+local _300 = 300
 
 local function floor(number)
     return number - (number % _1)
@@ -158,7 +158,7 @@ function _gAC.SendBuffer(data)
         _gAC.ToSend[_1] = { [_1] = data }
     elseif !_gAC.ToSend[ID] then
         _gAC.ToSend[ID] = { [_1] = data }
-    elseif #_gAC.ToSend[ID] >= _750 then
+    elseif #_gAC.ToSend[ID] >= _300 then
         _gAC.ToSend[ID + _1] = { [_1] = data }
     else
         _gAC.ToSend[ID][#_gAC.ToSend[ID] + _1] = data

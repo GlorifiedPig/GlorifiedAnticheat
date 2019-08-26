@@ -94,7 +94,7 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     -- However this works at a cost of some CPU usage server-side.
     gAC.config.AntiLua_FunctionVerification = true
 
-    -- WARNING, try not to use this! this exteremly CPU intensive!
+    -- WARNING, try not to use this! this extremely CPU intensive!
     -- This will auto reload verifications for a certain file on lua refresh.
     gAC.config.AntiLua_LuaRefresh = false
 --[[ Lua Execution End]]

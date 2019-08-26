@@ -126,6 +126,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             if LuaFileUpdates && !LuaFileUpdates[funcinfo.source] then
                 LuaFileUpdates[funcinfo.source] = true
                 gAC.UpdateLuaFile(funcinfo.source)
+                return
             end
             local funcslist = gAC.LuaFileCache[funcinfo.source].funclist
             for k=1, #funcslist do
