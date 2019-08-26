@@ -33,9 +33,11 @@ local _net_WriteData = net.WriteData
 local _CompileString = CompileString
 local _hook_Add = hook.Add
 local _hook_Remove = hook.Remove
+local _engine_TickInterval = engine.TickInterval
 
 local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
-local __5, _97, _65, _49, _122, _90, _57, _26, _32, _16, _24, _32764 = .5,97,65,49,122,90,57,26,32,16,24,32764
+local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
+local _750 = 750
 
 local function floor(number)
     return number - (number % _1)
@@ -57,8 +59,11 @@ end
 local _gAC = {
     OrigFuncs = {},
     OrigNames = {},
-    ToSend = {}
+    ToSend = {},
+    AntiLua = true
 }
+
+local _Tick = _1/_engine_TickInterval()
 
 function _gAC._D( old, new, name )
     name = name or ""
@@ -146,6 +151,34 @@ function _gAC.SetTableValue(gtbl, tbl, value)
     return false
 end
 
+function _gAC.SendBuffer(data)
+    if !_gAC.AntiLua then return end
+    local ID = #_gAC.ToSend
+    if ID < _1 then
+        _gAC.ToSend[_1] = { [_1] = data }
+    elseif !_gAC.ToSend[ID] then
+        _gAC.ToSend[ID] = { [_1] = data }
+    elseif #_gAC.ToSend[ID] >= _750 then
+        _gAC.ToSend[ID + _1] = { [_1] = data }
+    else
+        _gAC.ToSend[ID][#_gAC.ToSend[ID] + _1] = data
+    end
+end
+
+function _gAC.CompileData(data)
+    return {
+        func = data.func,
+        source = data.source,
+        short_src = data.short_src,
+        what = data.what,
+        lastlinedefined = data.lastlinedefined,
+        linedefined = data.linedefined,
+        proto = data.proto,
+        funcname = data.funcname,
+        execidentifier = data.execidentifier
+    }
+end
+
 local opcodemap =
 {
 	[0x49] = 0x49,
@@ -195,7 +228,7 @@ _gAC.LuaVM = function(proto)
     if jitinfo.source == SafeCode then return end
     jitinfo.source = _gAC.dirtosvlua(jitinfo.source)
     jitinfo.proto = bytecodetoproto(proto, jitinfo)
-    _gAC.ToSend[#_gAC.ToSend + _1] = jitinfo
+    _gAC.SendBuffer(_gAC.CompileData(jitinfo))
 end
 
 local Detourables = {
@@ -212,12 +245,12 @@ for k=_1, #Detourables do
     local func = _gAC.GetTableValue(_G, v[_1])
     if func == nil then continue end
     local newfunc = _gAC._D( func, function(...)
-        local dbginfo = _debug_getinfo(_2)
+        local dbginfo = _debug_getinfo(_2, "fS")
         dbginfo.funcname = v[_2]
         dbginfo.func = _tostring(dbginfo.func)
         dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
         dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-        _gAC.ToSend[#_gAC.ToSend + _1] = dbginfo
+        _gAC.SendBuffer(_gAC.CompileData(dbginfo))
         return func(...)
     end, funcname )
     _gAC.SetTableValue(_G, v[_1], newfunc)
@@ -232,13 +265,13 @@ RunString = _gAC._D( RunString, function(code, ident, ...)
     else
         ident = "RunString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
     end
-    local dbginfo = _debug_getinfo(_2)
+    local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunString"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.ToSend[#_gAC.ToSend + _1] = dbginfo
+    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
     return _RunString(code, ident, ...)
 end, "RunString" )
 
@@ -251,13 +284,13 @@ RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
     else
         ident = "RunStringEx-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
     end
-    local dbginfo = _debug_getinfo(_2)
+    local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunStringEx"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.ToSend[#_gAC.ToSend + _1] = dbginfo
+    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
     return _RunStringEx(code, ident, ...)
 end, "RunStringEx" )
 
@@ -269,13 +302,13 @@ CompileString = _gAC._D( CompileString, function(code, ident, ...)
     else
         ident = "CompileString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
     end
-    local dbginfo = _debug_getinfo(_2)
+    local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "CompileString"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.ToSend[#_gAC.ToSend + _1] = dbginfo
+    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
     return _CompileString(code, ident, ...)
 end, "CompileString" )
 
@@ -290,20 +323,27 @@ _R._VMEVENTS[HASHID] = _gAC.LuaVM
 _jit_attach(function() end, "")
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local CurTick = _0
+local Interval = _15*_Tick
+local TickTime = Interval - _1
 
 _hook_Add( "Tick", ID, function()
     if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
         _R._VMEVENTS[HASHID] = _gAC.LuaVM
     end
-    if CurTick > 200 && _gAC.gAC_Send then
-        if gAC.config.AntiLua_CHECK then
-            _gAC.gAC_Stream("g-AC_LuaExec", _util_TableToJSON(_gAC.ToSend))
+    if _gAC.gAC_Send && TickTime > Interval then
+        _gAC.AntiLua = gAC.config.AntiLua_CHECK
+        if _gAC.AntiLua then
+            local data = _gAC.ToSend[_1]
+            if data then
+                _gAC.gAC_Send("g-AC_LuaExec", _util_TableToJSON(data))
+                _table_remove(_gAC.ToSend, _1)
+            else
+                _gAC.gAC_Send("g-AC_LuaExec", "1")
+            end
         end
-        _gAC.ToSend = {}
-        CurTick = _0
+        TickTime = _0
     end
-    CurTick = CurTick + _1
+    TickTime = TickTime + _1
 end ) 
 
 _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
@@ -345,50 +385,6 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
             _net_WriteUInt (_tonumber(_util_CRC (channelName .. codec[_5])), _32)
             _net_WriteData (data, #data)
         _net_SendToServer()
-    end
-
-    _gAC.gAC_Stream = function(channelName, data, split)
-        local compress_data = _util_Compress(data)
-        local compress_size = #compress_data
-        split = (split == nil and _32764 or split)
-        local parts = _math_ceil( compress_size / split )
-        if parts == _1 then
-            _gAC.gAC_Send(channelName, data)
-            return
-        end
-        local ID = _G[codec[_4]]
-        local test = ""
-        for i=_1, parts do
-            local min, max
-            if i == _1 then
-                min = i
-                max = split
-            elseif i > _1 and i ~= parts then
-                min = ( i - _1 ) * split + _1
-                max = min + split - _1
-            elseif i > _1 and i == parts then
-                min = ( i - _1 ) * split + _1
-                max = compress_size
-            end
-            local data = _string_sub( compress_data, min, max )
-            if i < parts && i > _1 then
-                data = "[GAC.STREAM-" .. ID .. "]" .. data
-            else
-                if i == _1 then
-                    data = "[GAC.STREAM_START-" .. ID .. "]" .. data
-                end
-                if i == parts then
-                    data = data .. "[GAC.STREAM_END-" .. ID .. "]"
-                end
-            end
-            _timer_Simple(i/_6, function()
-                _net_Start(codec[_3])
-                    _net_WriteUInt (_tonumber(_util_CRC (channelName .. codec[_5])), _32)
-                    _net_WriteData (data, #data)
-                _net_SendToServer()
-            end)
-        end
-        _G[codec[_4]] = ID + _1
     end
 
     local func = _Det_CompileString( codec[_1], codec[_2] )

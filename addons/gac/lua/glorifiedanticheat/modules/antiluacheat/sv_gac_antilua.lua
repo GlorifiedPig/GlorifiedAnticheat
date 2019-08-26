@@ -15,6 +15,9 @@ local _tostring = tostring
 local _istable = istable
 local _pairs = pairs
 local _pcall = pcall
+local _timer_Create = timer.Create
+local _timer_Start = timer.Start
+local _IsValid = IsValid
 local _string_dump = string.dump
 local _string_lower = string.lower
 local _string_sub = string.sub
@@ -47,8 +50,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             source = "=[C]", 
             short_src = "[C]", 
             what = "C",
-            nups = 0,
-            nparams = 0,
             lastlinedefined = -1,
             linedefined = -1
         },
@@ -56,8 +57,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             source = "=[C]", 
             short_src = "[C]", 
             what = "C",
-            nups = 0,
-            nparams = 0,
             lastlinedefined = -1,
             linedefined = -1
         }
@@ -173,10 +172,20 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         _file_Write("gac-antilua/" .. ply:SteamID64() .. "-" .. os.time() .. ".dat", response)
     end
 
-    gAC.Network:AddReceiver("g-AC_LuaExec",function(_, data, ply)
+    gAC.Network:AddReceiver("g-AC_LuaExec",function(_, tabledata, ply)
         if ply.LuaExecDetected then return end
-        data = _util_JSONToTable(data)
         local userid = ply:UserID()
+        if tabledata == "1" then 
+            _timer_Start("gAC.AntiLua-" .. userid)
+            return 
+        end
+        local succ, data = _pcall(_util_JSONToTable, tabledata)
+        if !succ then
+            ply.LuaExecDetected = true
+            gAC.AddDetection(ply, "AntiLua network manipulation", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+            return
+        end
+        _timer_Start("gAC.AntiLua-" .. userid)
         for k=1, #data do
             local v = data[k]
             if v.funcname then
@@ -241,6 +250,15 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             LuaFileUpdates = {}
         end
     end )
+
+    _hook_Add("gAC.CLFilesLoaded", "gAC.AntiLua", function(ply)
+        _timer_Create("gAC.AntiLua-" .. ply:UserID(), 120, 1, function()
+            if _IsValid(ply) && !ply.LuaExecDetected then
+                ply.LuaExecDetected = true
+                gAC.AddDetection(ply, "AntiLua information did not arrive in time", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+            end
+        end)
+    end)
 
     _hook_Add("PlayerInitialSpawn", "gAC.AntiLua", function(ply)
         gAC.LuaSession[ply:UserID()] = {}
