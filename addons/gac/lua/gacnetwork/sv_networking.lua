@@ -229,10 +229,8 @@ for i=1, _math_Round(_math_random(6,8)) do
 	gAC.Network.Global_Decoder[i] = gAC.Encoder.stringrandom(_math_Round(_math_random(4, 8)))
 end
 local Rand_StrFunc = _math_Round(_math_random(1, 2))
-gAC.Network.Decoder_Var = {"string.lower"
---, "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
---"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"
-}
+gAC.Network.Decoder_Var = {"string.lower", "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
+"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"}
 gAC.Network.Decoder_Var = gAC.Network.Decoder_Var[_math_Round(_math_random(1, #gAC.Network.Decoder_Var))]
 gAC.Network.Decoder_VarName = gAC.Network.Decoder_Var
 gAC.Network.Decoder_Verify = "GAC_" .. gAC.Encoder.stringrandom(_math_Round(_math_random(9, 14))) .. "_"
