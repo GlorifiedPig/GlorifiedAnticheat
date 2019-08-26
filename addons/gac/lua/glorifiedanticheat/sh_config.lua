@@ -85,10 +85,18 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT = true
     gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
 
-    -- This does nothing, yet, still in development.
-    gAC.config.LUAEXEC_CHECK = true
-    gAC.config.LUAEXEC_PUNISHMENT = true
-    gAC.config.LUAEXEC_BANTIME = 0
+    -- This does something, yet, still in development.
+    gAC.config.AntiLua_CHECK = true
+    gAC.config.AntiLua_PUNISHMENT = false
+    gAC.config.AntiLua_BANTIME = -1
+
+    -- Uses a stronger method of lua verification, using functions to verify an execution.
+    -- However this works at a cost of some CPU usage server-side.
+    gAC.config.AntiLua_FunctionVerification = true
+
+    -- WARNING, try not to use this! this exteremly CPU intensive!
+    -- This will auto reload verifications for a certain file on lua refresh.
+    gAC.config.AntiLua_LuaRefresh = false
 --[[ Lua Execution End]]
 
 --[[ CVAR MANIPULATION SETTINGS ]]

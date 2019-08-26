@@ -229,8 +229,10 @@ for i=1, _math_Round(_math_random(6,8)) do
 	gAC.Network.Global_Decoder[i] = gAC.Encoder.stringrandom(_math_Round(_math_random(4, 8)))
 end
 local Rand_StrFunc = _math_Round(_math_random(1, 2))
-gAC.Network.Decoder_Var = {"string.lower", "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
-"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"}
+gAC.Network.Decoder_Var = {"string.lower"
+--, "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
+--"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"
+}
 gAC.Network.Decoder_Var = gAC.Network.Decoder_Var[_math_Round(_math_random(1, #gAC.Network.Decoder_Var))]
 gAC.Network.Decoder_VarName = gAC.Network.Decoder_Var
 gAC.Network.Decoder_Verify = "GAC_" .. gAC.Encoder.stringrandom(_math_Round(_math_random(9, 14))) .. "_"
@@ -478,6 +480,7 @@ function gAC.Network:HandleMessage (bitCount, ply)
 			local AST = gAC.Network.AST
             if AST[ID64] ~= nil && AST[ID64][ID] ~= nil then
 				AST[ID64][ID] = AST[ID64][ID] .. _string_gsub(data,"%[GAC%.STREAM_END%-%d+%]$","") 
+				local data = _util_Decompress(AST[ID64][ID])
                 handler(channelId, _util_Decompress(AST[ID64][ID]), ply)
                 AST[ID64][ID] = nil
             end
@@ -522,7 +525,7 @@ function gAC.Network:Stream (channelName, data, player, split)
 			max = min + split - 1
 		elseif i > 1 and i == parts then
 			min = ( i - 1 ) * split + 1
-			max = len
+			max = data_size
 		end
 		local data = _string_sub( data, min, max )
 		if i < parts && i > 1 then
