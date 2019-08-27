@@ -1,355 +1,274 @@
-local _debug_getinfo = debug.getinfo
-local _debug_getregistry = debug.getregistry
-local _jit_util_funcinfo = jit.util.funcinfo
-local _jit_util_funcbc = jit.util.funcbc
-local _jit_attach = jit.attach
-local _tostring = tostring
-local _istable = istable
-local _math_random = math.random
-local _bit_rol = bit.rol
-local _util_TableToJSON = util.TableToJSON
-local _bit_band = bit.band
-local _bit_rshift = bit.rshift
-local _string_char = string.char
-local _string_gsub = string.gsub
-local _string_sub = string.sub
-local _timer_Simple = timer.Simple
-local _tonumber = tonumber
-local _table_concat = table.concat
-local _net_ReadData = net.ReadData
-local _net_Receive = net.Receive
-local _string_Explode = string.Explode
-local _table_remove = table.remove
-local _util_CRC = util.CRC
-local _math_ceil = math.ceil
-local _util_Compress = util.Compress
-local _util_Decompress = util.Decompress
-local _util_JSONToTable = util.JSONToTable
-local _string_match = string.match
-local _net_Start = net.Start
-local _net_SendToServer = net.SendToServer
-local _net_WriteUInt = net.WriteUInt
-local _net_WriteData = net.WriteData
-local _CompileString = CompileString
-local _hook_Add = hook.Add
-local _hook_Remove = hook.Remove
-local _engine_TickInterval = engine.TickInterval
-
-local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
-local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
-local _500 = 500
-
-local function floor(number)
-    return number - (number % _1)
+local
+_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a_,aa,ab,ac,ad,ae,af,ag,ah,ai,aj,ak,al,am={_="stringrandom",a="ToSend",b="source",c="short_src",d="funcname",e="execidentifier",f="dirtosvlua",g="SendBuffer",h="CompileData",i="_VMEVENTS",j="gAC_Send"},debug.getinfo,debug.getregistry,jit.util.funcinfo,jit.util.funcbc,jit.attach,tostring,istable,math.random,bit.rol,util.TableToJSON,bit.band,bit.rshift,string.char,string.gsub,string.sub,timer.Simple,tonumber,table.concat,net.ReadData,net.Receive,string.Explode,table.remove,util.CRC,math.ceil,util.Compress,util.Decompress,util.JSONToTable,string.match,net.Start,net.SendToServer,net.WriteUInt,net.WriteData,CompileString,hook.Add,hook.Remove,engine.TickInterval,0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000,.5,97,65,49,122,90,57,26,15,32,16,30,24,500
+local
+function
+d(a)return
+a-(a%L)end
+local
+function
+k(a,b)local
+c=K
+for
+e=K,31
+do
+local
+f=(a*a_)+(b*a_)if
+f~=d(f)then
+c=c+M^e
 end
-
-local function bxor (a,b)
-    local r = _0
-    for i = _0, 31 do
-        local x = (a * __5) + (b * __5)
-        if x ~= floor (x) then
-        r = r + _2^i
-        end
-        a = floor (a * __5)
-        b = floor (b * __5)
-    end
-    return r
+a=d(a*a_)b=d(b*a_)end
+return
+c
 end
-
-local _gAC = {
-    OrigFuncs = {},
-    OrigNames = {},
-    ToSend = {},
-    AntiLua = true
-}
-
-local _Tick = _1/_engine_TickInterval()
-
-function _gAC._D( old, new, name )
-    name = name or ""
-    _gAC.OrigFuncs[new] = old
-    _gAC.OrigNames[new] = name
-    return new
-end 
-
-function _gAC.hs(str)
-    local len = #str
-    for i=_1, #str do
-        len = bxor(len, _bit_rol(len, _6) + str:byte(i))
-    end
-    return _bit_rol(len, _3)
+local
+l,o={OrigFuncs={},OrigNames={},ToSend={},AntiLua=!!1},L/J()function
+l._D(a,b,c)c=c||""l.OrigFuncs[b]=a
+l.OrigNames[b]=c
+return
+b
 end
-
-function _gAC.dirtosvlua(loc)
-    local _loc = loc
-    _loc = _string_Explode("/",_loc)
-    if _loc[1] == "addons" then 
-        _table_remove(_loc, 1)
-        _table_remove(_loc, 1)
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    elseif _loc[1] == "lua" then
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    elseif _loc[1] == "gamemodes" then
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    end
-    return loc
+function
+l.hs(a)local
+b=#a
+for
+c=L,#a
+do
+b=k(b,i(b,Q)+a:byte(c))end
+return
+i(b,N)end
+function
+l.dirtosvlua(a)local
+b=a
+b=u("/",b)if
+b[1]=="addons"then
+v(b,1)v(b,1)v(b,1)a=r(b,"/")elseif
+b[1]=="lua"then
+v(b,1)a=r(b,"/")elseif
+b[1]=="gamemodes"then
+v(b,1)a=r(b,"/")end
+return
+a
 end
-
-function _gAC.stringrandom(length)
-	local str = ""
-	for i = _1, length do
-		local typo =  floor(_math_random(_1, _4) + __5)
-		if typo == _1 then
-			str = str.. _string_char(_math_random(_97, _122))
-		elseif typo == _2 then
-			str = str.. _string_char(_math_random(_65, _90))
-		elseif typo == _3 then
-			str = str.. _string_char(_math_random(_49, _57))
-		end
-	end
-	return str
+function
+l.stringrandom(a)local
+b=""for
+a=L,a
+do
+local
+a=d(h(L,O)+a_)if
+a==L
+then
+b=b..m(h(aa,ad))elseif
+a==M
+then
+b=b..m(h(ab,ae))elseif
+a==N
+then
+b=b..m(h(ac,af))end
 end
-
-local SafeCode = _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-
-function _gAC.GetTableValue(gtbl, tbl)
-    local TBL = gtbl
-    for k=_1, #tbl do
-        local v = tbl[k]
-        if _istable(TBL[v]) then
-            TBL = TBL[v]
-        elseif k == #tbl then
-            return TBL[v]
-        else
-            return nil 
-        end
-    end
-    return nil
+return
+b
 end
-
-function _gAC.SetTableValue(gtbl, tbl, value)
-    local TBL = gtbl
-    for k=_1, #tbl do
-        local v = tbl[k]
-        if k ~= #tbl then
-            if TBL[v] == nil then
-                TBL[v] = {}
-                TBL = TBL[v]
-            elseif _istable(TBL[v]) then
-                TBL = TBL[v]
-            else
-                return false
-            end
-        else
-            TBL[v] = value
-            return true
-        end
-    end
-    return false
+local
+i=l[_._](d(h(W,ai)+a_))function
+l.GetTableValue(a,b)local
+c=a
+for
+a=L,#b
+do
+local
+d=b[a]if
+g(c[d])then
+c=c[d]elseif
+a==#b
+then
+return
+c[d]else
+return
+nil
 end
-
-function _gAC.SendBuffer(data)
-    if !_gAC.AntiLua then return end
-    local ID = #_gAC.ToSend
-    if ID < _1 then
-        _gAC.ToSend[_1] = { [_1] = data }
-    elseif !_gAC.ToSend[ID] then
-        _gAC.ToSend[ID] = { [_1] = data }
-    elseif #_gAC.ToSend[ID] >= _500 then
-        _gAC.ToSend[ID + _1] = { [_1] = data }
-    else
-        _gAC.ToSend[ID][#_gAC.ToSend[ID] + _1] = data
-    end
 end
-
-function _gAC.CompileData(data)
-    return {
-        func = data.func,
-        source = data.source,
-        short_src = data.short_src,
-        what = data.what,
-        lastlinedefined = data.lastlinedefined,
-        linedefined = data.linedefined,
-        funcname = data.funcname,
-        execidentifier = data.execidentifier
-    }
+return
+nil
 end
-
-_gAC.LuaVM = function(proto)
-    local jitinfo = _jit_util_funcinfo(proto)
-    jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-    if jitinfo.source == SafeCode then return end
-    jitinfo.source = _gAC.dirtosvlua(jitinfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(jitinfo))
+function
+l.SetTableValue(a,b,c)local
+d=a
+for
+a=L,#b
+do
+local
+e=b[a]if
+a~=#b
+then
+if
+d[e]==nil
+then
+d[e]={}d=d[e]elseif
+g(d[e])then
+d=d[e]else
+return!1
 end
-
-local Detourables = {
-    {{"hook","Add"}, "hook.Add"},
-    {{"hook","Remove"}, "hook.Remove"},
-    {{"hook","GetTable"}, "hook.GetTable"},
-    {{"surface","CreateFont"}, "surface.CreateFont"},
-    {{"concommand","Add"}, "concommand.Add"},
-    {{"AddConsoleCommand"}, "AddConsoleCommand"}
-}
-
-for k=_1, #Detourables do
-    local v = Detourables[k]
-    local func = _gAC.GetTableValue(_G, v[_1])
-    if func == nil then continue end
-    local newfunc = _gAC._D( func, function(...)
-        local dbginfo = _debug_getinfo(_2, "fS")
-        dbginfo.funcname = v[_2]
-        dbginfo.func = _tostring(dbginfo.func)
-        dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-        dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-        _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-        return func(...)
-    end, funcname )
-    _gAC.SetTableValue(_G, v[_1], newfunc)
+else
+d[e]=c
+return!!1
 end
-
-local _RunString = RunString
-RunString = _gAC._D( RunString, function(code, ident, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "RunString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "RunString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _RunString(code, ident, ...)
-end, "RunString" )
-
-local _RunStringEx = RunStringEx
-RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "RunStringEx-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "RunStringEx"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _RunStringEx(code, ident, ...)
-end, "RunStringEx" )
-
-CompileString = _gAC._D( CompileString, function(code, ident, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return nil, err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "CompileString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "CompileString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _CompileString(code, ident, ...)
-end, "CompileString" )
-
-local _Det_CompileString = CompileString
-
-local HASHID = _gAC.hs('bc')
-
-local _R = _debug_getregistry()
-_R._VMEVENTS = _R._VMEVENTS or {}
-_R._VMEVENTS[HASHID] = _gAC.LuaVM
-
-_jit_attach(function() end, "")
-
-local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local Interval = _15*_Tick
-local TickTime = Interval - _1
-
-_hook_Add( "Tick", ID, function()
-    if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
-        _R._VMEVENTS[HASHID] = _gAC.LuaVM
-    end
-    if _gAC.gAC_Send && TickTime > Interval then
-        _gAC.AntiLua = gAC.config.AntiLua_CHECK
-        if _gAC.AntiLua then
-            local data = _gAC.ToSend[_1]
-            if data then
-                _gAC.gAC_Send("g-AC_LuaExec", _util_TableToJSON(data))
-                _table_remove(_gAC.ToSend, _1)
-            else
-                _gAC.gAC_Send("g-AC_LuaExec", "1")
-            end
-        end
-        TickTime = _0
-    end
-    TickTime = TickTime + _1
-end ) 
-
-_net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
-    local codec = _string_Explode("[EXLD]", _net_ReadData(len))
-    for i=_1, #codec do
-        if i == #codec then
-            codec[i] = codec[i]:sub(_1, codec[i]:len()-_2)
-        end
-        codec[i] = _util_Decompress(codec[i])
-    end
-
-    codec[_10] = _util_JSONToTable(codec[_10])
-
-    local var = _string_Explode(".", codec[_9])
-    local _oldfunc = _gAC.GetTableValue(_G, var)
-    if _oldfunc == nil then
-        return 
-    end
-
-    local succ = _gAC.SetTableValue(_G, var, function(check, ...)
-        local d = _debug_getinfo(_2, "S")
-        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%w+") == d.short_src then
-            if check == codec[_12] then
-                return codec[_10]
-            elseif check == codec[_13] then
-                return _oldfunc
-            end
-        end
-        return _oldfunc(check, ...)
-    end)
-
-    if succ == false then
-        return 
-    end
-
-    _gAC.gAC_Send = function(channelName, data)
-        data = _util_Compress(data)
-        _net_Start(codec[_3])
-            _net_WriteUInt (_tonumber(_util_CRC (channelName .. codec[_5])), _32)
-            _net_WriteData (data, #data)
-        _net_SendToServer()
-    end
-
-    local func = _Det_CompileString( codec[_1], codec[_2] )
-    func(codec)
-end)
-
-local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-
-_hook_Add("InitPostEntity", __IDENT, function()
-    _net_Start("g-AC_nonofurgoddamnbusiness")
-    _net_SendToServer()
-    _hook_Remove("InitPostEntity", __IDENT)
-end)
+end
+return!1
+end
+function
+l.SendBuffer(a)if!l.AntiLua
+then
+return
+end
+local
+b=#l[_.a]if
+b<L
+then
+l[_.a][L]={[L]=a}elseif!l[_.a][b]then
+l[_.a][b]={[L]=a}elseif#l[_.a][b]>=am
+then
+l[_.a][b+L]={[L]=a}else
+l[_.a][b][#l[_.a][b]+L]=a
+end
+end
+function
+l.CompileData(a)return{func=a.func,source=a[_.b],short_src=a[_.c],what=a.what,lastlinedefined=a.lastlinedefined,linedefined=a.linedefined,funcname=a[_.d],execidentifier=a[_.e]}end
+l.LuaVM=function(a)local
+b=c(a)b[_.b]=n(b[_.b],"^@","")if
+b[_.b]==i
+then
+return
+end
+b[_.b]=l[_.f](b[_.b])l[_.g](l[_.h](b))end
+local
+c={{{"hook","Add"},"hook.Add"},{{"hook","Remove"},"hook.Remove"},{{"hook","GetTable"},"hook.GetTable"},{{"surface","CreateFont"},"surface.CreateFont"},{{"concommand","Add"},"concommand.Add"},{{"AddConsoleCommand"},"AddConsoleCommand"}}for
+b=L,#c
+do
+local
+d=c[b]local
+b=l.GetTableValue(_G,d[L])if
+b==nil
+then
+continue
+end
+local
+e=l._D(b,function(...)local
+g=a(M,"fS")g[_.d]=d[M]g.func=f(g.func)g[_.b]=n(g[_.b],"^@","")g[_.b]=l[_.f](g[_.b])l[_.g](l[_.h](g))return
+b(...)end,funcname)l.SetTableValue(_G,d[L],e)end
+local
+c=RunString
+RunString=l._D(RunString,function(b,e,...)local
+g,j=G(b,i,!1)if
+g==nil
+then
+return
+j
+end
+if
+e
+then
+e=e..l[_._](d(h(W,ai)+a_))else
+e="RunString-"..l[_._](d(h(W,ai)+a_))end
+local
+g=a(M,"fS")g[_.d]="RunString"g.func=f(g.func)g[_.e]=e
+g[_.b]=n(g[_.b],"^@","")g[_.b]=l[_.f](g[_.b])l[_.g](l[_.h](g))return
+c(b,e,...)end,"RunString")local
+c=RunStringEx
+RunStringEx=l._D(RunStringEx,function(b,e,...)local
+g,j=G(b,i,!1)if
+g==nil
+then
+return
+j
+end
+if
+e
+then
+e=e..l[_._](d(h(W,ai)+a_))else
+e="RunStringEx-"..l[_._](d(h(W,ai)+a_))end
+local
+g=a(M,"fS")g[_.d]="RunStringEx"g.func=f(g.func)g[_.e]=e
+g[_.b]=n(g[_.b],"^@","")g[_.b]=l[_.f](g[_.b])l[_.g](l[_.h](g))return
+c(b,e,...)end,"RunStringEx")CompileString=l._D(CompileString,function(b,c,...)local
+e,g=G(b,i,!1)if
+e==nil
+then
+return
+nil,g
+end
+if
+c
+then
+c=c..l[_._](d(h(W,ai)+a_))else
+c="CompileString-"..l[_._](d(h(W,ai)+a_))end
+local
+e=a(M,"fS")e[_.d]="CompileString"e.func=f(e.func)e[_.e]=c
+e[_.b]=n(e[_.b],"^@","")e[_.b]=l[_.f](e[_.b])l[_.g](l[_.h](e))return
+G(b,c,...)end,"CompileString")local
+c,f,g=CompileString,l.hs'bc',b()g[_.i]=g[_.i]||{}g[_.i][f]=l.LuaVM
+e(function()end,"")local
+b,e=l[_._](d(h(W,ag)+a_)),ah*o
+local
+i=e-L
+H("Tick",b,function()if
+g[_.i][f]~=l.LuaVM
+then
+g[_.i][f]=l.LuaVM
+end
+if
+l[_.j]&&i>e
+then
+l.AntiLua=gAC.config.AntiLua_CHECK
+if
+l.AntiLua
+then
+local
+a=l[_.a][L]if
+a
+then
+l[_.j]("g-AC_LuaExec",j(a))v(l[_.a],L)else
+l[_.j]("g-AC_LuaExec","1")end
+end
+i=K
+end
+i=i+L
+end)t("g-AC_nonofurgoddamnbusiness",function(b)local
+d=u("[EXLD]",s(b))for
+b=L,#d
+do
+if
+b==#d
+then
+d[b]=d[b]:sub(L,d[b]:len()-M)end
+d[b]=z(d[b])end
+d[U]=A(d[U])local
+b=u(".",d[T])local
+e=l.GetTableValue(_G,b)if
+e==nil
+then
+return
+end
+local
+f=l.SetTableValue(_G,b,function(b,...)local
+g=a(M,"S")if
+B(g[_.c],d[S]..d[V].."%w+")==g[_.c]then
+if
+b==d[W]then
+return
+d[U]elseif
+b==d[X]then
+return
+e
+end
+end
+return
+e(b,...)end)if
+f==!1
+then
+return
+end
+l[_.j]=function(b,e)e=y(e)C(d[N])E(q(w(b..d[P])),ai)F(e,#e)D()end
+local
+b=c(d[L],d[M])b(d)end)local
+a=l[_._](d(h(W,ag)+a_))H("InitPostEntity",a,function()C"g-AC_nonofurgoddamnbusiness"D()I("InitPostEntity",a)end)
