@@ -259,48 +259,70 @@ gAC.Network.Decoder_Var = PerformG(gAC.Network.Decoder_Var)
 ]]
 local Payload_001 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
 
-local
-_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z=net.Receive,net.Start,net.WriteUInt,net.WriteData,net.ReadUInt,net.ReadData,net.SendToServer,hook.Add,hook.Remove,util.Decompress,util.CRC,string.match,string.gsub,RunString,CompileString,tonumber,{...},1,2,3,4,5,6,7,8,11,32
-p=p[q]_G[p[v] ]={}_G[p[t] ]=1
-local
-q={}local
-function
-r(_)local
-a=d(z)local
-b=_G[p[v] ][a]if!b
-then
-return
+local _net_Receive = net.Receive
+local _net_Start = net.Start
+local _net_WriteUInt = net.WriteUInt
+local _net_WriteData = net.WriteData
+local _net_ReadUInt = net.ReadUInt
+local _net_ReadData = net.ReadData
+local _net_SendToServer = net.SendToServer
+local _hook_Add = hook.Add
+local _hook_Remove = hook.Remove
+local _util_Decompress = util.Decompress
+local _util_CRC = util.CRC
+local _string_match = string.match
+local _string_gsub = string.gsub
+local _RunString = RunString
+local _CompileString = CompileString
+local _tonumber = tonumber
+local args = {...}
+local _1, _2, _3, _4, _5, _6, _7, _8, _11, _32 = 1,2,3,4,5,6,7,8,11,32
+args = args[_1]
+_G[args[_6] ] = {}
+_G[args[_4] ] = 1
+local AST = {}
+local function HandleMessage (bit)
+	local channelId = _net_ReadUInt (_32)
+	local handler   = _G[args[_6] ][channelId]
+	if not handler then return end
+	local data = _net_ReadData (bit / _8 - _4)
+    if _string_match(data,"^%[GAC%.STREAM%-%d+%]") then
+        local ID = _string_match(data,"[%[GAC%.STREAM%-](%d+)[%]" .. "]")
+        if AST[ID] != nil then
+            AST[ID] = AST[ID] .. _string_gsub(data,"^%[GAC%.STREAM%-%d+%]","") 
+        end
+    elseif _string_match(data,"^%[GAC%.STREAM_START%-%d+%]") or _string_match(data,"%[GAC%.STREAM_END%-%d+%]$") then
+        if _string_match(data,"^%[GAC%.STREAM_START%-%d+%]") then
+            local ID = _string_match(data,"[%[GAC%.STREAM_START%-](%d+)[%]" .. "]")
+            AST[ID] = _string_gsub(data,"^%[GAC%.STREAM_START%-%d+%]","") 
+        end
+        if _string_match(data,"%[GAC%.STREAM_END%-%d+%]$") then
+            local ID = _string_match(data,"[%[GAC%.STREAM_END%-](%d+)[%]" .. "]")
+            if AST[ID] != nil then
+				AST[ID] = AST[ID] .. _string_gsub(data,"%[GAC%.STREAM_END%-%d+%]$","") 
+                handler (channelId, _util_Decompress(AST[ID]))
+                AST[ID] = nil
+            end
+        end
+    else
+        handler (channelId, _util_Decompress(data))
+    end
 end
-local
-c=e(_/x-t)if
-k(c,"^%[GAC%.STREAM%-%d+%]")then
-local
-_=k(c,"[%[GAC%.STREAM%-](%d+)[%]".."]")if
-q[_]~=nil
-then
-q[_]=q[_]..l(c,"^%[GAC%.STREAM%-%d+%]","")end
-elseif
-k(c,"^%[GAC%.STREAM_START%-%d+%]")||k(c,"%[GAC%.STREAM_END%-%d+%]$")then
-if
-k(c,"^%[GAC%.STREAM_START%-%d+%]")then
-local
-_=k(c,"[%[GAC%.STREAM_START%-](%d+)[%]".."]")q[_]=l(c,"^%[GAC%.STREAM_START%-%d+%]","")end
-if
-k(c,"%[GAC%.STREAM_END%-%d+%]$")then
-local
-_=k(c,"[%[GAC%.STREAM_END%-](%d+)[%]".."]")if
-q[_]~=nil
-then
-q[_]=q[_]..l(c,"%[GAC%.STREAM_END%-%d+%]$","")b(a,i(q[_]))q[_]=nil
+_G[args[_6] ][_tonumber(_util_CRC ("LoadString" .. args[_5]))] = function(ch, data) 
+    _RunString(data, args[_8] .. "GAC.LoadString-" .. #data) 
 end
+_G[args[_6] ][_tonumber(_util_CRC ("LoadPayload" .. args[_5]))] = function(ch, data)
+    local func = _CompileString(data, args[_8] .. args[_11] .. #data)
+    func(args[_3], args[_4], args[_5], args[_6])
 end
-else
-b(a,i(c))end
-end
-_G[p[v] ][o(j("LoadString"..p[u]))]=function(_,a)m(a,p[x].."GAC.LoadString-"..#a)end
-_G[p[v] ][o(j("LoadPayload"..p[u]))]=function(_,a)local
-_=n(a,p[x]..p[y]..#a)_(p[s],p[t],p[u],p[v])end
-_(p[s],function(_)r(_)end)g("Think",p[w],function()a(p[s])b(o(j("g-AC_PayloadVerification"..p[u])),z)c("",#"")f()h("Think",p[w])end)]]
+_net_Receive (args[_3],function(bit) HandleMessage(bit) end)
+_hook_Add("Think",args[_7],function()
+    _net_Start(args[_3])
+    _net_WriteUInt (_tonumber(_util_CRC ("g-AC_PayloadVerification" .. args[_5])), _32)
+    _net_WriteData ("", #"")
+    _net_SendToServer()
+    _hook_Remove("Think",args[_7])
+end)]]
 
 local TBL = {
 	--Payload
@@ -317,7 +339,7 @@ local TBL = {
 	_util_TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)),
 	gAC.Network.Decoder_Verify,
 	gAC.Network.Decoder_Get,
-	gAC.Network.Decoder_Undo --12
+	gAC.Network.Decoder_Undo --13
 }
 
 gAC.Network.Payload_001 = ""
@@ -333,66 +355,60 @@ end
 ]]
 gAC.Network.Payload_002 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
 
-local
-_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q=math.ceil,net.Start,net.WriteData,net.WriteUInt,string.sub,timer.Simple,tonumber,util.CRC,util.Compress,net.SendToServer,1,2,3,4,6,32,32765,{...}local
-function
-gAC_Send(_,d)d=h(d)a(q[j])c(f(g(_..q[l])),o)b(d,#d)i()end
-local
-function
-gAC_Stream(m,s,t)local
-u=h(s)local
-v=#u
-t=t==nil&&p||t
-local
-w=_(v/t)if
-w==j
-then
-gAC_Send(m,s)return
+local _math_ceil, _net_Start, _net_WriteData, _net_WriteUInt, _string_sub, _timer_Simple, _tonumber, _util_CRC, _util_Compress, _net_SendToServer = math.ceil, net.Start, net.WriteData, net.WriteUInt, string.sub, timer.Simple, tonumber, util.CRC, util.Compress, net.SendToServer
+local _1, _2, _3, _4, _6, _32, _32765 = 1,2,3,4,6,32,32765
+local args = {...}
+local function gAC_Send(channelName, data)
+	data = _util_Compress(data)
+	_net_Start(args[_1])
+		_net_WriteUInt (_tonumber(_util_CRC (channelName .. args[_3])), _32)
+		_net_WriteData (data, #data)
+	_net_SendToServer()
 end
-local
-s=_G[q[k] ]for
-v=j,w
-do
-local
-x,y
-if
-v==j
-then
-x=v
-y=t
-elseif
-v>j&&v~=w
-then
-x=(v-j)*t+j
-y=x+t-j
-elseif
-v>j&&v==w
-then
-x=(v-j)*t+j
-y=len
+local function gAC_Stream(channelName, data, split)
+    local compress_data = _util_Compress(data)
+    local compress_size = #compress_data
+    split = (split == nil and _32765 or split)
+    local parts = _math_ceil( compress_size / split )
+	if parts == _1 then
+		gAC_Send(channelName, data)
+		return
+	end
+    local ID = _G[args[_2] ]
+	for i=_1, parts do
+		local min, max
+		if i == _1 then
+			min = i
+			max = split
+		elseif i > _1 and i ~= parts then
+			min = ( i - _1 ) * split + _1
+			max = min + split - _1
+		elseif i > _1 and i == parts then
+			min = ( i - _1 ) * split + _1
+			max = len
+		end
+		local data = _string_sub( compress_data, min, max )
+		if i < parts && i > _1 then
+			data = "[GAC.STREAM-" .. ID .. "]" .. data
+		else
+			if i == _1 then
+				data = "[GAC.STREAM_START-" .. ID .. "]" .. data
+			end
+			if i == parts then
+				data = data .. "[GAC.STREAM_END-" .. ID .. "]"
+			end
+		end
+		_timer_Simple(i/_6, function()
+			_net_Start(args[_1])
+				_net_WriteUInt (_tonumber(_util_CRC (channelName .. args[_3])), _32)
+				_net_WriteData (data, #data)
+			_net_SendToServer()
+		end)
+	end
+    _G[args[_2] ] = ID + _1
 end
-local
-z=d(u,x,y)if
-v<w&&v>j
-then
-z="[GAC.STREAM-"..s.."]"..z
-else
-if
-v==j
-then
-z="[GAC.STREAM_START-"..s.."]"..z
-end
-if
-v==w
-then
-z=z.."[GAC.STREAM_END-"..s.."]"end
-end
-e(v/n,function()a(q[j])c(f(g(m..q[l])),o)b(z,#z)i()end)end
-_G[q[k] ]=s+j
-end
-local
-function
-gAC_AddReceiver(_,a)_G[q[m] ][f(g(_..q[l]))]=a
+local function gAC_AddReceiver (channelName, handler)
+	_G[args[_4] ][_tonumber(_util_CRC (channelName .. args[_3]))] = handler
 end
 ]]
 
@@ -462,6 +478,7 @@ function gAC.Network:HandleMessage (bitCount, ply)
 			local AST = gAC.Network.AST
             if AST[ID64] ~= nil && AST[ID64][ID] ~= nil then
 				AST[ID64][ID] = AST[ID64][ID] .. _string_gsub(data,"%[GAC%.STREAM_END%-%d+%]$","") 
+				local data = _util_Decompress(AST[ID64][ID])
                 handler(channelId, _util_Decompress(AST[ID64][ID]), ply)
                 AST[ID64][ID] = nil
             end
@@ -506,7 +523,7 @@ function gAC.Network:Stream (channelName, data, player, split)
 			max = min + split - 1
 		elseif i > 1 and i == parts then
 			min = ( i - 1 ) * split + 1
-			max = len
+			max = data_size
 		end
 		local data = _string_sub( data, min, max )
 		if i < parts && i > 1 then
