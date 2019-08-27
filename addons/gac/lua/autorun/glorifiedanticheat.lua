@@ -88,11 +88,8 @@ end
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.
 frile.includeFolder( "glorifiedanticheat/", false, true )
 
-if CLIENT then
-    frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
-else
+if SERVER then
     _hook_Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
-        frile.includeFile( "gacnetwork/cl_receivers.lua", frile.STATE_CLIENT )
         frile.includeFile( "gacnetwork/sv_query.lua", frile.STATE_SERVER )
         frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
         frile.includeFolder( "glorifiedanticheat/modules/detectionsys" )
