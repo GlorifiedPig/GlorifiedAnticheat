@@ -86,6 +86,8 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
 
     -- This does something, yet, still in development.
+    -- WARNING: AntiLua has been considered intensive on cpu resources.
+    -- Only use this if your server has enough resources to spare.
     gAC.config.AntiLua_CHECK = true
     gAC.config.AntiLua_PUNISHMENT = false
     gAC.config.AntiLua_BANTIME = -1

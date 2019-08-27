@@ -442,3 +442,52 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         gAC.Print("[AntiLua] Initialization complete")
     end
 end)
+
+--[[
+    For development
+
+    lang.lua addition.
+
+local opcodemap =
+{
+	[0x49] = 0x49,
+	[0x4A] = 0x49,
+	[0x4B] = 0x4B,
+	[0x4C] = 0x4B,
+	[0x4D] = 0x4B,
+	[0x4E] = 0x4E,
+	[0x4F] = 0x4E,
+	[0x50] = 0x4E,
+	[0x51] = 0x51,
+	[0x52] = 0x51,
+	[0x53] = 0x51,
+}
+
+local opcodemap2 =
+{
+	[0x44] = 0x54,
+	[0x42] = 0x41,
+}
+
+local function bytecodetoproto(func, funcinfo)
+    local data = {}
+    for i = _1, funcinfo.bytecodes - _1 do
+        local bytecode = _jit_util_funcbc (func, i)
+        local byte = _bit_band (bytecode, 0xFF)
+        if opcodemap[byte] then
+            bytecode = opcodemap[byte]
+        end
+        if opcodemap2[byte] then
+            bytecode = bytecode - byte
+            bytecode = bytecode + opcodemap2[byte]
+        end
+        data [#data + _1] = _string_char (
+            _bit_band (bytecode, 0xFF),
+            _bit_band (_bit_rshift(bytecode,  _8), 0xFF),
+            _bit_band (_bit_rshift(bytecode, _16), 0xFF),
+            _bit_band (_bit_rshift(bytecode, _24), 0xFF)
+        )
+    end
+    return _tonumber(_util_CRC(_table_concat(data)))
+end
+]]

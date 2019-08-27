@@ -173,53 +173,9 @@ function _gAC.CompileData(data)
         what = data.what,
         lastlinedefined = data.lastlinedefined,
         linedefined = data.linedefined,
-        proto = data.proto,
         funcname = data.funcname,
         execidentifier = data.execidentifier
     }
-end
-
-local opcodemap =
-{
-	[0x49] = 0x49,
-	[0x4A] = 0x49,
-	[0x4B] = 0x4B,
-	[0x4C] = 0x4B,
-	[0x4D] = 0x4B,
-	[0x4E] = 0x4E,
-	[0x4F] = 0x4E,
-	[0x50] = 0x4E,
-	[0x51] = 0x51,
-	[0x52] = 0x51,
-	[0x53] = 0x51,
-}
-
-local opcodemap2 =
-{
-	[0x44] = 0x54,
-	[0x42] = 0x41,
-}
-
-local function bytecodetoproto(func, funcinfo)
-    local data = {}
-    for i = _1, funcinfo.bytecodes - _1 do
-        local bytecode = _jit_util_funcbc (func, i)
-        local byte = _bit_band (bytecode, 0xFF)
-        if opcodemap[byte] then
-            bytecode = opcodemap[byte]
-        end
-        if opcodemap2[byte] then
-            bytecode = bytecode - byte
-            bytecode = bytecode + opcodemap2[byte]
-        end
-        data [#data + _1] = _string_char (
-            _bit_band (bytecode, 0xFF),
-            _bit_band (_bit_rshift(bytecode,  _8), 0xFF),
-            _bit_band (_bit_rshift(bytecode, _16), 0xFF),
-            _bit_band (_bit_rshift(bytecode, _24), 0xFF)
-        )
-    end
-    return _tonumber(_util_CRC(_table_concat(data)))
 end
 
 _gAC.LuaVM = function(proto)
@@ -227,7 +183,6 @@ _gAC.LuaVM = function(proto)
     jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
     if jitinfo.source == SafeCode then return end
     jitinfo.source = _gAC.dirtosvlua(jitinfo.source)
-    jitinfo.proto = bytecodetoproto(proto, jitinfo)
     _gAC.SendBuffer(_gAC.CompileData(jitinfo))
 end
 
