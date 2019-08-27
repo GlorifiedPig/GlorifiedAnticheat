@@ -82,10 +82,12 @@ end
 	Skims through function dump information and returns line definitions & etc (kind of line debug.getinfo but using dumps)
 ]]
 
-function ByteCode.GetFuncInformation(dump, functionInformation)
+function ByteCode.GetFuncInformation(inBuffer, functionInformation)
 	functionInformation = functionInformation or {}
-	
-	inBuffer = gAC.StringInBuffer(dump)
+
+	if _isstring (inBuffer) then
+		inBuffer = gAC.StringInBuffer (inBuffer)
+	end
 	
 	-- this is like the exact iteration of data that comes out of debug.getinfo & jit.util.funcinfo
 	inBuffer:UInt8() -- Flags

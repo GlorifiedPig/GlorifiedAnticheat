@@ -5,6 +5,7 @@ local _jit_util_funcinfo = jit.util.funcinfo
 local _jit_attach = jit.attach
 local _file_CreateDir = file.CreateDir
 local _file_Exists = file.Exists
+local _file_Time = file.Time
 local _file_Find = file.Find
 local _file_Read = file.Read
 local _file_Size = file.Size
@@ -94,11 +95,11 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     ]]
     function gAC.UpdateLuaFile(source)
         if !gAC.config.AntiLua_LuaRefresh then return end
-        if _file_Exists(source, gAC.FileSourcePath) then
-            local size = _file_Size(source, gAC.FileSourcePath)
-            if size ~= gAC.LuaFileCache[source].size then
+        local time = _file_Time(source, gAC.FileSourcePath)
+        if time ~= 0 then
+            if time ~= gAC.LuaFileCache[source].time then
                 gAC.Print("[AntiLua] WARNING: lua refresh occured on " .. source .. ", switching to source verification")
-                gAC.LuaFileCache [source] = { size = size }
+                gAC.LuaFileCache[source] = { time = time }
             end
         else
             gAC.Print("[AntiLua] WARNING: lua refresh occured on " .. source .. ", switching to source verification")
@@ -370,21 +371,16 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
             if path == "" then return end
 
-            local _size, _alter = _file_Size(path, _Path), nil
+            local _time, _alter = _file_Time(path, _Path), nil
 
             if !gAC.LuaFileCache [path] then
                 gAC.Print("[AntiLua] Excluding " .. path)
                 _alter = true
                 _UpdateFile = true
-            elseif !_istable(gAC.LuaFileCache[path]) or _size ~= gAC.LuaFileCache[path].size then
-                if _size == 0 then
-                    gAC.Print("[AntiLua] Removing exclusion " .. path)
-                    gAC.LuaFileCache [path] = nil
-                else
-                    gAC.Print("[AntiLua] Modifying exclusion " .. path)
-                    _alter = true
-                    _UpdateFile = true
-                end
+            elseif !_istable(gAC.LuaFileCache[path]) or _time ~= gAC.LuaFileCache[path].time then
+                gAC.Print("[AntiLua] Modifying exclusion " .. path)
+                _alter = true
+                _UpdateFile = true
             end
 
             if _alter then
@@ -396,17 +392,25 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                     gAC.Print("[AntiLua] " .. path .. " Compile Error")
                     _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
                     func = nil
-                    gAC.LuaFileCache [path] = { size = _size }
+                    gAC.LuaFileCache[path] = { time = _time }
                     return 
                 end
-                gAC.LuaFileCache [path] = {
+                gAC.LuaFileCache[path] = {
                     bytecodes = _string_dump(func),
-                    size = _size
+                    time = _time
                 }
             end
         end
 
         EnumerateFolder ("", _Path, handlepath, true)
+
+        for path, v in _pairs(gAC.LuaFileCache) do
+            if _file_Time(path, _Path) == 0 then
+                _UpdateFile = true
+                gAC.Print("[AntiLua] Removing exclusion " .. path)
+                gAC.LuaFileCache[path] = nil
+            end
+        end
 
         if !_UpdateFile then
             gAC.Print("[AntiLua] Everything appears up to standards")
