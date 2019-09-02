@@ -11,6 +11,10 @@
 ]]
 
 local _bit_band = bit.band
+local _bit_rshift = bit.rshift
+local _jit_util_funcbc = jit.util.funcbc
+local _table_concat = table.concat
+local _string_char = string.char
 local _isstring = isstring
 local _tonumber = tonumber
 local _util_CRC = util.CRC
@@ -44,6 +48,34 @@ local opcodeMap2 =
 	[0x44] = 0x54, -- ISNEXT -> JMP
 	[0x42] = 0x41, -- ITERN -> ITERC
 }
+
+--[[
+	Uses the given function to get bytecode information.
+	uses the already provided jit.util.funcinfo information's bytecode instructions
+	to form a unique identifier for the function.
+]]
+
+function ByteCode.FunctionToHash(func, funcinfo)
+    local data = {}
+    for i = 1, funcinfo.bytecodes - 1 do
+        local bytecode = _jit_util_funcbc (func, i)
+        local byte = _bit_band (bytecode, 0xFF)
+        if opcodeMap[byte] then
+            bytecode = opcodeMap[byte]
+        end
+        if opcodeMap2[byte] then
+            bytecode = bytecode - byte
+            bytecode = bytecode + opcodeMap2[byte]
+        end
+        data [#data + 1] = _string_char (
+            _bit_band (bytecode, 0xFF),
+            _bit_band (_bit_rshift(bytecode,  8), 0xFF),
+            _bit_band (_bit_rshift(bytecode, 16), 0xFF),
+            _bit_band (_bit_rshift(bytecode, 24), 0xFF)
+        )
+    end
+    return _tonumber(_util_CRC(_table_concat(data)))
+end
 
 --[[
 	Skims through function dump information and returns 
