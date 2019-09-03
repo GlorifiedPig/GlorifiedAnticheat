@@ -79,6 +79,65 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     gAC.FileSourcePath = "LUA"
 
     --[[
+        Function used to detect or record information about a server-side execution.
+        Currently on startup it logs all information of function execution.
+    ]]
+    gAC.LuaVM = function(proto)
+        local jitinfo = _jit_util_funcinfo(proto)
+        jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
+        jitinfo.source = gAC.dirtosvlua(jitinfo.source)
+        gAC.LuaFileCache[jitinfo.source] = gAC.LuaFileCache[jitinfo.source] or {}
+        local _tbl = gAC.LuaFileCache[jitinfo.source]
+        if _tbl.bytecodes then return end
+        _tbl.funclist = _tbl.funclist or {}
+        _tbl.funclist[#_tbl.funclist + 1] = {
+            linedefined = jitinfo.linedefined,
+            lastlinedefined = jitinfo.lastlinedefined,
+            proto = ByteCode.FunctionToHash(proto, jitinfo)
+        }
+    end
+
+    --[[
+        Converts string into a Hash String of the string provided
+        to be readed and identified by the lua VM
+    ]]
+    function gAC.HashString(str)
+        local len = #str
+        for i=1, #str do
+            len = _bit_bxor(len, _bit_rol(len, 6) + str:byte(i))
+        end
+        return _bit_rol(len, 3)
+    end
+
+    --[[
+        We gonna need to create a hashstring of 'bc'
+        to be used as a form of jit.attach method.
+    ]]
+    gAC.LuaVMID = gAC.HashString('bc')
+
+    --[[
+        Simply converts any file location provided to meet with
+        the 'LUA' mount path of the file system
+    ]]
+    function gAC.dirtosvlua(loc)
+        local _loc = loc
+        _loc = _string_Explode("/",_loc)
+        if _loc[1] == "addons" then 
+            _table_remove(_loc, 1)
+            _table_remove(_loc, 1)
+            _table_remove(_loc, 1)
+            loc = _table_concat(_loc,"/")
+        elseif _loc[1] == "lua" then
+            _table_remove(_loc, 1)
+            loc = _table_concat(_loc,"/")
+        elseif _loc[1] == "gamemodes" then
+            _table_remove(_loc, 1)
+            loc = _table_concat(_loc,"/")
+        end
+        return loc
+    end
+
+    --[[
         Verify sources of the lua cache, 
         if defined source is not in the cache then it's not created by the server.
     ]]
@@ -136,6 +195,9 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                     continue
                 end
                 if v.linedefined ~= funcinfo.linedefined then
+                    continue
+                end
+                if v.proto ~= funcinfo.proto then
                     continue
                 end
                 return true
@@ -270,24 +332,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         gAC.LuaSession[ply:UserID()] = nil
     end)
 
-    function gAC.dirtosvlua(loc)
-        local _loc = loc
-        _loc = _string_Explode("/",_loc)
-        if _loc[1] == "addons" then 
-            _table_remove(_loc, 1)
-            _table_remove(_loc, 1)
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        elseif _loc[1] == "lua" then
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        elseif _loc[1] == "gamemodes" then
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        end
-        return loc
-    end
-
     --[[
         Lua refresh compatibility,
         if a lua file is refresh, we will need to turn on source verification.
@@ -300,22 +344,14 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                 local jitinfo = _jit_util_funcinfo(proto)
                 jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
                 jitinfo.source = gAC.dirtosvlua(jitinfo.source)
-                if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].bytecodes then
+                if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].funclist then
                     gAC.UpdateLuaFile(jitinfo.source)
                 end
             end
 
-            function gAC.HashString(str)
-                local len = #str
-                for i=1, #str do
-                    len = _bit_bxor(len, _bit_rol(len, 6) + str:byte(i))
-                end
-                return _bit_rol(len, 3)
-            end
-
             local _R = _debug_getregistry()
             _R._VMEVENTS = _R._VMEVENTS or {}
-            _R._VMEVENTS[gAC.HashString('bc')] = gAC.LuaVM
+            _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
 
             _jit_attach(function() end, "")
         end)
@@ -384,25 +420,31 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             end
 
             if _alter then
-                local succ, func = _pcall(_CompileFile, path)
-                if (!func or !succ) and _string_lower(path) ~= path then
-                    succ, func = _pcall(_CompileFile, _string_lower(path))
+                gAC.LuaFileCache[path] = { time = _time }
+                local func = _CompileFile(path)
+                if !func and _string_lower(path) ~= path then
+                    gAC.LuaFileCache[path] = { time = _time }
+                    func = _CompileFile(_string_lower(path))
                 end
-                if !func or !succ then
+                if !func then
                     gAC.Print("[AntiLua] " .. path .. " Compile Error")
                     _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
                     func = nil
                     gAC.LuaFileCache[path] = { time = _time }
                     return 
                 end
-                gAC.LuaFileCache[path] = {
-                    bytecodes = _string_dump(func),
-                    time = _time
-                }
             end
         end
 
+        local _R = _debug_getregistry()
+        _R._VMEVENTS = _R._VMEVENTS or {}
+        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
+
+        _jit_attach(function() end, "")
+
         EnumerateFolder ("", _Path, handlepath, true)
+
+        _R._VMEVENTS[gAC.LuaVMID] = nil
 
         for path, v in _pairs(gAC.LuaFileCache) do
             if _file_Time(path, _Path) == 0 then
@@ -431,14 +473,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
         end
 
-        gAC.Print("[AntiLua] Converting bytecodes to functions list...")
-        _Time = _SysTime()
-        for k, v in _pairs(gAC.LuaFileCache) do
-            if !v.bytecodes then continue end
-            -- Access function information using dump to function list
-            v.funclist = ByteCode.DumpToFunctionList(v.bytecodes)
-        end
-        gAC.Print("[AntiLua] Convertion took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
         gAC.Print("[AntiLua] Initialization complete")
     end
 end)
