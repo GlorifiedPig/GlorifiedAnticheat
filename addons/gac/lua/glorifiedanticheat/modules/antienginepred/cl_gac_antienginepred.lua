@@ -40,7 +40,7 @@ _hook_Add("SetupMove", stringrandom(floor(_math_random(10, 15) + .5)), function(
     if CMDNumber ~= 0 && CMDNumber < cmdnum then
         if _failures >= 10 && !_sent then
             gAC_Send("g-AC_Detections", _util_TableToJSON({
-                "Engine Prediction", 
+                "Engine Prediction detected [Code 127]", 
                 true, 
                 -1
             }))

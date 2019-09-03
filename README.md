@@ -29,4 +29,8 @@
 | 120                       | Debug Library Anomaly |
 | 121                       | Debug Library Check Failed |
 | 122                       | Player joined with VPN |
-| 123                       | Cobalt detected |
+| 123                       | Unauthorized lua execution |
+| 124                       | Lua environment manipulation |
+| 125                       | AntiLua information did not arrive in time |
+| 126                       | AntiLua network manipulation |
+| 127                       | Engine Prediction detected |
