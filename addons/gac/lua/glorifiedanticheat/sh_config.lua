@@ -138,6 +138,13 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.BP_BANTIME = 0
 --[[ ANTI BigPackets SETTINGS END ]]--
 
+--[[ ANTI Engine Prediction SETTINGS ]]--
+    gAC.config.ANTI_ENGINEPRED_CHECKS = true -- Set to 'true' if you want to check for engine predictions (used on aimbots).
+
+    gAC.config.ANTI_ENGINEPRED_PUNISHMENT = true -- Set to 'true' if you want using engine predictions to be punishable.
+    gAC.config.ANTI_ENGINEPRED_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ANTI Engine Prediction END ]]--
+
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
