@@ -246,7 +246,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         local succ, data = _pcall(_util_JSONToTable, tabledata)
         if !succ then
             ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
             return
         end
         _timer_Start("gAC.AntiLua-" .. userid)
@@ -287,7 +287,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                         end
                     end
                 else
-                    gAC.AntiLuaAddDetection(v, "Unauthorized lua execution", "%unknown%", ply)
+                    gAC.AntiLuaAddDetection(v, "Unauthorized lua execution [Code 123]", "%unknown%", ply)
                     break
                 end
             else
@@ -305,7 +305,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                         break
                     end
                 else
-                    gAC.AntiLuaAddDetection(v, "Lua environment manipulation", "%unknown%", ply)
+                    gAC.AntiLuaAddDetection(v, "Lua environment manipulation [Code 124]", "%unknown%", ply)
                     break
                 end
             end
@@ -319,7 +319,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         _timer_Create("gAC.AntiLua-" .. ply:UserID(), 120, 1, function()
             if _IsValid(ply) && !ply.LuaExecDetected then
                 ply.LuaExecDetected = true
-                gAC.AddDetection(ply, "AntiLua information did not arrive in time", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+                gAC.AddDetection(ply, "AntiLua information did not arrive in time [Code 125]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
             end
         end)
     end)
