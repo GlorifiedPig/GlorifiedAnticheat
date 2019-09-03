@@ -1,3 +1,4 @@
+if !gAC.config.ANTI_ENGINEPRED_CHECKS then return end
 local _hook_Add = hook.Add
 local _math_random = math.random
 local _string_char = string.char
@@ -41,8 +42,8 @@ _hook_Add("SetupMove", stringrandom(floor(_math_random(10, 15) + .5)), function(
         if _failures >= 10 && !_sent then
             gAC_Send("g-AC_Detections", _util_TableToJSON({
                 "Engine Prediction detected [Code 127]", 
-                true, 
-                -1
+                gAC.config.ANTI_ENGINEPRED_PUNISHMENT, 
+                gAC.config.ANTI_ENGINEPRED_BANTIME
             }))
             _sent = true
         else
