@@ -34,3 +34,4 @@
 | 125                       | AntiLua information did not arrive in time |
 | 126                       | AntiLua network manipulation |
 | 127                       | Engine Prediction detected |
+| 128                       | No Recoil detected |

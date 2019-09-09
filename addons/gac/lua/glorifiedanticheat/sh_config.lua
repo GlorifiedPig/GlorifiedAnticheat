@@ -145,6 +145,13 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.ANTI_ENGINEPRED_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI Engine Prediction END ]]--
 
+--[[ ANTI No Recoil SETTINGS ]]--
+    gAC.config.ANTI_NORECOIL_CHECKS = true -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
+
+    gAC.config.ANTI_NORECOIL_PUNISHMENT = true -- Set to 'true' if you want using no recoil to be punishable.
+    gAC.config.ANTI_NORECOIL_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
+--[[ ANTI No Recoil END ]]--
+
 --[[ ILLEGAL CONCOMMAND SETTINGS ]]--
     gAC.config.ILLEGAL_CONCOMMAND_CHECKS = true -- Set to 'true' if you want to check for illegal console commands.
 
