@@ -52,7 +52,7 @@ function GAMEMODE:CalcView(ply, origin, angles, fov, znear, zfar, ...)
 
     local vpunch = _GetViewPunchAngles(ply)
 
-    if vpunch.p == 0 && vpunch.y == 0 && vpunch.r == 0 then 
+    if round(vpunch.p, 4) == 0 && round(vpunch.y, 4) == 0 && round(vpunch.r, 4) == 0 then 
         return _CalcView(self, ply, origin, angles, fov, znear, zfar, ...) 
     end
     
