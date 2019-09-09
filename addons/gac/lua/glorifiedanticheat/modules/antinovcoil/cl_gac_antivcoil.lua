@@ -59,7 +59,7 @@ function GAMEMODE:CalcView(ply, origin, angles, fov, znear, zfar, ...)
     if roundangle(_EyeAngles(ply), 4) ~= roundangle(angles - vpunch, 4) then
         if _failures >= 10 && !_sent then
             gAC_Send("g-AC_Detections", _util_TableToJSON({
-                "No recoil detected [Code 128]", 
+                "No Recoil detected [Code 128]", 
                 gAC.config.ANTI_NORECOIL_PUNISHMENT, 
                 gAC.config.ANTI_NORECOIL_BANTIME
             }))
