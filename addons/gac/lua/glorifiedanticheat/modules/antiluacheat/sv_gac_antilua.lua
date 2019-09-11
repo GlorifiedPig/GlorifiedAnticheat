@@ -250,6 +250,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             return
         end
         _timer_Start("gAC.AntiLua-" .. userid)
+        if #data > 500 then -- User attempted to send more than what was defined. (likely net spam attempt.)
+            ply.LuaExecDetected = true
+            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+        end
         for k=1, #data do
             local v = data[k]
             if v.funcname then
