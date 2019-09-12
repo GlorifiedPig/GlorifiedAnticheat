@@ -50,13 +50,13 @@ function GAMEMODE:CalcView(ply, origin, angles, fov, znear, zfar, ...)
         return _CalcView(self, ply, origin, angles, fov, znear, zfar, ...) 
     end
 
-    local vpunch = _GetViewPunchAngles(ply)
+    local vpunch = roundangle(_GetViewPunchAngles(ply))
 
-    if round(vpunch.p, 4) == 0 && round(vpunch.y, 4) == 0 && round(vpunch.r, 4) == 0 then 
+    if vpunch.p == 0 && vpunch.y == 0 && vpunch.r == 0 then 
         return _CalcView(self, ply, origin, angles, fov, znear, zfar, ...) 
     end
     
-    if roundangle(_EyeAngles(ply), 4) ~= roundangle(angles - vpunch, 4) then
+    if roundangle(_EyeAngles(ply)) ~= (roundangle(angles) - vpunch) then
         if _failures >= 10 && !_sent then
             gAC_Send("g-AC_Detections", _util_TableToJSON({
                 "No Recoil detected [Code 128]", 
