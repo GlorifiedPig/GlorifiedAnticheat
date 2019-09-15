@@ -215,8 +215,12 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         Improve how logging works by making more detailed responses.
     ]]
     function gAC.AntiLuaAddDetection(jitinfo, detection, _type, ply)
-        ply.LuaExecDetected = true
-        gAC.AddDetection(ply, detection, gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+        if _type ~= "Probable Execution" then
+            ply.LuaExecDetected = true
+            gAC.AddDetection(ply, detection, gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+        else
+            gAC.AddDetection(ply, detection, false, -1)
+        end
 
         local response = _util_TableToJSON(jitinfo, true)
         response = "WARNING: Do not reveal this to cheaters!\nClient " .. ply:SteamID64() .. "'s reply\n" .. response
@@ -229,6 +233,9 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         elseif _type == "Invalid Bytecode" then
             _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which exists on the lua cache\n"
             _type = _type .. "however the function information returned to it is different from the lua cache"
+        elseif _type == "Probable Execution" then
+            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which does not exist in the lua cache\n"
+            _type = _type .. "however because of the given environment information, it's unable to be confirmed."
         end
 
         response = response .. _type
@@ -305,6 +312,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             break
                         end
                     elseif gAC.VerifyFunction(v, ply) == false then
+                        if v.source == "LuaCmd" && v.lastlinedefined == 1 && v.linedefined == 0 then
+                            gAC.AntiLuaAddDetection(v, "Probable lua environment manipulation (src: " ..  v.source .. ")", "Probable Execution", ply)
+                            continue
+                        end
                         gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ")", "Invalid Bytecode", ply)
                         break
                     end
