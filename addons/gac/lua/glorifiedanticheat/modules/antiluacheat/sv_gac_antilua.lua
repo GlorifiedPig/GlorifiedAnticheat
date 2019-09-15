@@ -290,7 +290,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             end
                             continue
                         end
-                        gAC.AntiLuaAddDetection(v, "Unauthorized lua execution (func: " .. v.funcname .. " | src: " ..  v.source .. ")", "Invalid Source", ply)
+                        gAC.AntiLuaAddDetection(v, "Unauthorized lua execution (func: " .. v.funcname .. " | src: " ..  v.source .. ") [Code 123]", "Invalid Source", ply)
                         break
                     elseif v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
                         if v.execidentifier then
@@ -308,15 +308,14 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             ply.gAC_LuaExecStartup = true
                             continue
                         else
-                            gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ")", "Invalid Source", ply)
+                            gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Source", ply)
                             break
                         end
                     elseif gAC.VerifyFunction(v, ply) == false then
                         if v.source == "LuaCmd" && v.lastlinedefined == 1 && v.linedefined == 0 then
-                            gAC.AntiLuaAddDetection(v, "Probable lua environment manipulation (src: " ..  v.source .. ")", "Probable Execution", ply)
                             continue
                         end
-                        gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ")", "Invalid Bytecode", ply)
+                        gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
                         break
                     end
                 else
