@@ -161,8 +161,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     end
 
     --[[
-        File re-verification for the lua cache.
-        Used on files that are reloaded on lua refresh or other lua compiles that needs to be added
+        Adds new sources to LuaSession, keeping track of all lua compiled code executed.
     ]]
     function gAC.AddSource(userid, sourceId, code)
         if gAC.config.AntiLua_FunctionVerification then
