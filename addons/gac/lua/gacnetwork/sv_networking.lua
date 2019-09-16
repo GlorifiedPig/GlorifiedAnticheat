@@ -260,52 +260,53 @@ gAC.Network.Decoder_Var = PerformG(gAC.Network.Decoder_Var)
 local Payload_001 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
 
 local
-_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z=net.Receive,net.Start,net.WriteUInt,net.WriteData,net.ReadUInt,net.ReadData,net.SendToServer,hook.Add,hook.Remove,util.Decompress,util.CRC,string.match,string.gsub,RunString,CompileString,tonumber,{...},1,2,3,4,5,6,7,8,11,32
-p=p[q]_G[p[v] ]={}_G[p[t] ]=1
+_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x=net.Receive,net.Start,net.WriteUInt,net.WriteData,net.ReadUInt,net.ReadData,net.SendToServer,hook.Add,hook.Remove,util.Decompress,util.CRC,string.match,string.gsub,tonumber,{...},1,2,3,4,5,6,7,8,11,32
 local
-q={}local
+y,z=n[p],n[q]n=n[o]_G[n[t] ]={}_G[n[r] ]=1
+local
+o={}local
 function
-r(_)local
-a=d(z)local
-b=_G[p[v] ][a]if!b
+p(_)local
+a=d(x)local
+b=_G[n[t] ][a]if!b
 then
 return
 end
 local
-c=e(_/x-t)if
+c=e(_/v-r)if
 k(c,"^%[GAC%.STREAM%-%d+%]")then
 local
 _=k(c,"[%[GAC%.STREAM%-](%d+)[%]".."]")if
-q[_]~=nil
+o[_]~=nil
 then
-q[_]=q[_]..l(c,"^%[GAC%.STREAM%-%d+%]","")end
+o[_]=o[_]..l(c,"^%[GAC%.STREAM%-%d+%]","")end
 elseif
 k(c,"^%[GAC%.STREAM_START%-%d+%]")||k(c,"%[GAC%.STREAM_END%-%d+%]$")then
 if
 k(c,"^%[GAC%.STREAM_START%-%d+%]")then
 local
-_=k(c,"[%[GAC%.STREAM_START%-](%d+)[%]".."]")q[_]=l(c,"^%[GAC%.STREAM_START%-%d+%]","")end
+_=k(c,"[%[GAC%.STREAM_START%-](%d+)[%]".."]")o[_]=l(c,"^%[GAC%.STREAM_START%-%d+%]","")end
 if
 k(c,"%[GAC%.STREAM_END%-%d+%]$")then
 local
 _=k(c,"[%[GAC%.STREAM_END%-](%d+)[%]".."]")if
-q[_]~=nil
+o[_]~=nil
 then
-q[_]=q[_]..l(c,"%[GAC%.STREAM_END%-%d+%]$","")b(a,i(q[_]))q[_]=nil
+o[_]=o[_]..l(c,"%[GAC%.STREAM_END%-%d+%]$","")b(a,i(o[_]))o[_]=nil
 end
 end
 else
 b(a,i(c))end
 end
-_G[p[v] ][o(j("LoadString"..p[u]))]=function(_,a)m(a,p[x].."GAC.LoadString-"..#a)end
-_G[p[v] ][o(j("LoadPayload"..p[u]))]=function(_,a)local
-_=n(a,p[x]..p[y]..#a)_(p[s],p[t],p[u],p[v])end
-_(p[s],function(_)r(_)end)g("Think",p[w],function()a(p[s])b(o(j("g-AC_PayloadVerification"..p[u])),z)c("",#"")f()h("Think",p[w])end)]]
+_G[n[t] ][m(j("LoadString"..n[s]))]=function(_,a)z(a,n[v].."GAC.LoadString-"..#a)end
+_G[n[t] ][m(j("LoadPayload"..n[s]))]=function(_,a)local
+_=y(a,n[v]..n[w]..#a)_(n[q],n[r],n[s],n[t])end
+_(n[q],function(_)p(_)end)g("Think",n[u],function()a(n[q])b(m(j("g-AC_PayloadVerification"..n[s])),x)c("",#"")f()h("Think",n[u])end)]]
 
 local TBL = {
 	--Payload
 	Payload_001,
-	"\rGAC.PayLoad_001",
+	"\rGAC." .. gAC.Encoder.stringrandom(_math_Round(_math_random(5, 10))),
 	gAC.Network.GlobalChannel,
 	gAC.Network.GlobalAST,
 	gAC.Network.Channel_Rand,
