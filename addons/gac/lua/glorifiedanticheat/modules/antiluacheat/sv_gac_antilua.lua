@@ -168,11 +168,15 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         if !gAC.LuaSession[userid] then
             gAC.LuaSession[userid] = {}
         end
-        local func, err = _CompileString(code, sourceId .. ".AddSource", false)
-        if !func && err then return end
-        local dump = _string_dump(func)
-        local funclist = ByteCode.DumpToFunctionList(dump)
-        gAC.LuaSession[userid][source] = funclist
+        if gAC.config.AntiLua_FunctionVerification then
+            local func, err = _CompileString(code, sourceId .. ".AddSource", false)
+            if !func && err then return end
+            local dump = _string_dump(func)
+            local funclist = ByteCode.DumpToFunctionList(dump)
+            gAC.LuaSession[userid][sourceId] = funclist
+        else
+            gAC.LuaSession[userid][sourceId] = true
+        end
     end
 
     --[[
