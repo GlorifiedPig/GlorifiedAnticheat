@@ -268,6 +268,7 @@ function _gAC.CreateIdentifier(ident, funcname)
             ident = ident .. CompileID
         end
     else
+        ident = funcname
         if Compiled[ident] then
             CompileID = CompileID + 1
             ident = funcname .. CompileID
@@ -277,12 +278,11 @@ function _gAC.CreateIdentifier(ident, funcname)
     return ident
 end
 
-local _RunString = RunString
-RunString = _gAC._D( RunString, function(code, ident, ...)
+local _RunString = _G.RunString
+_G.RunString = _gAC._D( _G.RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return err end
+    if !func && err then return err end
     ident = _gAC.CreateIdentifier(ident, "RunString")
-    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunString"
     dbginfo.func = _tostring(dbginfo.func)
@@ -291,15 +291,15 @@ RunString = _gAC._D( RunString, function(code, ident, ...)
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
+    func = _CompileString(code, ident)
     return func()
 end, "RunString" )
 
-local _RunStringEx = RunStringEx
-RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
+local _RunStringEx = _G.RunStringEx
+_G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return err end
+    if !func && err then return err end
     ident = _gAC.CreateIdentifier(ident, "RunStringEx")
-    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunStringEx"
     dbginfo.func = _tostring(dbginfo.func)
@@ -308,14 +308,14 @@ RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
+    func = _CompileString(code, ident)
     return func()
 end, "RunStringEx" )
 
-CompileString = _gAC._D( CompileString, function(code, ident, ...)
+_G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if func == nil then return nil, err end
+    if !func && err then return nil, err end
     ident = _gAC.CreateIdentifier(ident, "CompileString")
-    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "CompileString"
     dbginfo.func = _tostring(dbginfo.func)
@@ -324,11 +324,11 @@ CompileString = _gAC._D( CompileString, function(code, ident, ...)
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return func
+    return _CompileString(code, ident, safemode)
 end, "CompileString" )
 
-local _gACCompile = CompileString
-local _gACRunCode = RunString
+local _gACCompile = _G.CompileString
+local _gACRunCode = _G.RunString
 
 local HASHID = _gAC.hs('bc')
 
@@ -339,7 +339,7 @@ _R._VMEVENTS[HASHID] = _gAC.LuaVM
 _jit_attach(function() end, "")
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local Interval = _15*_Tick
+local Interval = _10*_Tick
 local TickTime = Interval - _1
 
 _hook_Add( "Tick", ID, function()

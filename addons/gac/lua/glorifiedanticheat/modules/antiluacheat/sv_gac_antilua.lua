@@ -165,15 +165,14 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         Used on files that are reloaded on lua refresh or other lua compiles that needs to be added
     ]]
     function gAC.AddSource(userid, sourceId, code)
-        if !gAC.LuaSession[userid] then
-            gAC.LuaSession[userid] = {}
-        end
         if gAC.config.AntiLua_FunctionVerification then
             local func, err = _CompileString(code, sourceId .. ".AddSource", false)
             if !func && err then return end
             local dump = _string_dump(func)
             local funclist = ByteCode.DumpToFunctionList(dump)
-            gAC.LuaSession[userid][sourceId] = funclist
+            gAC.LuaSession[userid][sourceId] = {
+                funclist = funclist
+            }
         else
             gAC.LuaSession[userid][sourceId] = true
         end
@@ -303,10 +302,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                 if v.source && _isstring(v.source) then
                     if gAC.VerifyLuaSource(v, userid) == false then
                         if v.func && gAC.LuaFuncSources[v.func] then
-                            local isfine = true
+                            local isfine = nil
                             for kk, vv in _pairs(gAC.LuaFuncSources[v.func]) do
-                                if v[kk] ~= vv then
-                                    isfine = nil
+                                if v[kk] == vv then
+                                    isfine = true
                                     break 
                                 end
                             end
