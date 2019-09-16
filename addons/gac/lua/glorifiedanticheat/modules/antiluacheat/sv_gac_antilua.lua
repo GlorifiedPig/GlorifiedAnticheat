@@ -1,538 +1,368 @@
-local _CompileFile = CompileFile
-local _SysTime = SysTime
-local _math_Round = math.Round
-local _jit_util_funcinfo = jit.util.funcinfo
-local _jit_attach = jit.attach
-local _file_CreateDir = file.CreateDir
-local _file_Exists = file.Exists
-local _file_Time = file.Time
-local _file_Find = file.Find
-local _file_Read = file.Read
-local _file_Size = file.Size
-local _file_Write = file.Write
-local _hook_Add = hook.Add
-local _isstring = isstring
-local _tostring = tostring
-local _istable = istable
-local _pairs = pairs
-local _pcall = pcall
-local _timer_Create = timer.Create
-local _timer_Start = timer.Start
-local _IsValid = IsValid
-local _string_dump = string.dump
-local _string_lower = string.lower
-local _string_sub = string.sub
-local _string_Explode = string.Explode
-local _string_gsub = string.gsub
-local _table_remove = table.remove
-local _table_concat = table.concat
-local _util_Compress = util.Compress
-local _util_Decompress = util.Decompress
-local _util_JSONToTable = util.JSONToTable
-local _util_TableToJSON = util.TableToJSON
-local _bit_rol = bit.rol
-local _bit_bxor = bit.bxor
-local _debug_getregistry = debug.getregistry
-
-_hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
-    if !gAC.config.AntiLua_CHECK then return end
-
-    --[[
-        WARNING:
-        AntiLua is CPU intensive,
-        only use this if consistant lua cheating is at an all time high!
-
-        "let their be peace on our world of lua" - NiceCream
-    ]]
-
-    -- builtin functions can give out a source to "@=[C]" or "[C]" (like pcall being used to isolate RunString errors)
-    gAC.LuaFuncSources = {
-        ["function: builtin#21"] = {
-            source = "=[C]", 
-            short_src = "[C]", 
-            what = "C",
-            lastlinedefined = -1,
-            linedefined = -1
-        },
-        ["function: builtin#20"] = {
-            source = "=[C]", 
-            short_src = "[C]", 
-            what = "C",
-            lastlinedefined = -1,
-            linedefined = -1
-        }
-    }
-
-    --[[
-        LuaFileCache,
-            a full cache of every file that was mounted to the server
-            this includes the location of the file, the size of it,
-            the bytecodes generated (if possible) and the functions list (if bytecodes exists)
-
-        LuaSession,
-            a source cache of lua ran on the client.
-            keeps track of what was ran to be whitelisted from detections.
-            like RunString executions from a valid file.
-    ]]
-    gAC.LuaFileCache = gAC.LuaFileCache or nil
-    gAC.LuaSession = gAC.LuaSession or {}
-    gAC.FileSourcePath = "LUA"
-
-    --[[
-        Function used to detect or record information about a server-side execution.
-        Currently on startup it logs all information of function execution.
-    ]]
-    gAC.LuaVM = function(proto)
-        local jitinfo = _jit_util_funcinfo(proto)
-        jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-        jitinfo.source = gAC.dirtosvlua(jitinfo.source)
-        gAC.LuaFileCache[jitinfo.source] = gAC.LuaFileCache[jitinfo.source] or {}
-        local _tbl = gAC.LuaFileCache[jitinfo.source]
-        if _tbl.bytecodes then return end
-        _tbl.funclist = _tbl.funclist or {}
-        _tbl.funclist[#_tbl.funclist + 1] = {
-            linedefined = jitinfo.linedefined,
-            lastlinedefined = jitinfo.lastlinedefined,
-            proto = ByteCode.FunctionToHash(proto, jitinfo)
-        }
-    end
-
-    --[[
-        Converts string into a Hash String of the string provided
-        to be readed and identified by the lua VM
-    ]]
-    function gAC.HashString(str)
-        local len = #str
-        for i=1, #str do
-            len = _bit_bxor(len, _bit_rol(len, 6) + str:byte(i))
-        end
-        return _bit_rol(len, 3)
-    end
-
-    --[[
-        We gonna need to create a hashstring of 'bc'
-        to be used as a form of jit.attach method.
-    ]]
-    gAC.LuaVMID = gAC.HashString('bc')
-
-    --[[
-        Simply converts any file location provided to meet with
-        the 'LUA' mount path of the file system
-    ]]
-    function gAC.dirtosvlua(loc)
-        local _loc = loc
-        _loc = _string_Explode("/",_loc)
-        if _loc[1] == "addons" then 
-            _table_remove(_loc, 1)
-            _table_remove(_loc, 1)
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        elseif _loc[1] == "lua" then
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        elseif _loc[1] == "gamemodes" then
-            _table_remove(_loc, 1)
-            loc = _table_concat(_loc,"/")
-        end
-        return loc
-    end
-
-    --[[
-        Verify sources of the lua cache, 
-        if defined source is not in the cache then it's not created by the server.
-    ]]
-    function gAC.VerifyLuaSource(funcinfo, userid)
-        if !gAC.LuaFileCache[funcinfo.source] && !gAC.LuaSession[userid][funcinfo.source] then
-            return false
-        end
-        return true
-    end
-
-    --[[
-        File re-verification for the lua cache.
-        Used on files that are reloaded on lua refresh or other lua compiles that needs to be added
-    ]]
-    function gAC.UpdateLuaFile(source)
-        if !gAC.config.AntiLua_LuaRefresh then return end
-        local time = _file_Time(source, gAC.FileSourcePath)
-        if time ~= 0 then
-            if time ~= gAC.LuaFileCache[source].time then
-                gAC.Print("[AntiLua] WARNING: lua refresh occured on " .. source .. ", switching to source verification")
-                gAC.LuaFileCache[source] = { time = time }
-            end
-        else
-            gAC.Print("[AntiLua] WARNING: lua refresh occured on " .. source .. ", switching to source verification")
-            gAC.LuaFileCache[source] = true
-        end
-    end
-
-    --[[
-        Verify sources of the lua cache & function information.
-        same as VerifyLuaSource but uses dump information of lua files to indentify
-        if it's of a foreign execution or compile.
-
-        *Note, due to bytecode exec method on the client
-        sometimes or all the time the hash ID of a function
-        will differ from the server, even though the 'lastlinedefined' and
-        'linedefined' are exact to the functions list.
-    ]]
-    local LuaFileUpdates = {} -- Prevent spam
-    if !gAC.config.AntiLua_LuaRefresh then
-        LuaFileUpdates = nil
-    end
-    function gAC.VerifyFunction(funcinfo)
-        if !gAC.config.AntiLua_FunctionVerification then return true end
-        if _istable(gAC.LuaFileCache[funcinfo.source]) && gAC.LuaFileCache[funcinfo.source].funclist then
-            if LuaFileUpdates && !LuaFileUpdates[funcinfo.source] then
-                LuaFileUpdates[funcinfo.source] = true
-                gAC.UpdateLuaFile(funcinfo.source)
-                return
-            end
-            local funcslist = gAC.LuaFileCache[funcinfo.source].funclist
-            for k=1, #funcslist do
-                local v = funcslist[k]
-                if v.lastlinedefined ~= funcinfo.lastlinedefined then
-                    continue
-                end
-                if v.linedefined ~= funcinfo.linedefined then
-                    continue
-                end
-                if v.proto ~= funcinfo.proto then
-                    continue
-                end
-                return true
-            end
-            return false 
-        end
-        return true
-    end
-
-    --[[
-        Logs and documents all actions commited on this part of the anticheat to a file for development purposes.
-        Use this to report to us if any failures or false detections occur.
-
-        *Improvements needed for this function
-        Improve how logging works by making more detailed responses.
-    ]]
-    function gAC.AntiLuaAddDetection(jitinfo, detection, _type, ply)
-        if _type ~= "Probable Execution" then
-            ply.LuaExecDetected = true
-            gAC.AddDetection(ply, detection, gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
-        else
-            gAC.AddDetection(ply, detection, false, -1)
-        end
-
-        local response = _util_TableToJSON(jitinfo, true)
-        response = "WARNING: Do not reveal this to cheaters!\nClient " .. ply:SteamID64() .. "'s reply\n" .. response
-        response = response .. "\nServer's reply\n" .. detection .. "\n"
-
-        if _type == "%unknown%" then
-            _type = "Client returned a traceback with nil or unknown type (likely a client detour attempt)"
-        elseif _type == "Invalid Source" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which does not exist in the lua cache"
-        elseif _type == "Invalid Bytecode" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which exists on the lua cache\n"
-            _type = _type .. "however the function information returned to it is different from the lua cache"
-        elseif _type == "Probable Execution" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which does not exist in the lua cache\n"
-            _type = _type .. "however because of the given environment information, it's unable to be confirmed."
-        end
-
-        response = response .. _type
-
-        _file_Write("gac-antilua/" .. ply:SteamID64() .. "-" .. os.time() .. ".dat", response)
-    end
-
-    gAC.Network:AddReceiver("g-AC_LuaExec",function(_, tabledata, ply)
-        if ply.LuaExecDetected then return end
-        local userid = ply:UserID()
-        if tabledata == "1" then 
-            _timer_Start("gAC.AntiLua-" .. userid)
-            return 
-        end
-        local succ, data = _pcall(_util_JSONToTable, tabledata)
-        if !succ then
-            ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
-            return
-        end
-        _timer_Start("gAC.AntiLua-" .. userid)
-        if #data > 500 then -- User attempted to send more than what was defined. (likely net spam attempt.)
-            ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
-        end
-        for k=1, #data do
-            local v = data[k]
-            if v.funcname then
-                if v.source && _isstring(v.source) then
-                    if gAC.VerifyLuaSource(v, userid) == false then
-                        if v.func && gAC.LuaFuncSources[v.func] then
-                            local isfine = true
-                            for kk, vv in _pairs(gAC.LuaFuncSources[v.func]) do
-                                if v[kk] ~= vv then
-                                    isfine = nil
-                                    break 
-                                end
-                            end
-                            if isfine then
-                                if v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
-                                    if v.execidentifier then
-                                        gAC.LuaSession[userid][v.execidentifier] = true
-                                    end
-                                end
-                                continue
-                            end
-                        elseif v.source == "[C]" && v.short_src == "[C]" && v.what == "C" then
-                            if v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
-                                if v.execidentifier then
-                                    gAC.LuaSession[userid][v.execidentifier] = true
-                                end
-                            end
-                            continue
-                        end
-                        gAC.AntiLuaAddDetection(v, "Unauthorized lua execution (func: " .. v.funcname .. " | src: " ..  v.source .. ") [Code 123]", "Invalid Source", ply)
-                        break
-                    elseif v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
-                        if v.execidentifier then
-                            gAC.LuaSession[userid][v.execidentifier] = true
-                        end
-                    end
-                else
-                    gAC.AntiLuaAddDetection(v, "Unauthorized lua execution [Code 123]", "%unknown%", ply)
-                    break
-                end
-            else
-                if v.source && _isstring(v.source) then
-                    if gAC.VerifyLuaSource(v, userid) == false then
-                        if !ply.gAC_LuaExecStartup  && v.source == "Startup" then
-                            ply.gAC_LuaExecStartup = true
-                            continue
-                        else
-                            gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Source", ply)
-                            break
-                        end
-                    elseif gAC.VerifyFunction(v, ply) == false then
-                        gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
-                        break
-                    end
-                else
-                    gAC.AntiLuaAddDetection(v, "Lua environment manipulation [Code 124]", "%unknown%", ply)
-                    break
-                end
-            end
-        end
-        if LuaFileUpdates then
-            LuaFileUpdates = {}
-        end
-    end )
-
-    _hook_Add("gAC.CLFilesLoaded", "gAC.AntiLua", function(ply)
-        _timer_Create("gAC.AntiLua-" .. ply:UserID(), 120, 1, function()
-            if _IsValid(ply) && !ply.LuaExecDetected then
-                ply.LuaExecDetected = true
-                gAC.AddDetection(ply, "AntiLua information did not arrive in time [Code 125]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
-            end
-        end)
-    end)
-
-    _hook_Add("PlayerInitialSpawn", "gAC.AntiLua", function(ply)
-        gAC.LuaSession[ply:UserID()] = {}
-    end)
-
-    _hook_Add("PlayerDisconnected", "gAC.AntiLua", function(ply)
-        gAC.LuaSession[ply:UserID()] = nil
-    end)
-
-    --[[
-        Lua refresh compatibility,
-        if a lua file is refresh, we will need to turn on source verification.
-        because who knows what changed...
-    ]]
-    if LuaFileUpdates then
-        _hook_Add("InitPostEntity", "gAC.AntiLua", function(ply)
-            -- Allows us to know when an execution server side was made.
-            gAC.LuaVM = function(proto)
-                local jitinfo = _jit_util_funcinfo(proto)
-                jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-                jitinfo.source = gAC.dirtosvlua(jitinfo.source)
-                if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].funclist then
-                    gAC.UpdateLuaFile(jitinfo.source)
-                end
-            end
-
-            local _R = _debug_getregistry()
-            _R._VMEVENTS = _R._VMEVENTS or {}
-            _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
-
-            _jit_attach(function() end, "")
-        end)
-    end
-
-    --[[
-        Catalog every mounted lua file
-    ]]
-    if gAC.LuaFileCache == nil then
-
-        local function EnumerateFolder (folder, pathId, callback, recursive)
-            if not callback then return end
-            
-            if #folder > 0 then folder = folder .. "/" end
-            local files, folders = _file_Find(folder .. "*", pathId)
-            
-            if not files and not folders then
-                gAC.Print("[AntiLua] Could not add " .. folder .. " to lua information.")
-                return
-            end
-            
-            for _, fileName in _pairs(files) do
-                callback(folder .. fileName, pathId)
-            end
-            if recursive then
-                for _, childFolder in _pairs(folders) do
-                    if childFolder ~= "." and childFolder ~= ".." then
-                        EnumerateFolder(folder .. childFolder, pathId, callback, recursive)
-                    end
-                end
-            end
-        end
-
-        gAC.Print("[AntiLua] Initializing")
-
-        if !_file_Exists("gac-antilua", "DATA") then
-            _file_CreateDir("gac-antilua")
-        end
-
-        gAC.LuaFileCache = {}
-        local _Time = _SysTime()
-        gAC.Print("[AntiLua] Building lua file cache")
-
-        if _file_Exists("gac-antilua/gac-luacache.dat", "DATA") then
-            gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
-            gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
-            gAC.Print("[AntiLua] Checking for modifications...")
-        end
-
-        local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
-
-        local function handlepath(path)
-            if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
-            if path == "" then return end
-
-            local _time, _alter = _file_Time(path, _Path), nil
-
-            if !gAC.LuaFileCache [path] then
-                gAC.Print("[AntiLua] Excluding " .. path)
-                _alter = true
-                _UpdateFile = true
-            elseif !_istable(gAC.LuaFileCache[path]) or _time ~= gAC.LuaFileCache[path].time then
-                gAC.Print("[AntiLua] Modifying exclusion " .. path)
-                _alter = true
-                _UpdateFile = true
-            end
-
-            if _alter then
-                gAC.LuaFileCache[path] = { time = _time }
-                local func = _CompileFile(path)
-                if !func and _string_lower(path) ~= path then
-                    gAC.LuaFileCache[path] = { time = _time }
-                    func = _CompileFile(_string_lower(path))
-                end
-                if !func then
-                    gAC.Print("[AntiLua] " .. path .. " Compile Error")
-                    _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
-                    func = nil
-                    gAC.LuaFileCache[path] = { time = _time }
-                    return 
-                end
-            end
-        end
-
-        local _R = _debug_getregistry()
-        _R._VMEVENTS = _R._VMEVENTS or {}
-        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
-
-        _jit_attach(function() end, "")
-
-        EnumerateFolder ("", _Path, handlepath, true)
-
-        _R._VMEVENTS[gAC.LuaVMID] = nil
-
-        for path, v in _pairs(gAC.LuaFileCache) do
-            if _file_Time(path, _Path) == 0 then
-                _UpdateFile = true
-                gAC.Print("[AntiLua] Removing exclusion " .. path)
-                gAC.LuaFileCache[path] = nil
-            end
-        end
-
-        if !_UpdateFile then
-            gAC.Print("[AntiLua] Everything appears up to standards")
-        end
-
-        gAC.Print("[AntiLua] Finished building lua file cache, took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
-        if #_Errors > 0 then
-            gAC.Print(#_Errors .. " lua files have issues")
-            for k=1, #_Errors do
-                gAC.Print(_Errors[k])
-            end
-        end
-
-        if _UpdateFile then
-            gAC.Print("[AntiLua] Saving lua cache...")
-            _Time = _SysTime()
-            _file_Write("gac-antilua/gac-luacache.dat", _util_Compress(_util_TableToJSON(gAC.LuaFileCache)))
-            gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
-        end
-
-        gAC.Print("[AntiLua] Initialization complete")
-    end
-end)
-
---[[
-    For development
-
-    lang.lua addition.
-
-local opcodemap =
-{
-	[0x49] = 0x49,
-	[0x4A] = 0x49,
-	[0x4B] = 0x4B,
-	[0x4C] = 0x4B,
-	[0x4D] = 0x4B,
-	[0x4E] = 0x4E,
-	[0x4F] = 0x4E,
-	[0x50] = 0x4E,
-	[0x51] = 0x51,
-	[0x52] = 0x51,
-	[0x53] = 0x51,
-}
-
-local opcodemap2 =
-{
-	[0x44] = 0x54,
-	[0x42] = 0x41,
-}
-
-local function bytecodetoproto(func, funcinfo)
-    local data = {}
-    for i = _1, funcinfo.bytecodes - _1 do
-        local bytecode = _jit_util_funcbc (func, i)
-        local byte = _bit_band (bytecode, 0xFF)
-        if opcodemap[byte] then
-            bytecode = opcodemap[byte]
-        end
-        if opcodemap2[byte] then
-            bytecode = bytecode - byte
-            bytecode = bytecode + opcodemap2[byte]
-        end
-        data [#data + _1] = _string_char (
-            _bit_band (bytecode, 0xFF),
-            _bit_band (_bit_rshift(bytecode,  _8), 0xFF),
-            _bit_band (_bit_rshift(bytecode, _16), 0xFF),
-            _bit_band (_bit_rshift(bytecode, _24), 0xFF)
-        )
-    end
-    return _tonumber(_util_CRC(_table_concat(data)))
+local
+_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J={_="config",a="LuaFuncSources",b="LuaFileCache",c="LuaSession",d="FileSourcePath",e="source",f="funclist",g="linedefined",h="lastlinedefined",i="AntiLua_FunctionVerification",j="AntiLua_LuaRefresh",k="Print",l="LuaExecDetected",m="AddDetection",n="AntiLua_PUNISHMENT",o="AntiLua_BANTIME",p="funcname",q="VerifyLuaSource",r="execidentifier",s="AddSource",t="AntiLuaAddDetection",u="gAC_LuaExecStartup",v="_VMEVENTS"},CompileFile,SysTime,math.Round,jit.util.funcinfo,jit.attach,file.CreateDir,file.Exists,file.Time,file.Find,file.Read,file.Size,file.Write,hook.Add,isstring,tostring,istable,pairs,pcall,timer.Create,timer.Start,CompileString,IsValid,string.dump,string.lower,string.sub,string.Explode,string.gsub,table.remove,table.concat,util.Compress,util.Decompress,util.JSONToTable,util.TableToJSON,bit.rol,bit.bxor,debug.getregistry
+m("gAC.IncludesLoaded","gAC.AntiLua",function()if!gAC[_._].AntiLua_CHECK
+then
+return
 end
-]]
+gAC[_.a]={["function: builtin#21"]={source="=[C]",short_src="[C]",what="C",lastlinedefined=-1,linedefined=-1},["function: builtin#20"]={source="=[C]",short_src="[C]",what="C",lastlinedefined=-1,linedefined=-1}}gAC[_.b]=gAC[_.b]||nil
+gAC[_.c]=gAC[_.c]||{}gAC[_.d]="LUA"gAC.LuaVM=function(k)local
+o=d(k)o[_.e]=A(o[_.e],"^@","")o[_.e]=gAC.dirtosvlua(o[_.e])gAC[_.b][o[_.e]]=gAC[_.b][o[_.e]]||{}local
+K=gAC[_.b][o[_.e]]if
+K.bytecodes
+then
+return
+end
+K[_.f]=K[_.f]||{}K[_.f][#K[_.f]+1]={linedefined=o[_.g],lastlinedefined=o[_.h],proto=ByteCode.FunctionToHash(k,o)}end
+function
+gAC.HashString(k)local
+o=#k
+for
+L=1,#k
+do
+o=I(o,H(o,6)+k:byte(L))end
+return
+H(o,3)end
+gAC.LuaVMID=gAC.HashString'bc'function
+gAC.dirtosvlua(k)local
+o=k
+o=z("/",o)if
+o[1]=="addons"then
+B(o,1)B(o,1)B(o,1)k=C(o,"/")elseif
+o[1]=="lua"then
+B(o,1)k=C(o,"/")elseif
+o[1]=="gamemodes"then
+B(o,1)k=C(o,"/")end
+return
+k
+end
+function
+gAC.VerifyLuaSource(k,o)if!gAC[_.b][k[_.e]]&&!gAC[_.c][o][k[_.e]]then
+return!1
+end
+return!!1
+end
+function
+gAC.AddSource(k,o,M)if
+gAC[_._][_.i]then
+local
+N,O=u(M,o..".AddSource",!1)if!N&&O
+then
+return
+end
+local
+O=w(N)local
+N=ByteCode.DumpToFunctionList(O)gAC[_.c][k][o]={funclist=N}else
+gAC[_.c][k][o]=!!1
+end
+end
+function
+gAC.UpdateLuaFile(k)if!gAC[_._][_.j]then
+return
+end
+local
+o=h(k,gAC[_.d])if
+o~=0
+then
+if
+o~=gAC[_.b][k].time
+then
+gAC[_.k]("[AntiLua] WARNING: lua refresh occured on "..k..", switching to source verification")gAC[_.b][k]={time=o}end
+else
+gAC[_.k]("[AntiLua] WARNING: lua refresh occured on "..k..", switching to source verification")gAC[_.b][k]=!!1
+end
+end
+local
+k={}if!gAC[_._][_.j]then
+k=nil
+end
+function
+gAC.VerifyFunction(o,P)if!gAC[_._][_.i]then
+return!!1
+end
+local
+Q=nil
+if
+gAC[_.b][P[_.e]]&&p(gAC[_.b][P[_.e]])&&gAC[_.b][P[_.e]][_.f]then
+Q=gAC[_.b][P[_.e]][_.f]elseif
+gAC[_.c][o]&&gAC[_.c][o][P[_.e]]&&p(gAC[_.c][o][P[_.e]])&&gAC[_.c][o][P[_.e]][_.f]then
+Q=gAC[_.c][o][P[_.e]][_.f]end
+if
+Q
+then
+if
+k&&!k[P[_.e]]then
+k[P[_.e]]=!!1
+gAC.UpdateLuaFile(P[_.e])return
+end
+for
+o=1,#Q
+do
+local
+R=Q[o]if
+R[_.h]~=P[_.h]then
+continue
+end
+if
+R[_.g]~=P[_.g]then
+continue
+end
+if
+R.proto~=P.proto
+then
+continue
+end
+return!!1
+end
+return!1
+end
+return!!1
+end
+function
+gAC.AntiLuaAddDetection(k,o,S,T)if
+S~="Probable Execution"then
+T[_.l]=!!1
+gAC[_.m](T,o,gAC[_._][_.n],gAC[_._][_.o])else
+gAC[_.m](T,o,!1,-1)end
+local
+U=G(k,!!1)U="WARNING: Do not reveal this to cheaters!\nClient "..T:SteamID64().."'s reply\n"..U
+U=U.."\nServer's reply\n"..o.."\n"if
+S=="%unknown%"then
+S="Client returned a traceback with nil or unknown type (likely a client detour attempt)"elseif
+S=="Invalid Source"then
+S="Client returned a traceback leading to '"..k[_.e].."' which does not exist in the lua cache"elseif
+S=="Invalid Bytecode"then
+S="Client returned a traceback leading to '"..k[_.e].."' which exists on the lua cache\n"S=S.."however the function information returned to it is different from the lua cache"elseif
+S=="Probable Execution"then
+S="Client returned a traceback leading to '"..k[_.e].."' which does not exist in the lua cache\n"S=S.."however because of the given environment information, it's unable to be confirmed."end
+U=U..S
+l("gac-antilua/"..T:SteamID64().."-"..os.time()..".dat",U)end
+gAC.Network:AddReceiver("g-AC_LuaExec",function(o,V,W)if
+W[_.l]then
+return
+end
+local
+o=W:UserID()if
+V=="1"then
+t("gAC.AntiLua-"..o)return
+end
+local
+X,Y=r(F,V)if!X
+then
+W[_.l]=!!1
+gAC[_.m](W,"AntiLua network manipulation [Code 126]",gAC[_._][_.n],gAC[_._][_.o])return
+end
+t("gAC.AntiLua-"..o)if#Y>500
+then
+W[_.l]=!!1
+gAC[_.m](W,"AntiLua network manipulation [Code 126]",gAC[_._][_.n],gAC[_._][_.o])end
+for
+V=1,#Y
+do
+local
+X=Y[V]if
+X[_.p]then
+if
+X[_.e]&&n(X[_.e])then
+if
+gAC[_.q](X,o)==!1
+then
+if
+X.func&&gAC[_.a][X.func]then
+local
+V=nil
+for
+Z,a_
+in
+q(gAC[_.a][X.func])do
+if
+X[Z]==a_
+then
+V=!!1
+break
+end
+end
+if
+V
+then
+if
+X[_.p]=="RunString"||X[_.p]=="RunStringEx"||X[_.p]=="CompileString"then
+if
+X[_.r]then
+gAC[_.s](o,X[_.r],X.code)end
+end
+continue
+end
+elseif
+X[_.e]=="[C]"&&X.short_src=="[C]"&&X.what=="C"then
+if
+X[_.p]=="RunString"||X[_.p]=="RunStringEx"||X[_.p]=="CompileString"then
+if
+X[_.r]then
+gAC[_.s](o,X[_.r],X.code)end
+end
+continue
+end
+gAC[_.t](X,"Unauthorized lua execution (func: "..X[_.p].." | src: "..X[_.e]..") [Code 123]","Invalid Source",W)break
+elseif
+X[_.p]=="RunString"||X[_.p]=="RunStringEx"||X[_.p]=="CompileString"then
+if
+X[_.r]then
+gAC[_.s](o,X[_.r],X.code)end
+end
+else
+gAC[_.t](X,"Unauthorized lua execution [Code 123]","%unknown%",W)break
+end
+else
+if
+X[_.e]&&n(X[_.e])then
+if
+gAC[_.q](X,o)==!1
+then
+if!W[_.u]&&X[_.e]=="Startup"then
+W[_.u]=!!1
+continue
+else
+gAC[_.t](X,"Lua environment manipulation (src: "..X[_.e]..") [Code 124]","Invalid Source",W)break
+end
+elseif
+gAC.VerifyFunction(X,W)==!1
+then
+gAC[_.t](X,"Lua environment manipulation (src: "..X[_.e]..") [Code 124]","Invalid Bytecode",W)break
+end
+else
+gAC[_.t](X,"Lua environment manipulation [Code 124]","%unknown%",W)break
+end
+end
+end
+if
+k
+then
+k={}end
+end)m("gAC.CLFilesLoaded","gAC.AntiLua",function(k)s("gAC.AntiLua-"..k:UserID(),120,1,function()if
+v(k)&&!k[_.l]then
+k[_.l]=!!1
+gAC[_.m](k,"AntiLua information did not arrive in time [Code 125]",gAC[_._][_.n],gAC[_._][_.o])end
+end)end)m("PlayerInitialSpawn","gAC.AntiLua",function(k)gAC[_.c][k:UserID()]={}end)m("PlayerDisconnected","gAC.AntiLua",function(k)gAC[_.c][k:UserID()]=nil
+end)if
+k
+then
+m("InitPostEntity","gAC.AntiLua",function(k)gAC.LuaVM=function(k)local
+o=d(k)o[_.e]=A(o[_.e],"^@","")o[_.e]=gAC.dirtosvlua(o[_.e])if
+p(gAC[_.b][o[_.e]])&&gAC[_.b][o[_.e]][_.f]then
+gAC.UpdateLuaFile(o[_.e])end
+end
+local
+k=J()k[_.v]=k[_.v]||{}k[_.v][gAC.LuaVMID]=gAC.LuaVM
+e(function()end,"")end)end
+if
+gAC[_.b]==nil
+then
+local
+function
+k(o,aa,ab,ac)if!ab
+then
+return
+end
+if#o>0
+then
+o=o.."/"end
+local
+ad,ae=i(o.."*",aa)if!ad&&!ae
+then
+gAC[_.k]("[AntiLua] Could not add "..o.." to lua information.")return
+end
+for
+ac,ad
+in
+q(ad)do
+ab(o..ad,aa)end
+if
+ac
+then
+for
+ad,af
+in
+q(ae)do
+if
+af~="."&&af~=".."then
+k(o..af,aa,ab,ac)end
+end
+end
+end
+gAC[_.k]"[AntiLua] Initializing"if!g("gac-antilua","DATA")then
+f"gac-antilua"end
+gAC[_.b]={}local
+o=b()gAC[_.k]"[AntiLua] Building lua file cache"if
+g("gac-antilua/gac-luacache.dat","DATA")then
+gAC[_.k]"[AntiLua] Detected an existing lua cache file, reading..."gAC[_.b]=F(E(j("gac-antilua/gac-luacache.dat","DATA")))gAC[_.k]"[AntiLua] Checking for modifications..."else
+gAC.NoLuaCache=!!1
+end
+local
+ag,ah,ai={},!1,gAC[_.d]local
+function
+aj(k)if
+x(y(k,-4))~=".lua"then
+return
+end
+if
+k==""then
+return
+end
+local
+o,aj=h(k,ai),nil
+if!gAC[_.b][k]then
+gAC[_.k]("[AntiLua] Excluding "..k)aj=!!1
+ah=!!1
+elseif!p(gAC[_.b][k])||o~=gAC[_.b][k].time
+then
+gAC[_.k]("[AntiLua] Modifying exclusion "..k)aj=!!1
+ah=!!1
+end
+if
+aj
+then
+gAC[_.b][k]={time=o}local
+aj=a(k)if!aj&&x(k)~=k
+then
+gAC[_.b][k]={time=o}aj=a(x(k))end
+if!aj
+then
+gAC[_.k]("[AntiLua] "..k.." Compile Error")ag[#ag+1]=k.." - Compile Error (switch to source verification)"aj=nil
+gAC[_.b][k]={time=o}return
+end
+end
+end
+local
+ak=J()ak[_.v]=ak[_.v]||{}ak[_.v][gAC.LuaVMID]=gAC.LuaVM
+e(function()end,"")k("",ai,aj,!!1)ak[_.v][gAC.LuaVMID]=nil
+for
+k,o
+in
+q(gAC[_.b])do
+if
+h(k,ai)==0
+then
+ah=!!1
+gAC[_.k]("[AntiLua] Removing exclusion "..k)gAC[_.b][k]=nil
+end
+end
+if!ah
+then
+gAC[_.k]"[AntiLua] Everything appears up to standards"end
+gAC[_.k]("[AntiLua] Finished building lua file cache, took: "..c(b()-o,2).."s")if#ag>0
+then
+gAC[_.k](#ag.." lua files have issues")for
+k=1,#ag
+do
+gAC[_.k](ag[k])end
+end
+if
+ah
+then
+gAC[_.k]"[AntiLua] Saving lua cache..."if
+gAC.NoLuaCache
+then
+gAC[_.k]"[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)"m("InitPostEntity","gAC.AntiLua.Restart",function(k)gAC[_.k]"[AntiLua] Restarting..."RunConsoleCommand'_restart'end)end
+o=b()l("gac-antilua/gac-luacache.dat",D(G(gAC[_.b])))gAC[_.k]("[AntiLua] Saving took: "..c(b()-o,2).."s")end
+gAC[_.k]"[AntiLua] Initialization complete"end
+end)
