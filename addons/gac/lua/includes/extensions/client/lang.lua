@@ -273,6 +273,7 @@ function _gAC.CreateIdentifier(ident, funcname)
             ident = funcname .. CompileID
         end
     end
+    Compiled[ident] = true
     return ident
 end
 
