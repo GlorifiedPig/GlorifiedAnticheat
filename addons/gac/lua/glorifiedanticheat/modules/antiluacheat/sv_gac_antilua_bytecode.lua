@@ -1,8 +1,8 @@
 --[[
-	Common anticheats using source identification to detect invalids of a lua file.
+	Common anticheats use source identification to detect invalids of a lua file.
 	Using bytecode we can precisely pinpoint what is supposed to be in a lua file.
 
-	This works like string.find but on a higher level of sub'ing and indentification.
+	This works like string.find but on a higher level of sub'ing and identification.
 	With the use of finding certain values in a function dump we can find function information
 	similar to debug.getinfo but only using the dumps to search through.
 
