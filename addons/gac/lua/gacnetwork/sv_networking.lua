@@ -272,11 +272,11 @@ local _util_Decompress = util.Decompress
 local _util_CRC = util.CRC
 local _string_match = string.match
 local _string_gsub = string.gsub
-local _RunString = RunString
-local _CompileString = CompileString
 local _tonumber = tonumber
 local args = {...}
 local _1, _2, _3, _4, _5, _6, _7, _8, _11, _32 = 1,2,3,4,5,6,7,8,11,32
+local CompileCode = args[_2]
+local RunCode = args[_3]
 args = args[_1]
 _G[args[_6] ] = {}
 _G[args[_4] ] = 1
@@ -309,10 +309,10 @@ local function HandleMessage (bit)
     end
 end
 _G[args[_6] ][_tonumber(_util_CRC ("LoadString" .. args[_5]))] = function(ch, data) 
-    _RunString(data, args[_8] .. "GAC.LoadString-" .. #data) 
+    RunCode(data, args[_8] .. "GAC.LoadString-" .. #data) 
 end
 _G[args[_6] ][_tonumber(_util_CRC ("LoadPayload" .. args[_5]))] = function(ch, data)
-    local func = _CompileString(data, args[_8] .. args[_11] .. #data)
+    local func = CompileCode(data, args[_8] .. args[_11] .. #data)
     func(args[_3], args[_4], args[_5], args[_6])
 end
 _net_Receive (args[_3],function(bit) HandleMessage(bit) end)
@@ -327,7 +327,7 @@ end)]]
 local TBL = {
 	--Payload
 	Payload_001,
-	"\rGAC.PayLoad_001",
+	"\rGAC." .. gAC.Encoder.stringrandom(_math_Round(_math_random(5, 10))),
 	gAC.Network.GlobalChannel,
 	gAC.Network.GlobalAST,
 	gAC.Network.Channel_Rand,

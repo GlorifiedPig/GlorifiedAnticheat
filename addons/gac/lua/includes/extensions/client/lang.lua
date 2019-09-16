@@ -258,6 +258,18 @@ for k=_1, #Detourables do
 end
 
 local _RunString = RunString
+
+local GAC_RunString = _gAC._D( RunString, function(code, ident, ...)
+    local dbginfo = _debug_getinfo(_2, "fS")
+    dbginfo.funcname = "RunString"
+    dbginfo.func = _tostring(dbginfo.func)
+    dbginfo.execidentifier = ident
+    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
+    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
+    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
+    return _RunString(code, ident, ...)
+end, "gAC-RunString" )
+
 RunString = _gAC._D( RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if func == nil then return err end
@@ -295,6 +307,17 @@ RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
     return _RunStringEx(code, ident, ...)
 end, "RunStringEx" )
 
+local GAC_CompileString = _gAC._D( CompileString, function(code, ident, ...)
+    local dbginfo = _debug_getinfo(_2, "fS")
+    dbginfo.funcname = "CompileString"
+    dbginfo.func = _tostring(dbginfo.func)
+    dbginfo.execidentifier = ident
+    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
+    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
+    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
+    return _CompileString(code, ident, ...)
+end, "gAC-CompileString" )
+
 CompileString = _gAC._D( CompileString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if func == nil then return nil, err end
@@ -312,8 +335,6 @@ CompileString = _gAC._D( CompileString, function(code, ident, ...)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
     return _CompileString(code, ident, ...)
 end, "CompileString" )
-
-local _Det_CompileString = CompileString
 
 local HASHID = _gAC.hs('bc')
 
@@ -366,7 +387,7 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
 
     local succ = _gAC.SetTableValue(_G, var, function(check, ...)
         local d = _debug_getinfo(_2, "S")
-        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%w+") == d.short_src then
+        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%d+") == d.short_src then
             if check == codec[_12] then
                 return codec[_10]
             elseif check == codec[_13] then
@@ -388,8 +409,8 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
         _net_SendToServer()
     end
 
-    local func = _Det_CompileString( codec[_1], codec[_2] )
-    func(codec)
+    local func = GAC_CompileString( codec[_1], codec[_2] )
+    func(codec, GAC_CompileString, GAC_RunString)
 end)
 
 local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
