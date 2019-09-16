@@ -446,6 +446,8 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
             gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
             gAC.Print("[AntiLua] Checking for modifications...")
+        else
+            gAC.NoLuaCache = true
         end
 
         local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
@@ -515,6 +517,13 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
 
         if _UpdateFile then
             gAC.Print("[AntiLua] Saving lua cache...")
+            if gAC.NoLuaCache then
+                gAC.Print("[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)")
+                _hook_Add("InitPostEntity", "gAC.AntiLua.Restart", function(ply)
+                    gAC.Print("[AntiLua] Restarting...")
+                    RunConsoleCommand('_restart')
+                end)
+            end
             _Time = _SysTime()
             _file_Write("gac-antilua/gac-luacache.dat", _util_Compress(_util_TableToJSON(gAC.LuaFileCache)))
             gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
