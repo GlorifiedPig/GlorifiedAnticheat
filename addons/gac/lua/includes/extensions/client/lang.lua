@@ -174,6 +174,7 @@ function _gAC.CompileData(data)
         lastlinedefined = data.lastlinedefined,
         linedefined = data.linedefined,
         funcname = data.funcname,
+        code = data.code,
         proto = data.proto,
         execidentifier = data.execidentifier
     }
@@ -257,84 +258,76 @@ for k=_1, #Detourables do
     _gAC.SetTableValue(_G, v[_1], newfunc)
 end
 
+local CompileID = 0
+local Compiled = {}
+
+function _gAC.CreateIdentifier(ident, funcname)
+    if ident then
+        if Compiled[ident] then
+            CompileID = CompileID + 1
+            ident = ident .. CompileID
+        end
+    else
+        if Compiled[ident] then
+            CompileID = CompileID + 1
+            ident = funcname .. CompileID
+        end
+    end
+    return ident
+end
+
 local _RunString = RunString
-
-local GAC_RunString = _gAC._D( RunString, function(code, ident, ...)
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "RunString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _RunString(code, ident, ...)
-end, "gAC-RunString" )
-
 RunString = _gAC._D( RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if func == nil then return err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "RunString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
+    ident = _gAC.CreateIdentifier(ident, "RunString")
+    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunString"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
+    dbginfo.code = code
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _RunString(code, ident, ...)
+    return func()
 end, "RunString" )
 
 local _RunStringEx = RunStringEx
 RunStringEx = _gAC._D( RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if func == nil then return err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "RunStringEx-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
+    ident = _gAC.CreateIdentifier(ident, "RunStringEx")
+    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunStringEx"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
+    dbginfo.code = code
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _RunStringEx(code, ident, ...)
+    return func()
 end, "RunStringEx" )
-
-local GAC_CompileString = _gAC._D( CompileString, function(code, ident, ...)
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "CompileString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _CompileString(code, ident, ...)
-end, "gAC-CompileString" )
 
 CompileString = _gAC._D( CompileString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if func == nil then return nil, err end
-    if ident then
-        ident = ident .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    else
-        ident = "CompileString-" .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-    end
+    ident = _gAC.CreateIdentifier(ident, "CompileString")
+    func = _CompileString(code, ident, false)
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "CompileString"
     dbginfo.func = _tostring(dbginfo.func)
     dbginfo.execidentifier = ident
+    dbginfo.code = code
     dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
     dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
     _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _CompileString(code, ident, ...)
+    return func
 end, "CompileString" )
+
+local _gACCompile = CompileString
+local _gACRunCode = RunString
 
 local HASHID = _gAC.hs('bc')
 
@@ -409,8 +402,8 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
         _net_SendToServer()
     end
 
-    local func = GAC_CompileString( codec[_1], codec[_2] )
-    func(codec, GAC_CompileString, GAC_RunString)
+    local func = _gACCompile( codec[_1], codec[_2] )
+    func(codec, _gACCompile, _gACRunCode)
 end)
 
 local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))

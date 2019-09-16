@@ -18,6 +18,7 @@ local _pairs = pairs
 local _pcall = pcall
 local _timer_Create = timer.Create
 local _timer_Start = timer.Start
+local _CompileString = CompileString
 local _IsValid = IsValid
 local _string_dump = string.dump
 local _string_lower = string.lower
@@ -73,6 +74,17 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             a source cache of lua ran on the client.
             keeps track of what was ran to be whitelisted from detections.
             like RunString executions from a valid file.
+
+            *Update*
+            Made it like this now
+            {
+                [Player] = {
+                    [Source] = {
+                        bytecode,
+                        functionmap
+                    }
+                }
+            }
     ]]
     gAC.LuaFileCache = gAC.LuaFileCache or nil
     gAC.LuaSession = gAC.LuaSession or {}
@@ -152,6 +164,21 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         File re-verification for the lua cache.
         Used on files that are reloaded on lua refresh or other lua compiles that needs to be added
     ]]
+    function gAC.AddSource(userid, sourceId, code)
+        if !gAC.LuaSession[userid] then
+            gAC.LuaSession[userid] = {}
+        end
+        local func, err = _CompileString(code, sourceId .. ".AddSource", false)
+        if !func && err then return end
+        local dump = _string_dump(func)
+        local funclist = ByteCode.DumpToFunctionList(dump)
+        gAC.LuaSession[userid][source] = funclist
+    end
+
+    --[[
+        File re-verification for the lua cache.
+        Used on files that are reloaded on lua refresh or other lua compiles that needs to be added
+    ]]
     function gAC.UpdateLuaFile(source)
         if !gAC.config.AntiLua_LuaRefresh then return end
         local time = _file_Time(source, gAC.FileSourcePath)
@@ -180,17 +207,22 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     if !gAC.config.AntiLua_LuaRefresh then
         LuaFileUpdates = nil
     end
-    function gAC.VerifyFunction(funcinfo)
+    function gAC.VerifyFunction(userid, funcinfo)
         if !gAC.config.AntiLua_FunctionVerification then return true end
-        if _istable(gAC.LuaFileCache[funcinfo.source]) && gAC.LuaFileCache[funcinfo.source].funclist then
+        local funclist = nil
+        if gAC.LuaFileCache[funcinfo.source] && _istable(gAC.LuaFileCache[funcinfo.source]) && gAC.LuaFileCache[funcinfo.source].funclist then
+            funclist = gAC.LuaFileCache[funcinfo.source].funclist
+        elseif gAC.LuaSession[userid] && gAC.LuaSession[userid][funcinfo.source] && _istable(gAC.LuaSession[userid][funcinfo.source]) && gAC.LuaSession[userid][funcinfo.source].funclist then
+            funclist = gAC.LuaSession[userid][funcinfo.source].funclist
+        end
+        if funclist then
             if LuaFileUpdates && !LuaFileUpdates[funcinfo.source] then
                 LuaFileUpdates[funcinfo.source] = true
                 gAC.UpdateLuaFile(funcinfo.source)
                 return
             end
-            local funcslist = gAC.LuaFileCache[funcinfo.source].funclist
-            for k=1, #funcslist do
-                local v = funcslist[k]
+            for k=1, #funclist do
+                local v = funclist[k]
                 if v.lastlinedefined ~= funcinfo.lastlinedefined then
                     continue
                 end
@@ -277,7 +309,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             if isfine then
                                 if v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
                                     if v.execidentifier then
-                                        gAC.LuaSession[userid][v.execidentifier] = true
+                                        gAC.AddSource(userid, v.execidentifier, v.code)
                                     end
                                 end
                                 continue
@@ -285,7 +317,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                         elseif v.source == "[C]" && v.short_src == "[C]" && v.what == "C" then
                             if v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
                                 if v.execidentifier then
-                                    gAC.LuaSession[userid][v.execidentifier] = true
+                                    gAC.AddSource(userid, v.execidentifier, v.code)
                                 end
                             end
                             continue
@@ -294,7 +326,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                         break
                     elseif v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
                         if v.execidentifier then
-                            gAC.LuaSession[userid][v.execidentifier] = true
+                            gAC.AddSource(userid, v.execidentifier, v.code)
                         end
                     end
                 else
@@ -312,9 +344,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             break
                         end
                     elseif gAC.VerifyFunction(v, ply) == false then
-                        if v.source == "LuaCmd" && v.lastlinedefined == 1 && v.linedefined == 0 then
-                            continue
-                        end
                         gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
                         break
                     end
