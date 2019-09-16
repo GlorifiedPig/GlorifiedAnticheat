@@ -312,9 +312,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
                             break
                         end
                     elseif gAC.VerifyFunction(v, ply) == false then
-                        if v.source == "LuaCmd" && v.lastlinedefined == 1 && v.linedefined == 0 then
-                            continue
-                        end
                         gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
                         break
                     end
