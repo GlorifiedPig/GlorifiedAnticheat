@@ -113,7 +113,7 @@ function _gAC.stringrandom(length)
 	return str
 end
 
-local SafeCode = _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
+local SafeCode = _string_char(_10) .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
 
 function _gAC.GetTableValue(gtbl, tbl)
     local TBL = gtbl
