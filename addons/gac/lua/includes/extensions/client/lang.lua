@@ -70,7 +70,7 @@ return
 b
 end
 local
-i=x[_._](o(h(W,ai)+a_))function
+i=m(U)..x[_._](o(h(W,ai)+a_))function
 x.GetTableValue(a,b)local
 c=a
 for
