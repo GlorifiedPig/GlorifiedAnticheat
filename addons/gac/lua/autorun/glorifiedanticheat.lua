@@ -8,16 +8,22 @@ local _print = print
 
 --[[
     Hey nice job looking into the autorun file,
-    let's see if you can prove to me you are worthy of getting gAC unobfuscated.
-    Innovation is key to improvement.
+    hopefully it has enough to satisfy your eyes :)
 
-    Hello methamphetamine developers!
-    If you are the devs for methamphetamine, can you stop boasting about your cheat.
-    We already spanked your buyers twice, do you want me to make more detections?
-    "Drug cheat is best" yea bud, sure, maybe double check your code first before bragging?
+    Hello methamphetamine developers,
+    You know that thing you called methamphetamine for a good time?
+    Well you know, you shouldn't have told Friendly to fix his
+    file stealer. Because guess what, your shit got leaked to due to it
+    and not just g-AC's client files. So basically you played yourself,
+    dumb fucks. Maybe stop using Odium's loader for your shit,
+    i have never seen such brain dead people in my entire career at gAC.
 
-    Thumbs up to citizen for actually making detections challenging the first time unlike meth's autistic developers.
+    Hi FFF,
+    i'd like to congratulate you on your creation of cobalt
+    and the ass kicking you pulled on wolfie when he got salty.
+    Looking forward to that revamp of cobalt, we will be waiting :)
 ]]
+
 
 gAC = gAC or {
     config = {},
