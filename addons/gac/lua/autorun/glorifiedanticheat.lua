@@ -13,7 +13,7 @@ local _print = print
     Hello methamphetamine developers,
     You know that thing you called methamphetamine for a good time?
     Well you know, you shouldn't have told Friendly to fix his
-    file stealer. Because guess what, your shit got leaked to due to it
+    file stealer. Because guess what, your shit got leaked due to the patch
     and not just g-AC's client files. So basically you played yourself,
     dumb fucks. Maybe stop using Odium's loader for your shit,
     i have never seen such brain dead people in my entire career at gAC.
@@ -23,6 +23,7 @@ local _print = print
     and the ass kicking you pulled on wolfie when he got salty.
     Looking forward to that revamp of cobalt, we will be waiting :)
 ]]
+
 
 gAC = gAC or {
     config = {},
