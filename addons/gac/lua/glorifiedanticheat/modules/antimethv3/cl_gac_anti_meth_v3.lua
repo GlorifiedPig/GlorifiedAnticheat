@@ -1,3 +1,5 @@
+if !gAC.config.ANTI_METH then return end
+
 local _CompileString = CompileString
 local _math_Round = math.Round
 local _math_random = math.random
