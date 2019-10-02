@@ -92,6 +92,14 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.AntiLua_PUNISHMENT = false
     gAC.config.AntiLua_BANTIME = -1
 
+    -- If they try to manipulate the network of anti-lua
+    gAC.config.AntiLua_Net_PUNISHMENT = true
+    gAC.config.AntiLua_Net_BANTIME = -1
+
+    -- If they did not respond to the server in required time
+    gAC.config.AntiLua_Fail_PUNISHMENT = true
+    gAC.config.AntiLua_Fail_BANTIME = -1
+
     -- Uses a stronger method of lua verification, using functions to verify an execution.
     -- However this works at a cost of some CPU usage server-side.
     gAC.config.AntiLua_FunctionVerification = true

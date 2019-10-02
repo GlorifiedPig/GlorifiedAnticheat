@@ -1,5 +1,5 @@
 local
-_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J={_="config",a="LuaFuncSources",b="LuaFileCache",c="LuaSession",d="FileSourcePath",e="source",f="funclist",g="linedefined",h="lastlinedefined",i="AntiLua_FunctionVerification",j="AntiLua_LuaRefresh",k="Print",l="LuaExecDetected",m="AddDetection",n="AntiLua_PUNISHMENT",o="AntiLua_BANTIME",p="funcname",q="VerifyLuaSource",r="execidentifier",s="AddSource",t="AntiLuaAddDetection",u="gAC_LuaExecStartup",v="_VMEVENTS"},CompileFile,SysTime,math.Round,jit.util.funcinfo,jit.attach,file.CreateDir,file.Exists,file.Time,file.Find,file.Read,file.Size,file.Write,hook.Add,isstring,tostring,istable,pairs,pcall,timer.Create,timer.Start,CompileString,IsValid,string.dump,string.lower,string.sub,string.Explode,string.gsub,table.remove,table.concat,util.Compress,util.Decompress,util.JSONToTable,util.TableToJSON,bit.rol,bit.bxor,debug.getregistry
+_,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C,D,E,F,G,H,I,J={_="config",a="LuaFuncSources",b="LuaFileCache",c="LuaSession",d="FileSourcePath",e="source",f="funclist",g="linedefined",h="lastlinedefined",i="AntiLua_FunctionVerification",j="AntiLua_LuaRefresh",k="Print",l="LuaExecDetected",m="AddDetection",n="AntiLua_Net_PUNISHMENT",o="AntiLua_Net_BANTIME",p="funcname",q="VerifyLuaSource",r="execidentifier",s="AddSource",t="AntiLuaAddDetection",u="gAC_LuaExecStartup",v="_VMEVENTS"},CompileFile,SysTime,math.Round,jit.util.funcinfo,jit.attach,file.CreateDir,file.Exists,file.Time,file.Find,file.Read,file.Size,file.Write,hook.Add,isstring,tostring,istable,pairs,pcall,timer.Create,timer.Start,CompileString,IsValid,string.dump,string.lower,string.sub,string.Explode,string.gsub,table.remove,table.concat,util.Compress,util.Decompress,util.JSONToTable,util.TableToJSON,bit.rol,bit.bxor,debug.getregistry
 m("gAC.IncludesLoaded","gAC.AntiLua",function()if!gAC[_._].AntiLua_CHECK
 then
 return
@@ -121,7 +121,7 @@ function
 gAC.AntiLuaAddDetection(k,o,S,T)if
 S~="Probable Execution"then
 T[_.l]=!!1
-gAC[_.m](T,o,gAC[_._][_.n],gAC[_._][_.o])else
+gAC[_.m](T,o,gAC[_._].AntiLua_PUNISHMENT,gAC[_._].AntiLua_BANTIME)else
 gAC[_.m](T,o,!1,-1)end
 local
 U=G(k,!!1)U="WARNING: Do not reveal this to cheaters!\nClient "..T:SteamID64().."'s reply\n"..U
@@ -154,7 +154,8 @@ end
 t("gAC.AntiLua-"..o)if#Y>500
 then
 W[_.l]=!!1
-gAC[_.m](W,"AntiLua network manipulation [Code 126]",gAC[_._][_.n],gAC[_._][_.o])end
+gAC[_.m](W,"AntiLua network manipulation [Code 126]",gAC[_._][_.n],gAC[_._][_.o])return
+end
 for
 V=1,#Y
 do
@@ -241,7 +242,7 @@ k={}end
 end)m("gAC.CLFilesLoaded","gAC.AntiLua",function(k)s("gAC.AntiLua-"..k:UserID(),120,1,function()if
 v(k)&&!k[_.l]then
 k[_.l]=!!1
-gAC[_.m](k,"AntiLua information did not arrive in time [Code 125]",gAC[_._][_.n],gAC[_._][_.o])end
+gAC[_.m](k,"AntiLua information did not arrive in time [Code 125]",gAC[_._].AntiLua_Fail_PUNISHMENT,gAC[_._].AntiLua_Fail_BANTIME)end
 end)end)m("PlayerInitialSpawn","gAC.AntiLua",function(k)gAC[_.c][k:UserID()]={}end)m("PlayerDisconnected","gAC.AntiLua",function(k)gAC[_.c][k:UserID()]=nil
 end)if
 k
