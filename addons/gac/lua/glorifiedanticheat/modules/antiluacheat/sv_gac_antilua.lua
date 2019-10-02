@@ -287,13 +287,14 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         local succ, data = _pcall(_util_JSONToTable, tabledata)
         if !succ then
             ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
             return
         end
         _timer_Start("gAC.AntiLua-" .. userid)
         if #data > 500 then -- User attempted to send more than what was defined. (likely net spam attempt.)
             ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
+            return
         end
         for k=1, #data do
             local v = data[k]
@@ -364,7 +365,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         _timer_Create("gAC.AntiLua-" .. ply:UserID(), 120, 1, function()
             if _IsValid(ply) && !ply.LuaExecDetected then
                 ply.LuaExecDetected = true
-                gAC.AddDetection(ply, "AntiLua information did not arrive in time [Code 125]", gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+                gAC.AddDetection(ply, "AntiLua information did not arrive in time [Code 125]", gAC.config.AntiLua_Fail_PUNISHMENT, gAC.config.AntiLua_Fail_BANTIME)
             end
         end)
     end)
