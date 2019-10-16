@@ -15,6 +15,7 @@ local _string_gsub = string.gsub
 local _string_sub = string.sub
 local _timer_Simple = timer.Simple
 local _tonumber = tonumber
+local _isfunction = isfunction
 local _table_concat = table.concat
 local _net_ReadData = net.ReadData
 local _net_Receive = net.Receive
@@ -224,13 +225,22 @@ local function bytecodetoproto(func, funcinfo)
     return _tonumber(_util_CRC(_table_concat(data)))
 end
 
-_gAC.LuaVM = function(proto)
+_gAC.BCJitFuncs = {}
+
+local function LuaVMResponse(...)
+    if _gAC.BCJitFuncs['bc'] then
+        _gAC.BCJitFuncs['bc'](...)
+    end
+end
+
+_gAC.LuaVM = function(proto, ...)
     local jitinfo = _jit_util_funcinfo(proto)
     jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-    if jitinfo.source == SafeCode then return end
+    if jitinfo.source == SafeCode then return LuaVMResponse(proto, ...) end
     jitinfo.source = _gAC.dirtosvlua(jitinfo.source)
     jitinfo.proto = bytecodetoproto(proto, jitinfo)
     _gAC.SendBuffer(_gAC.CompileData(jitinfo))
+    LuaVMResponse(proto, ...)
 end
 
 local Detourables = {
@@ -337,6 +347,14 @@ _R._VMEVENTS = _R._VMEVENTS or {}
 _R._VMEVENTS[HASHID] = _gAC.LuaVM
 
 _jit_attach(function() end, "")
+
+jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
+    if ident == 'bc' && _isfunction(func) then
+        _gAC.BCJitFuncs['bc'] = func
+        return
+    end
+    return _jit_attach(func, ident, ...)
+end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
 local Interval = _10*_Tick
