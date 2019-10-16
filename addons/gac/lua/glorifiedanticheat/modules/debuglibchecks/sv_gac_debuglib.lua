@@ -37,11 +37,11 @@ gAC.FuncstoCheck = {
         ["func"] = "string.dump",
         ["functype"] = "function: builtin#",
     },
-    [6] = {
+    --[[[6] = {
         ["func"] = "jit.attach",
         ["functype"] = "function: builtin#",
         ["isbytecode"] = false,
-    },
+    },]]
 }
 
 gAC.FuncstoSend = {} 
