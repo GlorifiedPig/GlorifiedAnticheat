@@ -23,11 +23,11 @@ local detections = {
 
 hook.Add("gAC.ClientLoaded", "g-AC.GetMethInformation", function(ply)
     ply.Meth_Detections = 0
-    
-    for k, v in ipairs(detections) do
 
+    for k, v in ipairs(detections) do
         if(v.type == "string") then
             if(ply:GetInfo(v.name) == v.value) then 
+                print("detected "..v.name)
                 ply.Meth_Detections = ply.Meth_Detections + 1 
             end
         end
