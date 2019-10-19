@@ -7,6 +7,7 @@ local _isfunction = isfunction
 local _util_TableToJSON = util.TableToJSON
 local _LocalPlayer = LocalPlayer
 local _Angle = Angle
+local _GetViewEntity = GetViewEntity
 
 local function floor(number)
     return number - (number % 1)
@@ -46,7 +47,7 @@ local _failures, _sent = 0, false
 
 local _CalcView = GAMEMODE.CalcView
 function GAMEMODE:CalcView(ply, origin, angles, fov, znear, zfar, ...)
-    if _LocalPlayer() ~= ply then 
+    if _LocalPlayer() ~= ply or _GetViewEntity() ~= _LocalPlayer() then 
         return _CalcView(self, ply, origin, angles, fov, znear, zfar, ...) 
     end
 
