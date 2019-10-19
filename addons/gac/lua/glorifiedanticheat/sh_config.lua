@@ -106,6 +106,7 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 
     -- Ignores code that was initialized from the server.
     -- Things like code ran from autorun and etc, but still checks RunString and unauthorized execution.
+    -- WARNING, Code ran from compilers will not be logged, therefore any code ran inside the compiler after boot will cause a detection!
     gAC.config.AntiLua_IgnoreBoot = true
 
     -- WARNING, try not to use this! this extremely CPU intensive!
