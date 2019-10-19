@@ -380,6 +380,12 @@ _hook_Add( "Tick", ID, function()
     TickTime = TickTime + _1
 end ) 
 
+_hook_Add( "Initialize", ID, function()
+    if gAC.config.AntiLua_IgnoreBoot then
+        _gAC.ToSend = {}
+    end
+end )
+
 _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
     local codec = _string_Explode("[EXLD]", _net_ReadData(len))
     for i=_1, #codec do
