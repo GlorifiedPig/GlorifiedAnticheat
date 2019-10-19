@@ -74,7 +74,8 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 
 --[[ Lua Execution ]]
     --Checks if certain functions in lua has been detoured by an external source or an external source added blacklisted functions.
-    gAC.config.DEBUGLIB_CHECK = true
+    --WARNING, this detection modules is outdated and not working, stay disabled!
+    gAC.config.DEBUGLIB_CHECK = false
     gAC.config.DEBUGLIB_PUNISHMENT = true
     gAC.config.DEBUGLIB_BANTIME = 0
 
