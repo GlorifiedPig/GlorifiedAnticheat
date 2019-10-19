@@ -339,7 +339,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             else
                 if v.source && _isstring(v.source) then
                     if gAC.VerifyLuaSource(v, userid) == false then
-                        if !ply.gAC_LuaExecStartup  && v.source == "Startup" then
+                        if v.source == "Startup" && !ply.gAC_LuaExecStartup && !gAC.config.AntiLua_IgnoreBoot then
                             ply.gAC_LuaExecStartup = true
                             continue
                         else
