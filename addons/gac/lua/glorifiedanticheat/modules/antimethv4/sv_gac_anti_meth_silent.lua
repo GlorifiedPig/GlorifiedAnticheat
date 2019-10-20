@@ -1,3 +1,4 @@
+if !gAC.config.ANTI_METH then return end
 local _CurTime = CurTime
 local _IsValid = IsValid
 local _hook_Add = hook.Add
@@ -52,7 +53,7 @@ _hook_Add( "StartCommand", "Bad", function( ply, cmd )
     if gAC_MX_AB > 0 and gAC_MY_AB > 0 and roundangle(rounded_oldview, 2) == roundangle(rounded_newview, 2) then
         if ply.Meth_Silent_Threshold > 5 then
             ply.gAC_AimbotDetected = true
-            gAC.AddDetection( ply, "Meth Silent-Aim Detected", false, -1 )
+            gAC.AddDetection( ply, "Meth Silent-Aim Detected [Code 115]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
             return
         else
             ply.Meth_Silent_Threshold = ply.Meth_Silent_Threshold + 1

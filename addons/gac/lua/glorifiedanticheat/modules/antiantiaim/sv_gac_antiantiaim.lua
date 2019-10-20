@@ -1,3 +1,5 @@
+if !gAC.config.ANTI_ANTIAIM then return end
+
 local _CurTime = CurTime
 local _IsValid = IsValid
 local _hook_Add = hook.Add
@@ -32,7 +34,7 @@ _hook_Add( "StartCommand", "Bad", function( ply, cmd )
     if p > 180 or p < -180 or y > 180 or y < -180 or r > 180 or r < -180 then
         if ply.Meth_HVH_Threshold > 20 then
             ply.gAC_AimbotDetected = true
-            gAC.AddDetection( ply, "Anti-Aim Detected", false, -1 )
+            gAC.AddDetection( ply, "Anti-Aim Detected [Code 129]", gAC.config.ANTIAIM_PUNISHMENT, gAC.config.ANTIAIM_BANTIME )
             return
         else
             ply.Meth_HVH_Threshold = ply.Meth_HVH_Threshold + 1

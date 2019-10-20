@@ -35,3 +35,4 @@
 | 126                       | AntiLua network manipulation |
 | 127                       | Engine Prediction detected |
 | 128                       | No Recoil detected |
+| 129                       | Anti-Aim detected |
