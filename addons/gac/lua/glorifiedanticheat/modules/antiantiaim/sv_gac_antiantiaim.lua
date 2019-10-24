@@ -12,7 +12,7 @@ local Blacklisted_Weapons = {
     ["gmod_camera"] = true
 }
 
-_hook_Add( "StartCommand", "Bad", function( ply, cmd )
+_hook_Add( "StartCommand", "gAC.AntiAntiAim", function( ply, cmd )
 
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end

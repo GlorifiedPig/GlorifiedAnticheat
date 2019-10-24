@@ -27,7 +27,7 @@ local function roundangle(ang, idp)
     return ang
 end
 
-_hook_Add( "StartCommand", "Bad", function( ply, cmd )
+_hook_Add( "StartCommand", "gAC.MethSilent", function( ply, cmd )
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
     
