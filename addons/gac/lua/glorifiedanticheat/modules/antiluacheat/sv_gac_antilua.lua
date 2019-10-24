@@ -212,10 +212,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     function gAC.VerifyFunction(userid, funcinfo)
         if !gAC.config.AntiLua_FunctionVerification then return true end
         local funclist = nil
-        if gAC.LuaFileCache[funcinfo.source] && _istable(gAC.LuaFileCache[funcinfo.source]) && gAC.LuaFileCache[funcinfo.source].funclist then
-            funclist = gAC.LuaFileCache[funcinfo.source].funclist
-        elseif gAC.LuaSession[userid] && gAC.LuaSession[userid][funcinfo.source] && _istable(gAC.LuaSession[userid][funcinfo.source]) && gAC.LuaSession[userid][funcinfo.source].funclist then
+        if gAC.LuaSession[userid] && gAC.LuaSession[userid][funcinfo.source] && _istable(gAC.LuaSession[userid][funcinfo.source]) && gAC.LuaSession[userid][funcinfo.source].funclist then
             funclist = gAC.LuaSession[userid][funcinfo.source].funclist
+        elseif gAC.LuaFileCache[funcinfo.source] && _istable(gAC.LuaFileCache[funcinfo.source]) && gAC.LuaFileCache[funcinfo.source].funclist then
+            funclist = gAC.LuaFileCache[funcinfo.source].funclist
         end
         if funclist then
             if LuaFileUpdates && !LuaFileUpdates[funcinfo.source] then
@@ -226,17 +226,16 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
             for k=1, #funclist do
                 local v = funclist[k]
                 if v.lastlinedefined ~= funcinfo.lastlinedefined then
-                    continue
+                    return false
                 end
                 if v.linedefined ~= funcinfo.linedefined then
-                    continue
+                    return false
                 end
                 if v.proto ~= funcinfo.proto then
-                    continue
+                    return false
                 end
-                return true
             end
-            return false 
+            return true 
         end
         return true
     end
