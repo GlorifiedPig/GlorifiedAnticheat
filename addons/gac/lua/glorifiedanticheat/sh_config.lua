@@ -160,7 +160,8 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 --[[ ANTI Engine Prediction END ]]--
 
 --[[ ANTI Aim SETTINGS ]]--
-    gAC.config.ANTI_ANTIAIM = true
+    -- WARNING, This detection is untested!
+    gAC.config.ANTI_ANTIAIM = false
     gAC.config.ANTIAIM_PUNISHMENT = true
     gAC.config.ANTIAIM_BANTIME = 0
 --[[ ANTI Aim SETTINGS END ]]--
