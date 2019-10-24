@@ -89,7 +89,7 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     -- This does something, yet, still in development.
     -- WARNING: AntiLua has been considered intensive on cpu resources.
     -- Only use this if your server has enough resources to spare.
-    gAC.config.AntiLua_CHECK = true
+    gAC.config.AntiLua_CHECK = false
     gAC.config.AntiLua_PUNISHMENT = false
     gAC.config.AntiLua_BANTIME = -1
 
@@ -166,7 +166,8 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 --[[ ANTI Aim SETTINGS END ]]--
 
 --[[ ANTI No Recoil SETTINGS ]]--
-    gAC.config.ANTI_NORECOIL_CHECKS = true -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
+    -- WARNING, This detection modules was not fully tested yet!
+    gAC.config.ANTI_NORECOIL_CHECKS = false -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
 
     gAC.config.ANTI_NORECOIL_PUNISHMENT = true -- Set to 'true' if you want using no recoil to be punishable.
     gAC.config.ANTI_NORECOIL_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
