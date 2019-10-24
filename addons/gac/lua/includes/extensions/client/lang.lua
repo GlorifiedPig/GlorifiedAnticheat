@@ -269,6 +269,10 @@ end
 i=L
 end
 i=i+M
+end)I("Initialize",b,function()if
+gAC.config.AntiLua_IgnoreBoot
+then
+y[_.a]={}end
 end)u("g-AC_nonofurgoddamnbusiness",function(b)local
 e=v("[EXLD]",t(b))for
 b=M,#e

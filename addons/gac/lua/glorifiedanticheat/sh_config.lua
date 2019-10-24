@@ -74,7 +74,8 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
 
 --[[ Lua Execution ]]
     --Checks if certain functions in lua has been detoured by an external source or an external source added blacklisted functions.
-    gAC.config.DEBUGLIB_CHECK = true
+    --WARNING, this detection modules is outdated and not working, stay disabled!
+    gAC.config.DEBUGLIB_CHECK = false
     gAC.config.DEBUGLIB_PUNISHMENT = true
     gAC.config.DEBUGLIB_BANTIME = 0
 
@@ -88,7 +89,7 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     -- This does something, yet, still in development.
     -- WARNING: AntiLua has been considered intensive on cpu resources.
     -- Only use this if your server has enough resources to spare.
-    gAC.config.AntiLua_CHECK = true
+    gAC.config.AntiLua_CHECK = false
     gAC.config.AntiLua_PUNISHMENT = false
     gAC.config.AntiLua_BANTIME = -1
 
@@ -103,6 +104,11 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     -- Uses a stronger method of lua verification, using functions to verify an execution.
     -- However this works at a cost of some CPU usage server-side.
     gAC.config.AntiLua_FunctionVerification = true
+
+    -- Ignores code that was initialized from the server.
+    -- Things like code ran from autorun and etc, but still checks RunString and unauthorized execution.
+    -- WARNING, Code ran from compilers will not be logged, therefore any code ran inside the compiler after boot will cause a detection!
+    gAC.config.AntiLua_IgnoreBoot = true
 
     -- WARNING, try not to use this! this extremely CPU intensive!
     -- This will auto reload verifications for a certain file on lua refresh.
@@ -153,8 +159,16 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.ANTI_ENGINEPRED_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
 --[[ ANTI Engine Prediction END ]]--
 
+--[[ ANTI Aim SETTINGS ]]--
+    -- WARNING, This detection is untested!
+    gAC.config.ANTI_ANTIAIM = false
+    gAC.config.ANTIAIM_PUNISHMENT = true
+    gAC.config.ANTIAIM_BANTIME = 0
+--[[ ANTI Aim SETTINGS END ]]--
+
 --[[ ANTI No Recoil SETTINGS ]]--
-    gAC.config.ANTI_NORECOIL_CHECKS = true -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
+    -- WARNING, This detection modules was not fully tested yet!
+    gAC.config.ANTI_NORECOIL_CHECKS = false -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
 
     gAC.config.ANTI_NORECOIL_PUNISHMENT = true -- Set to 'true' if you want using no recoil to be punishable.
     gAC.config.ANTI_NORECOIL_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.

@@ -219,7 +219,9 @@ X[_.e]&&n(X[_.e])then
 if
 gAC[_.q](X,o)==!1
 then
-if!W[_.u]&&X[_.e]=="Startup"then
+if
+X[_.e]=="Startup"&&!W[_.u]&&!gAC[_._].AntiLua_IgnoreBoot
+then
 W[_.u]=!!1
 continue
 else
