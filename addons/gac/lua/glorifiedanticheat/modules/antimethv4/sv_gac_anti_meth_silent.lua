@@ -52,7 +52,7 @@ _hook_Add( "StartCommand", "gAC.MethSilent", function( ply, cmd )
 
     local rounded_oldview, rounded_newview = roundangle(ply.Meth_Silent_Last), roundangle(gAC_View)
 
-    if gAC_MX_AB > 0 and gAC_MY_AB > 0 and roundangle(rounded_oldview, 2) == roundangle(rounded_newview, 2) then
+    if gAC_MX_AB > 0 and gAC_MY_AB > 0 and rounded_oldview == rounded_newview then
         if ply.Meth_Silent_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "Meth Silent-Aim Detected [Code 115]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
