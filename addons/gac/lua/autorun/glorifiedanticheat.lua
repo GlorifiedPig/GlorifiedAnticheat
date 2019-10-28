@@ -31,7 +31,7 @@ gAC = gAC or {
 
     IDENTIFIER = "g-AC",
     NICE_NAME = "g-AC",
-    Debug = true
+    Debug = false
 }
 
 local version = 1
