@@ -35,34 +35,16 @@ local _bit_rol = bit.rol
 local _bit_bxor = bit.bxor
 local _debug_getregistry = debug.getregistry
 
-_hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
+--[[
+    WARNING:
+    AntiLua is CPU intensive,
+    only use this if consistant lua cheating is at an all time high!
+
+    "let their be peace on our world of lua" - NiceCream
+]]
+
+_hook_Add("gAC.Init", "gAC.AntiLua", function()
     if !gAC.config.AntiLua_CHECK then return end
-
-    --[[
-        WARNING:
-        AntiLua is CPU intensive,
-        only use this if consistant lua cheating is at an all time high!
-
-        "let their be peace on our world of lua" - NiceCream
-    ]]
-
-    -- builtin functions can give out a source to "@=[C]" or "[C]" (like pcall being used to isolate RunString errors)
-    gAC.LuaFuncSources = {
-        ["function: builtin#21"] = {
-            source = "=[C]", 
-            short_src = "[C]", 
-            what = "C",
-            lastlinedefined = -1,
-            linedefined = -1
-        },
-        ["function: builtin#20"] = {
-            source = "=[C]", 
-            short_src = "[C]", 
-            what = "C",
-            lastlinedefined = -1,
-            linedefined = -1
-        }
-    }
 
     --[[
         LuaFileCache,
@@ -127,6 +109,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
     ]]
     gAC.LuaVMID = gAC.HashString('bc')
 
+
     --[[
         Simply converts any file location provided to meet with
         the 'LUA' mount path of the file system
@@ -148,6 +131,158 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
         end
         return loc
     end
+
+    --[[
+        Catalog every mounted lua file
+    ]]
+    if gAC.LuaFileCache == nil then
+
+        local function EnumerateFolder (folder, pathId, callback, recursive)
+            if not callback then return end
+            
+            if #folder > 0 then folder = folder .. "/" end
+            local files, folders = _file_Find(folder .. "*", pathId)
+            
+            if not files and not folders then
+                gAC.Print("[AntiLua] Could not add " .. folder .. " to lua information.")
+                return
+            end
+            
+            for _, fileName in _pairs(files) do
+                callback(folder .. fileName, pathId)
+            end
+            if recursive then
+                for _, childFolder in _pairs(folders) do
+                    if childFolder ~= "." and childFolder ~= ".." then
+                        EnumerateFolder(folder .. childFolder, pathId, callback, recursive)
+                    end
+                end
+            end
+        end
+
+        gAC.Print("[AntiLua] Initializing")
+
+        if !_file_Exists("gac-antilua", "DATA") then
+            _file_CreateDir("gac-antilua")
+        end
+
+        gAC.LuaFileCache = {}
+        local _Time = _SysTime()
+        gAC.Print("[AntiLua] Building lua file cache")
+
+        if _file_Exists("gac-antilua/gac-luacache.dat", "DATA") then
+            gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
+            gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
+            gAC.Print("[AntiLua] Checking for modifications...")
+        else
+            gAC.NoLuaCache = true
+        end
+
+        local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
+
+        local function handlepath(path)
+            if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
+            if path == "" then return end
+
+            local _time, _alter = _file_Time(path, _Path), nil
+
+            if !gAC.LuaFileCache [path] then
+                gAC.Print("[AntiLua] Excluding " .. path)
+                _alter = true
+                _UpdateFile = true
+            elseif !_istable(gAC.LuaFileCache[path]) or _time ~= gAC.LuaFileCache[path].time then
+                gAC.Print("[AntiLua] Modifying exclusion " .. path)
+                _alter = true
+                _UpdateFile = true
+            end
+
+            if _alter then
+                gAC.LuaFileCache[path] = { time = _time }
+                local func = _CompileFile(path)
+                if !func and _string_lower(path) ~= path then
+                    gAC.LuaFileCache[path] = { time = _time }
+                    func = _CompileFile(_string_lower(path))
+                end
+                if !func then
+                    gAC.Print("[AntiLua] " .. path .. " Compile Error")
+                    _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
+                    func = nil
+                    gAC.LuaFileCache[path] = { time = _time }
+                    return 
+                end
+            end
+        end
+
+        local _R = _debug_getregistry()
+        _R._VMEVENTS = _R._VMEVENTS or {}
+        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
+
+        _jit_attach(function() end, "")
+
+        EnumerateFolder ("", _Path, handlepath, true)
+
+        _R._VMEVENTS[gAC.LuaVMID] = nil
+
+        for path, v in _pairs(gAC.LuaFileCache) do
+            if _file_Time(path, _Path) == 0 then
+                _UpdateFile = true
+                gAC.Print("[AntiLua] Removing exclusion " .. path)
+                gAC.LuaFileCache[path] = nil
+            end
+        end
+
+        if !_UpdateFile then
+            gAC.Print("[AntiLua] Everything appears up to standards")
+        end
+
+        gAC.Print("[AntiLua] Finished building lua file cache, took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
+        if #_Errors > 0 then
+            gAC.Print(#_Errors .. " lua files have issues")
+            for k=1, #_Errors do
+                gAC.Print(_Errors[k])
+            end
+        end
+
+        if _UpdateFile then
+            gAC.Print("[AntiLua] Saving lua cache...")
+            if gAC.NoLuaCache then
+                gAC.Print("[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)")
+                _hook_Add("InitPostEntity", "gAC.AntiLua.Restart", function(ply)
+                    gAC.Print("[AntiLua] Restarting...")
+                    RunConsoleCommand('_restart')
+                end)
+            end
+            _Time = _SysTime()
+            _file_Write("gac-antilua/gac-luacache.dat", _util_Compress(_util_TableToJSON(gAC.LuaFileCache)))
+            gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
+        end
+
+        gAC.Print("[AntiLua] Waiting for core detection systems")
+    end
+end)
+
+_hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
+    if !gAC.config.AntiLua_CHECK then return end
+
+    gAC.Print("[AntiLua] Core detection system has loaded!")
+
+    -- builtin functions can give out a source to "@=[C]" or "[C]" (like pcall being used to isolate RunString errors)
+    gAC.LuaFuncSources = {
+        ["function: builtin#21"] = {
+            source = "=[C]", 
+            short_src = "[C]", 
+            what = "C",
+            lastlinedefined = -1,
+            linedefined = -1
+        },
+        ["function: builtin#20"] = {
+            source = "=[C]", 
+            short_src = "[C]", 
+            what = "C",
+            lastlinedefined = -1,
+            linedefined = -1
+        }
+    }
 
     --[[
         Verify sources of the lua cache, 
@@ -400,134 +535,6 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
 
             _jit_attach(function() end, "")
         end)
-    end
-
-    --[[
-        Catalog every mounted lua file
-    ]]
-    if gAC.LuaFileCache == nil then
-
-        local function EnumerateFolder (folder, pathId, callback, recursive)
-            if not callback then return end
-            
-            if #folder > 0 then folder = folder .. "/" end
-            local files, folders = _file_Find(folder .. "*", pathId)
-            
-            if not files and not folders then
-                gAC.Print("[AntiLua] Could not add " .. folder .. " to lua information.")
-                return
-            end
-            
-            for _, fileName in _pairs(files) do
-                callback(folder .. fileName, pathId)
-            end
-            if recursive then
-                for _, childFolder in _pairs(folders) do
-                    if childFolder ~= "." and childFolder ~= ".." then
-                        EnumerateFolder(folder .. childFolder, pathId, callback, recursive)
-                    end
-                end
-            end
-        end
-
-        gAC.Print("[AntiLua] Initializing")
-
-        if !_file_Exists("gac-antilua", "DATA") then
-            _file_CreateDir("gac-antilua")
-        end
-
-        gAC.LuaFileCache = {}
-        local _Time = _SysTime()
-        gAC.Print("[AntiLua] Building lua file cache")
-
-        if _file_Exists("gac-antilua/gac-luacache.dat", "DATA") then
-            gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
-            gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
-            gAC.Print("[AntiLua] Checking for modifications...")
-        else
-            gAC.NoLuaCache = true
-        end
-
-        local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
-
-        local function handlepath(path)
-            if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
-            if path == "" then return end
-
-            local _time, _alter = _file_Time(path, _Path), nil
-
-            if !gAC.LuaFileCache [path] then
-                gAC.Print("[AntiLua] Excluding " .. path)
-                _alter = true
-                _UpdateFile = true
-            elseif !_istable(gAC.LuaFileCache[path]) or _time ~= gAC.LuaFileCache[path].time then
-                gAC.Print("[AntiLua] Modifying exclusion " .. path)
-                _alter = true
-                _UpdateFile = true
-            end
-
-            if _alter then
-                gAC.LuaFileCache[path] = { time = _time }
-                local func = _CompileFile(path)
-                if !func and _string_lower(path) ~= path then
-                    gAC.LuaFileCache[path] = { time = _time }
-                    func = _CompileFile(_string_lower(path))
-                end
-                if !func then
-                    gAC.Print("[AntiLua] " .. path .. " Compile Error")
-                    _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
-                    func = nil
-                    gAC.LuaFileCache[path] = { time = _time }
-                    return 
-                end
-            end
-        end
-
-        local _R = _debug_getregistry()
-        _R._VMEVENTS = _R._VMEVENTS or {}
-        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
-
-        _jit_attach(function() end, "")
-
-        EnumerateFolder ("", _Path, handlepath, true)
-
-        _R._VMEVENTS[gAC.LuaVMID] = nil
-
-        for path, v in _pairs(gAC.LuaFileCache) do
-            if _file_Time(path, _Path) == 0 then
-                _UpdateFile = true
-                gAC.Print("[AntiLua] Removing exclusion " .. path)
-                gAC.LuaFileCache[path] = nil
-            end
-        end
-
-        if !_UpdateFile then
-            gAC.Print("[AntiLua] Everything appears up to standards")
-        end
-
-        gAC.Print("[AntiLua] Finished building lua file cache, took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
-        if #_Errors > 0 then
-            gAC.Print(#_Errors .. " lua files have issues")
-            for k=1, #_Errors do
-                gAC.Print(_Errors[k])
-            end
-        end
-
-        if _UpdateFile then
-            gAC.Print("[AntiLua] Saving lua cache...")
-            if gAC.NoLuaCache then
-                gAC.Print("[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)")
-                _hook_Add("InitPostEntity", "gAC.AntiLua.Restart", function(ply)
-                    gAC.Print("[AntiLua] Restarting...")
-                    RunConsoleCommand('_restart')
-                end)
-            end
-            _Time = _SysTime()
-            _file_Write("gac-antilua/gac-luacache.dat", _util_Compress(_util_TableToJSON(gAC.LuaFileCache)))
-            gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
-        end
-
-        gAC.Print("[AntiLua] Initialization complete")
     end
 end)
 
