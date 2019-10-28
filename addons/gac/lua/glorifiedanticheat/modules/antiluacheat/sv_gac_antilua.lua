@@ -261,7 +261,26 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
     end
 end)
 
-_hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function()
+_hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
+    local _jit_util_funcinfo = jit.util.funcinfo
+    local _jit_attach = jit.attach
+    local _file_Time = file.Time
+    local _file_Write = file.Write
+    local _hook_Add = hook.Add
+    local _isstring = isstring
+    local _istable = istable
+    local _pairs = pairs
+    local _pcall = pcall
+    local _timer_Create = timer.Create
+    local _timer_Start = timer.Start
+    local _CompileString = CompileString
+    local _IsValid = IsValid
+    local _string_dump = string.dump
+    local _string_gsub = string.gsub
+    local _util_JSONToTable = util.JSONToTable
+    local _util_TableToJSON = util.TableToJSON
+    local _debug_getregistry = debug.getregistry
+    
     if !gAC.config.AntiLua_CHECK then return end
 
     gAC.Print("[AntiLua] Core detection system has loaded!")
