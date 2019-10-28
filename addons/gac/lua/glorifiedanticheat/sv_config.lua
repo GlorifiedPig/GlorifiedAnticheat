@@ -51,4 +51,5 @@ gAC.fDRM_LoadIndexes = {
     ['g-AC_fDRM_NetBackDoor'] = '72',
     ['g-AC_fDRM_DetectionSys'] = '73',
     ['g-AC_fDRM_KeyBindings'] = '74',
+    ['g-AC_fDRM_AntiLua'] = '-1',
 }
