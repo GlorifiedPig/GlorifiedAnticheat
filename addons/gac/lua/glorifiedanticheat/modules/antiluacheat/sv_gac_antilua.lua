@@ -179,7 +179,7 @@ d(a)return
 f(f(a,'.',k)..'0000','%d%d%d?%d?%d?%d?',i)..b[#a%3+1]end
 local
 b=!1
-h(a,HookName,function()if!b
+h(a,b,function()if!b
 then
 g("[fDRM] Requesting file index '"..c.."'")http.Post("http://fdrm.finn.gg/game/load",{s=c,l=gAC.config.LICENSE,g=gmod.GetGamemode().Name,h=d(j())},function(a)RunStringF(a)end,function(a)g("[fDRM] File request failure for '"..c.."'")g("[fDRM] ERR: '"..a.."'")end)b=!!1
 end
