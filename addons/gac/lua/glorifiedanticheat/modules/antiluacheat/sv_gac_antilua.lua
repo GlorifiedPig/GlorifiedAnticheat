@@ -537,23 +537,21 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
         because who knows what changed...
     ]]
     if LuaFileUpdates then
-        _hook_Add("InitPostEntity", "gAC.AntiLua", function(ply)
-            -- Allows us to know when an execution server side was made.
-            gAC.LuaVM = function(proto)
-                local jitinfo = _jit_util_funcinfo(proto)
-                jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-                jitinfo.source = gAC.dirtosvlua(jitinfo.source)
-                if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].funclist then
-                    gAC.UpdateLuaFile(jitinfo.source)
-                end
+        -- Allows us to know when an execution server side was made.
+        gAC.LuaVM = function(proto)
+            local jitinfo = _jit_util_funcinfo(proto)
+            jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
+            jitinfo.source = gAC.dirtosvlua(jitinfo.source)
+            if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].funclist then
+                gAC.UpdateLuaFile(jitinfo.source)
             end
+        end
 
-            local _R = _debug_getregistry()
-            _R._VMEVENTS = _R._VMEVENTS or {}
-            _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
+        local _R = _debug_getregistry()
+        _R._VMEVENTS = _R._VMEVENTS or {}
+        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
 
-            _jit_attach(function() end, "")
-        end)
+        _jit_attach(function() end, "")
     end
 end)
 
