@@ -1,440 +1,398 @@
-local _debug_getinfo = debug.getinfo
-local _debug_getregistry = debug.getregistry
-local _jit_util_funcinfo = jit.util.funcinfo
-local _jit_util_funcbc = jit.util.funcbc
-local _jit_attach = jit.attach
-local _tostring = tostring
-local _istable = istable
-local _math_random = math.random
-local _bit_rol = bit.rol
-local _util_TableToJSON = util.TableToJSON
-local _bit_band = bit.band
-local _bit_rshift = bit.rshift
-local _string_char = string.char
-local _string_gsub = string.gsub
-local _string_sub = string.sub
-local _timer_Simple = timer.Simple
-local _tonumber = tonumber
-local _isfunction = isfunction
-local _table_concat = table.concat
-local _net_ReadData = net.ReadData
-local _net_Receive = net.Receive
-local _string_Explode = string.Explode
-local _table_remove = table.remove
-local _util_CRC = util.CRC
-local _math_ceil = math.ceil
-local _util_Compress = util.Compress
-local _util_Decompress = util.Decompress
-local _util_JSONToTable = util.JSONToTable
-local _string_match = string.match
-local _net_Start = net.Start
-local _net_SendToServer = net.SendToServer
-local _net_WriteUInt = net.WriteUInt
-local _net_WriteData = net.WriteData
-local _CompileString = CompileString
-local _hook_Add = hook.Add
-local _hook_Remove = hook.Remove
-local _engine_TickInterval = engine.TickInterval
-
-local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
-local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
-local _500 = 500
-
-local function floor(number)
-    return number - (number % _1)
+local a = {a='util',b='ToSend',c='BCJitFuncs',d='source',e='proto',f='funcname',g='func',h='dirtosvlua',i='SendBuffer',j='CompileData',k='RunString',l='_D',m='execidentifier',n='code',o='RunStringEx',p='CreateIdentifier',q='CompileString',r='_VMEVENTS',s='LuaVM',t='attach',u='stringrandom',v='AntiLua',w='gAC_Send',x='config',y='GetTableValue',z='SetTableValue',A='short_src'}local
+b=debug.getinfo
+local
+c=debug.getregistry
+local
+d=jit[a.a].funcinfo
+local
+e=jit[a.a].funcbc
+local
+f=jit[a.t]local
+g=tostring
+local
+h=istable
+local
+i=math.random
+local
+j=bit.rol
+local
+k=util.TableToJSON
+local
+l=bit.band
+local
+m=bit.rshift
+local
+n=string.char
+local
+o=string.gsub
+local
+p=string.sub
+local
+q=timer.Simple
+local
+r=tonumber
+local
+s=isfunction
+local
+t=table.concat
+local
+u=net.ReadData
+local
+v=net.Receive
+local
+w=string.Explode
+local
+x=table.remove
+local
+y=util.CRC
+local
+z=math.ceil
+local
+A=util.Compress
+local
+B=util.Decompress
+local
+C=util.JSONToTable
+local
+D=string.match
+local
+E=net.Start
+local
+F=net.SendToServer
+local
+G=net.WriteUInt
+local
+H=net.WriteData
+local
+I=CompileString
+local
+J=hook.Add
+local
+K=hook.Remove
+local
+L=engine.TickInterval
+local
+M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,ab,bb=0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
+local
+cb,db,eb,fb,gb,hb,ib,jb,kb,lb,mb,nb,ob=.5,97,65,49,122,90,57,26,15,32,16,30,24
+local
+pb=500
+local
+function
+qb(Mb)return
+Mb-(Mb%N)end
+local
+function
+rb(Mb,Nb)local
+Ob=M
+for
+Pb=M,31
+do
+local
+Qb=(Mb*cb)+(Nb*cb)if
+Qb~=qb(Qb)then
+Ob=Ob+O^Pb
 end
-
-local function bxor (a,b)
-    local r = _0
-    for i = _0, 31 do
-        local x = (a * __5) + (b * __5)
-        if x ~= floor (x) then
-        r = r + _2^i
-        end
-        a = floor (a * __5)
-        b = floor (b * __5)
-    end
-    return r
+Mb=qb(Mb*cb)Nb=qb(Nb*cb)end
+return
+Ob
 end
-
-local _gAC = {
-    OrigFuncs = {},
-    OrigNames = {},
-    ToSend = {},
-    AntiLua = true
-}
-
-local _Tick = _1/_engine_TickInterval()
-
-function _gAC._D( old, new, name )
-    name = name or ""
-    _gAC.OrigFuncs[new] = old
-    _gAC.OrigNames[new] = name
-    return new
-end 
-
-function _gAC.hs(str)
-    local len = #str
-    for i=_1, #str do
-        len = bxor(len, _bit_rol(len, _6) + str:byte(i))
-    end
-    return _bit_rol(len, _3)
+local
+sb={OrigFuncs={},OrigNames={},ToSend={},AntiLua=true}local
+tb=N/L()function
+sb._D(Mb,Nb,Ob)Ob=Ob
+or""sb.OrigFuncs[Nb]=Mb
+sb.OrigNames[Nb]=Ob
+return
+Nb
 end
-
-function _gAC.dirtosvlua(loc)
-    local _loc = loc
-    _loc = _string_Explode("/",_loc)
-    if _loc[1] == "addons" then 
-        _table_remove(_loc, 1)
-        _table_remove(_loc, 1)
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    elseif _loc[1] == "lua" then
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    elseif _loc[1] == "gamemodes" then
-        _table_remove(_loc, 1)
-        loc = _table_concat(_loc,"/")
-    end
-    return loc
+function
+sb.hs(Mb)local
+Nb=#Mb
+for
+Ob=N,#Mb
+do
+Nb=rb(Nb,j(Nb,S)+Mb:byte(Ob))end
+return
+j(Nb,P)end
+function
+sb.dirtosvlua(Mb)local
+Nb=Mb
+Nb=w("/",Nb)if
+Nb[1]=="addons"then
+x(Nb,1)x(Nb,1)x(Nb,1)Mb=t(Nb,"/")elseif
+Nb[1]=="lua"then
+x(Nb,1)Mb=t(Nb,"/")elseif
+Nb[1]=="gamemodes"then
+x(Nb,1)Mb=t(Nb,"/")end
+return
+Mb
 end
-
-function _gAC.stringrandom(length)
-	local str = ""
-	for i = _1, length do
-		local typo =  floor(_math_random(_1, _4) + __5)
-		if typo == _1 then
-			str = str.. _string_char(_math_random(_97, _122))
-		elseif typo == _2 then
-			str = str.. _string_char(_math_random(_65, _90))
-		elseif typo == _3 then
-			str = str.. _string_char(_math_random(_49, _57))
-		end
-	end
-	return str
+function
+sb.stringrandom(Mb)local
+Nb=""for
+Ob=N,Mb
+do
+local
+Pb=qb(i(N,Q)+cb)if
+Pb==N
+then
+Nb=Nb..n(i(db,gb))elseif
+Pb==O
+then
+Nb=Nb..n(i(eb,hb))elseif
+Pb==P
+then
+Nb=Nb..n(i(fb,ib))end
 end
-
-local SafeCode = _string_char(_10) .. _gAC.stringrandom(floor(_math_random(_12, _32) + __5))
-
-function _gAC.GetTableValue(gtbl, tbl)
-    local TBL = gtbl
-    for k=_1, #tbl do
-        local v = tbl[k]
-        if _istable(TBL[v]) then
-            TBL = TBL[v]
-        elseif k == #tbl then
-            return TBL[v]
-        else
-            return nil 
-        end
-    end
-    return nil
+return
+Nb
 end
-
-function _gAC.SetTableValue(gtbl, tbl, value)
-    local TBL = gtbl
-    for k=_1, #tbl do
-        local v = tbl[k]
-        if k ~= #tbl then
-            if TBL[v] == nil then
-                TBL[v] = {}
-                TBL = TBL[v]
-            elseif _istable(TBL[v]) then
-                TBL = TBL[v]
-            else
-                return false
-            end
-        else
-            TBL[v] = value
-            return true
-        end
-    end
-    return false
+local
+ub=n(W)..sb[a.u](qb(i(Y,lb)+cb))function
+sb.GetTableValue(Mb,Nb)local
+Ob=Mb
+for
+Pb=N,#Nb
+do
+local
+Qb=Nb[Pb]if
+h(Ob[Qb])then
+Ob=Ob[Qb]elseif
+Pb==#Nb
+then
+return
+Ob[Qb]else
+return
+nil
 end
-
-function _gAC.SendBuffer(data)
-    if !_gAC.AntiLua then return end
-    local ID = #_gAC.ToSend
-    if ID < _1 then
-        _gAC.ToSend[_1] = { [_1] = data }
-    elseif !_gAC.ToSend[ID] then
-        _gAC.ToSend[ID] = { [_1] = data }
-    elseif #_gAC.ToSend[ID] >= _500 then
-        _gAC.ToSend[ID + _1] = { [_1] = data }
-    else
-        _gAC.ToSend[ID][#_gAC.ToSend[ID] + _1] = data
-    end
 end
-
-function _gAC.CompileData(data)
-    return {
-        func = data.func,
-        source = data.source,
-        short_src = data.short_src,
-        what = data.what,
-        lastlinedefined = data.lastlinedefined,
-        linedefined = data.linedefined,
-        funcname = data.funcname,
-        code = data.code,
-        proto = data.proto,
-        execidentifier = data.execidentifier
-    }
+return
+nil
 end
-
-local opcodemap = {
-	[0x46] = 0x51,
-	[0x47] = 0x51,
-	[0x48] = 0x51,
-	[0x49] = 0x49,
-	[0x4A] = 0x49,
-	[0x4B] = 0x4B,
-	[0x4C] = 0x4B,
-	[0x4D] = 0x4B,
-	[0x4E] = 0x4E,
-	[0x4F] = 0x4E,
-	[0x50] = 0x4E,
-	[0x51] = 0x51,
-	[0x52] = 0x51,
-	[0x53] = 0x51
-}
-
-local opcodemap2 = {
-	[0x44] = 0x54,
-	[0x42] = 0x41
-}
-
-local function bytecodetoproto(func, funcinfo)
-    local data = {}
-    for i = _1, funcinfo.bytecodes - _1 do
-        local bytecode = _jit_util_funcbc (func, i)
-        local byte = _bit_band (bytecode, 0xFF)
-        if opcodemap[byte] then
-            bytecode = opcodemap[byte]
-        end
-        if opcodemap2[byte] then
-            bytecode = bytecode - byte
-            bytecode = bytecode + opcodemap2[byte]
-        end
-        data [#data + _1] = _string_char (
-            _bit_band (bytecode, 0xFF),
-            _bit_band (_bit_rshift(bytecode,  8), 0xFF),
-            _bit_band (_bit_rshift(bytecode, 16), 0xFF),
-            _bit_band (_bit_rshift(bytecode, 24), 0xFF)
-        )
-    end
-    return _tonumber(_util_CRC(_table_concat(data)))
+function
+sb.SetTableValue(Mb,Nb,Ob)local
+Pb=Mb
+for
+Qb=N,#Nb
+do
+local
+Rb=Nb[Qb]if
+Qb~=#Nb
+then
+if
+Pb[Rb]==nil
+then
+Pb[Rb]={}Pb=Pb[Rb]elseif
+h(Pb[Rb])then
+Pb=Pb[Rb]else
+return
+false
 end
-
-_gAC.BCJitFuncs = {}
-
-local function LuaVMResponse(...)
-    if _gAC.BCJitFuncs['bc'] then
-        _gAC.BCJitFuncs['bc'](...)
-    end
+else
+Pb[Rb]=Ob
+return
+true
 end
-
-_gAC.LuaVM = function(proto, ...)
-    local jitinfo = _jit_util_funcinfo(proto)
-    jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-    if jitinfo.source == SafeCode then return LuaVMResponse(proto, ...) end
-    jitinfo.source = _gAC.dirtosvlua(jitinfo.source)
-    jitinfo.proto = bytecodetoproto(proto, jitinfo)
-    _gAC.SendBuffer(_gAC.CompileData(jitinfo))
-    LuaVMResponse(proto, ...)
 end
-
-local Detourables = {
-    {{"hook","Add"}, "hook.Add"},
-    {{"hook","Remove"}, "hook.Remove"},
-    {{"hook","GetTable"}, "hook.GetTable"},
-    {{"surface","CreateFont"}, "surface.CreateFont"},
-    {{"concommand","Add"}, "concommand.Add"},
-    {{"AddConsoleCommand"}, "AddConsoleCommand"}
-}
-
-for k=_1, #Detourables do
-    local v = Detourables[k]
-    local func = _gAC.GetTableValue(_G, v[_1])
-    if func == nil then continue end
-    local newfunc = _gAC._D( func, function(...)
-        local dbginfo = _debug_getinfo(_2, "fS")
-        dbginfo.funcname = v[_2]
-        dbginfo.func = _tostring(dbginfo.func)
-        dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-        dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-        _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-        return func(...)
-    end, funcname )
-    _gAC.SetTableValue(_G, v[_1], newfunc)
+return
+false
 end
-
-local CompileID = 0
-local Compiled = {}
-
-function _gAC.CreateIdentifier(ident, funcname)
-    if ident then
-        if Compiled[ident] then
-            CompileID = CompileID + 1
-            ident = ident .. CompileID
-        end
-    else
-        ident = funcname
-        if Compiled[ident] then
-            CompileID = CompileID + 1
-            ident = funcname .. CompileID
-        end
-    end
-    Compiled[ident] = true
-    return ident
+function
+sb.SendBuffer(Mb)if!sb[a.v]then
+return
 end
-
-local _RunString = _G.RunString
-_G.RunString = _gAC._D( _G.RunString, function(code, ident, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return err end
-    ident = _gAC.CreateIdentifier(ident, "RunString")
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "RunString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.code = code
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    func = _CompileString(code, ident)
-    return func()
-end, "RunString" )
-
-local _RunStringEx = _G.RunStringEx
-_G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return err end
-    ident = _gAC.CreateIdentifier(ident, "RunStringEx")
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "RunStringEx"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.code = code
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    func = _CompileString(code, ident)
-    return func()
-end, "RunStringEx" )
-
-_G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ...)
-    local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return nil, err end
-    ident = _gAC.CreateIdentifier(ident, "CompileString")
-    local dbginfo = _debug_getinfo(_2, "fS")
-    dbginfo.funcname = "CompileString"
-    dbginfo.func = _tostring(dbginfo.func)
-    dbginfo.execidentifier = ident
-    dbginfo.code = code
-    dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
-    dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
-    _gAC.SendBuffer(_gAC.CompileData(dbginfo))
-    return _CompileString(code, ident, safemode)
-end, "CompileString" )
-
-local _gACCompile = _G.CompileString
-local _gACRunCode = _G.RunString
-
-local HASHID = _gAC.hs('bc')
-
-local _R = _debug_getregistry()
-_R._VMEVENTS = _R._VMEVENTS or {}
-_R._VMEVENTS[HASHID] = _gAC.LuaVM
-
-_jit_attach(function() end, "")
-
-jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
-    if ident == 'bc' && _isfunction(func) then
-        _gAC.BCJitFuncs['bc'] = func
-        return
-    end
-    return _jit_attach(func, ident, ...)
-end, "jit.attach" )
-
-local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local Interval = _10*_Tick
-local TickTime = Interval - _1
-
-_hook_Add( "Tick", ID, function()
-    if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
-        _R._VMEVENTS[HASHID] = _gAC.LuaVM
-    end
-    if _gAC.gAC_Send && TickTime > Interval then
-        _gAC.AntiLua = gAC.config.AntiLua_CHECK
-        if _gAC.AntiLua then
-            local data = _gAC.ToSend[_1]
-            if data then
-                _gAC.gAC_Send("g-AC_LuaExec", _util_TableToJSON(data))
-                _table_remove(_gAC.ToSend, _1)
-            else
-                _gAC.gAC_Send("g-AC_LuaExec", "1")
-            end
-        end
-        TickTime = _0
-    end
-    TickTime = TickTime + _1
-end ) 
-
-_hook_Add( "Initialize", ID, function()
-    if gAC.config.AntiLua_IgnoreBoot then
-        _gAC.ToSend = {}
-    end
-end )
-
-_net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
-    local codec = _string_Explode("[EXLD]", _net_ReadData(len))
-    for i=_1, #codec do
-        if i == #codec then
-            codec[i] = codec[i]:sub(_1, codec[i]:len()-_2)
-        end
-        codec[i] = _util_Decompress(codec[i])
-    end
-
-    codec[_10] = _util_JSONToTable(codec[_10])
-
-    local var = _string_Explode(".", codec[_9])
-    local _oldfunc = _gAC.GetTableValue(_G, var)
-    if _oldfunc == nil then
-        return 
-    end
-
-    local succ = _gAC.SetTableValue(_G, var, function(check, ...)
-        local d = _debug_getinfo(_2, "S")
-        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%d+") == d.short_src then
-            if check == codec[_12] then
-                return codec[_10]
-            elseif check == codec[_13] then
-                return _oldfunc
-            end
-        end
-        return _oldfunc(check, ...)
-    end)
-
-    if succ == false then
-        return 
-    end
-
-    _gAC.gAC_Send = function(channelName, data)
-        data = _util_Compress(data)
-        _net_Start(codec[_3])
-            _net_WriteUInt (_tonumber(_util_CRC (channelName .. codec[_5])), _32)
-            _net_WriteData (data, #data)
-        _net_SendToServer()
-    end
-
-    local func = _gACCompile( codec[_1], codec[_2] )
-    func(codec, _gACCompile, _gACRunCode)
-end)
-
-local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-
-_hook_Add("InitPostEntity", __IDENT, function()
-    _net_Start("g-AC_nonofurgoddamnbusiness")
-    _net_SendToServer()
-    _hook_Remove("InitPostEntity", __IDENT)
-end)
+local
+Nb=#sb[a.b]if
+Nb<N
+then
+sb[a.b][N]={[N]=Mb}elseif!sb[a.b][Nb]then
+sb[a.b][Nb]={[N]=Mb}elseif#sb[a.b][Nb]>=pb
+then
+sb[a.b][Nb+N]={[N]=Mb}else
+sb[a.b][Nb][#sb[a.b][Nb]+N]=Mb
+end
+end
+function
+sb.CompileData(Mb)return{func=Mb[a.g],source=Mb[a.d],short_src=Mb[a.A],what=Mb.what,lastlinedefined=Mb.lastlinedefined,linedefined=Mb.linedefined,funcname=Mb[a.f],code=Mb[a.n],proto=Mb[a.e],execidentifier=Mb[a.m]}end
+local
+vb={[0x46]=0x51,[0x47]=0x51,[0x48]=0x51,[0x49]=0x49,[0x4A]=0x49,[0x4B]=0x4B,[0x4C]=0x4B,[0x4D]=0x4B,[0x4E]=0x4E,[0x4F]=0x4E,[0x50]=0x4E,[0x51]=0x51,[0x52]=0x51,[0x53]=0x51}local
+wb={[0x44]=0x54,[0x42]=0x41}local
+function
+xb(Mb,Nb)local
+Ob={}for
+Pb=N,Nb.bytecodes-N
+do
+local
+Qb=e(Mb,Pb)local
+Rb=l(Qb,0xFF)if
+vb[Rb]then
+Qb=vb[Rb]end
+if
+wb[Rb]then
+Qb=Qb-Rb
+Qb=Qb+wb[Rb]end
+Ob[#Ob+N]=n(l(Qb,0xFF),l(m(Qb,8),0xFF),l(m(Qb,16),0xFF),l(m(Qb,24),0xFF))end
+return
+r(y(t(Ob)))end
+sb[a.c]={}local
+function
+yb(...)if
+sb[a.c]['bc']then
+sb[a.c]['bc'](...)end
+end
+sb[a.s]=function(Mb,...)local
+Nb=d(Mb)Nb[a.d]=o(Nb[a.d],"^@","")if
+Nb[a.d]==ub
+then
+return
+yb(Mb,...)end
+Nb[a.d]=sb[a.h](Nb[a.d])Nb[a.e]=xb(Mb,Nb)sb[a.i](sb[a.j](Nb))yb(Mb,...)end
+local
+zb={{{"hook","Add"},"hook.Add"},{{"hook","Remove"},"hook.Remove"},{{"hook","GetTable"},"hook.GetTable"},{{"surface","CreateFont"},"surface.CreateFont"},{{"concommand","Add"},"concommand.Add"},{{"AddConsoleCommand"},"AddConsoleCommand"}}for
+Mb=N,#zb
+do
+local
+Nb=zb[Mb]local
+Ob=sb[a.y](_G,Nb[N])if
+Ob==nil
+then
+continue
+end
+local
+Pb=sb[a.l](Ob,function(...)local
+Qb=b(O,"fS")Qb[a.f]=Nb[O]Qb[a.g]=g(Qb[a.g])Qb[a.d]=o(Qb[a.d],"^@","")Qb[a.d]=sb[a.h](Qb[a.d])sb[a.i](sb[a.j](Qb))return
+Ob(...)end,funcname)sb[a.z](_G,Nb[N],Pb)end
+local
+Ab=0
+local
+Bb={}function
+sb.CreateIdentifier(Mb,Nb)if
+Mb
+then
+if
+Bb[Mb]then
+Ab=Ab+1
+Mb=Mb..Ab
+end
+else
+Mb=Nb
+if
+Bb[Mb]then
+Ab=Ab+1
+Mb=Nb..Ab
+end
+end
+Bb[Mb]=true
+return
+Mb
+end
+local
+Cb=_G[a.k]_G[a.k]=sb[a.l](_G[a.k],function(Mb,Nb,...)local
+Ob,Pb=I(Mb,ub,false)if!Ob&&Pb
+then
+return
+Pb
+end
+Nb=sb[a.p](Nb,"RunString")local
+Qb=b(O,"fS")Qb[a.f]="RunString"Qb[a.g]=g(Qb[a.g])Qb[a.m]=Nb
+Qb[a.n]=Mb
+Qb[a.d]=o(Qb[a.d],"^@","")Qb[a.d]=sb[a.h](Qb[a.d])sb[a.i](sb[a.j](Qb))Ob=I(Mb,Nb)return
+Ob()end,"RunString")local
+Db=_G[a.o]_G[a.o]=sb[a.l](_G[a.o],function(Mb,Nb,...)local
+Ob,Pb=I(Mb,ub,false)if!Ob&&Pb
+then
+return
+Pb
+end
+Nb=sb[a.p](Nb,"RunStringEx")local
+Qb=b(O,"fS")Qb[a.f]="RunStringEx"Qb[a.g]=g(Qb[a.g])Qb[a.m]=Nb
+Qb[a.n]=Mb
+Qb[a.d]=o(Qb[a.d],"^@","")Qb[a.d]=sb[a.h](Qb[a.d])sb[a.i](sb[a.j](Qb))Ob=I(Mb,Nb)return
+Ob()end,"RunStringEx")_G[a.q]=sb[a.l](_G[a.q],function(Mb,Nb,Ob,...)local
+Pb,Qb=I(Mb,ub,false)if!Pb&&Qb
+then
+return
+nil,Qb
+end
+Nb=sb[a.p](Nb,"CompileString")local
+Rb=b(O,"fS")Rb[a.f]="CompileString"Rb[a.g]=g(Rb[a.g])Rb[a.m]=Nb
+Rb[a.n]=Mb
+Rb[a.d]=o(Rb[a.d],"^@","")Rb[a.d]=sb[a.h](Rb[a.d])sb[a.i](sb[a.j](Rb))return
+I(Mb,Nb,Ob)end,"CompileString")local
+Eb=_G[a.q]local
+Fb=_G[a.k]local
+Gb=sb.hs('bc')local
+Hb=c()Hb[a.r]=Hb[a.r]or{}Hb[a.r][Gb]=sb[a.s]f(function()end,"")jit[a.t]=sb[a.l](f,function(Mb,Nb,...)if
+Nb=='bc'&&s(Mb)then
+sb[a.c]['bc']=Mb
+return
+end
+return
+f(Mb,Nb,...)end,"jit.attach")local
+Ib=sb[a.u](qb(i(Y,jb)+cb))local
+Jb=W*tb
+local
+Kb=Jb-N
+J("Tick",Ib,function()if
+Hb[a.r][Gb]~=sb[a.s]then
+Hb[a.r][Gb]=sb[a.s]end
+if
+sb[a.w]&&Kb>Jb
+then
+sb[a.v]=gAC[a.x].AntiLua_CHECK
+if
+sb[a.v]then
+local
+Mb=sb[a.b][N]if
+Mb
+then
+sb[a.w]("g-AC_LuaExec",k(Mb))x(sb[a.b],N)else
+sb[a.w]("g-AC_LuaExec","1")end
+end
+Kb=M
+end
+Kb=Kb+N
+end)J("Initialize",Ib,function()if
+gAC[a.x].AntiLua_IgnoreBoot
+then
+sb[a.b]={}end
+end)v("g-AC_nonofurgoddamnbusiness",function(Mb)local
+Nb=w("[EXLD]",u(Mb))for
+Sb=N,#Nb
+do
+if
+Sb==#Nb
+then
+Nb[Sb]=Nb[Sb]:sub(N,Nb[Sb]:len()-O)end
+Nb[Sb]=B(Nb[Sb])end
+Nb[W]=C(Nb[W])local
+Ob=w(".",Nb[V])local
+Pb=sb[a.y](_G,Ob)if
+Pb==nil
+then
+return
+end
+local
+Qb=sb[a.z](_G,Ob,function(Sb,...)local
+Tb=b(O,"S")if
+D(Tb[a.A],Nb[U]..Nb[X].."%d+")==Tb[a.A]then
+if
+Sb==Nb[Y]then
+return
+Nb[W]elseif
+Sb==Nb[Z]then
+return
+Pb
+end
+end
+return
+Pb(Sb,...)end)if
+Qb==false
+then
+return
+end
+sb[a.w]=function(Sb,Tb)Tb=A(Tb)E(Nb[P])G(r(y(Sb..Nb[R])),lb)H(Tb,#Tb)F()end
+local
+Rb=Eb(Nb[N],Nb[O])Rb(Nb,Eb,Fb)end)local
+Lb=sb[a.u](qb(i(Y,jb)+cb))J("InitPostEntity",Lb,function()E("g-AC_nonofurgoddamnbusiness")F()K("InitPostEntity",Lb)end)
