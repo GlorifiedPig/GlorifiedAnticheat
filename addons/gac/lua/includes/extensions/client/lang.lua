@@ -35,6 +35,7 @@ local _CompileString = CompileString
 local _hook_Add = hook.Add
 local _hook_Remove = hook.Remove
 local _engine_TickInterval = engine.TickInterval
+local _FindMetaTable = FindMetaTable
 
 local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
 local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
@@ -264,8 +265,40 @@ for k=_1, #Detourables do
         dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
         _gAC.SendBuffer(_gAC.CompileData(dbginfo))
         return func(...)
-    end, funcname )
+    end, v[_2] )
     _gAC.SetTableValue(_G, v[_1], newfunc)
+end
+
+local MetaTables = {
+    ['Player'] = _FindMetaTable('Player'),
+    ['Entity'] = _FindMetaTable('Entity'),
+    ['CUserCmd'] = _FindMetaTable('CUserCmd'),
+}
+
+local MetaDetourables = {
+    {"Player", "ConCommand"},
+}
+
+for k=_1, #MetaDetourables do
+    local v = MetaDetourables[k]
+    local func = nil
+    if MetaTables[v[_1]] then
+        local meta = MetaTables[v[_1]]
+        if meta[v[_2]] and _isfunction(meta[v[_2]]) then
+            func = meta[v[_2]]
+        end
+    end
+    if func == nil then continue end
+    local newfunc = _gAC._D( func, function(...)
+        local dbginfo = _debug_getinfo(_2, "fS")
+        dbginfo.funcname = v[_1] .. ':' .. v[_2]
+        dbginfo.func = _tostring(dbginfo.func)
+        dbginfo.source = _string_gsub(dbginfo.source, "^@", "")
+        dbginfo.source = _gAC.dirtosvlua(dbginfo.source)
+        _gAC.SendBuffer(_gAC.CompileData(dbginfo))
+        return func(...)
+    end, v[_1] .. ':' .. v[_2] )
+    MetaTables[v[_1]][v[_2]] = newfunc
 end
 
 local CompileID = 0
@@ -363,6 +396,7 @@ local TickTime = Interval - _1
 _hook_Add( "Tick", ID, function()
     if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
         _R._VMEVENTS[HASHID] = _gAC.LuaVM
+        _jit_attach(function() end, "")
     end
     if _gAC.gAC_Send && TickTime > Interval then
         _gAC.AntiLua = gAC.config.AntiLua_CHECK
