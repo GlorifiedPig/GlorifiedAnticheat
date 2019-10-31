@@ -1,177 +1,200 @@
 local
-‪while ={⁮for ='\x75\x74\x69\x6C',‪not ='\x54\x6F\x53\x65\x6E\x64',function‪ ='\x42\x43\x4A\x69\x74\x46\x75\x6E\x63\x73',if⁮ ='\x73\x6F\x75\x72\x63\x65',repeat‪ ='\x70\x72\x6F\x74\x6F',⁮break ='\x66\x75\x6E\x63\x6E\x61\x6D\x65',true⁮ ='\x66\x75\x6E\x63',in﻿ ='\x64\x69\x72\x74\x6F\x73\x76\x6C\x75\x61',‪while ='\x53\x65\x6E\x64\x42\x75\x66\x66\x65\x72',while⁮ ='\x43\x6F\x6D\x70\x69\x6C\x65\x44\x61\x74\x61',return﻿ ='\x5F\x44',true﻿ ='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67',﻿continue ='\x65\x78\x65\x63\x69\x64\x65\x6E\x74\x69\x66\x69\x65\x72',return‪ ='\x63\x6F\x64\x65',﻿for ='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78',﻿do ='\x43\x72\x65\x61\x74\x65\x49\x64\x65\x6E\x74\x69\x66\x69\x65\x72',﻿ ='\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67',nil﻿ ='\x5F\x56\x4D\x45\x56\x45\x4E\x54\x53',‪break ='\x4C\x75\x61\x56\x4D',‪function ='\x61\x74\x74\x61\x63\x68',﻿elseif ='\x73\x74\x72\x69\x6E\x67\x72\x61\x6E\x64\x6F\x6D',⁮function ='\x41\x6E\x74\x69\x4C\x75\x61',﻿if ='\x67\x41\x43\x5F\x53\x65\x6E\x64',‪else ='\x63\x6F\x6E\x66\x69\x67',function⁮ ='\x47\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65',‪continue ='\x53\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65',not﻿ ='\x73\x68\x6F\x72\x74\x5F\x73\x72\x63'}local
-⁮until =debug.getinfo
+⁮⁭﻿function={‪⁮in='\x75\x74\x69\x6C',or⁪='\x54\x6F\x53\x65\x6E\x64',in⁪⁮='\x42\x43\x4A\x69\x74\x46\x75\x6E\x63\x73',while‪‪‪='\x73\x6F\x75\x72\x63\x65',﻿⁮﻿repeat='\x70\x72\x6F\x74\x6F',⁭‪break='\x66\x75\x6E\x63\x6E\x61\x6D\x65',break⁭⁭='\x66\x75\x6E\x63',⁪='\x64\x69\x72\x74\x6F\x73\x76\x6C\x75\x61',do﻿⁪﻿='\x53\x65\x6E\x64\x42\x75\x66\x66\x65\x72',false﻿⁭﻿='\x43\x6F\x6D\x70\x69\x6C\x65\x44\x61\x74\x61',‪nil='\x5F\x44',or⁮='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67',⁪⁪local='\x65\x78\x65\x63\x69\x64\x65\x6E\x74\x69\x66\x69\x65\x72',end⁪‪='\x63\x6F\x64\x65',⁪⁭repeat='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78',⁭‪if='\x43\x72\x65\x61\x74\x65\x49\x64\x65\x6E\x74\x69\x66\x69\x65\x72',‪﻿continue='\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67',and﻿⁮﻿='\x5F\x56\x4D\x45\x56\x45\x4E\x54\x53',⁪﻿⁮false='\x4C\x75\x61\x56\x4D',else⁭⁮⁭='\x61\x74\x74\x61\x63\x68',or⁭‪⁮='\x73\x74\x72\x69\x6E\x67\x72\x61\x6E\x64\x6F\x6D',﻿⁮‪='\x41\x6E\x74\x69\x4C\x75\x61',⁪﻿while='\x67\x41\x43\x5F\x53\x65\x6E\x64',⁪﻿local='\x63\x6F\x6E\x66\x69\x67',⁭﻿goto='\x47\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65',repeat⁪⁮='\x53\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65',end‪⁮⁪='\x73\x68\x6F\x72\x74\x5F\x73\x72\x63'}local
+⁪⁭end=debug.getinfo
 local
-not﻿ =debug.getregistry
+goto‪=debug.getregistry
 local
-‪then =jit[‪while .⁮for ].funcinfo
+﻿nil=jit[⁮⁭﻿function.‪⁮in].funcinfo
 local
-﻿break =jit[‪while .⁮for ].funcbc
+in⁪⁭=jit[⁮⁭﻿function.‪⁮in].funcbc
 local
-⁮or =jit[‪while .‪function ]local
-‪continue =tostring
+false⁮=jit[⁮⁭﻿function.else⁭⁮⁭]local
+goto⁭﻿﻿=tostring
 local
-⁮and =istable
+⁭⁪for=istable
 local
-‪return =math.random
+⁮﻿false=math.random
 local
-‪if =bit.rol
+for﻿⁪⁭=bit.rol
 local
-in‪ =util.TableToJSON
+⁭﻿⁭then=util.TableToJSON
 local
-⁮do =bit.band
+then⁭=bit.band
 local
-end‪ =bit.rshift
+‪⁭and=bit.rshift
 local
-⁮else =string.char
+‪﻿until=string.char
 local
-in⁮ =string.gsub
+false﻿=string.gsub
 local
-﻿local =string.sub
+⁪elseif=string.sub
 local
-then﻿ =timer.Simple
+⁮repeat=timer.Simple
 local
-﻿and =tonumber
+⁭﻿⁮local=tonumber
 local
-‪function =isfunction
+‪⁭local=isfunction
 local
-‪repeat =table.concat
+⁭then=table.concat
 local
-‪nil =net.ReadData
+﻿‪=net.ReadData
 local
-local‪ =net.Receive
+local⁭=net.Receive
 local
-for﻿ =string.Explode
+then‪=string.Explode
 local
-⁮continue =table.remove
+local﻿‪=table.remove
 local
-elseif﻿ =util.CRC
+⁮⁭⁭or=util.CRC
 local
-﻿for =math.ceil
+end⁮‪=math.ceil
 local
-‪in =util.Compress
+⁮‪else=util.Compress
 local
-until﻿ =util.Decompress
+return⁭﻿⁮=util.Decompress
 local
-﻿nil =util.JSONToTable
+end⁪=util.JSONToTable
 local
-true﻿ =string.match
+return⁭⁪⁪⁭=string.match
 local
-⁮false =net.Start
+break⁭⁮⁪=net.Start
 local
-false﻿ =net.SendToServer
+for⁪⁭⁪⁪=net.SendToServer
 local
-⁮local =net.WriteUInt
+⁮⁪﻿﻿=net.WriteUInt
 local
-﻿ =net.WriteData
+local⁭⁪‪⁭=net.WriteData
 local
-﻿do =CompileString
+local⁪⁪‪=CompileString
 local
-while⁮ =hook.Add
+while⁪⁭=hook.Add
 local
-and⁮ =hook.Remove
+⁪‪⁭elseif=hook.Remove
 local
-⁮for =engine.TickInterval
+then⁭‪⁭=engine.TickInterval
 local
-for‪ =FindMetaTable
+while⁪⁪﻿=FindMetaTable
 local
-goto⁮ ,if﻿ ,﻿return ,true‪ ,⁮⁮if ,and﻿﻿ ,‪‪function ,‪elseif ,⁮true ,⁮‪end ,nil‪⁮ ,or‪ ,⁮⁮false ,repeat⁮ ,not‪ ,break⁮ =0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
+or‪⁪⁭⁭,goto⁮⁭,﻿⁪return,⁮‪⁮,local⁮,‪true,⁮⁮⁭﻿do,⁭‪‪⁮then,if⁪⁮,﻿‪‪in,‪local,⁪‪﻿‪,until‪﻿⁮⁮,⁮false,⁭⁮﻿⁭elseif,‪⁭‪nil=0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
 local
-return‪ ,‪﻿if ,break﻿ ,false⁮ ,⁮while ,and﻿ ,‪﻿goto ,for⁮⁮ ,⁮⁮then ,﻿﻿false ,repeat﻿‪ ,‪‪if ,﻿﻿ =.5,97,65,49,122,90,57,26,15,32,16,30,24
+⁪⁭⁮return,then‪⁪,⁮‪true,or⁪⁮⁪,⁭⁭false,and‪,⁭﻿⁪continue,function﻿﻿⁪⁮,﻿⁪continue,‪⁮﻿‪if,repeat⁭,⁪goto,⁭⁮‪﻿in=.5,97,65,49,122,90,57,26,15,32,16,30,24
 local
-﻿⁮‪goto =500
-local
-function
-⁮return (⁮function )return
-⁮function -(⁮function %if﻿ )end
+function⁭⁪⁮=500
 local
 function
-if⁮﻿⁮ (⁮goto ,goto﻿﻿ )local
-‪not =goto⁮ for
-for‪⁮‪ =goto⁮ ,31
+for⁮⁭‪(﻿﻿repeat)return
+﻿﻿repeat-(﻿﻿repeat%goto⁮⁭)end
+local
+function
+‪⁪⁭nil(⁭‪⁭⁪function,⁭﻿⁪⁭⁭elseif)local
+﻿﻿end=or‪⁪⁭⁭
+for
+else⁪﻿﻿⁮=or‪⁪⁭⁭,31
 do
 local
-‪break =(⁮goto *return‪ )+(goto﻿﻿ *return‪ )if
-‪break ~=⁮return (‪break )then
-‪not =‪not +﻿return ^for‪⁮‪ end
-⁮goto =⁮return (⁮goto *return‪ )goto﻿﻿ =⁮return (goto﻿﻿ *return‪ )end
-return
-‪not end
-local
-‪‪then ={OrigFuncs={},OrigNames={},ToSend={},AntiLua=true}local
-for⁮ =if﻿ /⁮for ()function
-‪‪then ._D(‪‪﻿ ,﻿until ,‪﻿﻿then )‪﻿﻿then =‪﻿﻿then or""‪‪then .OrigFuncs[﻿until ]=‪‪﻿ ‪‪then .OrigNames[﻿until ]=‪﻿﻿then return
-﻿until end
-function
-‪‪then .hs(‪﻿else )local
-if﻿‪ =#‪﻿else for
-﻿﻿‪ =if﻿ ,#‪﻿else do
-if﻿‪ =if⁮﻿⁮ (if﻿‪ ,‪if (if﻿‪ ,‪‪function )+‪﻿else :byte(﻿﻿‪ ))end
-return
-‪if (if﻿‪ ,true‪ )end
-function
-‪‪then .dirtosvlua(⁮﻿⁮else )local
-﻿or =⁮﻿⁮else ﻿or =for﻿ ("\x2F",﻿or )if
-﻿or [1]=="\x61\x64\x64\x6F\x6E\x73"then
-⁮continue (﻿or ,1)⁮continue (﻿or ,1)⁮continue (﻿or ,1)⁮﻿⁮else =‪repeat (﻿or ,"\x2F")elseif
-﻿or [1]=="\x6C\x75\x61"then
-⁮continue (﻿or ,1)⁮﻿⁮else =‪repeat (﻿or ,"\x2F")elseif
-﻿or [1]=="\x67\x61\x6D\x65\x6D\x6F\x64\x65\x73"then
-⁮continue (﻿or ,1)⁮﻿⁮else =‪repeat (﻿or ,"\x2F")end
-return
-⁮﻿⁮else end
-function
-‪‪then .stringrandom(‪ )local
-⁮﻿﻿and =""for
-repeat‪﻿‪ =if﻿ ,‪ do
-local
-while﻿﻿ =⁮return (‪return (if﻿ ,⁮⁮if )+return‪ )if
-while﻿﻿ ==if﻿ then
-⁮﻿﻿and =⁮﻿﻿and ..⁮else (‪return (‪﻿if ,⁮while ))elseif
-while﻿﻿ ==﻿return then
-⁮﻿﻿and =⁮﻿﻿and ..⁮else (‪return (break﻿ ,and﻿ ))elseif
-while﻿﻿ ==true‪ then
-⁮﻿﻿and =⁮﻿﻿and ..⁮else (‪return (false⁮ ,‪﻿goto ))end
+‪‪and=(⁭‪⁭⁪function*⁪⁭⁮return)+(⁭﻿⁪⁭⁭elseif*⁪⁭⁮return)if
+‪‪and~=for⁮⁭‪(‪‪and)then
+﻿﻿end=﻿﻿end+﻿⁪return^else⁪﻿﻿⁮
 end
+⁭‪⁭⁪function=for⁮⁭‪(⁭‪⁭⁪function*⁪⁭⁮return)⁭﻿⁪⁭⁭elseif=for⁮⁭‪(⁭﻿⁪⁭⁭elseif*⁪⁭⁮return)end
 return
-⁮﻿﻿and end
-local
-⁮⁮‪break =⁮else (nil‪⁮ )..‪‪then [‪while .﻿elseif ](⁮return (‪return (⁮⁮false ,﻿﻿false )+return‪ ))function
-‪‪then .GetTableValue(﻿﻿﻿then ,until﻿‪⁮ )local
-‪and =﻿﻿﻿then for
-‪‪⁮﻿for =if﻿ ,#until﻿‪⁮ do
-local
-‪⁮return =until﻿‪⁮ [‪‪⁮﻿for ]if
-⁮and (‪and [‪⁮return ])then
-‪and =‪and [‪⁮return ]elseif
-‪‪⁮﻿for ==#until﻿‪⁮ then
-return
-‪and [‪⁮return ]else
-return
-nil
+﻿﻿end
 end
-end
+local
+﻿false={OrigFuncs={},OrigNames={},ToSend={},AntiLua=true}local
+not﻿⁮=goto⁮⁭/then⁭‪⁭()function
+﻿false._D(‪for,⁮⁪﻿﻿until,function⁪‪‪‪)function⁪‪‪‪=function⁪‪‪‪
+or""﻿false.OrigFuncs[⁮⁪﻿﻿until]=‪for
+﻿false.OrigNames[⁮⁪﻿﻿until]=function⁪‪‪‪
 return
-nil
+⁮⁪﻿﻿until
 end
 function
-‪‪then .SetTableValue(false‪﻿﻿ ,⁮then ,else﻿⁮ )local
-elseif‪﻿‪⁮ =false‪﻿﻿ for
-‪until =if﻿ ,#⁮then do
+﻿false.hs(if⁮﻿)local
+while‪⁭=#if⁮﻿
+for
+‪⁭⁪then=goto⁮⁭,#if⁮﻿
+do
+while‪⁭=‪⁪⁭nil(while‪⁭,for﻿⁪⁭(while‪⁭,⁮⁮⁭﻿do)+if⁮﻿:byte(‪⁭⁪then))end
+return
+for﻿⁪⁭(while‪⁭,⁮‪⁮)end
+function
+﻿false.dirtosvlua(local‪﻿﻿﻿⁮)local
+return⁪‪⁪⁭⁮=local‪﻿﻿﻿⁮
+return⁪‪⁪⁭⁮=then‪("\x2F",return⁪‪⁪⁭⁮)if
+return⁪‪⁪⁭⁮[1]=="\x61\x64\x64\x6F\x6E\x73"then
+local﻿‪(return⁪‪⁪⁭⁮,1)local﻿‪(return⁪‪⁪⁭⁮,1)local﻿‪(return⁪‪⁪⁭⁮,1)local‪﻿﻿﻿⁮=⁭then(return⁪‪⁪⁭⁮,"\x2F")elseif
+return⁪‪⁪⁭⁮[1]=="\x6C\x75\x61"then
+local﻿‪(return⁪‪⁪⁭⁮,1)local‪﻿﻿﻿⁮=⁭then(return⁪‪⁪⁭⁮,"\x2F")elseif
+return⁪‪⁪⁭⁮[1]=="\x67\x61\x6D\x65\x6D\x6F\x64\x65\x73"then
+local﻿‪(return⁪‪⁪⁭⁮,1)local‪﻿﻿﻿⁮=⁭then(return⁪‪⁪⁭⁮,"\x2F")end
+return
+local‪﻿﻿﻿⁮
+end
+function
+﻿false.stringrandom(⁮nil)local
+in⁭‪⁭=""for
+if‪⁭‪⁭=goto⁮⁭,⁮nil
+do
 local
-else‪ =⁮then [‪until ]if
-‪until ~=#⁮then then
-if
-elseif‪﻿‪⁮ [else‪ ]==nil
+end⁪⁭=for⁮⁭‪(⁮﻿false(goto⁮⁭,local⁮)+⁪⁭⁮return)if
+end⁪⁭==goto⁮⁭
 then
-elseif‪﻿‪⁮ [else‪ ]={}elseif‪﻿‪⁮ =elseif‪﻿‪⁮ [else‪ ]elseif
-⁮and (elseif‪﻿‪⁮ [else‪ ])then
-elseif‪﻿‪⁮ =elseif‪﻿‪⁮ [else‪ ]else
+in⁭‪⁭=in⁭‪⁭..‪﻿until(⁮﻿false(then‪⁪,⁭⁭false))elseif
+end⁪⁭==﻿⁪return
+then
+in⁭‪⁭=in⁭‪⁭..‪﻿until(⁮﻿false(⁮‪true,and‪))elseif
+end⁪⁭==⁮‪⁮
+then
+in⁭‪⁭=in⁭‪⁭..‪﻿until(⁮﻿false(or⁪⁮⁪,⁭﻿⁪continue))end
+end
+return
+in⁭‪⁭
+end
+local
+⁮⁭not=‪﻿until(‪local)..﻿false[⁮⁭﻿function.or⁭‪⁮](for⁮⁭‪(⁮﻿false(until‪﻿⁮⁮,‪⁮﻿‪if)+⁪⁭⁮return))function
+﻿false.GetTableValue(do‪,true⁪⁮﻿﻿﻿)local
+⁮continue=do‪
+for
+﻿in=goto⁮⁭,#true⁪⁮﻿﻿﻿
+do
+local
+﻿⁮⁮until=true⁪⁮﻿﻿﻿[﻿in]if
+⁭⁪for(⁮continue[﻿⁮⁮until])then
+⁮continue=⁮continue[﻿⁮⁮until]elseif
+﻿in==#true⁪⁮﻿﻿﻿
+then
+return
+⁮continue[﻿⁮⁮until]else
+return
+nil
+end
+end
+return
+nil
+end
+function
+﻿false.SetTableValue(not﻿‪﻿⁮,⁮﻿﻿⁪return,while⁪)local
+⁪nil=not﻿‪﻿⁮
+for
+repeat﻿⁭⁪=goto⁮⁭,#⁮﻿﻿⁪return
+do
+local
+for‪=⁮﻿﻿⁪return[repeat﻿⁭⁪]if
+repeat﻿⁭⁪~=#⁮﻿﻿⁪return
+then
+if
+⁪nil[for‪]==nil
+then
+⁪nil[for‪]={}⁪nil=⁪nil[for‪]elseif
+⁭⁪for(⁪nil[for‪])then
+⁪nil=⁪nil[for‪]else
 return
 false
 end
 else
-elseif‪﻿‪⁮ [else‪ ]=else﻿⁮ return
+⁪nil[for‪]=while⁪
+return
 true
 end
 end
@@ -179,190 +202,226 @@ return
 false
 end
 function
-‪‪then .SendBuffer(continue⁮ )if!‪‪then [‪while .⁮function ]then
+﻿false.SendBuffer(⁭﻿⁮)if!﻿false[⁮⁭﻿function.﻿⁮‪]then
 return
 end
 local
-local﻿ =#‪‪then [‪while .‪not ]if
-local﻿ <if﻿ then
-‪‪then [‪while .‪not ][if﻿ ]={[if﻿ ]=continue⁮ }elseif!‪‪then [‪while .‪not ][local﻿ ]then
-‪‪then [‪while .‪not ][local﻿ ]={[if﻿ ]=continue⁮ }elseif#‪‪then [‪while .‪not ][local﻿ ]>=﻿⁮‪goto then
-‪‪then [‪while .‪not ][local﻿ +if﻿ ]={[if﻿ ]=continue⁮ }else
-‪‪then [‪while .‪not ][local﻿ ][#‪‪then [‪while .‪not ][local﻿ ]+if﻿ ]=continue⁮ end
+⁪⁪﻿⁪true=#﻿false[⁮⁭﻿function.or⁪]if
+⁪⁪﻿⁪true<goto⁮⁭
+then
+﻿false[⁮⁭﻿function.or⁪][goto⁮⁭]={[goto⁮⁭]=⁭﻿⁮}elseif!﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true]then
+﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true]={[goto⁮⁭]=⁭﻿⁮}elseif#﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true]>=function⁭⁪⁮
+then
+﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true+goto⁮⁭]={[goto⁮⁭]=⁭﻿⁮}else
+﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true][#﻿false[⁮⁭﻿function.or⁪][⁪⁪﻿⁪true]+goto⁮⁭]=⁭﻿⁮
+end
 end
 function
-‪‪then .CompileData(⁮⁮﻿true )return{func=⁮⁮﻿true [‪while .true⁮ ],source=⁮⁮﻿true [‪while .if⁮ ],short_src=⁮⁮﻿true [‪while .not﻿ ],what=⁮⁮﻿true .what,lastlinedefined=⁮⁮﻿true .lastlinedefined,linedefined=⁮⁮﻿true .linedefined,funcname=⁮⁮﻿true [‪while .⁮break ],code=⁮⁮﻿true [‪while .return‪ ],proto=⁮⁮﻿true [‪while .repeat‪ ],execidentifier=⁮⁮﻿true [‪while .﻿continue ]}end
+﻿false.CompileData(﻿⁮﻿‪then)return{func=﻿⁮﻿‪then[⁮⁭﻿function.break⁭⁭],source=﻿⁮﻿‪then[⁮⁭﻿function.while‪‪‪],short_src=﻿⁮﻿‪then[⁮⁭﻿function.end‪⁮⁪],what=﻿⁮﻿‪then.what,lastlinedefined=﻿⁮﻿‪then.lastlinedefined,linedefined=﻿⁮﻿‪then.linedefined,funcname=﻿⁮﻿‪then[⁮⁭﻿function.⁭‪break],code=﻿⁮﻿‪then[⁮⁭﻿function.end⁪‪],proto=﻿⁮﻿‪then[⁮⁭﻿function.﻿⁮﻿repeat],execidentifier=﻿⁮﻿‪then[⁮⁭﻿function.⁪⁪local]}end
 local
-‪⁮or ={[0x46]=0x51,[0x47]=0x51,[0x48]=0x51,[0x49]=0x49,[0x4A]=0x49,[0x4B]=0x4B,[0x4C]=0x4B,[0x4D]=0x4B,[0x4E]=0x4E,[0x4F]=0x4E,[0x50]=0x4E,[0x51]=0x51,[0x52]=0x51,[0x53]=0x51}local
-⁮﻿⁮end ={[0x44]=0x54,[0x42]=0x41}local
+⁭‪﻿‪for={[0x46]=0x51,[0x47]=0x51,[0x48]=0x51,[0x49]=0x49,[0x4A]=0x49,[0x4B]=0x4B,[0x4C]=0x4B,[0x4D]=0x4B,[0x4E]=0x4E,[0x4F]=0x4E,[0x50]=0x4E,[0x51]=0x51,[0x52]=0x51,[0x53]=0x51}local
+if‪⁭={[0x44]=0x54,[0x42]=0x41}local
 function
-﻿‪‪until (true﻿⁮‪ ,and‪ )local
-break⁮‪﻿ ={}for
-⁮﻿⁮⁮elseif =if﻿ ,and‪ .bytecodes-if﻿ do
+⁭﻿⁮in(end⁭⁪⁭,﻿﻿else)local
+‪⁮⁪return={}for
+﻿⁪⁮local=goto⁮⁭,﻿﻿else.bytecodes-goto⁮⁭
+do
 local
-false‪ =﻿break (true﻿⁮‪ ,⁮﻿⁮⁮elseif )local
-until﻿﻿⁮⁮ =⁮do (false‪ ,0xFF)if
-‪⁮or [until﻿﻿⁮⁮ ]then
-false‪ =‪⁮or [until﻿﻿⁮⁮ ]end
+⁮function=in⁪⁭(end⁭⁪⁭,﻿⁪⁮local)local
+do⁪⁪﻿=then⁭(⁮function,0xFF)if
+⁭‪﻿‪for[do⁪⁪﻿]then
+⁮function=⁭‪﻿‪for[do⁪⁪﻿]end
 if
-⁮﻿⁮end [until﻿﻿⁮⁮ ]then
-false‪ =false‪ -until﻿﻿⁮⁮ false‪ =false‪ +⁮﻿⁮end [until﻿﻿⁮⁮ ]end
-break⁮‪﻿ [#break⁮‪﻿ +if﻿ ]=⁮else (⁮do (false‪ ,0xFF),⁮do (end‪ (false‪ ,8),0xFF),⁮do (end‪ (false‪ ,16),0xFF),⁮do (end‪ (false‪ ,24),0xFF))end
+if‪⁭[do⁪⁪﻿]then
+⁮function=⁮function-do⁪⁪﻿
+⁮function=⁮function+if‪⁭[do⁪⁪﻿]end
+‪⁮⁪return[#‪⁮⁪return+goto⁮⁭]=‪﻿until(then⁭(⁮function,0xFF),then⁭(‪⁭and(⁮function,8),0xFF),then⁭(‪⁭and(⁮function,16),0xFF),then⁭(‪⁭and(⁮function,24),0xFF))end
 return
-﻿and (elseif﻿ (‪repeat (break⁮‪﻿ )))end
-‪‪then [‪while .function‪ ]={}local
+⁭﻿⁮local(⁮⁭⁭or(⁭then(‪⁮⁪return)))end
+﻿false[⁮⁭﻿function.in⁪⁮]={}local
 function
-⁮ (...)if
-‪‪then [‪while .function‪ ]['\x62\x63']then
-‪‪then [‪while .function‪ ]['\x62\x63'](...)end
+return⁪⁪‪﻿⁭(...)if
+﻿false[⁮⁭﻿function.in⁪⁮]['\x62\x63']then
+﻿false[⁮⁭﻿function.in⁪⁮]['\x62\x63'](...)end
 end
-‪‪then [‪while .‪break ]=function(﻿﻿else ,...)local
-‪﻿﻿not =‪then (﻿﻿else )‪﻿﻿not [‪while .if⁮ ]=in⁮ (‪﻿﻿not [‪while .if⁮ ],"\x5E\x40","")if
-‪﻿﻿not [‪while .if⁮ ]==⁮⁮‪break then
+﻿false[⁮⁭﻿function.⁪﻿⁮false]=function(until﻿,...)local
+⁭⁮﻿‪not=﻿nil(until﻿)⁭⁮﻿‪not[⁮⁭﻿function.while‪‪‪]=false﻿(⁭⁮﻿‪not[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")if
+⁭⁮﻿‪not[⁮⁭﻿function.while‪‪‪]==⁮⁭not
+then
 return
-⁮ (﻿﻿else ,...)end
-‪﻿﻿not [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](‪﻿﻿not [‪while .if⁮ ])‪﻿﻿not [‪while .repeat‪ ]=﻿‪‪until (﻿﻿else ,‪﻿﻿not )‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](‪﻿﻿not ))⁮ (﻿﻿else ,...)end
+return⁪⁪‪﻿⁭(until﻿,...)end
+⁭⁮﻿‪not[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](⁭⁮﻿‪not[⁮⁭﻿function.while‪‪‪])⁭⁮﻿‪not[⁮⁭﻿function.﻿⁮﻿repeat]=⁭﻿⁮in(until﻿,⁭⁮﻿‪not)﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](⁭⁮﻿‪not))return⁪⁪‪﻿⁭(until﻿,...)end
 local
-then‪ ={{{"\x68\x6F\x6F\x6B","\x41\x64\x64"},"\x68\x6F\x6F\x6B\x2E\x41\x64\x64"},{{"\x68\x6F\x6F\x6B","\x52\x65\x6D\x6F\x76\x65"},"\x68\x6F\x6F\x6B\x2E\x52\x65\x6D\x6F\x76\x65"},{{"\x68\x6F\x6F\x6B","\x47\x65\x74\x54\x61\x62\x6C\x65"},"\x68\x6F\x6F\x6B\x2E\x47\x65\x74\x54\x61\x62\x6C\x65"},{{"\x73\x75\x72\x66\x61\x63\x65","\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},"\x73\x75\x72\x66\x61\x63\x65\x2E\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},{{"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64","\x41\x64\x64"},"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64\x2E\x41\x64\x64"},{{"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"},"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"}}for
-‪﻿‪for =if﻿ ,#then‪ do
+if﻿={{{"\x68\x6F\x6F\x6B","\x41\x64\x64"},"\x68\x6F\x6F\x6B\x2E\x41\x64\x64"},{{"\x68\x6F\x6F\x6B","\x52\x65\x6D\x6F\x76\x65"},"\x68\x6F\x6F\x6B\x2E\x52\x65\x6D\x6F\x76\x65"},{{"\x68\x6F\x6F\x6B","\x47\x65\x74\x54\x61\x62\x6C\x65"},"\x68\x6F\x6F\x6B\x2E\x47\x65\x74\x54\x61\x62\x6C\x65"},{{"\x73\x75\x72\x66\x61\x63\x65","\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},"\x73\x75\x72\x66\x61\x63\x65\x2E\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},{{"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64","\x41\x64\x64"},"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64\x2E\x41\x64\x64"},{{"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"},"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"}}for
+⁮for=goto⁮⁭,#if﻿
+do
 local
-﻿﻿‪and =then‪ [‪﻿‪for ]local
-‪﻿nil =‪‪then [‪while .function⁮ ](_G,﻿﻿‪and [if﻿ ])if
-‪﻿nil ==nil
+⁭for=if﻿[⁮for]local
+⁪false=﻿false[⁮⁭﻿function.⁭﻿goto](_G,⁭for[goto⁮⁭])if
+⁪false==nil
 then
 continue
 end
 local
-then⁮‪﻿ =‪‪then [‪while .return﻿ ](‪﻿nil ,function(...)local
-repeat‪ =⁮until (﻿return ,"\x66\x53")repeat‪ [‪while .⁮break ]=﻿﻿‪and [﻿return ]repeat‪ [‪while .true⁮ ]=‪continue (repeat‪ [‪while .true⁮ ])repeat‪ [‪while .if⁮ ]=in⁮ (repeat‪ [‪while .if⁮ ],"\x5E\x40","")repeat‪ [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](repeat‪ [‪while .if⁮ ])‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](repeat‪ ))return
-‪﻿nil (...)end,﻿﻿‪and [﻿return ])‪‪then [‪while .‪continue ](_G,﻿﻿‪and [if﻿ ],then⁮‪﻿ )end
+⁪=﻿false[⁮⁭﻿function.‪nil](⁪false,function(...)local
+﻿⁮‪﻿=⁪⁭end(﻿⁪return,"\x66\x53")﻿⁮‪﻿[⁮⁭﻿function.⁭‪break]=⁭for[﻿⁪return]﻿⁮‪﻿[⁮⁭﻿function.break⁭⁭]=goto⁭﻿﻿(﻿⁮‪﻿[⁮⁭﻿function.break⁭⁭])﻿⁮‪﻿[⁮⁭﻿function.while‪‪‪]=false﻿(﻿⁮‪﻿[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")﻿⁮‪﻿[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](﻿⁮‪﻿[⁮⁭﻿function.while‪‪‪])﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](﻿⁮‪﻿))return
+⁪false(...)end,⁭for[﻿⁪return])﻿false[⁮⁭﻿function.repeat⁪⁮](_G,⁭for[goto⁮⁭],⁪)end
 local
-‪end ={['\x50\x6C\x61\x79\x65\x72']=for‪ ('\x50\x6C\x61\x79\x65\x72'),['\x45\x6E\x74\x69\x74\x79']=for‪ ('\x45\x6E\x74\x69\x74\x79'),['\x43\x55\x73\x65\x72\x43\x6D\x64']=for‪ ('\x43\x55\x73\x65\x72\x43\x6D\x64'),}local
-﻿‪﻿elseif ={{"\x50\x6C\x61\x79\x65\x72","\x43\x6F\x6E\x43\x6F\x6D\x6D\x61\x6E\x64"},}for
-or﻿ =if﻿ ,#﻿‪﻿elseif do
+false⁭‪={['\x50\x6C\x61\x79\x65\x72']=while⁪⁪﻿('\x50\x6C\x61\x79\x65\x72'),['\x45\x6E\x74\x69\x74\x79']=while⁪⁪﻿('\x45\x6E\x74\x69\x74\x79'),['\x43\x55\x73\x65\x72\x43\x6D\x64']=while⁪⁪﻿('\x43\x55\x73\x65\x72\x43\x6D\x64'),}local
+﻿﻿⁭local={{"\x50\x6C\x61\x79\x65\x72","\x43\x6F\x6E\x43\x6F\x6D\x6D\x61\x6E\x64"},}for
+⁮﻿‪﻿⁭=goto⁮⁭,#﻿﻿⁭local
+do
 local
-﻿repeat =﻿‪﻿elseif [or﻿ ]local
-until‪﻿ =nil
+﻿⁮⁪⁪if=﻿﻿⁭local[⁮﻿‪﻿⁭]local
+elseif‪⁭⁮⁭‪=nil
 if
-‪end [﻿repeat [if﻿ ]]then
+false⁭‪[﻿⁮⁪⁪if[goto⁮⁭]]then
 local
-﻿﻿﻿﻿break =‪end [﻿repeat [if﻿ ]]if
-﻿﻿﻿﻿break [﻿repeat [﻿return ]]and
-‪function (﻿﻿﻿﻿break [﻿repeat [﻿return ]])then
-until‪﻿ =﻿﻿﻿﻿break [﻿repeat [﻿return ]]end
+break﻿﻿⁭﻿=false⁭‪[﻿⁮⁪⁪if[goto⁮⁭]]if
+break﻿﻿⁭﻿[﻿⁮⁪⁪if[﻿⁪return]]and
+‪⁭local(break﻿﻿⁭﻿[﻿⁮⁪⁪if[﻿⁪return]])then
+elseif‪⁭⁮⁭‪=break﻿﻿⁭﻿[﻿⁮⁪⁪if[﻿⁪return]]end
 end
 if
-until‪﻿ ==nil
+elseif‪⁭⁮⁭‪==nil
 then
 continue
 end
 local
-local﻿﻿﻿ =‪‪then [‪while .return﻿ ](until‪﻿ ,function(...)local
-‪﻿‪nil =⁮until (﻿return ,"\x66\x53")‪﻿‪nil [‪while .⁮break ]=﻿repeat [if﻿ ]..'\x3A'..﻿repeat [﻿return ]‪﻿‪nil [‪while .true⁮ ]=‪continue (‪﻿‪nil [‪while .true⁮ ])‪﻿‪nil [‪while .if⁮ ]=in⁮ (‪﻿‪nil [‪while .if⁮ ],"\x5E\x40","")‪﻿‪nil [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](‪﻿‪nil [‪while .if⁮ ])‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](‪﻿‪nil ))return
-until‪﻿ (...)end,﻿repeat [if﻿ ]..'\x3A'..﻿repeat [﻿return ])‪end [﻿repeat [if﻿ ]][﻿repeat [﻿return ]]=local﻿﻿﻿ end
+until﻿⁪‪=﻿false[⁮⁭﻿function.‪nil](elseif‪⁭⁮⁭‪,function(...)local
+while﻿⁮⁮=⁪⁭end(﻿⁪return,"\x66\x53")while﻿⁮⁮[⁮⁭﻿function.⁭‪break]=﻿⁮⁪⁪if[goto⁮⁭]..'\x3A'..﻿⁮⁪⁪if[﻿⁪return]while﻿⁮⁮[⁮⁭﻿function.break⁭⁭]=goto⁭﻿﻿(while﻿⁮⁮[⁮⁭﻿function.break⁭⁭])while﻿⁮⁮[⁮⁭﻿function.while‪‪‪]=false﻿(while﻿⁮⁮[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")while﻿⁮⁮[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](while﻿⁮⁮[⁮⁭﻿function.while‪‪‪])﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](while﻿⁮⁮))return
+elseif‪⁭⁮⁭‪(...)end,﻿⁮⁪⁪if[goto⁮⁭]..'\x3A'..﻿⁮⁪⁪if[﻿⁪return])false⁭‪[﻿⁮⁪⁪if[goto⁮⁭]][﻿⁮⁪⁪if[﻿⁪return]]=until﻿⁪‪
+end
 local
-‪﻿elseif =0
+break⁭=0
 local
-﻿while ={}function
-‪‪then .CreateIdentifier(‪true ,or‪⁮ )if
-‪true then
+⁮⁮break={}function
+﻿false.CreateIdentifier(or⁭,⁭⁮do)if
+or⁭
+then
 if
-﻿while [‪true ]then
-‪﻿elseif =‪﻿elseif +1
-‪true =‪true ..‪﻿elseif end
+⁮⁮break[or⁭]then
+break⁭=break⁭+1
+or⁭=or⁭..break⁭
+end
 else
-‪true =or‪⁮ if
-﻿while [‪true ]then
-‪﻿elseif =‪﻿elseif +1
-‪true =or‪⁮ ..‪﻿elseif end
+or⁭=⁭⁮do
+if
+⁮⁮break[or⁭]then
+break⁭=break⁭+1
+or⁭=⁭⁮do..break⁭
 end
-﻿while [‪true ]=true
+end
+⁮⁮break[or⁭]=true
 return
-‪true end
+or⁭
+end
 local
-do﻿ =_G[‪while .true﻿ ]_G[‪while .true﻿ ]=‪‪then [‪while .return﻿ ](_G[‪while .true﻿ ],function(⁮⁮﻿not ,continue﻿ ,...)local
-⁮﻿﻿continue ,⁮﻿break =﻿do (⁮⁮﻿not ,⁮⁮‪break ,false)if!⁮﻿﻿continue &&⁮﻿break then
-return
-⁮﻿break end
-continue﻿ =‪‪then [‪while .﻿do ](continue﻿ ,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local
-until⁮ =⁮until (﻿return ,"\x66\x53")until⁮ [‪while .⁮break ]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67"until⁮ [‪while .true⁮ ]=‪continue (until⁮ [‪while .true⁮ ])until⁮ [‪while .﻿continue ]=continue﻿ until⁮ [‪while .return‪ ]=⁮⁮﻿not until⁮ [‪while .if⁮ ]=in⁮ (until⁮ [‪while .if⁮ ],"\x5E\x40","")until⁮ [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](until⁮ [‪while .if⁮ ])‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](until⁮ ))⁮﻿﻿continue =﻿do (⁮⁮﻿not ,continue﻿ )return
-⁮﻿﻿continue ()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local
-false﻿﻿‪ =_G[‪while .﻿for ]_G[‪while .﻿for ]=‪‪then [‪while .return﻿ ](_G[‪while .﻿for ],function(end﻿ ,⁮if ,...)local
-⁮⁮true ,continue‪⁮﻿ =﻿do (end﻿ ,⁮⁮‪break ,false)if!⁮⁮true &&continue‪⁮﻿ then
-return
-continue‪⁮﻿ end
-⁮if =‪‪then [‪while .﻿do ](⁮if ,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")local
-‪⁮end =⁮until (﻿return ,"\x66\x53")‪⁮end [‪while .⁮break ]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78"‪⁮end [‪while .true⁮ ]=‪continue (‪⁮end [‪while .true⁮ ])‪⁮end [‪while .﻿continue ]=⁮if ‪⁮end [‪while .return‪ ]=end﻿ ‪⁮end [‪while .if⁮ ]=in⁮ (‪⁮end [‪while .if⁮ ],"\x5E\x40","")‪⁮end [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](‪⁮end [‪while .if⁮ ])‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](‪⁮end ))⁮⁮true =﻿do (end﻿ ,⁮if )return
-⁮⁮true ()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")_G[‪while .﻿ ]=‪‪then [‪while .return﻿ ](_G[‪while .﻿ ],function(﻿‪nil ,end⁮ ,‪for ,...)local
-break‪ ,⁮‪‪and =﻿do (﻿‪nil ,⁮⁮‪break ,false)if!break‪ &&⁮‪‪and then
-return
-nil,⁮‪‪and end
-end⁮ =‪‪then [‪while .﻿do ](end⁮ ,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local
-‪﻿﻿ =⁮until (﻿return ,"\x66\x53")‪﻿﻿ [‪while .⁮break ]="\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67"‪﻿﻿ [‪while .true⁮ ]=‪continue (‪﻿﻿ [‪while .true⁮ ])‪﻿﻿ [‪while .﻿continue ]=end⁮ ‪﻿﻿ [‪while .return‪ ]=﻿‪nil ‪﻿﻿ [‪while .if⁮ ]=in⁮ (‪﻿﻿ [‪while .if⁮ ],"\x5E\x40","")‪﻿﻿ [‪while .if⁮ ]=‪‪then [‪while .in﻿ ](‪﻿﻿ [‪while .if⁮ ])‪‪then [‪while .‪while ](‪‪then [‪while .while⁮ ](‪﻿﻿ ))return
-﻿do (﻿‪nil ,end⁮ ,‪for )end,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local
-﻿﻿‪continue =_G[‪while .﻿ ]local
-﻿if =_G[‪while .true﻿ ]local
-﻿in =‪‪then .hs('\x62\x63')local
-do⁮‪ =not﻿ ()do⁮‪ [‪while .nil﻿ ]=do⁮‪ [‪while .nil﻿ ]or{}do⁮‪ [‪while .nil﻿ ][﻿in ]=‪‪then [‪while .‪break ]⁮or (function()end,"")jit[‪while .‪function ]=‪‪then [‪while .return﻿ ](⁮or ,function(local﻿﻿‪ ,in﻿ ,...)if
-in﻿ =='\x62\x63'&&‪function (local﻿﻿‪ )then
-‪‪then [‪while .function‪ ]['\x62\x63']=local﻿﻿‪ return
-end
-return
-⁮or (local﻿﻿‪ ,in﻿ ,...)end,"\x6A\x69\x74\x2E\x61\x74\x74\x61\x63\x68")local
-else⁮ =‪‪then [‪while .﻿elseif ](⁮return (‪return (⁮⁮false ,for⁮⁮ )+return‪ ))local
-while﻿ =nil‪⁮ *for⁮ local
-then﻿‪‪ =while﻿ -if﻿ while⁮ ("\x54\x69\x63\x6B",else⁮ ,function()if
-do⁮‪ [‪while .nil﻿ ][﻿in ]~=‪‪then [‪while .‪break ]then
-do⁮‪ [‪while .nil﻿ ][﻿in ]=‪‪then [‪while .‪break ]⁮or (function()end,"")end
-if
-‪‪then [‪while .﻿if ]&&then﻿‪‪ >while﻿ then
-‪‪then [‪while .⁮function ]=gAC[‪while .‪else ].AntiLua_CHECK
-if
-‪‪then [‪while .⁮function ]then
-local
-return⁮﻿⁮ =‪‪then [‪while .‪not ][if﻿ ]if
-return⁮﻿⁮ then
-‪‪then [‪while .﻿if ]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63",in‪ (return⁮﻿⁮ ))⁮continue (‪‪then [‪while .‪not ],if﻿ )else
-‪‪then [‪while .﻿if ]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63","\x31")end
-end
-then﻿‪‪ =goto⁮ end
-then﻿‪‪ =then﻿‪‪ +if﻿ end)while⁮ ("\x49\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65",else⁮ ,function()if
-gAC[‪while .‪else ].AntiLua_IgnoreBoot
-then
-‪‪then [‪while .‪not ]={}end
-end)local‪ ("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73",function(function⁮ )local
-true‪‪﻿ =for﻿ ("\x5B\x45\x58\x4C\x44\x5D",‪nil (function⁮ ))for
-‪‪‪⁮while =if﻿ ,#true‪‪﻿ do
-if
-‪‪‪⁮while ==#true‪‪﻿ then
-true‪‪﻿ [‪‪‪⁮while ]=true‪‪﻿ [‪‪‪⁮while ]:sub(if﻿ ,true‪‪﻿ [‪‪‪⁮while ]:len()-﻿return )end
-true‪‪﻿ [‪‪‪⁮while ]=until﻿ (true‪‪﻿ [‪‪‪⁮while ])end
-true‪‪﻿ [nil‪⁮ ]=﻿nil (true‪‪﻿ [nil‪⁮ ])local
-if⁮ =for﻿ ("\x2E",true‪‪﻿ [⁮‪end ])local
-⁮⁮⁮﻿if =‪‪then [‪while .function⁮ ](_G,if⁮ )if
-⁮⁮⁮﻿if ==nil
+elseif⁮‪⁮⁮﻿=_G[⁮⁭﻿function.or⁮]_G[⁮⁭﻿function.or⁮]=﻿false[⁮⁭﻿function.‪nil](_G[⁮⁭﻿function.or⁮],function(until﻿‪⁭⁪,else﻿‪‪‪,...)local
+⁮local,while﻿=local⁪⁪‪(until﻿‪⁭⁪,⁮⁭not,false)if!⁮local&&while﻿
 then
 return
+while﻿
 end
+else﻿‪‪‪=﻿false[⁮⁭﻿function.⁭‪if](else﻿‪‪‪,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local
+continue﻿⁪=⁪⁭end(﻿⁪return,"\x66\x53")continue﻿⁪[⁮⁭﻿function.⁭‪break]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67"continue﻿⁪[⁮⁭﻿function.break⁭⁭]=goto⁭﻿﻿(continue﻿⁪[⁮⁭﻿function.break⁭⁭])continue﻿⁪[⁮⁭﻿function.⁪⁪local]=else﻿‪‪‪
+continue﻿⁪[⁮⁭﻿function.end⁪‪]=until﻿‪⁭⁪
+continue﻿⁪[⁮⁭﻿function.while‪‪‪]=false﻿(continue﻿⁪[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")continue﻿⁪[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](continue﻿⁪[⁮⁭﻿function.while‪‪‪])﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](continue﻿⁪))⁮local=local⁪⁪‪(until﻿‪⁭⁪,else﻿‪‪‪)return
+⁮local()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local
+﻿if=_G[⁮⁭﻿function.⁪⁭repeat]_G[⁮⁭﻿function.⁪⁭repeat]=﻿false[⁮⁭﻿function.‪nil](_G[⁮⁭﻿function.⁪⁭repeat],function(for⁮﻿,do⁮⁪‪‪﻿,...)local
+﻿⁮⁭while,⁪⁪⁭⁭do=local⁪⁪‪(for⁮﻿,⁮⁭not,false)if!﻿⁮⁭while&&⁪⁪⁭⁭do
+then
+return
+⁪⁪⁭⁭do
+end
+do⁮⁪‪‪﻿=﻿false[⁮⁭﻿function.⁭‪if](do⁮⁪‪‪﻿,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")local
+⁮﻿⁭⁪return=⁪⁭end(﻿⁪return,"\x66\x53")⁮﻿⁭⁪return[⁮⁭﻿function.⁭‪break]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78"⁮﻿⁭⁪return[⁮⁭﻿function.break⁭⁭]=goto⁭﻿﻿(⁮﻿⁭⁪return[⁮⁭﻿function.break⁭⁭])⁮﻿⁭⁪return[⁮⁭﻿function.⁪⁪local]=do⁮⁪‪‪﻿
+⁮﻿⁭⁪return[⁮⁭﻿function.end⁪‪]=for⁮﻿
+⁮﻿⁭⁪return[⁮⁭﻿function.while‪‪‪]=false﻿(⁮﻿⁭⁪return[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")⁮﻿⁭⁪return[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](⁮﻿⁭⁪return[⁮⁭﻿function.while‪‪‪])﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](⁮﻿⁭⁪return))﻿⁮⁭while=local⁪⁪‪(for⁮﻿,do⁮⁪‪‪﻿)return
+﻿⁮⁭while()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")_G[⁮⁭﻿function.‪﻿continue]=﻿false[⁮⁭﻿function.‪nil](_G[⁮⁭﻿function.‪﻿continue],function(⁪⁪⁮﻿⁮do,‪﻿return,until﻿⁪⁪,...)local
+return﻿,goto⁭⁪=local⁪⁪‪(⁪⁪⁮﻿⁮do,⁮⁭not,false)if!return﻿&&goto⁭⁪
+then
+return
+nil,goto⁭⁪
+end
+‪﻿return=﻿false[⁮⁭﻿function.⁭‪if](‪﻿return,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local
+⁪‪⁮﻿⁮until=⁪⁭end(﻿⁪return,"\x66\x53")⁪‪⁮﻿⁮until[⁮⁭﻿function.⁭‪break]="\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67"⁪‪⁮﻿⁮until[⁮⁭﻿function.break⁭⁭]=goto⁭﻿﻿(⁪‪⁮﻿⁮until[⁮⁭﻿function.break⁭⁭])⁪‪⁮﻿⁮until[⁮⁭﻿function.⁪⁪local]=‪﻿return
+⁪‪⁮﻿⁮until[⁮⁭﻿function.end⁪‪]=⁪⁪⁮﻿⁮do
+⁪‪⁮﻿⁮until[⁮⁭﻿function.while‪‪‪]=false﻿(⁪‪⁮﻿⁮until[⁮⁭﻿function.while‪‪‪],"\x5E\x40","")⁪‪⁮﻿⁮until[⁮⁭﻿function.while‪‪‪]=﻿false[⁮⁭﻿function.⁪](⁪‪⁮﻿⁮until[⁮⁭﻿function.while‪‪‪])﻿false[⁮⁭﻿function.do﻿⁪﻿](﻿false[⁮⁭﻿function.false﻿⁭﻿](⁪‪⁮﻿⁮until))return
+local⁪⁪‪(⁪⁪⁮﻿⁮do,‪﻿return,until﻿⁪⁪)end,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local
+else⁭‪﻿=_G[⁮⁭﻿function.‪﻿continue]local
+﻿﻿⁪⁭⁭false=_G[⁮⁭﻿function.or⁮]local
+⁮⁮⁭‪⁭else=﻿false.hs('\x62\x63')local
+in⁮﻿⁮‪=goto‪()in⁮﻿⁮‪[⁮⁭﻿function.and﻿⁮﻿]=in⁮﻿⁮‪[⁮⁭﻿function.and﻿⁮﻿]or{}in⁮﻿⁮‪[⁮⁭﻿function.and﻿⁮﻿][⁮⁮⁭‪⁭else]=﻿false[⁮⁭﻿function.⁪﻿⁮false]false⁮(function()end,"")jit[⁮⁭﻿function.else⁭⁮⁭]=﻿false[⁮⁭﻿function.‪nil](false⁮,function(⁮⁮‪﻿⁭break,‪⁭﻿in,...)if
+‪⁭﻿in=='\x62\x63'&&‪⁭local(⁮⁮‪﻿⁭break)then
+﻿false[⁮⁭﻿function.in⁪⁮]['\x62\x63']=⁮⁮‪﻿⁭break
+return
+end
+return
+false⁮(⁮⁮‪﻿⁭break,‪⁭﻿in,...)end,"\x6A\x69\x74\x2E\x61\x74\x74\x61\x63\x68")local
+break⁪⁭⁭﻿﻿=﻿false[⁮⁭﻿function.or⁭‪⁮](for⁮⁭‪(⁮﻿false(until‪﻿⁮⁮,function﻿﻿⁪⁮)+⁪⁭⁮return))local
+⁭﻿﻿⁭goto=‪local*not﻿⁮
 local
-﻿not =‪‪then [‪while .‪continue ](_G,if⁮ ,function(for‪﻿﻿﻿ ,...)local
-⁮⁮repeat =⁮until (﻿return ,"\x53")if
-true﻿ (⁮⁮repeat [‪while .not﻿ ],true‪‪﻿ [⁮true ]..true‪‪﻿ [or‪ ].."\x25\x64\x2B")==⁮⁮repeat [‪while .not﻿ ]then
+﻿⁭⁭﻿continue=⁭﻿﻿⁭goto-goto⁮⁭
+while⁪⁭("\x54\x69\x63\x6B",break⁪⁭⁭﻿﻿,function()if
+in⁮﻿⁮‪[⁮⁭﻿function.and﻿⁮﻿][⁮⁮⁭‪⁭else]~=﻿false[⁮⁭﻿function.⁪﻿⁮false]then
+in⁮﻿⁮‪[⁮⁭﻿function.and﻿⁮﻿][⁮⁮⁭‪⁭else]=﻿false[⁮⁭﻿function.⁪﻿⁮false]false⁮(function()end,"")end
 if
-for‪﻿﻿﻿ ==true‪‪﻿ [⁮⁮false ]then
-return
-true‪‪﻿ [nil‪⁮ ]elseif
-for‪﻿﻿﻿ ==true‪‪﻿ [repeat⁮ ]then
-return
-⁮⁮⁮﻿if end
+﻿false[⁮⁭﻿function.⁪﻿while]&&﻿⁭⁭﻿continue>⁭﻿﻿⁭goto
+then
+﻿false[⁮⁭﻿function.﻿⁮‪]=gAC[⁮⁭﻿function.⁪﻿local].AntiLua_CHECK
+if
+﻿false[⁮⁭﻿function.﻿⁮‪]then
+local
+goto‪‪⁪=﻿false[⁮⁭﻿function.or⁪][goto⁮⁭]if
+goto‪‪⁪
+then
+﻿false[⁮⁭﻿function.⁪﻿while]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63",⁭﻿⁭then(goto‪‪⁪))local﻿‪(﻿false[⁮⁭﻿function.or⁪],goto⁮⁭)else
+﻿false[⁮⁭﻿function.⁪﻿while]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63","\x31")end
 end
-return
-⁮⁮⁮﻿if (for‪﻿﻿﻿ ,...)end)if
-﻿not ==false
+﻿⁭⁭﻿continue=or‪⁪⁭⁭
+end
+﻿⁭⁭﻿continue=﻿⁭⁭﻿continue+goto⁮⁭
+end)while⁪⁭("\x49\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65",break⁪⁭⁭﻿﻿,function()if
+gAC[⁮⁭﻿function.⁪﻿local].AntiLua_IgnoreBoot
+then
+﻿false[⁮⁭﻿function.or⁪]={}end
+end)local⁭("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73",function(⁮⁭‪)local
+⁪⁭⁮﻿⁮or=then‪("\x5B\x45\x58\x4C\x44\x5D",﻿‪(⁮⁭‪))for
+‪⁭‪in=goto⁮⁭,#⁪⁭⁮﻿⁮or
+do
+if
+‪⁭‪in==#⁪⁭⁮﻿⁮or
+then
+⁪⁭⁮﻿⁮or[‪⁭‪in]=⁪⁭⁮﻿⁮or[‪⁭‪in]:sub(goto⁮⁭,⁪⁭⁮﻿⁮or[‪⁭‪in]:len()-﻿⁪return)end
+⁪⁭⁮﻿⁮or[‪⁭‪in]=return⁭﻿⁮(⁪⁭⁮﻿⁮or[‪⁭‪in])end
+⁪⁭⁮﻿⁮or[‪local]=end⁪(⁪⁭⁮﻿⁮or[‪local])local
+nil⁪=then‪("\x2E",⁪⁭⁮﻿⁮or[﻿‪‪in])local
+⁮⁮‪‪break=﻿false[⁮⁭﻿function.⁭﻿goto](_G,nil⁪)if
+⁮⁮‪‪break==nil
 then
 return
 end
-‪‪then [‪while .﻿if ]=function(function﻿ ,﻿false )﻿false =‪in (﻿false )⁮false (true‪‪﻿ [true‪ ])⁮local (﻿and (elseif﻿ (function﻿ ..true‪‪﻿ [and﻿﻿ ])),﻿﻿false )﻿ (﻿false ,#﻿false )false﻿ ()end
 local
-⁮﻿﻿﻿in =﻿﻿‪continue (true‪‪﻿ [if﻿ ],true‪‪﻿ [﻿return ])⁮﻿﻿﻿in (true‪‪﻿ ,﻿﻿‪continue ,﻿if )end)local
-﻿﻿not =‪‪then [‪while .﻿elseif ](⁮return (‪return (⁮⁮false ,for⁮⁮ )+return‪ ))while⁮ ("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79",﻿﻿not ,function()⁮false ("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73")false﻿ ()and⁮ ("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79",﻿﻿not )end)
+then‪⁮⁭﻿‪=﻿false[⁮⁭﻿function.repeat⁪⁮](_G,nil⁪,function(﻿⁮true,...)local
+in‪=⁪⁭end(﻿⁪return,"\x53")if
+return⁭⁪⁪⁭(in‪[⁮⁭﻿function.end‪⁮⁪],⁪⁭⁮﻿⁮or[if⁪⁮]..⁪⁭⁮﻿⁮or[⁪‪﻿‪].."\x25\x64\x2B")==in‪[⁮⁭﻿function.end‪⁮⁪]then
+if
+﻿⁮true==⁪⁭⁮﻿⁮or[until‪﻿⁮⁮]then
+return
+⁪⁭⁮﻿⁮or[‪local]elseif
+﻿⁮true==⁪⁭⁮﻿⁮or[⁮false]then
+return
+⁮⁮‪‪break
+end
+end
+return
+⁮⁮‪‪break(﻿⁮true,...)end)if
+then‪⁮⁭﻿‪==false
+then
+return
+end
+﻿false[⁮⁭﻿function.⁪﻿while]=function(‪‪,and⁮)and⁮=⁮‪else(and⁮)break⁭⁮⁪(⁪⁭⁮﻿⁮or[⁮‪⁮])⁮⁪﻿﻿(⁭﻿⁮local(⁮⁭⁭or(‪‪..⁪⁭⁮﻿⁮or[‪true])),‪⁮﻿‪if)local⁭⁪‪⁭(and⁮,#and⁮)for⁪⁭⁪⁪()end
+local
+⁮⁮⁭⁮function=else⁭‪﻿(⁪⁭⁮﻿⁮or[goto⁮⁭],⁪⁭⁮﻿⁮or[﻿⁪return])⁮⁮⁭⁮function(⁪⁭⁮﻿⁮or,else⁭‪﻿,﻿﻿⁪⁭⁭false)end)local
+false⁮⁪=﻿false[⁮⁭﻿function.or⁭‪⁮](for⁮⁭‪(⁮﻿false(until‪﻿⁮⁮,function﻿﻿⁪⁮)+⁪⁭⁮return))while⁪⁭("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79",false⁮⁪,function()break⁭⁮⁪("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73")for⁪⁭⁪⁪()⁪‪⁭elseif("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79",false⁮⁪)end)
