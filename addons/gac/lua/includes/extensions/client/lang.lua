@@ -1,170 +1,63 @@
-local a = {a='util',b='ToSend',c='BCJitFuncs',d='source',e='proto',f='funcname',g='func',h='dirtosvlua',i='SendBuffer',j='CompileData',k='_D',l='RunString',m='execidentifier',n='code',o='RunStringEx',p='CreateIdentifier',q='CompileString',r='_VMEVENTS',s='LuaVM',t='attach',u='stringrandom',v='AntiLua',w='gAC_Send',x='config',y='GetTableValue',z='SetTableValue',A='short_src'}local
-b=debug.getinfo
 local
-c=debug.getregistry
+ ﻿not ={ function﻿ ='\x75\x74\x69\x6C', ⁮while ='\x54\x6F\x53\x65\x6E\x64', ﻿do ='\x42\x43\x4A\x69\x74\x46\x75\x6E\x63\x73', nil⁮ ='\x73\x6F\x75\x72\x63\x65', ⁮until ='\x70\x72\x6F\x74\x6F', ‪for ='\x66\x75\x6E\x63\x6E\x61\x6D\x65', return﻿ ='\x66\x75\x6E\x63', continue‪ ='\x64\x69\x72\x74\x6F\x73\x76\x6C\x75\x61', ﻿or ='\x53\x65\x6E\x64\x42\x75\x66\x66\x65\x72', ﻿local ='\x43\x6F\x6D\x70\x69\x6C\x65\x44\x61\x74\x61', ﻿goto ='\x5F\x44', then‪ ='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67', in﻿ ='\x65\x78\x65\x63\x69\x64\x65\x6E\x74\x69\x66\x69\x65\x72', ﻿true ='\x63\x6F\x64\x65', elseif‪ ='\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78', elseif⁮ ='\x43\x72\x65\x61\x74\x65\x49\x64\x65\x6E\x74\x69\x66\x69\x65\x72', break‪ ='\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67', ⁮in ='\x5F\x56\x4D\x45\x56\x45\x4E\x54\x53', repeat‪ ='\x4C\x75\x61\x56\x4D', ‪until ='\x61\x74\x74\x61\x63\x68', ‪and ='\x73\x74\x72\x69\x6E\x67\x72\x61\x6E\x64\x6F\x6D', if‪ ='\x41\x6E\x74\x69\x4C\x75\x61', not⁮ ='\x67\x41\x43\x5F\x53\x65\x6E\x64', ﻿ ='\x63\x6F\x6E\x66\x69\x67', function‪ ='\x47\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65', in‪ ='\x53\x65\x74\x54\x61\x62\x6C\x65\x56\x61\x6C\x75\x65', ⁮nil ='\x73\x68\x6F\x72\x74\x5F\x73\x72\x63'}local ‪or =debug.getinfo
+local ﻿ =debug.getregistry
+local until⁮ =jit[ ﻿not . function﻿ ].funcinfo
+local do⁮ =jit[ ﻿not . function﻿ ].funcbc
+local ⁮else =jit[ ﻿not . ‪until ]local then‪ =tostring
+local ‪then =istable
+local ‪in =math.random
+local ⁮elseif =bit.rol
+local for⁮ =util.TableToJSON
+local local﻿ =bit.band
+local elseif‪ =bit.rshift
+local false﻿ =string.char
+local in‪ =string.gsub
+local ‪if =string.sub
+local function‪ =timer.Simple
+local false⁮ =tonumber
+local ⁮false =isfunction
+local ‪until =table.concat
+local ⁮ =net.ReadData
+local ‪nil =net.Receive
+local continue﻿ =string.Explode
+local ⁮function =table.remove
+local else⁮ =util.CRC
+local ⁮true =math.ceil
+local ﻿repeat =util.Compress
+local or‪ =util.Decompress
+local ﻿continue =util.JSONToTable
+local ‪return =string.match
+local continue‪ =net.Start
+local function⁮ =net.SendToServer
+local function﻿ =net.WriteUInt
+local ⁮do =net.WriteData
+local not⁮ =CompileString
+local ‪goto =hook.Add
+local true﻿ =hook.Remove
+local local⁮ =engine.TickInterval
+local not﻿ =FindMetaTable
+local nil‪ , ⁮if , ⁮﻿ , ﻿‪do , ‪false , ‪local , or﻿ , elseif﻿ , and⁮ , goto﻿ , ⁮then , return‪ , ﻿⁮break , ‪ , else﻿ , ﻿in =0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
+local while⁮﻿ , false﻿⁮ , ‪⁮ , false‪ , end﻿⁮ , ﻿while , ‪elseif , do﻿﻿ , ﻿return , ﻿end , until﻿ , continue﻿﻿ , ﻿local =.5,97,65,49,122,90,57,26,15,32,16,30,24
+local ‪﻿else =500
 local
-d=jit[a.a].funcinfo
+function ‪‪ ( for⁮⁮ )return for⁮⁮ -( for⁮⁮ % ⁮if )end
 local
-e=jit[a.a].funcbc
-local
-f=jit[a.t]local
-g=tostring
-local
-h=istable
-local
-i=math.random
-local
-j=bit.rol
-local
-k=util.TableToJSON
-local
-l=bit.band
-local
-m=bit.rshift
-local
-n=string.char
-local
-o=string.gsub
-local
-p=string.sub
-local
-q=timer.Simple
-local
-r=tonumber
-local
-s=isfunction
-local
-t=table.concat
-local
-u=net.ReadData
-local
-v=net.Receive
-local
-w=string.Explode
-local
-x=table.remove
-local
-y=util.CRC
-local
-z=math.ceil
-local
-A=util.Compress
-local
-B=util.Decompress
-local
-C=util.JSONToTable
-local
-D=string.match
-local
-E=net.Start
-local
-F=net.SendToServer
-local
-G=net.WriteUInt
-local
-H=net.WriteData
-local
-I=CompileString
-local
-J=hook.Add
-local
-K=hook.Remove
-local
-L=engine.TickInterval
-local
-M=FindMetaTable
-local
-N,O,P,Q,R,S,T,U,V,W,X,Y,Z,ab,bb,cb=0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
-local
-db,eb,fb,gb,hb,ib,jb,kb,lb,mb,nb,ob,pb=.5,97,65,49,122,90,57,26,15,32,16,30,24
-local
-qb=500
-local
-function
-rb(Pb)return
-Pb-(Pb%O)end
-local
-function
-sb(Pb,Qb)local
-Rb=N
-for
-Sb=N,31
+function then‪⁮‪ ( ⁮for , ﻿⁮or )local ‪for = nil‪ for else⁮﻿⁮ = nil‪ ,31
 do
-local
-Tb=(Pb*db)+(Qb*db)if
-Tb~=rb(Tb)then
-Rb=Rb+P^Sb
+local if⁮⁮‪⁮ =( ⁮for * while⁮﻿ )+( ﻿⁮or * while⁮﻿ )if if⁮⁮‪⁮ ~= ‪‪ ( if⁮⁮‪⁮ )then ‪for = ‪for + ⁮﻿ ^ else⁮﻿⁮ end ⁮for = ‪‪ ( ⁮for * while⁮﻿ ) ﻿⁮or = ‪‪ ( ﻿⁮or * while⁮﻿ )end
+return ‪for end
+local ﻿﻿⁮true ={OrigFuncs={},OrigNames={},ToSend={},AntiLua=true}local ⁮goto = ⁮if / local⁮ ()function ﻿﻿⁮true ._D( ⁮not , and‪ , until‪‪‪‪ ) until‪‪‪‪ = until‪‪‪‪ or"" ﻿﻿⁮true .OrigFuncs[ and‪ ]= ⁮not  ﻿﻿⁮true .OrigNames[ and‪ ]= until‪‪‪‪ return and‪ end
+function ﻿﻿⁮true .hs( ‪repeat )local ﻿‪⁮until =# ‪repeat for ﻿﻿﻿⁮local = ⁮if ,# ‪repeat do ﻿‪⁮until = then‪⁮‪ ( ﻿‪⁮until , ⁮elseif ( ﻿‪⁮until , or﻿ )+ ‪repeat :byte( ﻿﻿﻿⁮local ))end
+return ⁮elseif ( ﻿‪⁮until , ﻿‪do )end
+function ﻿﻿⁮true .dirtosvlua( ﻿function )local return⁮ = ﻿function  return⁮ = continue﻿ ("\x2F", return⁮ )if return⁮ [1]=="\x61\x64\x64\x6F\x6E\x73"then ⁮function ( return⁮ ,1) ⁮function ( return⁮ ,1) ⁮function ( return⁮ ,1) ﻿function = ‪until ( return⁮ ,"\x2F")elseif return⁮ [1]=="\x6C\x75\x61"then ⁮function ( return⁮ ,1) ﻿function = ‪until ( return⁮ ,"\x2F")elseif return⁮ [1]=="\x67\x61\x6D\x65\x6D\x6F\x64\x65\x73"then ⁮function ( return⁮ ,1) ﻿function = ‪until ( return⁮ ,"\x2F")end
+return ﻿function end
+function ﻿﻿⁮true .stringrandom( ‪﻿until )local true⁮ =""for ‪and = ⁮if , ‪﻿until do
+local ﻿﻿ = ‪‪ ( ‪in ( ⁮if , ‪false )+ while⁮﻿ )if ﻿﻿ == ⁮if then true⁮ = true⁮ .. false﻿ ( ‪in ( false﻿⁮ , end﻿⁮ ))elseif ﻿﻿ == ⁮﻿ then true⁮ = true⁮ .. false﻿ ( ‪in ( ‪⁮ , ﻿while ))elseif ﻿﻿ == ﻿‪do then true⁮ = true⁮ .. false﻿ ( ‪in ( false‪ , ‪elseif ))end
 end
-Pb=rb(Pb*db)Qb=rb(Qb*db)end
-return
-Rb
-end
-local
-tb={OrigFuncs={},OrigNames={},ToSend={},AntiLua=true}local
-ub=O/L()function
-tb._D(Pb,Qb,Rb)Rb=Rb
-or""tb.OrigFuncs[Qb]=Pb
-tb.OrigNames[Qb]=Rb
-return
-Qb
-end
-function
-tb.hs(Pb)local
-Qb=#Pb
-for
-Rb=O,#Pb
-do
-Qb=sb(Qb,j(Qb,T)+Pb:byte(Rb))end
-return
-j(Qb,Q)end
-function
-tb.dirtosvlua(Pb)local
-Qb=Pb
-Qb=w("/",Qb)if
-Qb[1]=="addons"then
-x(Qb,1)x(Qb,1)x(Qb,1)Pb=t(Qb,"/")elseif
-Qb[1]=="lua"then
-x(Qb,1)Pb=t(Qb,"/")elseif
-Qb[1]=="gamemodes"then
-x(Qb,1)Pb=t(Qb,"/")end
-return
-Pb
-end
-function
-tb.stringrandom(Pb)local
-Qb=""for
-Rb=O,Pb
-do
-local
-Sb=rb(i(O,R)+db)if
-Sb==O
-then
-Qb=Qb..n(i(eb,hb))elseif
-Sb==P
-then
-Qb=Qb..n(i(fb,ib))elseif
-Sb==Q
-then
-Qb=Qb..n(i(gb,jb))end
-end
-return
-Qb
-end
-local
-vb=n(X)..tb[a.u](rb(i(Z,mb)+db))function
-tb.GetTableValue(Pb,Qb)local
-Rb=Pb
-for
-Sb=O,#Qb
-do
-local
-Tb=Qb[Sb]if
-h(Rb[Tb])then
-Rb=Rb[Tb]elseif
-Sb==#Qb
-then
-return
-Rb[Tb]else
+return true⁮ end
+local ﻿﻿⁮if = false﻿ ( ⁮then ).. ﻿﻿⁮true [ ﻿not . ‪and ]( ‪‪ ( ‪in ( ﻿⁮break , ﻿end )+ while⁮﻿ ))function ﻿﻿⁮true .GetTableValue( ‪‪⁮repeat , ‪‪﻿or )local ﻿‪⁮and = ‪‪⁮repeat for ‪⁮break = ⁮if ,# ‪‪﻿or do
+local nil‪‪⁮⁮ = ‪‪﻿or [ ‪⁮break ]if ‪then ( ﻿‪⁮and [ nil‪‪⁮⁮ ])then ﻿‪⁮and = ﻿‪⁮and [ nil‪‪⁮⁮ ]elseif ‪⁮break ==# ‪‪﻿or then
+return ﻿‪⁮and [ nil‪‪⁮⁮ ]else
 return
 nil
 end
@@ -172,255 +65,81 @@ end
 return
 nil
 end
-function
-tb.SetTableValue(Pb,Qb,Rb)local
-Sb=Pb
-for
-Tb=O,#Qb
-do
-local
-Ub=Qb[Tb]if
-Tb~=#Qb
-then
-if
-Sb[Ub]==nil
-then
-Sb[Ub]={}Sb=Sb[Ub]elseif
-h(Sb[Ub])then
-Sb=Sb[Ub]else
+function ﻿﻿⁮true .SetTableValue( do﻿ , goto‪⁮﻿ , ﻿﻿﻿﻿local )local until﻿﻿ = do﻿ for or‪‪ = ⁮if ,# goto‪⁮﻿ do
+local nil﻿ = goto‪⁮﻿ [ or‪‪ ]if or‪‪ ~=# goto‪⁮﻿ then
+if until﻿﻿ [ nil﻿ ]==nil
+then until﻿﻿ [ nil﻿ ]={} until﻿﻿ = until﻿﻿ [ nil﻿ ]elseif ‪then ( until﻿﻿ [ nil﻿ ])then until﻿﻿ = until﻿﻿ [ nil﻿ ]else
 return
 false
 end
-else
-Sb[Ub]=Rb
-return
+else until﻿﻿ [ nil﻿ ]= ﻿﻿﻿﻿local return
 true
 end
 end
 return
 false
 end
-function
-tb.SendBuffer(Pb)if!tb[a.v]then
+function ﻿﻿⁮true .SendBuffer( false﻿‪﻿ )if! ﻿﻿⁮true [ ﻿not . if‪ ]then
 return
 end
-local
-Qb=#tb[a.b]if
-Qb<O
-then
-tb[a.b][O]={[O]=Pb}elseif!tb[a.b][Qb]then
-tb[a.b][Qb]={[O]=Pb}elseif#tb[a.b][Qb]>=qb
-then
-tb[a.b][Qb+O]={[O]=Pb}else
-tb[a.b][Qb][#tb[a.b][Qb]+O]=Pb
+local repeat﻿ =# ﻿﻿⁮true [ ﻿not . ⁮while ]if repeat﻿ < ⁮if then ﻿﻿⁮true [ ﻿not . ⁮while ][ ⁮if ]={[ ⁮if ]= false﻿‪﻿ }elseif! ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ ]then ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ ]={[ ⁮if ]= false﻿‪﻿ }elseif# ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ ]>= ‪﻿else then ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ + ⁮if ]={[ ⁮if ]= false﻿‪﻿ }else ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ ][# ﻿﻿⁮true [ ﻿not . ⁮while ][ repeat﻿ ]+ ⁮if ]= false﻿‪﻿ end
 end
-end
-function
-tb.CompileData(Pb)return{func=Pb[a.g],source=Pb[a.d],short_src=Pb[a.A],what=Pb.what,lastlinedefined=Pb.lastlinedefined,linedefined=Pb.linedefined,funcname=Pb[a.f],code=Pb[a.n],proto=Pb[a.e],execidentifier=Pb[a.m]}end
-local
-wb={[0x46]=0x51,[0x47]=0x51,[0x48]=0x51,[0x49]=0x49,[0x4A]=0x49,[0x4B]=0x4B,[0x4C]=0x4B,[0x4D]=0x4B,[0x4E]=0x4E,[0x4F]=0x4E,[0x50]=0x4E,[0x51]=0x51,[0x52]=0x51,[0x53]=0x51}local
-xb={[0x44]=0x54,[0x42]=0x41}local
-function
-yb(Pb,Qb)local
-Rb={}for
-Sb=O,Qb.bytecodes-O
-do
-local
-Tb=e(Pb,Sb)local
-Ub=l(Tb,0xFF)if
-wb[Ub]then
-Tb=wb[Ub]end
-if
-xb[Ub]then
-Tb=Tb-Ub
-Tb=Tb+xb[Ub]end
-Rb[#Rb+O]=n(l(Tb,0xFF),l(m(Tb,8),0xFF),l(m(Tb,16),0xFF),l(m(Tb,24),0xFF))end
-return
-r(y(t(Rb)))end
-tb[a.c]={}local
-function
-zb(...)if
-tb[a.c]['bc']then
-tb[a.c]['bc'](...)end
-end
-tb[a.s]=function(Pb,...)local
-Qb=d(Pb)Qb[a.d]=o(Qb[a.d],"^@","")if
-Qb[a.d]==vb
-then
-return
-zb(Pb,...)end
-Qb[a.d]=tb[a.h](Qb[a.d])Qb[a.e]=yb(Pb,Qb)tb[a.i](tb[a.j](Qb))zb(Pb,...)end
-local
-Ab={{{"hook","Add"},"hook.Add"},{{"hook","Remove"},"hook.Remove"},{{"hook","GetTable"},"hook.GetTable"},{{"surface","CreateFont"},"surface.CreateFont"},{{"concommand","Add"},"concommand.Add"},{{"AddConsoleCommand"},"AddConsoleCommand"}}for
-Pb=O,#Ab
-do
-local
-Qb=Ab[Pb]local
-Rb=tb[a.y](_G,Qb[O])if
-Rb==nil
+function ﻿﻿⁮true .CompileData( break⁮‪ )return{func= break⁮‪ [ ﻿not . return﻿ ],source= break⁮‪ [ ﻿not . nil⁮ ],short_src= break⁮‪ [ ﻿not . ⁮nil ],what= break⁮‪ .what,lastlinedefined= break⁮‪ .lastlinedefined,linedefined= break⁮‪ .linedefined,funcname= break⁮‪ [ ﻿not . ‪for ],code= break⁮‪ [ ﻿not . ﻿true ],proto= break⁮‪ [ ﻿not . ⁮until ],execidentifier= break⁮‪ [ ﻿not . in﻿ ]}end
+local else‪ ={[0x46]=0x51,[0x47]=0x51,[0x48]=0x51,[0x49]=0x49,[0x4A]=0x49,[0x4B]=0x4B,[0x4C]=0x4B,[0x4D]=0x4B,[0x4E]=0x4E,[0x4F]=0x4E,[0x50]=0x4E,[0x51]=0x51,[0x52]=0x51,[0x53]=0x51}local ⁮until ={[0x44]=0x54,[0x42]=0x41}local
+function and⁮‪‪ ( ‪‪in , ‪⁮false )local ﻿﻿﻿not ={}for for‪ = ⁮if , ‪⁮false .bytecodes- ⁮if do
+local ﻿⁮for = do⁮ ( ‪‪in , for‪ )local ‪while = local﻿ ( ﻿⁮for ,0xFF)if else‪ [ ‪while ]then ﻿⁮for = else‪ [ ‪while ]end
+if ⁮until [ ‪while ]then ﻿⁮for = ﻿⁮for - ‪while  ﻿⁮for = ﻿⁮for + ⁮until [ ‪while ]end ﻿﻿﻿not [# ﻿﻿﻿not + ⁮if ]= false﻿ ( local﻿ ( ﻿⁮for ,0xFF), local﻿ ( elseif‪ ( ﻿⁮for ,8),0xFF), local﻿ ( elseif‪ ( ﻿⁮for ,16),0xFF), local﻿ ( elseif‪ ( ﻿⁮for ,24),0xFF))end
+return false⁮ ( else⁮ ( ‪until ( ﻿﻿﻿not )))end ﻿﻿⁮true [ ﻿not . ﻿do ]={}local
+function continue‪﻿ (...)if ﻿﻿⁮true [ ﻿not . ﻿do ]['\x62\x63']then ﻿﻿⁮true [ ﻿not . ﻿do ]['\x62\x63'](...)end
+end ﻿﻿⁮true [ ﻿not . repeat‪ ]=function( ⁮﻿⁮or ,...)local ﻿until = until⁮ ( ⁮﻿⁮or ) ﻿until [ ﻿not . nil⁮ ]= in‪ ( ﻿until [ ﻿not . nil⁮ ],"\x5E\x40","")if ﻿until [ ﻿not . nil⁮ ]== ﻿﻿⁮if then
+return continue‪﻿ ( ⁮﻿⁮or ,...)end ﻿until [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( ﻿until [ ﻿not . nil⁮ ]) ﻿until [ ﻿not . ⁮until ]= and⁮‪‪ ( ⁮﻿⁮or , ﻿until ) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( ﻿until )) continue‪﻿ ( ⁮﻿⁮or ,...)end
+local until‪ ={{{"\x68\x6F\x6F\x6B","\x41\x64\x64"},"\x68\x6F\x6F\x6B\x2E\x41\x64\x64"},{{"\x68\x6F\x6F\x6B","\x52\x65\x6D\x6F\x76\x65"},"\x68\x6F\x6F\x6B\x2E\x52\x65\x6D\x6F\x76\x65"},{{"\x68\x6F\x6F\x6B","\x47\x65\x74\x54\x61\x62\x6C\x65"},"\x68\x6F\x6F\x6B\x2E\x47\x65\x74\x54\x61\x62\x6C\x65"},{{"\x73\x75\x72\x66\x61\x63\x65","\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},"\x73\x75\x72\x66\x61\x63\x65\x2E\x43\x72\x65\x61\x74\x65\x46\x6F\x6E\x74"},{{"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64","\x41\x64\x64"},"\x63\x6F\x6E\x63\x6F\x6D\x6D\x61\x6E\x64\x2E\x41\x64\x64"},{{"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"},"\x41\x64\x64\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64"}}for end‪﻿ = ⁮if ,# until‪ do
+local ⁮﻿‪local = until‪ [ end‪﻿ ]local repeat﻿﻿﻿ = ﻿﻿⁮true [ ﻿not . function‪ ](_G, ⁮﻿‪local [ ⁮if ])if repeat﻿﻿﻿ ==nil
 then
 continue
 end
-local
-Sb=tb[a.k](Rb,function(...)local
-Tb=b(P,"fS")Tb[a.f]=Qb[P]Tb[a.g]=g(Tb[a.g])Tb[a.d]=o(Tb[a.d],"^@","")Tb[a.d]=tb[a.h](Tb[a.d])tb[a.i](tb[a.j](Tb))return
-Rb(...)end,Qb[P])tb[a.z](_G,Qb[O],Sb)end
-local
-Bb={['Player']=M('Player'),['Entity']=M('Entity'),['CUserCmd']=M('CUserCmd'),}local
-Cb={{"Player","ConCommand"},}for
-Pb=O,#Cb
-do
-local
-Qb=Cb[Pb]local
-Rb=nil
-if
-Bb[Qb[O]]then
-local
-Tb=Bb[Qb[O]]if
-Tb[Qb[P]]and
-s(Tb[Qb[P]])then
-Rb=Tb[Qb[P]]end
+local ‪true = ﻿﻿⁮true [ ﻿not . ﻿goto ]( repeat﻿﻿﻿ ,function(...)local ‪‪﻿until = ‪or ( ⁮﻿ ,"\x66\x53") ‪‪﻿until [ ﻿not . ‪for ]= ⁮﻿‪local [ ⁮﻿ ] ‪‪﻿until [ ﻿not . return﻿ ]= then‪ ( ‪‪﻿until [ ﻿not . return﻿ ]) ‪‪﻿until [ ﻿not . nil⁮ ]= in‪ ( ‪‪﻿until [ ﻿not . nil⁮ ],"\x5E\x40","") ‪‪﻿until [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( ‪‪﻿until [ ﻿not . nil⁮ ]) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( ‪‪﻿until ))return repeat﻿﻿﻿ (...)end, ⁮﻿‪local [ ⁮﻿ ]) ﻿﻿⁮true [ ﻿not . in‪ ](_G, ⁮﻿‪local [ ⁮if ], ‪true )end
+local function‪‪⁮ ={['\x50\x6C\x61\x79\x65\x72']= not﻿ ('\x50\x6C\x61\x79\x65\x72'),['\x45\x6E\x74\x69\x74\x79']= not﻿ ('\x45\x6E\x74\x69\x74\x79'),['\x43\x55\x73\x65\x72\x43\x6D\x64']= not﻿ ('\x43\x55\x73\x65\x72\x43\x6D\x64'),}local false⁮﻿﻿ ={{"\x50\x6C\x61\x79\x65\x72","\x43\x6F\x6E\x43\x6F\x6D\x6D\x61\x6E\x64"},}for ⁮‪⁮local = ⁮if ,# false⁮﻿﻿ do
+local while⁮⁮ = false⁮﻿﻿ [ ⁮‪⁮local ]local ‪‪⁮⁮continue =nil
+if function‪‪⁮ [ while⁮⁮ [ ⁮if ]]then
+local break⁮‪⁮﻿ = function‪‪⁮ [ while⁮⁮ [ ⁮if ]]if break⁮‪⁮﻿ [ while⁮⁮ [ ⁮﻿ ]]and ⁮false ( break⁮‪⁮﻿ [ while⁮⁮ [ ⁮﻿ ]])then ‪‪⁮⁮continue = break⁮‪⁮﻿ [ while⁮⁮ [ ⁮﻿ ]]end
 end
-if
-Rb==nil
+if ‪‪⁮⁮continue ==nil
 then
 continue
 end
-local
-Sb=tb[a.k](Rb,function(...)local
-Tb=b(P,"fS")Tb[a.f]=Qb[O]..':'..Qb[P]Tb[a.g]=g(Tb[a.g])Tb[a.d]=o(Tb[a.d],"^@","")Tb[a.d]=tb[a.h](Tb[a.d])tb[a.i](tb[a.j](Tb))return
-Rb(...)end,Qb[O]..':'..Qb[P])Bb[Qb[O]][Qb[P]]=Sb
-end
-local
-Db=0
-local
-Eb={}function
-tb.CreateIdentifier(Pb,Qb)if
-Pb
-then
-if
-Eb[Pb]then
-Db=Db+1
-Pb=Pb..Db
-end
-else
-Pb=Qb
-if
-Eb[Pb]then
-Db=Db+1
-Pb=Qb..Db
-end
-end
-Eb[Pb]=true
+local if⁮ = ﻿﻿⁮true [ ﻿not . ﻿goto ]( ‪‪⁮⁮continue ,function(...)local ‪‪elseif = ‪or ( ⁮﻿ ,"\x66\x53") ‪‪elseif [ ﻿not . ‪for ]= while⁮⁮ [ ⁮if ]..'\x3A'.. while⁮⁮ [ ⁮﻿ ] ‪‪elseif [ ﻿not . return﻿ ]= then‪ ( ‪‪elseif [ ﻿not . return﻿ ]) ‪‪elseif [ ﻿not . nil⁮ ]= in‪ ( ‪‪elseif [ ﻿not . nil⁮ ],"\x5E\x40","") ‪‪elseif [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( ‪‪elseif [ ﻿not . nil⁮ ]) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( ‪‪elseif ))return ‪‪⁮⁮continue (...)end, while⁮⁮ [ ⁮if ]..'\x3A'.. while⁮⁮ [ ⁮﻿ ]) function‪‪⁮ [ while⁮⁮ [ ⁮if ]][ while⁮⁮ [ ⁮﻿ ]]= if⁮ end
+local ﻿⁮then =0
+local ‪‪‪or ={}function ﻿﻿⁮true .CreateIdentifier( ⁮‪break , ﻿﻿‪do )if ⁮‪break then
+if ‪‪‪or [ ⁮‪break ]then ﻿⁮then = ﻿⁮then +1 ⁮‪break = ⁮‪break .. ﻿⁮then end
+else ⁮‪break = ﻿﻿‪do if ‪‪‪or [ ⁮‪break ]then ﻿⁮then = ﻿⁮then +1 ⁮‪break = ﻿﻿‪do .. ﻿⁮then end
+end ‪‪‪or [ ⁮‪break ]=true
+return ⁮‪break end
+local ‪﻿⁮nil =_G[ ﻿not . then‪ ]_G[ ﻿not . then‪ ]= ﻿﻿⁮true [ ﻿not . ﻿goto ](_G[ ﻿not . then‪ ],function( ⁮‪‪return , ﻿⁮⁮if ,...)local ⁮local , true‪﻿ = not⁮ ( ⁮‪‪return , ﻿﻿⁮if ,false)if! ⁮local && true‪﻿ then
+return true‪﻿ end ﻿⁮⁮if = ﻿﻿⁮true [ ﻿not . elseif⁮ ]( ﻿⁮⁮if ,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local ⁮end = ‪or ( ⁮﻿ ,"\x66\x53") ⁮end [ ﻿not . ‪for ]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67" ⁮end [ ﻿not . return﻿ ]= then‪ ( ⁮end [ ﻿not . return﻿ ]) ⁮end [ ﻿not . in﻿ ]= ﻿⁮⁮if  ⁮end [ ﻿not . ﻿true ]= ⁮‪‪return  ⁮end [ ﻿not . nil⁮ ]= in‪ ( ⁮end [ ﻿not . nil⁮ ],"\x5E\x40","") ⁮end [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( ⁮end [ ﻿not . nil⁮ ]) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( ⁮end )) ⁮local = not⁮ ( ⁮‪‪return , ﻿⁮⁮if )return ⁮local ()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67")local do‪﻿⁮ =_G[ ﻿not . elseif‪ ]_G[ ﻿not . elseif‪ ]= ﻿﻿⁮true [ ﻿not . ﻿goto ](_G[ ﻿not . elseif‪ ],function( false﻿⁮⁮ , and﻿﻿ ,...)local for﻿⁮﻿ , continue‪‪‪ = not⁮ ( false﻿⁮⁮ , ﻿﻿⁮if ,false)if! for﻿⁮﻿ && continue‪‪‪ then
+return continue‪‪‪ end and﻿﻿ = ﻿﻿⁮true [ ﻿not . elseif⁮ ]( and﻿﻿ ,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")local ‪‪﻿⁮if = ‪or ( ⁮﻿ ,"\x66\x53") ‪‪﻿⁮if [ ﻿not . ‪for ]="\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78" ‪‪﻿⁮if [ ﻿not . return﻿ ]= then‪ ( ‪‪﻿⁮if [ ﻿not . return﻿ ]) ‪‪﻿⁮if [ ﻿not . in﻿ ]= and﻿﻿  ‪‪﻿⁮if [ ﻿not . ﻿true ]= false﻿⁮⁮  ‪‪﻿⁮if [ ﻿not . nil⁮ ]= in‪ ( ‪‪﻿⁮if [ ﻿not . nil⁮ ],"\x5E\x40","") ‪‪﻿⁮if [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( ‪‪﻿⁮if [ ﻿not . nil⁮ ]) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( ‪‪﻿⁮if )) for﻿⁮﻿ = not⁮ ( false﻿⁮⁮ , and﻿﻿ )return for﻿⁮﻿ ()end,"\x52\x75\x6E\x53\x74\x72\x69\x6E\x67\x45\x78")_G[ ﻿not . break‪ ]= ﻿﻿⁮true [ ﻿not . ﻿goto ](_G[ ﻿not . break‪ ],function( goto⁮ , ‪end , ‪not ,...)local and﻿﻿‪‪ , continue﻿⁮‪ = not⁮ ( goto⁮ , ﻿﻿⁮if ,false)if! and﻿﻿‪‪ && continue﻿⁮‪ then
 return
-Pb
+nil, continue﻿⁮‪ end ‪end = ﻿﻿⁮true [ ﻿not . elseif⁮ ]( ‪end ,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local if⁮﻿﻿‪ = ‪or ( ⁮﻿ ,"\x66\x53") if⁮﻿﻿‪ [ ﻿not . ‪for ]="\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67" if⁮﻿﻿‪ [ ﻿not . return﻿ ]= then‪ ( if⁮﻿﻿‪ [ ﻿not . return﻿ ]) if⁮﻿﻿‪ [ ﻿not . in﻿ ]= ‪end  if⁮﻿﻿‪ [ ﻿not . ﻿true ]= goto⁮  if⁮﻿﻿‪ [ ﻿not . nil⁮ ]= in‪ ( if⁮﻿﻿‪ [ ﻿not . nil⁮ ],"\x5E\x40","") if⁮﻿﻿‪ [ ﻿not . nil⁮ ]= ﻿﻿⁮true [ ﻿not . continue‪ ]( if⁮﻿﻿‪ [ ﻿not . nil⁮ ]) ﻿﻿⁮true [ ﻿not . ﻿or ]( ﻿﻿⁮true [ ﻿not . ﻿local ]( if⁮﻿﻿‪ ))return not⁮ ( goto⁮ , ‪end , ‪not )end,"\x43\x6F\x6D\x70\x69\x6C\x65\x53\x74\x72\x69\x6E\x67")local ⁮continue =_G[ ﻿not . break‪ ]local ‪else =_G[ ﻿not . then‪ ]local ﻿‪﻿local = ﻿﻿⁮true .hs('\x62\x63')local in﻿ = ﻿ () in﻿ [ ﻿not . ⁮in ]= in﻿ [ ﻿not . ⁮in ]or{} in﻿ [ ﻿not . ⁮in ][ ﻿‪﻿local ]= ﻿﻿⁮true [ ﻿not . repeat‪ ] ⁮else (function()end,"")jit[ ﻿not . ‪until ]= ﻿﻿⁮true [ ﻿not . ﻿goto ]( ⁮else ,function( ‪⁮‪break , ‪‪for ,...)if ‪‪for =='\x62\x63'&& ⁮false ( ‪⁮‪break )then ﻿﻿⁮true [ ﻿not . ﻿do ]['\x62\x63']= ‪⁮‪break return
 end
-local
-Fb=_G[a.l]_G[a.l]=tb[a.k](_G[a.l],function(Pb,Qb,...)local
-Rb,Sb=I(Pb,vb,false)if!Rb&&Sb
-then
-return
-Sb
-end
-Qb=tb[a.p](Qb,"RunString")local
-Tb=b(P,"fS")Tb[a.f]="RunString"Tb[a.g]=g(Tb[a.g])Tb[a.m]=Qb
-Tb[a.n]=Pb
-Tb[a.d]=o(Tb[a.d],"^@","")Tb[a.d]=tb[a.h](Tb[a.d])tb[a.i](tb[a.j](Tb))Rb=I(Pb,Qb)return
-Rb()end,"RunString")local
-Gb=_G[a.o]_G[a.o]=tb[a.k](_G[a.o],function(Pb,Qb,...)local
-Rb,Sb=I(Pb,vb,false)if!Rb&&Sb
-then
-return
-Sb
-end
-Qb=tb[a.p](Qb,"RunStringEx")local
-Tb=b(P,"fS")Tb[a.f]="RunStringEx"Tb[a.g]=g(Tb[a.g])Tb[a.m]=Qb
-Tb[a.n]=Pb
-Tb[a.d]=o(Tb[a.d],"^@","")Tb[a.d]=tb[a.h](Tb[a.d])tb[a.i](tb[a.j](Tb))Rb=I(Pb,Qb)return
-Rb()end,"RunStringEx")_G[a.q]=tb[a.k](_G[a.q],function(Pb,Qb,Rb,...)local
-Sb,Tb=I(Pb,vb,false)if!Sb&&Tb
-then
-return
-nil,Tb
-end
-Qb=tb[a.p](Qb,"CompileString")local
-Ub=b(P,"fS")Ub[a.f]="CompileString"Ub[a.g]=g(Ub[a.g])Ub[a.m]=Qb
-Ub[a.n]=Pb
-Ub[a.d]=o(Ub[a.d],"^@","")Ub[a.d]=tb[a.h](Ub[a.d])tb[a.i](tb[a.j](Ub))return
-I(Pb,Qb,Rb)end,"CompileString")local
-Hb=_G[a.q]local
-Ib=_G[a.l]local
-Jb=tb.hs('bc')local
-Kb=c()Kb[a.r]=Kb[a.r]or{}Kb[a.r][Jb]=tb[a.s]f(function()end,"")jit[a.t]=tb[a.k](f,function(Pb,Qb,...)if
-Qb=='bc'&&s(Pb)then
-tb[a.c]['bc']=Pb
-return
-end
-return
-f(Pb,Qb,...)end,"jit.attach")local
-Lb=tb[a.u](rb(i(Z,kb)+db))local
-Mb=X*ub
-local
-Nb=Mb-O
-J("Tick",Lb,function()if
-Kb[a.r][Jb]~=tb[a.s]then
-Kb[a.r][Jb]=tb[a.s]f(function()end,"")end
-if
-tb[a.w]&&Nb>Mb
-then
-tb[a.v]=gAC[a.x].AntiLua_CHECK
-if
-tb[a.v]then
-local
-Pb=tb[a.b][O]if
-Pb
-then
-tb[a.w]("g-AC_LuaExec",k(Pb))x(tb[a.b],O)else
-tb[a.w]("g-AC_LuaExec","1")end
-end
-Nb=N
-end
-Nb=Nb+O
-end)J("Initialize",Lb,function()if
-gAC[a.x].AntiLua_IgnoreBoot
-then
-tb[a.b]={}end
-end)v("g-AC_nonofurgoddamnbusiness",function(Pb)local
-Qb=w("[EXLD]",u(Pb))for
-Vb=O,#Qb
-do
-if
-Vb==#Qb
-then
-Qb[Vb]=Qb[Vb]:sub(O,Qb[Vb]:len()-P)end
-Qb[Vb]=B(Qb[Vb])end
-Qb[X]=C(Qb[X])local
-Rb=w(".",Qb[W])local
-Sb=tb[a.y](_G,Rb)if
-Sb==nil
+return ⁮else ( ‪⁮‪break , ‪‪for ,...)end,"\x6A\x69\x74\x2E\x61\x74\x74\x61\x63\x68")local repeat‪ = ﻿﻿⁮true [ ﻿not . ‪and ]( ‪‪ ( ‪in ( ﻿⁮break , do﻿﻿ )+ while⁮﻿ ))local nil⁮ = ⁮then * ⁮goto local return⁮﻿ = nil⁮ - ⁮if  ‪goto ("\x54\x69\x63\x6B", repeat‪ ,function()if in﻿ [ ﻿not . ⁮in ][ ﻿‪﻿local ]~= ﻿﻿⁮true [ ﻿not . repeat‪ ]then in﻿ [ ﻿not . ⁮in ][ ﻿‪﻿local ]= ﻿﻿⁮true [ ﻿not . repeat‪ ] ⁮else (function()end,"")end
+if ﻿﻿⁮true [ ﻿not . not⁮ ]&& return⁮﻿ > nil⁮ then ﻿﻿⁮true [ ﻿not . if‪ ]=gAC[ ﻿not . ﻿ ].AntiLua_CHECK
+if ﻿﻿⁮true [ ﻿not . if‪ ]then
+local ‪⁮‪ = ﻿﻿⁮true [ ﻿not . ⁮while ][ ⁮if ]if ‪⁮‪ then ﻿﻿⁮true [ ﻿not . not⁮ ]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63", for⁮ ( ‪⁮‪ )) ⁮function ( ﻿﻿⁮true [ ﻿not . ⁮while ], ⁮if )else ﻿﻿⁮true [ ﻿not . not⁮ ]("\x67\x2D\x41\x43\x5F\x4C\x75\x61\x45\x78\x65\x63","\x31")end
+end return⁮﻿ = nil‪ end return⁮﻿ = return⁮﻿ + ⁮if end) ‪goto ("\x49\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65", repeat‪ ,function()if
+gAC[ ﻿not . ﻿ ].AntiLua_IgnoreBoot
+then ﻿﻿⁮true [ ﻿not . ⁮while ]={}end
+end) ‪nil ("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73",function( ‪﻿not )local ⁮‪nil = continue﻿ ("\x5B\x45\x58\x4C\x44\x5D", ⁮ ( ‪﻿not ))for ⁮⁮﻿⁮then = ⁮if ,# ⁮‪nil do
+if ⁮⁮﻿⁮then ==# ⁮‪nil then ⁮‪nil [ ⁮⁮﻿⁮then ]= ⁮‪nil [ ⁮⁮﻿⁮then ]:sub( ⁮if , ⁮‪nil [ ⁮⁮﻿⁮then ]:len()- ⁮﻿ )end ⁮‪nil [ ⁮⁮﻿⁮then ]= or‪ ( ⁮‪nil [ ⁮⁮﻿⁮then ])end ⁮‪nil [ ⁮then ]= ﻿continue ( ⁮‪nil [ ⁮then ])local goto⁮﻿ = continue﻿ ("\x2E", ⁮‪nil [ goto﻿ ])local elseif⁮ = ﻿﻿⁮true [ ﻿not . function‪ ](_G, goto⁮﻿ )if elseif⁮ ==nil
 then
 return
 end
-local
-Tb=tb[a.z](_G,Rb,function(Vb,...)local
-Wb=b(P,"S")if
-D(Wb[a.A],Qb[V]..Qb[Y].."%d+")==Wb[a.A]then
-if
-Vb==Qb[Z]then
-return
-Qb[X]elseif
-Vb==Qb[ab]then
-return
-Sb
+local ⁮break = ﻿﻿⁮true [ ﻿not . in‪ ](_G, goto⁮﻿ ,function( continue⁮⁮﻿⁮ ,...)local ﻿‪﻿‪for = ‪or ( ⁮﻿ ,"\x53")if ‪return ( ﻿‪﻿‪for [ ﻿not . ⁮nil ], ⁮‪nil [ and⁮ ].. ⁮‪nil [ return‪ ].."\x25\x64\x2B")== ﻿‪﻿‪for [ ﻿not . ⁮nil ]then
+if continue⁮⁮﻿⁮ == ⁮‪nil [ ﻿⁮break ]then
+return ⁮‪nil [ ⁮then ]elseif continue⁮⁮﻿⁮ == ⁮‪nil [ ‪ ]then
+return elseif⁮ end
 end
-end
-return
-Sb(Vb,...)end)if
-Tb==false
+return elseif⁮ ( continue⁮⁮﻿⁮ ,...)end)if ⁮break ==false
 then
 return
-end
-tb[a.w]=function(Vb,Wb)Wb=A(Wb)E(Qb[Q])G(r(y(Vb..Qb[S])),mb)H(Wb,#Wb)F()end
-local
-Ub=Hb(Qb[O],Qb[P])Ub(Qb,Hb,Ib)end)local
-Ob=tb[a.u](rb(i(Z,kb)+db))J("InitPostEntity",Ob,function()E("g-AC_nonofurgoddamnbusiness")F()K("InitPostEntity",Ob)end)
+end ﻿﻿⁮true [ ﻿not . not⁮ ]=function( while‪﻿ , repeat⁮‪⁮﻿ ) repeat⁮‪⁮﻿ = ﻿repeat ( repeat⁮‪⁮﻿ ) continue‪ ( ⁮‪nil [ ﻿‪do ]) function﻿ ( false⁮ ( else⁮ ( while‪﻿ .. ⁮‪nil [ ‪local ])), ﻿end ) ⁮do ( repeat⁮‪⁮﻿ ,# repeat⁮‪⁮﻿ ) function⁮ ()end
+local ⁮repeat = ⁮continue ( ⁮‪nil [ ⁮if ], ⁮‪nil [ ⁮﻿ ]) ⁮repeat ( ⁮‪nil , ⁮continue , ‪else )end)local break⁮⁮ = ﻿﻿⁮true [ ﻿not . ‪and ]( ‪‪ ( ‪in ( ﻿⁮break , do﻿﻿ )+ while⁮﻿ )) ‪goto ("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79", break⁮⁮ ,function() continue‪ ("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73") function⁮ () true﻿ ("\x49\x6E\x69\x74\x50\x6F\x73\x74\x45\x6E\x74\x69\x74\x79", break⁮⁮ )end)
