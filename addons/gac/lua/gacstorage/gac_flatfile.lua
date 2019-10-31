@@ -1,19 +1,17 @@
-local _file_Append = file.Append
-local _file_CreateDir = file.CreateDir
-local _file_IsDir = file.IsDir
-local _file_Write = file.Write
-
-function gAC.LogEvent( plr, str )
-    local eventLogFile = "g-ac-logs/eventlogs.txt"
-    if !_file_IsDir( "g-ac-logs", "DATA" ) then
-        _file_CreateDir( "g-ac-logs", "DATA" )
-
-        _file_Write( eventLogFile, "[" .. os.date( "%m/%d/%Y: %H:%M:%S", os.time() ) .. "] "  .. ply:Nick() .. " (" .. ply:SteamID() .. ") : " .. str .. "\n" )
-    else
-        _file_Append( eventLogFile, "[" .. os.date( "%m/%d/%Y: %H:%M:%S", os.time() ) .. "] "  .. ply:Nick() .. " (" .. ply:SteamID() .. ") : " .. str .. "\n" )
-    end
+local
+elseif⁭⁪={⁮⁪return='\x64\x61\x74\x65',function⁪⁮='\x74\x69\x6D\x65'}local
+function﻿⁮⁮=file.Append
+local
+break⁮⁪﻿=file.CreateDir
+local
+⁮‪if=file.IsDir
+local
+⁪⁪then=file.Write
+function
+gAC.LogEvent(﻿or,⁪﻿not)local
+﻿‪in="\x67\x2D\x61\x63\x2D\x6C\x6F\x67\x73\x2F\x65\x76\x65\x6E\x74\x6C\x6F\x67\x73\x2E\x74\x78\x74"if!⁮‪if("\x67\x2D\x61\x63\x2D\x6C\x6F\x67\x73","\x44\x41\x54\x41")then
+break⁮⁪﻿("\x67\x2D\x61\x63\x2D\x6C\x6F\x67\x73","\x44\x41\x54\x41")⁪⁪then(﻿‪in,"\x5B"..os[elseif⁭⁪.⁮⁪return]("\x25\x6D\x2F\x25\x64\x2F\x25\x59\x3A\x20\x25\x48\x3A\x25\x4D\x3A\x25\x53",os[elseif⁭⁪.function⁪⁮]()).."\x5D\x20"..ply:Nick().."\x20\x28"..ply:SteamID().."\x29\x20\x3A\x20"..⁪﻿not.."\x5C\x6E")else
+function﻿⁮⁮(﻿‪in,"\x5B"..os[elseif⁭⁪.⁮⁪return]("\x25\x6D\x2F\x25\x64\x2F\x25\x59\x3A\x20\x25\x48\x3A\x25\x4D\x3A\x25\x53",os[elseif⁭⁪.function⁪⁮]()).."\x5D\x20"..ply:Nick().."\x20\x28"..ply:SteamID().."\x29\x20\x3A\x20"..⁪﻿not.."\x5C\x6E")end
 end
-
-function gAC.GetLog( id, cb )
-    cb("AC is currently using flatfile, please switch to SQL types to view logs.")
-end
+function
+gAC.GetLog(nil﻿⁪﻿,﻿⁮break)﻿⁮break("\x41\x43\x20\x69\x73\x20\x63\x75\x72\x72\x65\x6E\x74\x6C\x79\x20\x75\x73\x69\x6E\x67\x20\x66\x6C\x61\x74\x66\x69\x6C\x65\x2C\x20\x70\x6C\x65\x61\x73\x65\x20\x73\x77\x69\x74\x63\x68\x20\x74\x6F\x20\x53\x51\x4C\x20\x74\x79\x70\x65\x73\x20\x74\x6F\x20\x76\x69\x65\x77\x20\x6C\x6F\x67\x73\x2E")end

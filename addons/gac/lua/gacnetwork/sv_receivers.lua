@@ -1,14 +1,9 @@
-local _net_Receive = net.Receive
-
-local _util_AddNetworkString = (SERVER and util.AddNetworkString or NULL)
-
-_util_AddNetworkString (gAC.Network.GlobalChannel)
-_util_AddNetworkString ("g-AC_nonofurgoddamnbusiness")
-
-_net_Receive (gAC.Network.GlobalChannel,
-	function (bitCount, ply)
-		gAC.DBGPrint("Received data from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-		gAC.Network:HandleMessage(bitCount, ply)
-	end
-)
-
+local
+‪⁭false={‪continue='\x47\x6C\x6F\x62\x61\x6C\x43\x68\x61\x6E\x6E\x65\x6C',⁪true='\x4E\x65\x74\x77\x6F\x72\x6B'}local
+true⁮=net.Receive
+local
+⁮elseif=(SERVER
+and
+util.AddNetworkString
+or
+NULL)⁮elseif(gAC[‪⁭false.⁪true][‪⁭false.‪continue])⁮elseif("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73")true⁮(gAC[‪⁭false.⁪true][‪⁭false.‪continue],function(⁭if,function⁮⁭)gAC.DBGPrint("\x52\x65\x63\x65\x69\x76\x65\x64\x20\x64\x61\x74\x61\x20\x66\x72\x6F\x6D\x20"..function⁮⁭:Nick().."\x20\x28"..function⁮⁭:SteamID().."\x29\x20\x76\x69\x61\x20"..gAC[‪⁭false.⁪true][‪⁭false.‪continue].."\x2E")gAC[‪⁭false.⁪true]:HandleMessage(⁭if,function⁮⁭)end)

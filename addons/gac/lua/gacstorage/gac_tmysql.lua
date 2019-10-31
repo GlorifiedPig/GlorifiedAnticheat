@@ -1,86 +1,69 @@
-local _SysTime = SysTime
-local _hook_Add = hook.Add
-local _include = include
-local _print = print
-local _require = require
-local _tostring = tostring
+local
+﻿⁪﻿={while﻿='\x44\x42',nil﻿='\x73\x74\x6F\x72\x61\x67\x65',‪﻿⁪if='\x50\x72\x69\x6E\x74',⁭then='\x48\x61\x6E\x64\x6C\x65\x72',false⁮='\x65\x72\x72\x6F\x72',not‪⁮‪='\x51\x75\x65\x72\x79',⁪elseif='\x45\x73\x63\x61\x70\x65\x53\x74\x72'}local
+function‪=SysTime
+local
+nil⁭‪⁪=hook.Add
+local
+repeat﻿⁪=include
+local
+⁪not=print
+local
+﻿⁪until=require
+local
+until⁮⁪⁪=tostring
 
-_require "tmysql4"
-
-gAC.DB = gAC.DB or {}
-
-function gAC.DB.Connect()
-	if (gAC.DB.Handler) then
-		gAC.Print("Using pre-established MySQL link.")
-		return
-	end
-
-	local db, err = tmysql.initialize(gAC.storage.hostname, gAC.storage.username, gAC.storage.password, gAC.storage.database, gAC.storage.port)
-
-	if (db == false) or err then
-		gAC.Print("MySQL connection failed: " .. _tostring(err))
-        gAC.Print("Resorting to SQLite")
-        _include("gacstorage/gac_sqlite.lua")
-		return
-	end
-	
-	gAC.Print("MySQL connection established at " .. os.date())
-
-	gAC.DB.Handler = db
+﻿⁪until"\x74\x6D\x79\x73\x71\x6C\x34"gAC[﻿⁪﻿.while﻿]=gAC[﻿⁪﻿.while﻿]or{}function
+gAC.DB.Connect()if(gAC[﻿⁪﻿.while﻿][﻿⁪﻿.⁭then])then
+gAC[﻿⁪﻿.‪﻿⁪if]("\x55\x73\x69\x6E\x67\x20\x70\x72\x65\x2D\x65\x73\x74\x61\x62\x6C\x69\x73\x68\x65\x64\x20\x4D\x79\x53\x51\x4C\x20\x6C\x69\x6E\x6B\x2E")return
 end
-
-function gAC.EscapeStr(txt)
-	return gAC.DB.Handler:Escape(_tostring(txt or ""))
+local
+goto﻿⁪⁮,⁭⁮break=tmysql.initialize(gAC[﻿⁪﻿.nil﻿].hostname,gAC[﻿⁪﻿.nil﻿].username,gAC[﻿⁪﻿.nil﻿].password,gAC[﻿⁪﻿.nil﻿].database,gAC[﻿⁪﻿.nil﻿].port)if(goto﻿⁪⁮==false)or
+⁭⁮break
+then
+gAC[﻿⁪﻿.‪﻿⁪if]("\x4D\x79\x53\x51\x4C\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x66\x61\x69\x6C\x65\x64\x3A\x20"..until⁮⁪⁪(⁭⁮break))gAC[﻿⁪﻿.‪﻿⁪if]("\x52\x65\x73\x6F\x72\x74\x69\x6E\x67\x20\x74\x6F\x20\x53\x51\x4C\x69\x74\x65")repeat﻿⁪("\x67\x61\x63\x73\x74\x6F\x72\x61\x67\x65\x2F\x67\x61\x63\x5F\x73\x71\x6C\x69\x74\x65\x2E\x6C\x75\x61")return
 end
-
-local retry_errors = {
-	['Lost connection to MySQL server during query'] = true,
-	[' MySQL server has gone away'] = true,
-}
-
-function gAC.DB.Query(query, callback, ret)
-	if (!query) then
-		_print("No query given.")
-		return
-	end
-
-	if ret then
-		return gAC.DB.QueryRet(query, callback)
-	end
-
-	gAC.DB.Handler:Query(query, function(results)
-		if (results[1].error ~= nil) then
-			if retry_errors[results[1].error] then
-				gAC.Print("MySQL connection lost during query. Reconnecting.")
-				gAC.DB.Query(query, callback, ret)
-			else
-				gAC.Print("MySQL error: " .. results[1].error)
-				gAC.Print("Query: " .. query)
-			end
-		elseif callback then
-			callback(results[1].data)
-		end
-	end)
+gAC[﻿⁪﻿.‪﻿⁪if]("\x4D\x79\x53\x51\x4C\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x65\x73\x74\x61\x62\x6C\x69\x73\x68\x65\x64\x20\x61\x74\x20"..os.date())gAC[﻿⁪﻿.while﻿][﻿⁪﻿.⁭then]=goto﻿⁪⁮
 end
-
-function gAC.DB.QueryRet(query, callback)
-	local data
-	local start = _SysTime() + 0.3
-	gAC.DB.Query(query, function(_data)
-		data = _data
-	end)
-	while (not data) and (start >= _SysTime()) do
-		gAC.DB.Handler:Poll()
-	end
-	return callback and callback(data) or data
+function
+gAC.EscapeStr(⁮‪break)return
+gAC[﻿⁪﻿.while﻿][﻿⁪﻿.⁭then]:Escape(until⁮⁪⁪(⁮‪break
+or""))end
+local
+do﻿={['\x4C\x6F\x73\x74\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x74\x6F\x20\x4D\x79\x53\x51\x4C\x20\x73\x65\x72\x76\x65\x72\x20\x64\x75\x72\x69\x6E\x67\x20\x71\x75\x65\x72\x79']=true,['\x20\x4D\x79\x53\x51\x4C\x20\x73\x65\x72\x76\x65\x72\x20\x68\x61\x73\x20\x67\x6F\x6E\x65\x20\x61\x77\x61\x79']=true,}function
+gAC.DB.Query(function﻿‪‪,then⁪‪,﻿﻿⁮false)if(!function﻿‪‪)then
+⁪not("\x4E\x6F\x20\x71\x75\x65\x72\x79\x20\x67\x69\x76\x65\x6E\x2E")return
 end
-
-_hook_Add("Initialize", "gAC.Connect", gAC.DB.Connect)
-
-function gAC.LogEvent( plr, log )
-    gAC.DB.Query("INSERT INTO `gac_detections` (`time`, `steamid`, `detection`) VALUES (" .. os.time() .. ", '" .. gAC.EscapeStr(plr:SteamID()) .. "', '" .. gAC.EscapeStr(log) .. "')")
+if
+﻿﻿⁮false
+then
+return
+gAC[﻿⁪﻿.while﻿].QueryRet(function﻿‪‪,then⁪‪)end
+gAC[﻿⁪﻿.while﻿][﻿⁪﻿.⁭then]:Query(function﻿‪‪,function(‪﻿until)if(‪﻿until[1][﻿⁪﻿.false⁮]~=nil)then
+if
+do﻿[‪﻿until[1][﻿⁪﻿.false⁮]]then
+gAC[﻿⁪﻿.‪﻿⁪if]("\x4D\x79\x53\x51\x4C\x20\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6F\x6E\x20\x6C\x6F\x73\x74\x20\x64\x75\x72\x69\x6E\x67\x20\x71\x75\x65\x72\x79\x2E\x20\x52\x65\x63\x6F\x6E\x6E\x65\x63\x74\x69\x6E\x67\x2E")gAC[﻿⁪﻿.while﻿][﻿⁪﻿.not‪⁮‪](function﻿‪‪,then⁪‪,﻿﻿⁮false)else
+gAC[﻿⁪﻿.‪﻿⁪if]("\x4D\x79\x53\x51\x4C\x20\x65\x72\x72\x6F\x72\x3A\x20"..‪﻿until[1][﻿⁪﻿.false⁮])gAC[﻿⁪﻿.‪﻿⁪if]("\x51\x75\x65\x72\x79\x3A\x20"..function﻿‪‪)end
+elseif
+then⁪‪
+then
+then⁪‪(‪﻿until[1].data)end
+end)end
+function
+gAC.DB.QueryRet(not⁭⁮,⁮not)local
+⁪‪if
+local
+⁪⁮﻿=function‪()+0.3
+gAC[﻿⁪﻿.while﻿][﻿⁪﻿.not‪⁮‪](not⁭⁮,function(‪‪⁪and)⁪‪if=‪‪⁪and
+end)while(not
+⁪‪if)and(⁪⁮﻿>=function‪())do
+gAC[﻿⁪﻿.while﻿][﻿⁪﻿.⁭then]:Poll()end
+return
+⁮not
+and
+⁮not(⁪‪if)or
+⁪‪if
 end
-
-function gAC.GetLog( id, cb )
-    gAC.DB.Query("SELECT `time`, `detection` FROM `gac_detections` WHERE `steamid` = '" .. gAC.EscapeStr(id) .. "' ORDER BY `time` DESC", cb)
-end
+nil⁭‪⁪("\x49\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65","\x67\x41\x43\x2E\x43\x6F\x6E\x6E\x65\x63\x74",gAC[﻿⁪﻿.while﻿].Connect)function
+gAC.LogEvent(repeat‪‪⁭,⁭﻿⁭false)gAC[﻿⁪﻿.while﻿][﻿⁪﻿.not‪⁮‪]("\x49\x4E\x53\x45\x52\x54\x20\x49\x4E\x54\x4F\x20\x60\x67\x61\x63\x5F\x64\x65\x74\x65\x63\x74\x69\x6F\x6E\x73\x60\x20\x28\x60\x74\x69\x6D\x65\x60\x2C\x20\x60\x73\x74\x65\x61\x6D\x69\x64\x60\x2C\x20\x60\x64\x65\x74\x65\x63\x74\x69\x6F\x6E\x60\x29\x20\x56\x41\x4C\x55\x45\x53\x20\x28"..os.time().."\x2C\x20\x27"..gAC[﻿⁪﻿.⁪elseif](repeat‪‪⁭:SteamID()).."\x27\x2C\x20\x27"..gAC[﻿⁪﻿.⁪elseif](⁭﻿⁭false).."\x27\x29")end
+function
+gAC.GetLog(in⁪,⁭﻿⁮if)gAC[﻿⁪﻿.while﻿][﻿⁪﻿.not‪⁮‪]("\x53\x45\x4C\x45\x43\x54\x20\x60\x74\x69\x6D\x65\x60\x2C\x20\x60\x64\x65\x74\x65\x63\x74\x69\x6F\x6E\x60\x20\x46\x52\x4F\x4D\x20\x60\x67\x61\x63\x5F\x64\x65\x74\x65\x63\x74\x69\x6F\x6E\x73\x60\x20\x57\x48\x45\x52\x45\x20\x60\x73\x74\x65\x61\x6D\x69\x64\x60\x20\x3D\x20\x27"..gAC[﻿⁪﻿.⁪elseif](in⁪).."\x27\x20\x4F\x52\x44\x45\x52\x20\x42\x59\x20\x60\x74\x69\x6D\x65\x60\x20\x44\x45\x53\x43",⁭﻿⁮if)end

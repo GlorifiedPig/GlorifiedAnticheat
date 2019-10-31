@@ -1,88 +1,96 @@
-local _SortedPairs = SortedPairs
-local _file_Exists = file.Exists
-local _file_Read = file.Read
-local _hook_Add = hook.Add
-local _hook_Run = hook.Run
-local _pairs = pairs
-local _string_Replace = string.Replace
-local _string_match = string.match
-local _util_Compress = util.Compress
-local _util_JSONToTable = util.JSONToTable
-
-gAC.FileQuery = gAC.FileQuery or {}
-gAC.FileRelation = gAC.FileRelation or {}
-gAC.NetworkReceivers = gAC.NetworkReceivers or {}
-
-if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
-    gAC.Network = {}
-    gAC.Encoder = {}
-
-    function gAC.Network:AddReceiver(channelName, handler)
-        gAC.NetworkReceivers[#gAC.NetworkReceivers + 1] = {channelName, handler}
-    end
-
-    local _math_Round = math.Round
-    local _string_char = string.char
-    local _math_random = math.random
-    function gAC.Encoder.stringrandom(length)
-        local str = ""
-        for i = 1, length do
-            local typo =  _math_Round(_math_random(1, 4))
-            if typo == 1 then
-                str = str.. _string_char(_math_random(97, 122))
-            elseif typo == 2 then
-                str = str.. _string_char(_math_random(65, 90))
-            elseif typo == 3 then
-                str = str.. _string_char(_math_random(49, 57))
-            end
-        end
-        return str
-    end
+local
+﻿function={elseif‪='\x46\x69\x6C\x65\x51\x75\x65\x72\x79',⁪⁭if='\x46\x69\x6C\x65\x52\x65\x6C\x61\x74\x69\x6F\x6E',⁭⁮⁮='\x4E\x65\x74\x77\x6F\x72\x6B\x52\x65\x63\x65\x69\x76\x65\x72\x73',⁮='\x4E\x65\x74\x77\x6F\x72\x6B',or⁭⁭='\x45\x6E\x63\x6F\x64\x65\x72',and⁪﻿‪='\x44\x42\x47\x50\x72\x69\x6E\x74',break⁮﻿﻿='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x61\x72'}local
+⁭⁮⁭goto=SortedPairs
+local
+⁮until=file.Exists
+local
+‪‪for=file.Read
+local
+continue⁭⁭=hook.Add
+local
+not⁭⁮﻿=hook.Run
+local
+local⁮=pairs
+local
+for‪⁮=string.Replace
+local
+⁭true=string.match
+local
+not⁭=util.Compress
+local
+elseif⁭⁮﻿=util.JSONToTable
+gAC[﻿function.elseif‪]=gAC[﻿function.elseif‪]or{}gAC[﻿function.⁪⁭if]=gAC[﻿function.⁪⁭if]or{}gAC[﻿function.⁭⁮⁮]=gAC[﻿function.⁭⁮⁮]or{}if!gAC[﻿function.⁮]then
+gAC[﻿function.⁮]={}gAC[﻿function.or⁭⁭]={}function
+gAC.Network:AddReceiver(⁪⁮⁮nil,⁮‪else)gAC[﻿function.⁭⁮⁮][#gAC[﻿function.⁭⁮⁮]+1]={⁪⁮⁮nil,⁮‪else}end
+local
+‪⁭⁮return=math.Round
+local
+⁭⁮not=string.char
+local
+‪⁮‪then=math.random
+function
+gAC.Encoder.stringrandom(in⁪⁭)local
+do⁮⁮⁮=""for
+nil‪⁪=1,in⁪⁭
+do
+local
+﻿true=‪⁭⁮return(‪⁮‪then(1,4))if
+﻿true==1
+then
+do⁮⁮⁮=do⁮⁮⁮..⁭⁮not(‪⁮‪then(97,122))elseif
+﻿true==2
+then
+do⁮⁮⁮=do⁮⁮⁮..⁭⁮not(‪⁮‪then(65,90))elseif
+﻿true==3
+then
+do⁮⁮⁮=do⁮⁮⁮..⁭⁮not(‪⁮‪then(49,57))end
 end
-
-function gAC.AddQuery(filepath)
-    local FileName = filepath
-    if _string_match(_string_match( filepath, "^.+/(.+)$"), "^json") then return end
-    filepath = _file_Read(filepath, "LUA")
-    local index = #gAC.FileQuery + 1
-	gAC.FileQuery[index] = filepath
-    gAC.FileRelation[index] = FileName
-    gAC.DBGPrint("Added file " .. FileName .. " to file query")
+return
+do⁮⁮⁮
 end
-
-_hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
-    for k=1, #gAC.FileQuery do
-        local data = gAC.FileQuery[k]
-        local relation = gAC.FileRelation[k]
-        local json_filepath = _string_match(relation, "(.*/)") .. "json_" .. _string_match( relation, "^.+/(.+)$")
-        if _file_Exists(json_filepath, "LUA") then
-            local json = _util_JSONToTable(_file_Read(json_filepath, "LUA"))
-            for k, v in _pairs(json) do
-                data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
-            end
-            data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-            data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
-        end
-        gAC.FileQuery[k] = _util_Compress(gAC.Network.Payload_002 .. data)
-        gAC.DBGPrint("Encoded file " .. relation)
-    end
-
-    gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-
-    for k=1, #gAC.NetworkReceivers do
-        local v = gAC.NetworkReceivers[k]
-        gAC.Network:AddReceiver(v[1], v[2])
-    end
-
-    gAC.NetworkReceivers = {}
-end)
-
-_hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
-    if #gAC.FileQuery > 0 then
-        for k, v in _SortedPairs(gAC.FileQuery) do
-            if gAC.FileQuery[k] == nil then continue end
-            gAC.Network:Send ("LoadPayload", gAC.FileQuery[k], ply, true)
-        end
-        _hook_Run("gAC.CLFilesLoaded", ply)
-    end
+end
+function
+gAC.AddQuery(continue﻿⁮)local
+elseif⁭‪=continue﻿⁮
+if
+⁭true(⁭true(continue﻿⁮,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24"),"\x5E\x6A\x73\x6F\x6E")then
+return
+end
+continue﻿⁮=‪‪for(continue﻿⁮,"\x4C\x55\x41")local
+not‪=#gAC[﻿function.elseif‪]+1
+gAC[﻿function.elseif‪][not‪]=continue﻿⁮
+gAC[﻿function.⁪⁭if][not‪]=elseif⁭‪
+gAC[﻿function.and⁪﻿‪]("\x41\x64\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..elseif⁭‪.."\x20\x74\x6F\x20\x66\x69\x6C\x65\x20\x71\x75\x65\x72\x79")end
+continue⁭⁭("\x67\x41\x43\x2E\x49\x6E\x63\x6C\x75\x64\x65\x73\x4C\x6F\x61\x64\x65\x64","\x44\x65\x63\x6F\x64\x65\x72\x5F\x55\x6E\x6C\x6F\x61\x64\x65\x72",function()for
+local⁭=1,#gAC[﻿function.elseif‪]do
+local
+until‪‪=gAC[﻿function.elseif‪][local⁭]local
+else‪=gAC[﻿function.⁪⁭if][local⁭]local
+continue⁪﻿=⁭true(else‪,"\x28\x2E\x2A\x2F\x29").."\x6A\x73\x6F\x6E\x5F"..⁭true(else‪,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24")if
+⁮until(continue⁪﻿,"\x4C\x55\x41")then
+local
+⁮⁪nil=elseif⁭⁮﻿(‪‪for(continue⁪﻿,"\x4C\x55\x41"))for
+﻿⁮﻿elseif,‪return
+in
+local⁮(⁮⁪nil)do
+until‪‪=for‪⁮(until‪‪,﻿⁮﻿elseif,"\x27"..gAC[﻿function.or⁭⁭].Encode(‪return,gAC[﻿function.⁮].Global_Decoder).."\x27")end
+until‪‪=for‪⁮(until‪‪,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x53\x54\x52\x5F\x5F","\x6C\x6F\x63\x61\x6C\x20"..gAC[﻿function.or⁭⁭].Decoder.."\x3D"..gAC[﻿function.or⁭⁭].Unicode_String..gAC[﻿function.⁮][﻿function.break⁮﻿﻿].."\x28\x27"..gAC[﻿function.⁮].Decoder_Get.."\x27\x29")until‪‪=for‪⁮(until‪‪,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x46\x55\x4E\x43\x5F\x5F",gAC[﻿function.or⁭⁭].Decoder_Func)end
+gAC[﻿function.elseif‪][local⁭]=not⁭(gAC[﻿function.⁮].Payload_002..until‪‪)gAC[﻿function.and⁪﻿‪]("\x45\x6E\x63\x6F\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..else‪)end
+gAC[﻿function.elseif‪][#gAC[﻿function.elseif‪]+1]=not⁭("\x5F\x47"..gAC[﻿function.⁮][﻿function.break⁮﻿﻿].."\x20\x3D\x20\x5F\x47"..gAC[﻿function.⁮][﻿function.break⁮﻿﻿].."\x28\x27"..gAC[﻿function.⁮].Decoder_Undo.."\x27\x29")for
+true⁮=1,#gAC[﻿function.⁭⁮⁮]do
+local
+for‪⁪=gAC[﻿function.⁭⁮⁮][true⁮]gAC[﻿function.⁮]:AddReceiver(for‪⁪[1],for‪⁪[2])end
+gAC[﻿function.⁭⁮⁮]={}end)continue⁭⁭("\x67\x41\x43\x2E\x43\x6C\x69\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64","\x53\x65\x6E\x64\x46\x69\x6C\x65\x73",function(⁪goto)if#gAC[﻿function.elseif‪]>0
+then
+for
+function⁭,⁪‪not
+in
+⁭⁮⁭goto(gAC[﻿function.elseif‪])do
+if
+gAC[﻿function.elseif‪][function⁭]==nil
+then
+continue
+end
+gAC[﻿function.⁮]:Send("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",gAC[﻿function.elseif‪][function⁭],⁪goto,true)end
+not⁭⁮﻿("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64",⁪goto)end
 end)
