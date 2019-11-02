@@ -9,9 +9,15 @@ local _file_Write = file.Write
 local _hook_Add = hook.Add
 local _string_len = string.len
 local _tonumber = tonumber
+local _timer_Exists = timer.Exists
+local _timer_Remove = timer.Remove
+local _timer_Create = timer.Create
+local _isstring = isstring
+local _player_GetBySteamID = player.GetBySteamID
 
 
 function gAC.GetFormattedBanText( displayReason, banTime )
+
     local banString = "_____"..gAC.config.BAN_MESSAGE_SYNTAX.."_____\n\nReason: '" .. displayReason .. "'\n\n"
     banTime = _tonumber( banTime )
     if( banTime == -1 ) then
@@ -27,6 +33,10 @@ function gAC.GetFormattedBanText( displayReason, banTime )
     return banString
 end
 
+function gAC.GetBanSyntax(code)
+    return gAC.config.BAN_MESSAGE_SYNTAX or code
+end
+
 if gAC.config.BAN_TYPE == "custom" then
     function gAC.AddBan( ply, displayReason, banTime )
         banTime = _tonumber( banTime )
@@ -36,6 +46,20 @@ if gAC.config.BAN_TYPE == "custom" then
         ply:SetUPDataGAC( "gAC_BanDisplayReason", displayReason )
 
         ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
+
+        if gAC.config.DELAYEDBANS then
+            if _timer_Exists('gAC.DelayedBan-' .. ID) then return end
+            if _timer_Exists('gAC.DelayedKick-' .. ID) then
+                _timer_Remove('gAC.DelayedKick-' .. ID)
+            end
+            _timer_Create('gAC.DelayedBan-' .. ID, gAC.config.DELAYEDBANS_TIME, 1, function()
+                local _ply = _player_GetBySteamID(ID)
+                if _ply == false then return end
+                ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
+            end)
+        else
+            ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
+        end
     end
 
     function gAC.RemoveBan( ply )
@@ -93,27 +117,73 @@ if gAC.config.BAN_TYPE == "custom" then
         gAC.UnbanCommand( ply, steamid64 )
     end )
 else
-    function gAC.AddBan( ply, displayReason, banTime )
+    local BannablePlys = {}
+
+    function gAC.GetBanType(ply, banTime, displayReason)
+        local ply = _isstring(ply) and ply or ply:SteamID()
         if gAC.config.BAN_TYPE == "ulx" then
-            _RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
+            _RunConsoleCommand( "ulx", "banid", ply, banTime, displayReason )
         elseif gAC.config.BAN_TYPE == "d3a" then
             if( _tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                _RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minutes", "'" .. displayReason .. "'" )
+                _RunConsoleCommand( "d3a", "ban", ply, banTime, "minutes", "'" .. displayReason .. "'" )
             else
-                _RunConsoleCommand( "d3a", "perma", ply:SteamID(), "'" .. displayReason .. "'" )
+                _RunConsoleCommand( "d3a", "perma", ply, "'" .. displayReason .. "'" )
             end
         elseif gAC.config.BAN_TYPE == "serverguard" then
-            _RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
+            _RunConsoleCommand( "serverguard_ban", ply, banTime / 60, displayReason )
         elseif gAC.config.BAN_TYPE == "custom_func" then
             gAC.config.BAN_FUNC( ply, banTime, displayReason )
         end
     end
+
+    function gAC.AddBan( ply, displayReason, banTime )
+        if gAC.config.DELAYEDBANS then
+            local ID = ply:SteamID()
+            if _timer_Exists('gAC.DelayedBan-' .. ID) then return end
+            if _timer_Exists('gAC.DelayedKick-' .. ID) then
+                _timer_Remove('gAC.DelayedKick-' .. ID)
+            end
+            BannablePlys[ID] = {
+                displayReason = displayReason,
+                banTime = banTime
+            }
+            _timer_Create('gAC.DelayedBan-' .. ID, gAC.config.DELAYEDBANS_TIME, 1, function()
+                gAC.GetBanType(ID, banTime, displayReason)
+            end)
+        else
+            gAC.GetBanType(ply, banTime, displayReason)
+        end
+    end
+
+    _hook_Add('PlayerDisconnected', 'gAC.BanDisconnected', function(ply)
+        local ID = ply:SteamID()
+        if BannablePlys[ID] then
+            if _timer_Exists('gAC.DelayedBan-' .. ID) then
+                _timer_Remove('gAC.DelayedBan-' .. ID)
+            end
+            gAC.GetBanType(ID, BannablePlys[ID].banTime, BannablePlys[ID].displayReason)
+        end
+    end)
 end
 
 function gAC.Kick( ply, displayReason )
-    if gAC.config.KICK_TYPE == "default" then
-        ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
-    elseif gAC.config.KICK_TYPE == "custom_func" then
-        gAC.config.KICK_FUNC( ply, displayReason )
+    local ID = ply:SteamID()
+    if gAC.config.DELAYEDKICKS then
+        if _timer_Exists('gAC.DelayedKick-' .. ID) or _timer_Exists('gAC.DelayedBan-' .. ID) then return end
+        _timer_Create('gAC.DelayedKick-' .. ID, gAC.config.DELAYEDKICKS_TIME, 1, function()
+            local _ply = _player_GetBySteamID(ID)
+            if _ply == false then return end
+            if gAC.config.KICK_TYPE == "default" then
+                _ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
+            elseif gAC.config.KICK_TYPE == "custom_func" then
+                gAC.config.KICK_FUNC( _ply, displayReason )
+            end
+        end)
+    else
+        if gAC.config.KICK_TYPE == "default" then
+            ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
+        elseif gAC.config.KICK_TYPE == "custom_func" then
+            gAC.config.KICK_FUNC( ply, displayReason )
+        end
     end
 end

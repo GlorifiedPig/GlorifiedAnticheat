@@ -15,41 +15,8 @@
     gAC.config.ADMIN_MESSAGE_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can see admin messages here.
     gAC.config.ADMIN_MESSAGE_PING = "garrysmod/content_downloaded.wav"
     gAC.config.UNBAN_USERGROUPS = { "admin", "superadmin" } -- Set all the usergroups who can unban players here.
-    gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
-        "76561198061230671", -- NiceCream - Remove me if you want.
-    }
     gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages.
-    gAC.config.BAN_MESSAGE_SYNTAX = "Cheating/Hacking" -- Syntax for ban messages.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
-
---[[ BAN SYSTEM SETTINGS ]]--
-    --[[
-        Just because some servers want their ban functions to be unique.
-        Like they always say, uniqueness is key.
-
-        Ban Types:
-            custom - gAC's custom ban system
-            ulx - use the ulx ban system
-            d3a - use D3vine's ban system
-            serverguard - server-guard's ban system
-            custom_func - uses BAN_FUNC to ban users, basically make your own ban type
-
-        Kick Types:
-            default - normal gAC kick system
-            custom_func - uses KICK_FUNC to kick users, basically make your own kick type
-    ]]
-    -- set to 'custom_func' to use your own custom banning function
-    gAC.config.BAN_TYPE = "ulx"
-    gAC.config.BAN_FUNC = function(ply, banTime, displayReason) end -- Only if you want custom ban names & etc.
-    gAC.config.KICK_TYPE = "custom_func" -- set to 'default' for normal kick
-    gAC.config.KICK_FUNC = function(ply, displayReason) --only to override the kick function!
-        if displayReason == "Payload verification failure [Code 116]" or displayReason == "Join verification failure [Code 119]" then
-            ply:Kick("Client failed to respond to server in time, rejoin.")
-            return
-        end
-        ply:Kick(gAC.config.BAN_MESSAGE_SYNTAX)
-    end
---[[ BAN SYSTEM SETTINGS END ]]--
 
 --[[ Payload Verification & Integrity Checks ]]
 
