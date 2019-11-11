@@ -1,4 +1,4 @@
-AddCSLuaFile("extensions/client/render.lua")
+AddCSLuaFile("includes/extensions/client/render.lua")
 
 local _BroadcastLua = BroadcastLua
 
