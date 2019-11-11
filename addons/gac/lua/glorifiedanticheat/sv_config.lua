@@ -54,6 +54,8 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     gAC.config.DELAYEDKICKS_TIME = 60 --In seconds, how long to delay the kick
 
     -- set to 'custom_func' to use your own custom banning function
+    -- set to 'custom' for our custom banning system
+    -- set to 'ulx' for ulx, 'serverguard' for ServerGuard, 'd3a' for d3a, 'sam' for SAM
     gAC.config.BAN_TYPE = "ulx"
     gAC.config.BAN_FUNC = function(ply, banlength, code)
         if isstring(ply) then

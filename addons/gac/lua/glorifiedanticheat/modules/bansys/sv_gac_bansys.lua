@@ -131,6 +131,8 @@ else
             end
         elseif gAC.config.BAN_TYPE == "serverguard" then
             _RunConsoleCommand( "serverguard_ban", ply, banTime / 60, displayReason )
+        elseif gAC.config.BAN_TYPE == "sam" then
+            SAM.AddBan( ply:SteamID(), nil, banTime / 60, displayReason )
         elseif gAC.config.BAN_TYPE == "custom_func" then
             gAC.config.BAN_FUNC( ply, banTime, displayReason )
         end
