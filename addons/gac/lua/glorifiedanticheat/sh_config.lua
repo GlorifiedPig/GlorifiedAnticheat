@@ -133,6 +133,13 @@ gAC.config.JOIN_VERIFY_TIMELIMIT = 360 --360 seconds to verify or else do an act
     gAC.config.ANTIAIM_BANTIME = 0
 --[[ ANTI Aim SETTINGS END ]]--
 
+--[[ ANTI SILENT Aim SETTINGS ]]--
+    -- WARNING, This detection is untested!
+    gAC.config.ANTI_SILENT = false
+    gAC.config.SILENT_PUNISHMENT = true
+    gAC.config.SILENT_BANTIME = 0
+--[[ ANTI SILENT Aim SETTINGS END ]]--
+
 --[[ ANTI No Recoil SETTINGS ]]--
     -- WARNING, This detection modules was not fully tested yet!
     gAC.config.ANTI_NORECOIL_CHECKS = false -- Set to 'true' if you want to check for no recoil (used on aimbots/etc).
