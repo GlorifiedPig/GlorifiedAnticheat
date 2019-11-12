@@ -80,6 +80,11 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
 --[[ BAN SYSTEM SETTINGS END ]]--
 
 --[[Anti-Cheat vs Player detections]]
+    --Checks of gAC was altered by an external source.
+    gAC.config.INTEGRITY_CHECKS = true
+    gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
+    gAC.config.INTEGRITY_CHECKS_BANTIME = -1
+
     --Checks if the player has successfuly loaded with gAC's payload loader.
     --Verification failure means they did not receive the payload in required time.
     gAC.config.PAYLOAD_VERIFY = true

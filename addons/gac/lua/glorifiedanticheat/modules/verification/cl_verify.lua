@@ -7,11 +7,7 @@ local _util_JSONToTable = util.JSONToTable
 local _util_TableToJSON = util.TableToJSON
 
 local function SendInfo()
-    gAC_Send("g-AC_Detections", _util_TableToJSON({
-        "Integrity check failure [Code 117]", 
-        gAC.config.INTEGRITY_CHECKS_PUNISHMENT, 
-        gAC.config.INTEGRITY_CHECKS_BANTIME
-    }))
+    gAC_Send("g-AC_ACVerify", "")
 end
 
 gAC_AddReceiver("g-AC_ACVerify", function(_, data)

@@ -34,3 +34,10 @@ _hook_Add("gAC.CLFilesLoaded", "g-AC_verify_initialspawn", function(ply)
         gAC.Network:Send("g-AC_ACVerify", Configs, ply)
     end)
 end)
+
+gAC.Network:AddReceiver(
+    "g-AC_ACVerify",
+    function(_, data, plr)
+        gAC.AddDetection( plr, "Integrity check failure [Code 117]", gAC.config.INTEGRITY_CHECKS_PUNISHMENT, gAC.config.INTEGRITY_CHECKS_BANTIME )
+    end
+)

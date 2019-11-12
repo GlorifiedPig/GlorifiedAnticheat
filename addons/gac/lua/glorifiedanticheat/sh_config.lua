@@ -18,13 +18,6 @@
     gAC.config.SYNTAX = "[g-AC] " -- Syntax for messages.
 --[[ ADMIN PERMISSION SETTINGS END ]]--
 
---[[Anti-Cheat vs Player detections]]
-    --Checks of gAC was altered by an external source.
-    gAC.config.INTEGRITY_CHECKS = true
-    gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
-    gAC.config.INTEGRITY_CHECKS_BANTIME = -1
---[[end]]
-
 --[[Cheat specific detections]]
     --[[ ANTI METH SETTINGS ]]--
         gAC.config.ANTI_METH = true
