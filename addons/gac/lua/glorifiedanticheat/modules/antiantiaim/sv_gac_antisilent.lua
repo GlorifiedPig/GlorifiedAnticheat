@@ -27,7 +27,7 @@ local function roundangle(ang, idp)
     return ang
 end
 
-_hook_Add( "StartCommand", "gAC.MethSilent", function( ply, cmd )
+_hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
 
@@ -42,29 +42,29 @@ _hook_Add( "StartCommand", "gAC.MethSilent", function( ply, cmd )
     local gAC_MX_AB = _math_abs( cmd:GetMouseX() )
     local gAC_MY_AB = _math_abs( cmd:GetMouseY() )
 
-    if !ply.Meth_Silent_Last then
-        ply.Meth_Silent_Last = gAC_View
-        ply.Meth_Silent_MX_Last = gAC_MX_AB
-        ply.Meth_Silent_MY_Last = gAC_MY_AB
-        ply.Meth_Silent_Threshold = 0
+    if !ply.Aim_Silent_Last then
+        ply.Aim_Silent_Last = gAC_View
+        ply.Aim_Silent_MX_Last = gAC_MX_AB
+        ply.Aim_Silent_MY_Last = gAC_MY_AB
+        ply.Aim_Silent_Threshold = 0
         return
     end
 
-    local rounded_oldview, rounded_newview = roundangle(ply.Meth_Silent_Last), roundangle(gAC_View)
+    local rounded_oldview, rounded_newview = roundangle(ply.Aim_Silent_Last), roundangle(gAC_View)
 
     if gAC_MX_AB > 0 and gAC_MY_AB > 0 and rounded_oldview == rounded_newview then
-        if ply.Meth_Silent_Threshold > 5 then
+        if ply.Aim_Silent_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "Silent-Aim Detected [Code 129]", gAC.config.SILENT_PUNISHMENT, gAC.config.SILENT_BANTIME )
             return
         else
-            ply.Meth_Silent_Threshold = ply.Meth_Silent_Threshold + 1
+            ply.Aim_Silent_Threshold = ply.Aim_Silent_Threshold + 1
         end
-    elseif ply.Meth_Silent_Threshold > 0 then
-        ply.Meth_Silent_Threshold = ply.Meth_Silent_Threshold - 1
+    elseif ply.Aim_Silent_Threshold > 0 then
+        ply.Aim_Silent_Threshold = ply.Aim_Silent_Threshold - 1
     end
 
-    ply.Meth_Silent_Last = gAC_View
-    ply.Meth_Silent_MX_Last = gAC_MX_AB
-    ply.Meth_Silent_MY_Last = gAC_MY_AB
+    ply.Aim_Silent_Last = gAC_View
+    ply.Aim_Silent_MX_Last = gAC_MX_AB
+    ply.Aim_Silent_MY_Last = gAC_MY_AB
 end )
