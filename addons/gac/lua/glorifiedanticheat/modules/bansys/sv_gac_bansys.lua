@@ -15,10 +15,12 @@ local _timer_Create = timer.Create
 local _isstring = isstring
 local _player_GetBySteamID = player.GetBySteamID
 
+function gAC.GetBanSyntax(code)
+    return gAC.config.BAN_MESSAGE_SYNTAX or code
+end
 
 function gAC.GetFormattedBanText( displayReason, banTime )
-
-    local banString = "_____"..gAC.config.BAN_MESSAGE_SYNTAX.."_____\n\nReason: '" .. displayReason .. "'\n\n"
+    local banString = gAC.GetBanSyntax(displayReason) .. '\n'
     banTime = _tonumber( banTime )
     if( banTime == -1 ) then
         banString = banString .. "Type: Kick"
@@ -31,10 +33,6 @@ function gAC.GetFormattedBanText( displayReason, banTime )
     end
 
     return banString
-end
-
-function gAC.GetBanSyntax(code)
-    return gAC.config.BAN_MESSAGE_SYNTAX or code
 end
 
 if gAC.config.BAN_TYPE == "custom" then
@@ -121,6 +119,7 @@ else
 
     function gAC.GetBanType(ply, banTime, displayReason)
         local ply = _isstring(ply) and ply or ply:SteamID()
+        displayReason = gAC.GetBanSyntax(displayReason)
         if gAC.config.BAN_TYPE == "ulx" then
             _RunConsoleCommand( "ulx", "banid", ply, banTime, displayReason )
         elseif gAC.config.BAN_TYPE == "d3a" then
@@ -178,14 +177,14 @@ function gAC.Kick( ply, displayReason )
             if gAC.config.KICK_TYPE == "default" then
                 _ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
             elseif gAC.config.KICK_TYPE == "custom_func" then
-                gAC.config.KICK_FUNC( _ply, displayReason )
+                gAC.config.KICK_FUNC( _ply, gAC.GetBanSyntax(displayReason) )
             end
         end)
     else
         if gAC.config.KICK_TYPE == "default" then
             ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
         elseif gAC.config.KICK_TYPE == "custom_func" then
-            gAC.config.KICK_FUNC( ply, displayReason )
+            gAC.config.KICK_FUNC( ply, gAC.GetBanSyntax(displayReason) )
         end
     end
 end

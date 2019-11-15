@@ -1,4 +1,4 @@
-if !gAC.config.ANTI_SILENT then return end
+if !gAC.config.ANTI_MOVEMANIP then return end
 local _CurTime = CurTime
 local _IsValid = IsValid
 local _hook_Add = hook.Add
@@ -43,20 +43,20 @@ _hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
     local gAC_FM = _math_abs( cmd:GetForwardMove() )
     local gAC_SM = _math_abs( cmd:GetSideMove() )
 
-    if !ply.Aim_Silent_Threshold then
-        ply.Aim_Silent_Threshold = 0
+    if !ply.MoveManip_Threshold then
+        ply.MoveManip_Threshold = 0
         return
     end
 
     if gAC_MX_AB > 0 and gAC_MY_AB > 0 and gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
-        if ply.Aim_Silent_Threshold > 5 then
+        if ply.MoveManip_Threshold > 5 then
             ply.gAC_AimbotDetected = true
-            gAC.AddDetection( ply, "Silent-Aim Detected [Code 129]", gAC.config.SILENT_PUNISHMENT, gAC.config.SILENT_BANTIME )
+            gAC.AddDetection( ply, "C-Movement Manipulation Detected [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
             return
         else
-            ply.Aim_Silent_Threshold = ply.Aim_Silent_Threshold + 1
+            ply.MoveManip_Threshold = ply.MoveManip_Threshold + 1
         end
-    elseif ply.Aim_Silent_Threshold > 0 then
-        ply.Aim_Silent_Threshold = ply.Aim_Silent_Threshold - 1
+    elseif ply.MoveManip_Threshold > 0 then
+        ply.MoveManip_Threshold = ply.MoveManip_Threshold - 1
     end
 end )
