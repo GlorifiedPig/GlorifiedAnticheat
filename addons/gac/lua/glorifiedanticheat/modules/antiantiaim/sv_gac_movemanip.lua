@@ -28,7 +28,7 @@ local function roundangle(ang, idp)
     return ang
 end
 
-_hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
+_hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
 
@@ -47,6 +47,8 @@ _hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
         ply.MoveManip_Threshold = 0
         return
     end
+
+    -- pythagorean theorem lmao.
 
     if gAC_MX_AB > 0 and gAC_MY_AB > 0 and gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
         if ply.MoveManip_Threshold > 5 then
