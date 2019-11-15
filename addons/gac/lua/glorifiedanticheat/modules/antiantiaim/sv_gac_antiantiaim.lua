@@ -23,8 +23,8 @@ _hook_Add( "StartCommand", "gAC.AntiAntiAim", function( ply, cmd )
         return 
     end
 
-    if !ply.Meth_HVH_Threshold then
-        ply.Meth_HVH_Threshold = 0
+    if !ply.AntiAim_Threshold then
+        ply.AntiAim_Threshold = 0
     end
 
     local gAC_View = cmd:GetViewAngles()
@@ -32,14 +32,14 @@ _hook_Add( "StartCommand", "gAC.AntiAntiAim", function( ply, cmd )
 
 
     if p > 180 or p < -180 or y > 180 or y < -180 or r > 180 or r < -180 then
-        if ply.Meth_HVH_Threshold > 20 then
+        if ply.AntiAim_Threshold > 20 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "Anti-Aim Detected [Code 129]", gAC.config.ANTIAIM_PUNISHMENT, gAC.config.ANTIAIM_BANTIME )
             return
         else
-            ply.Meth_HVH_Threshold = ply.Meth_HVH_Threshold + 1
+            ply.AntiAim_Threshold = ply.AntiAim_Threshold + 1
         end
-    elseif ply.Meth_HVH_Threshold > 0 then
-        ply.Meth_HVH_Threshold = ply.Meth_HVH_Threshold - 1
+    elseif ply.AntiAim_Threshold > 0 then
+        ply.AntiAim_Threshold = ply.AntiAim_Threshold - 1
     end
 end )
