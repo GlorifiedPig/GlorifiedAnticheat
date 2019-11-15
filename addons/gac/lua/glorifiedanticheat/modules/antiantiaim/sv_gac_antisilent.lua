@@ -3,6 +3,7 @@ local _CurTime = CurTime
 local _IsValid = IsValid
 local _hook_Add = hook.Add
 local _math_abs = math.abs
+local _math_sqrt = math.sqrt
 
 local Blacklisted_Weapons = {
     ["weapon_physgun"] = true,
@@ -37,22 +38,17 @@ _hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
         return 
     end
 
-    local gAC_View = cmd:GetViewAngles()
-    local p, y, r = gAC_View.p, gAC_View.y, gAC_View.r
     local gAC_MX_AB = _math_abs( cmd:GetMouseX() )
     local gAC_MY_AB = _math_abs( cmd:GetMouseY() )
+    local gAC_FM = _math_abs( cmd:GetForwardMove() )
+    local gAC_SM = _math_abs( cmd:GetSideMove() )
 
-    if !ply.Aim_Silent_Last then
-        ply.Aim_Silent_Last = gAC_View
-        ply.Aim_Silent_MX_Last = gAC_MX_AB
-        ply.Aim_Silent_MY_Last = gAC_MY_AB
+    if !ply.Aim_Silent_Threshold then
         ply.Aim_Silent_Threshold = 0
         return
     end
 
-    local rounded_oldview, rounded_newview = roundangle(ply.Aim_Silent_Last), roundangle(gAC_View)
-
-    if gAC_MX_AB > 0 and gAC_MY_AB > 0 and rounded_oldview == rounded_newview then
+    if gAC_MX_AB > 0 and gAC_MY_AB > 0 and gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
         if ply.Aim_Silent_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "Silent-Aim Detected [Code 129]", gAC.config.SILENT_PUNISHMENT, gAC.config.SILENT_BANTIME )
@@ -63,8 +59,4 @@ _hook_Add( "StartCommand", "gAC.AimSilent", function( ply, cmd )
     elseif ply.Aim_Silent_Threshold > 0 then
         ply.Aim_Silent_Threshold = ply.Aim_Silent_Threshold - 1
     end
-
-    ply.Aim_Silent_Last = gAC_View
-    ply.Aim_Silent_MX_Last = gAC_MX_AB
-    ply.Aim_Silent_MY_Last = gAC_MY_AB
 end )
