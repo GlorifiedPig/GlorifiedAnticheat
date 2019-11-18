@@ -1,4 +1,4 @@
-local Hook, Index = 'gAC.IncludesLoaded', 'g-AC_fDRM_AntiSilent'
+local Hook, Index = 'gAC.IncludesLoaded', 'g-AC_fDRM_MoveManip'
 local FileIndex = gAC.fDRM_LoadIndexes[Index]
 local
 ⁪⁪repeat=require

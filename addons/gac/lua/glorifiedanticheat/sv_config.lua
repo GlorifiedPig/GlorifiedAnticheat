@@ -187,12 +187,12 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.ANTIAIM_BANTIME = 0
     --[[ ANTI Aim SETTINGS END ]]--
 
-    --[[ ANTI SILENT Aim SETTINGS ]]--
+    --[[ ANTI Movement Manipulation SETTINGS ]]--
         -- WARNING, This detection is untested!
-        gAC.config.ANTI_SILENT = false
-        gAC.config.SILENT_PUNISHMENT = true
-        gAC.config.SILENT_BANTIME = 0
-    --[[ ANTI SILENT Aim SETTINGS END ]]--
+        gAC.config.ANTI_MOVEMANIP = false
+        gAC.config.MOVEMANIP_PUNISHMENT = true
+        gAC.config.MOVEMANIP_BANTIME = 0
+    --[[ ANTI Movement Manipulation SETTINGS END ]]--
 
     --[[ RENDER HACK SETTINGS ]]--
         gAC.config.RENDER_HACK_CHECKS = true -- Set to 'true' if you want to check for render rewrites.
@@ -260,7 +260,7 @@ gAC.fDRM_LoadIndexes = {
     ['g-AC_fDRM_AntiCitizen'] = '53',
     ['g-AC_fDRM_AntiExternal'] = '54',
     ['g-AC_fDRM_ByteCode'] = '55',
-    ['g-AC_fDRM_AntiSilent'] = '80',
+    ['g-AC_fDRM_MoveManip'] = '81',
     ['g-AC_fDRM_MethV4'] = '78',
     ['g-AC_fDRM_AntiNoSpread'] = '58',
     ['g-AC_fDRM_AntiRenderHack'] = '59',
