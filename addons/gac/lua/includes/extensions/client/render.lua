@@ -237,6 +237,7 @@ local _hook_Add = hook.Add
 local _hook_Remove = hook.Remove
 local _engine_TickInterval = engine.TickInterval
 local _FindMetaTable = FindMetaTable
+local _util_NetworkStringToID = util.NetworkStringToID
 
 local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
 local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
@@ -668,7 +669,9 @@ end)
 local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
 
 _hook_Add("InitPostEntity", __IDENT, function()
-    _net_Start("g-AC_nonofurgoddamnbusiness")
-    _net_SendToServer()
-    _hook_Remove("InitPostEntity", __IDENT)
+    if _util_NetworkStringToID('g-AC_nonofurgoddamnbusiness') ~= 0 then
+        _net_Start("g-AC_nonofurgoddamnbusiness")
+        _net_SendToServer()
+        _hook_Remove("InitPostEntity", __IDENT)
+    end
 end)
