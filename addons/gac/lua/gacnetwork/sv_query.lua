@@ -86,3 +86,14 @@ _hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
         _hook_Run("gAC.CLFilesLoaded", ply)
     end
 end)
+
+local Checkactivity = false
+
+_hook_Add('PlayerInitialSpawn', 'DidGacLoad?', function(ply)
+    if gAC.Network and gAC.Network.ReceiveCount then return end
+    if Checkactivity then return end
+    gAC.Print('WARNING, gAC networking did not initalize in time.')
+    gAC.Print('Chances are that something is wrong with your license key.')
+    gAC.Print('Please contact the developers of gAC to resolve this.')
+    Checkactivity = true
+end)
