@@ -30,11 +30,7 @@ gAC_AddReceiver("g-AC_antineko", function(_, data)
     })
 	jit.attach(function(f) 
         if(_isfunction(neko)) then
-            gAC_Send("g-AC_Detections", _util_TableToJSON({
-                "Global 'neko' function detected [Code 112]", 
-                gAC.config.NEKO_LUA_PUNISHMENT, 
-                gAC.config.NEKO_LUA_BANTIME
-            }))
+            gAC_Send("g-AC_Neko", '')
         end 
     end, "bc")
 end)

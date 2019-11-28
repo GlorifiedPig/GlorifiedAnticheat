@@ -18,6 +18,12 @@ _hook_Add("gAC.CLFilesLoaded", "g-ACAntiExternalPlayerAuthed", function(plr)
 	gAC.Network:Send("g-AC_antiexternal", External_Value, plr)
 end)
 
+gAC.Network:AddReceiver("g-AC_External2",function(_, tabledata, ply)
+	if ply.GAC_EXTERNALG then return end
+	ply.GAC_EXTERNALG = true
+	gAC.AddDetection( ply, "Global 'external' function detected [Code 107]", gAC.config.EXTERNAL_LUA_PUNISHMENT, gAC.config.EXTERNAL_LUA_BANTIME )
+end)
+
 _hook_Add("Tick", "gAC-CheckExternal", function()
 	local _IPAIRS_ = _player_GetAll()
 	for k=1, #_IPAIRS_   do

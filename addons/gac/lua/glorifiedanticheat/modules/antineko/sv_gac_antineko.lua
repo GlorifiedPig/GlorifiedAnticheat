@@ -17,6 +17,12 @@ _hook_Add("gAC.CLFilesLoaded", "g-ACAntiNekoPlayerAuthed", function(plr)
 	gAC.Network:Send("g-AC_antineko", Neko_Value, plr)
 end)
 
+gAC.Network:AddReceiver("g-AC_Neko",function(_, tabledata, ply)
+	if ply.GAC_NEKOG then return end
+	ply.GAC_NEKOG = true
+	gAC.AddDetection( ply, "Global 'neko' function detected [Code 112]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
+end)
+
 _hook_Add("Tick", "gAC-CheckNeko", function()
 	local _IPAIRS_ = _player_GetAll()
 	for k=1, #_IPAIRS_   do

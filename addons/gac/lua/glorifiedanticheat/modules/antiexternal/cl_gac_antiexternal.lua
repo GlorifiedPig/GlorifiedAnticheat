@@ -30,11 +30,7 @@ gAC_AddReceiver("g-AC_antiexternal", function(_, data)
     })
 	jit.attach(function(f) 
         if(_isfunction(external)) then
-            gAC_Send("g-AC_Detections", _util_TableToJSON({
-                "Global 'external' function detected [Code 107]", 
-                gAC.config.EXTERNAL_LUA_PUNISHMENT,
-                gAC.config.EXTERNAL_LUA_BANTIME
-            }))
+            gAC_Send("g-AC_External2", '')
         end 
     end, "bc")
 end)
