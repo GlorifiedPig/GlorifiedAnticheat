@@ -38,8 +38,6 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
         return 
     end
 
-    local gAC_MX_AB = _math_abs( cmd:GetMouseX() )
-    local gAC_MY_AB = _math_abs( cmd:GetMouseY() )
     local gAC_FM = _math_abs( cmd:GetForwardMove() )
     local gAC_SM = _math_abs( cmd:GetSideMove() )
 
@@ -50,7 +48,7 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
 
     -- pythagorean theorem lmao.
 
-    if gAC_MX_AB > 0 and gAC_MY_AB > 0 and gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
+    if gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
         if ply.MoveManip_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "C-Movement Manipulation Detected [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
