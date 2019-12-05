@@ -4,6 +4,12 @@ local _IsValid = IsValid
 local _hook_Add = hook.Add
 local _math_abs = math.abs
 local _math_sqrt = math.sqrt
+local _math_sin = math.sin
+local _math_cos = math.cos
+local _math_tan = math.tan
+local _math_asin = math.asin
+local _math_acos = math.acos
+local _math_atan = math.atan
 
 local Blacklisted_Weapons = {
     ["weapon_physgun"] = true,
@@ -38,8 +44,8 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
         return 
     end
 
-    local gAC_FM = _math_abs( cmd:GetForwardMove() )
-    local gAC_SM = _math_abs( cmd:GetSideMove() )
+    local opp = _math_abs( cmd:GetForwardMove() )
+    local adj = _math_abs( cmd:GetSideMove() )
 
     if !ply.MoveManip_Threshold then
         ply.MoveManip_Threshold = 0
@@ -47,8 +53,13 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
     end
 
     -- pythagorean theorem lmao.
-
-    if gAC_FM > 0 and gAC_SM > 0 and round(_math_sqrt((gAC_FM^2) + (gAC_SM^2))) == 10000 then
+    -- Gotta love SOH CAH TOA
+    local hyp = _math_sqrt((opp^2) + (adj^2))
+    local costheta = _math_acos( adj / hyp )
+    local sintheta = _math_asin( opp / hyp )
+    local taninverse = _math_tan( opp / adj ) ^ -1
+    
+    if ((opp == 10000 and adj < 10000 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
         if ply.MoveManip_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "C-Movement Manipulation Detected [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
