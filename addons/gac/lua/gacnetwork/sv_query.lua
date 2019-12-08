@@ -1,168 +1,164 @@
-local _SortedPairs = SortedPairs
-local _file_Exists = file.Exists
-local _file_Read = file.Read
-local _hook_Add = hook.Add
-local _hook_Run = hook.Run
-local _pairs = pairs
-local _string_Replace = string.Replace
-local _string_match = string.match
-local _util_Compress = util.Compress
-local _util_JSONToTable = util.JSONToTable
-
-gAC.FileQuery = gAC.FileQuery or {}
-gAC.FileRelation = gAC.FileRelation or {}
-gAC.NetworkReceivers = gAC.NetworkReceivers or {}
-
-if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
-    gAC.Network = {}
-    gAC.Encoder = {}
-
-    function gAC.Network:AddReceiver(channelName, handler)
-        gAC.NetworkReceivers[#gAC.NetworkReceivers + 1] = {channelName, handler}
-    end
-
-    local _math_Round = math.Round
-    local _string_char = string.char
-    local _math_random = math.random
-    function gAC.Encoder.stringrandom(length)
-        local str = ""
-        for i = 1, length do
-            local typo =  _math_Round(_math_random(1, 4))
-            if typo == 1 then
-                str = str.. _string_char(_math_random(97, 122))
-            elseif typo == 2 then
-                str = str.. _string_char(_math_random(65, 90))
-            elseif typo == 3 then
-                str = str.. _string_char(_math_random(49, 57))
-            end
-        end
-        return str
-    end
-end
-
-function gAC.AddQuery(filepath)
-    local FileName = filepath
-    if _string_match(_string_match( filepath, "^.+/(.+)$"), "^json") then return end
-    filepath = _file_Read(filepath, "LUA")
-    local index = #gAC.FileQuery + 1
-	gAC.FileQuery[index] = filepath
-    gAC.FileRelation[index] = FileName
-    gAC.DBGPrint("Added file " .. FileName .. " to file query")
-end
-
-_hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
-    for k=1, #gAC.FileQuery do
-        local data = gAC.FileQuery[k]
-        local relation = gAC.FileRelation[k]
-        local json_filepath = _string_match(relation, "(.*/)") .. "json_" .. _string_match( relation, "^.+/(.+)$")
-        if _file_Exists(json_filepath, "LUA") then
-            local json = _util_JSONToTable(_file_Read(json_filepath, "LUA"))
-            for k, v in _pairs(json) do
-                data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
-            end
-            data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-            data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
-        end
-        gAC.FileQuery[k] = _util_Compress(gAC.Network.Payload_002 .. data)
-        gAC.DBGPrint("Encoded file " .. relation)
-    end
-
-    gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-
-    for k=1, #gAC.NetworkReceivers do
-        local v = gAC.NetworkReceivers[k]
-        gAC.Network:AddReceiver(v[1], v[2])
-    end
-
-    gAC.NetworkReceivers = {}
-end)
-
+local
+until⁪⁭⁭={end⁭‪⁭='\x46\x69\x6C\x65\x51\x75\x65\x72\x79',in﻿⁮﻿='\x46\x69\x6C\x65\x52\x65\x6C\x61\x74\x69\x6F\x6E',⁭﻿do='\x4E\x65\x74\x77\x6F\x72\x6B\x52\x65\x63\x65\x69\x76\x65\x72\x73',while‪⁮='\x4E\x65\x74\x77\x6F\x72\x6B',⁮﻿‪then='\x45\x6E\x63\x6F\x64\x65\x72',repeat⁪﻿='\x44\x42\x47\x50\x72\x69\x6E\x74',⁪local='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x61\x72',⁪repeat='\x41\x64\x64',not‪⁪='\x50\x72\x69\x6E\x74'}local
+else﻿⁪⁮=SortedPairs
+local
+then⁮⁭=file.Exists
+local
+‪local=file.Read
+local
+⁪﻿elseif=hook[until⁪⁭⁭.⁪repeat]local
+﻿⁭﻿true=hook.Run
+local
+true⁭⁪⁪=pairs
+local
+elseif‪‪﻿=string.Replace
+local
+return⁪‪=string.match
+local
+do⁪⁭⁪=util.Compress
+local
+else⁪﻿=util.JSONToTable
+gAC[until⁪⁭⁭.end⁭‪⁭]=gAC[until⁪⁭⁭.end⁭‪⁭]or{}gAC[until⁪⁭⁭.in﻿⁮﻿]=gAC[until⁪⁭⁭.in﻿⁮﻿]or{}gAC[until⁪⁭⁭.⁭﻿do]=gAC[until⁪⁭⁭.⁭﻿do]or{}if!gAC[until⁪⁭⁭.while‪⁮]then
+gAC[until⁪⁭⁭.while‪⁮]={}gAC[until⁪⁭⁭.⁮﻿‪then]={}function
+gAC.Network:AddReceiver(⁭⁪do,‪⁭⁮false)gAC[until⁪⁭⁭.⁭﻿do][#gAC[until⁪⁭⁭.⁭﻿do]+1]={⁭⁪do,‪⁭⁮false}end
+local
+and⁮=math.Round
+local
+⁪end=string.char
+local
+end⁪﻿=math.random
+function
+gAC.Encoder.stringrandom(⁮﻿‪goto)local
+﻿⁮‪=""for
+continue⁭⁭⁭=1,⁮﻿‪goto
 do
-    local fDRM_Url = 'http://fdrm.ews.cx/game/load'
-    local _require = require
-    local _string_sub = string.sub
-    local _string_gsub = string.gsub
-    local _print = print
-    local _hook_Add = hook.Add
-    local _string_byte = string.byte
-    local _GetHostName = GetHostName
-
-    _require("fdrm")
-
-    local _ends = {
-        '',
-        '==',
-        '='
-    }
-
-    local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-
-    local function InChunk( x) 
-        local r, b = '', _string_byte(x)
-        for i = 8, 1, -1 do
-            r = r..(b % 2 ^ i - b % 2 ^ (i - 1) > 0 and '1' or '0')
-        end
-        return r
-    end
-
-    local function OutChunk( x)
-        if (#x < 6) then
-            return ''
-        end
-        local c = 0
-        for i = 1, 6 do
-            c = c + (_string_sub(x, i, i) == '1' and 2 ^ (6 - i) or 0)
-        end
-        return _string_sub(b, c + 1, c + 1)
-    end
-
-    local function Encode( data)
-        return _string_gsub(
-            _string_gsub(data, '.', InChunk) .. '0000',
-            '%d%d%d?%d?%d?%d?',
-            OutChunk
-        ) .. _ends[#data % 3 + 1]
-    end
-
-    function gAC.fDRMAdd(Hook, Index)
-        local FileIndex = gAC.fDRM_LoadIndexes[Index]
-        local FileInit = false
-        _hook_Add(Hook, Index, function()
-            if ( !FileInit ) then
-                http.Post( fDRM_Url, {
-                    s = FileIndex,
-                    l = gAC.config.LICENSE,
-                    g = gmod.GetGamemode().Name,
-                    h = Encode( _GetHostName() )
-                }, function( result )
-                    RunStringF(result)
-                end, function( failed )
-                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[fDRM] ERR: '" .. failed .. "'")
-                end )
-                FileInit = true
-            end
-        end )
-    end
+local
+function⁪⁮﻿=and⁮(end⁪﻿(1,4))if
+function⁪⁮﻿==1
+then
+﻿⁮‪=﻿⁮‪..⁪end(end⁪﻿(97,122))elseif
+function⁪⁮﻿==2
+then
+﻿⁮‪=﻿⁮‪..⁪end(end⁪﻿(65,90))elseif
+function⁪⁮﻿==3
+then
+﻿⁮‪=﻿⁮‪..⁪end(end⁪﻿(49,57))end
 end
-
-_hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
-    if #gAC.FileQuery > 0 then
-        for k, v in _SortedPairs(gAC.FileQuery) do
-            if gAC.FileQuery[k] == nil then continue end
-            gAC.Network:Send ("LoadPayload", gAC.FileQuery[k], ply, true)
-        end
-        _hook_Run("gAC.CLFilesLoaded", ply)
-    end
-end)
-
-local Checkactivity = false
-
-_hook_Add('PlayerInitialSpawn', 'DidGacLoad?', function(ply)
-    if gAC.Network and gAC.Network.ReceiveCount then return end
-    if Checkactivity then return end
-    gAC.Print('WARNING, gAC networking did not initialize in time.')
-    gAC.Print('Chances are that something is wrong with your license key.')
-    gAC.Print('Please contact the developers of gAC to resolve this.')
-    Checkactivity = true
+return
+﻿⁮‪
+end
+end
+function
+gAC.AddQuery(⁭⁪﻿goto)local
+if⁭⁭⁭=⁭⁪﻿goto
+if
+return⁪‪(return⁪‪(⁭⁪﻿goto,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24"),"\x5E\x6A\x73\x6F\x6E")then
+return
+end
+⁭⁪﻿goto=‪local(⁭⁪﻿goto,"\x4C\x55\x41")local
+⁮‪return=#gAC[until⁪⁭⁭.end⁭‪⁭]+1
+gAC[until⁪⁭⁭.end⁭‪⁭][⁮‪return]=⁭⁪﻿goto
+gAC[until⁪⁭⁭.in﻿⁮﻿][⁮‪return]=if⁭⁭⁭
+gAC[until⁪⁭⁭.repeat⁪﻿]("\x41\x64\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..if⁭⁭⁭.."\x20\x74\x6F\x20\x66\x69\x6C\x65\x20\x71\x75\x65\x72\x79")end
+⁪﻿elseif("\x67\x41\x43\x2E\x49\x6E\x63\x6C\x75\x64\x65\x73\x4C\x6F\x61\x64\x65\x64","\x44\x65\x63\x6F\x64\x65\x72\x5F\x55\x6E\x6C\x6F\x61\x64\x65\x72",function()for
+until﻿⁪=1,#gAC[until⁪⁭⁭.end⁭‪⁭]do
+local
+or⁪⁮⁮=gAC[until⁪⁭⁭.end⁭‪⁭][until﻿⁪]local
+and﻿⁮=gAC[until⁪⁭⁭.in﻿⁮﻿][until﻿⁪]local
+﻿break=return⁪‪(and﻿⁮,"\x28\x2E\x2A\x2F\x29").."\x6A\x73\x6F\x6E\x5F"..return⁪‪(and﻿⁮,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24")if
+then⁮⁭(﻿break,"\x4C\x55\x41")then
+local
+‪⁪elseif=else⁪﻿(‪local(﻿break,"\x4C\x55\x41"))for
+false‪⁭⁮,continue⁭‪
+in
+true⁭⁪⁪(‪⁪elseif)do
+or⁪⁮⁮=elseif‪‪﻿(or⁪⁮⁮,false‪⁭⁮,"\x27"..gAC[until⁪⁭⁭.⁮﻿‪then].Encode(continue⁭‪,gAC[until⁪⁭⁭.while‪⁮].Global_Decoder).."\x27")end
+or⁪⁮⁮=elseif‪‪﻿(or⁪⁮⁮,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x53\x54\x52\x5F\x5F","\x6C\x6F\x63\x61\x6C\x20"..gAC[until⁪⁭⁭.⁮﻿‪then].Decoder.."\x3D"..gAC[until⁪⁭⁭.⁮﻿‪then].Unicode_String..gAC[until⁪⁭⁭.while‪⁮][until⁪⁭⁭.⁪local].."\x28\x27"..gAC[until⁪⁭⁭.while‪⁮].Decoder_Get.."\x27\x29")or⁪⁮⁮=elseif‪‪﻿(or⁪⁮⁮,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x46\x55\x4E\x43\x5F\x5F",gAC[until⁪⁭⁭.⁮﻿‪then].Decoder_Func)end
+gAC[until⁪⁭⁭.end⁭‪⁭][until﻿⁪]=do⁪⁭⁪(gAC[until⁪⁭⁭.while‪⁮].Payload_002..or⁪⁮⁮)gAC[until⁪⁭⁭.repeat⁪﻿]("\x45\x6E\x63\x6F\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..and﻿⁮)end
+gAC[until⁪⁭⁭.end⁭‪⁭][#gAC[until⁪⁭⁭.end⁭‪⁭]+1]=do⁪⁭⁪("\x5F\x47"..gAC[until⁪⁭⁭.while‪⁮][until⁪⁭⁭.⁪local].."\x20\x3D\x20\x5F\x47"..gAC[until⁪⁭⁭.while‪⁮][until⁪⁭⁭.⁪local].."\x28\x27"..gAC[until⁪⁭⁭.while‪⁮].Decoder_Undo.."\x27\x29")for
+⁭or=1,#gAC[until⁪⁭⁭.⁭﻿do]do
+local
+‪⁮local=gAC[until⁪⁭⁭.⁭﻿do][⁭or]gAC[until⁪⁭⁭.while‪⁮]:AddReceiver(‪⁮local[1],‪⁮local[2])end
+gAC[until⁪⁭⁭.⁭﻿do]={}end)do
+local
+goto⁪⁪⁮='\x68\x74\x74\x70\x3A\x2F\x2F\x66\x64\x72\x6D\x2E\x65\x77\x73\x2E\x63\x78\x2F\x67\x61\x6D\x65\x2F\x6C\x6F\x61\x64'local
+‪⁪return=require
+local
+⁪﻿or=string.sub
+local
+end⁭﻿=string.gsub
+local
+⁮⁪goto=print
+local
+⁭﻿﻿if=hook[until⁪⁭⁭.⁪repeat]local
+‪⁭﻿continue=string.byte
+local
+while‪‪=GetHostName
+‪⁪return("\x66\x64\x72\x6D")local
+‪﻿‪if={'','\x3D\x3D','\x3D'}local
+false⁮⁪⁭='\x41\x42\x43\x44\x45\x46\x47\x48\x49\x4A\x4B\x4C\x4D\x4E\x4F\x50\x51\x52\x53\x54\x55\x56\x57\x58\x59\x5A\x61\x62\x63\x64\x65\x66\x67\x68\x69\x6A\x6B\x6C\x6D\x6E\x6F\x70\x71\x72\x73\x74\x75\x76\x77\x78\x79\x7A\x30\x31\x32\x33\x34\x35\x36\x37\x38\x39\x2B\x2F'local
+function
+true⁮⁭(do‪)local
+in﻿‪⁪﻿,and‪⁭⁮⁪='',‪⁭﻿continue(do‪)for
+goto‪⁪﻿‪=8,1,-1
+do
+in﻿‪⁪﻿=in﻿‪⁪﻿..(and‪⁭⁮⁪%2^goto‪⁪﻿‪-and‪⁭⁮⁪%2^(goto‪⁪﻿‪-1)>0
+and'\x31'or'\x30')end
+return
+in﻿‪⁪﻿
+end
+local
+function
+if⁮⁮(﻿⁮until)if(#﻿⁮until<6)then
+return''end
+local
+function‪⁭=0
+for
+⁭⁮﻿until=1,6
+do
+function‪⁭=function‪⁭+(⁪﻿or(﻿⁮until,⁭⁮﻿until,⁭⁮﻿until)=='\x31'and
+2^(6-⁭⁮﻿until)or
+0)end
+return
+⁪﻿or(false⁮⁪⁭,function‪⁭+1,function‪⁭+1)end
+local
+function
+⁭⁭‪for(true⁪⁮﻿)return
+end⁭﻿(end⁭﻿(true⁪⁮﻿,'\x2E',true⁮⁭)..'\x30\x30\x30\x30','\x25\x64\x25\x64\x25\x64\x3F\x25\x64\x3F\x25\x64\x3F\x25\x64\x3F',if⁮⁮)..‪﻿‪if[#true⁪⁮﻿%3+1]end
+function
+gAC.fDRMAdd(⁮⁪while,continue⁭)local
+‪⁭⁪﻿if=gAC.fDRM_LoadIndexes[continue⁭]local
+⁮⁭⁪continue=!1
+⁭﻿﻿if(⁮⁪while,continue⁭,function()if(!⁮⁭⁪continue)then
+http.Post(goto⁪⁪⁮,{s=‪⁭⁪﻿if,l=gAC.config.LICENSE,g=gmod.GetGamemode().Name,h=⁭⁭‪for(while‪‪())},function(﻿‪⁭and)RunStringF(﻿‪⁭and)end,function(⁪break)⁮⁪goto("\x5B\x66\x44\x52\x4D\x5D\x20\x46\x69\x6C\x65\x20\x72\x65\x71\x75\x65\x73\x74\x20\x66\x61\x69\x6C\x75\x72\x65\x20\x66\x6F\x72\x20\x27"..‪⁭⁪﻿if.."\x27")⁮⁪goto("\x5B\x66\x44\x52\x4D\x5D\x20\x45\x52\x52\x3A\x20\x27"..⁪break.."\x27")end)⁮⁭⁪continue=!!1
+end
+end)end
+end
+⁪﻿elseif("\x67\x41\x43\x2E\x43\x6C\x69\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64","\x53\x65\x6E\x64\x46\x69\x6C\x65\x73",function(until‪)if#gAC[until⁪⁭⁭.end⁭‪⁭]>0
+then
+for
+﻿‪‪while,goto⁭﻿
+in
+else﻿⁪⁮(gAC[until⁪⁭⁭.end⁭‪⁭])do
+if
+gAC[until⁪⁭⁭.end⁭‪⁭][﻿‪‪while]==nil
+then
+continue
+end
+gAC[until⁪⁭⁭.while‪⁮]:Send("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",gAC[until⁪⁭⁭.end⁭‪⁭][﻿‪‪while],until‪,!!1)end
+﻿⁭﻿true("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64",until‪)end
+end)local
+repeat⁪=!1
+⁪﻿elseif('\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E','\x44\x69\x64\x47\x61\x63\x4C\x6F\x61\x64\x3F',function(elseif⁮⁮)if
+gAC[until⁪⁭⁭.while‪⁮]and
+gAC[until⁪⁭⁭.while‪⁮].ReceiveCount
+then
+return
+end
+if
+repeat⁪
+then
+return
+end
+gAC[until⁪⁭⁭.not‪⁪]('\x57\x41\x52\x4E\x49\x4E\x47\x2C\x20\x67\x41\x43\x20\x6E\x65\x74\x77\x6F\x72\x6B\x69\x6E\x67\x20\x64\x69\x64\x20\x6E\x6F\x74\x20\x69\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65\x20\x69\x6E\x20\x74\x69\x6D\x65\x2E')gAC[until⁪⁭⁭.not‪⁪]('\x43\x68\x61\x6E\x63\x65\x73\x20\x61\x72\x65\x20\x74\x68\x61\x74\x20\x73\x6F\x6D\x65\x74\x68\x69\x6E\x67\x20\x69\x73\x20\x77\x72\x6F\x6E\x67\x20\x77\x69\x74\x68\x20\x79\x6F\x75\x72\x20\x6C\x69\x63\x65\x6E\x73\x65\x20\x6B\x65\x79\x2E')gAC[until⁪⁭⁭.not‪⁪]('\x50\x6C\x65\x61\x73\x65\x20\x63\x6F\x6E\x74\x61\x63\x74\x20\x74\x68\x65\x20\x64\x65\x76\x65\x6C\x6F\x70\x65\x72\x73\x20\x6F\x66\x20\x67\x41\x43\x20\x74\x6F\x20\x72\x65\x73\x6F\x6C\x76\x65\x20\x74\x68\x69\x73\x2E')repeat⁪=!!1
 end)
