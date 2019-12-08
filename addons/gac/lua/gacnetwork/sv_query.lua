@@ -183,7 +183,7 @@ do
                 end, function( failed )
                     _print("[fDRM] File request failure for '" .. FileIndex .. "'")
                     _print("[fDRM] ERR: '" .. failed .. "'")
-                    LoadIndexRequested[Index] = 2
+                    LoadIndexRequested[Index] = 3
                     fDRM_InitalizeEncoding()
                 end )
                 FileInit = true
@@ -217,13 +217,24 @@ do
                 end, function( failed )
                     _print("[fDRM] File request failure for '" .. FileIndex .. "'")
                     _print("[fDRM] ERR: '" .. failed .. "'")
-                    LoadIndexRequested[Index] = 2
+                    LoadIndexRequested[Index] = 3
                     fDRM_InitalizeEncoding()
                 end )
                 FileInit = true
             end
         end )
     end
+
+    concommand.Add('fdrm_filestatus', function()
+        gAC.Print('fDRM file status')
+        for k, v in _pairs(LoadIndexRequested) do
+            if v == 0 then response = "Not Requested" end
+            if v == 1 then response = "Not Received" end
+            if v == 2 then response = "Executed" end
+            if v == 3 then response = "Errored" end
+            print('[fDRM] index "' .. k .. "' - " .. response)
+        end
+    end)
 end
 
 _hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
