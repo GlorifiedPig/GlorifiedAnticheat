@@ -8,6 +8,14 @@ local _string_Replace = string.Replace
 local _string_match = string.match
 local _util_Compress = util.Compress
 local _util_JSONToTable = util.JSONToTable
+local _http_Post = http.Post
+local _gmod_GetGamemode = gmod.GetGamemode
+local _require = require
+local _string_sub = string.sub
+local _string_gsub = string.gsub
+local _print = print
+local _string_byte = string.byte
+local _GetHostName = GetHostName
 
 gAC.FileQuery = gAC.FileQuery or {}
 gAC.FileRelation = gAC.FileRelation or {}
@@ -79,13 +87,6 @@ end)
 
 do
     local fDRM_Url = 'http://fdrm.ews.cx/game/load'
-    local _require = require
-    local _string_sub = string.sub
-    local _string_gsub = string.gsub
-    local _print = print
-    local _hook_Add = hook.Add
-    local _string_byte = string.byte
-    local _GetHostName = GetHostName
 
     _require("fdrm")
 
@@ -171,10 +172,10 @@ do
         LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
-                http.Post( fDRM_Url, {
+                _http_Post( fDRM_Url, {
                     s = FileIndex,
                     l = gAC.config.LICENSE,
-                    g = gmod.GetGamemode().Name,
+                    g = _gmod_GetGamemode().Name,
                     h = Encode( _GetHostName() )
                 }, function( result )
                     RunStringF(result, Index)

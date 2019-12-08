@@ -251,4 +251,33 @@ end
 
 table.Merge( gAC.config, CFG )
 
-gAC.fDRM_LoadIndexes = {}
+gAC.fDRM_LoadIndexes = {
+    ['g-AC_fDRM_Networking'] = '48',
+    ['g-AC_fDRM_AdminPrivilages'] = '49',
+    ['g-AC_fDRM_AltDetection'] = '50',
+    ['g-AC_fDRM_AntiAntiAim'] = '51',
+    ['g-AC_fDRM_AntiBigPackets'] = '52',
+    ['g-AC_fDRM_AntiCitizen'] = '53',
+    ['g-AC_fDRM_AntiExternal'] = '54',
+    ['g-AC_fDRM_ByteCode'] = '55',
+    ['g-AC_fDRM_MoveManip'] = '81',
+    ['g-AC_fDRM_MethV4'] = '78',
+    ['g-AC_fDRM_AntiNoSpread'] = '58',
+    ['g-AC_fDRM_AntiRenderHack'] = '59',
+    ['g-AC_fDRM_BanSys'] = '60',
+    ['g-AC_fDRM_ConCommand_Abuse'] = '61',
+    ['g-AC_fDRM_CvarManip'] = '62',
+    ['g-AC_fDRM_DebugLib'] = '63',
+    ['g-AC_fDRM_FamilyShareCheck'] = '64',
+    ['g-AC_fDRM_Notifications'] = '65',
+    ['g-AC_fDRM_UniquePData'] = '66',
+    ['g-AC_fDRM_Verify'] = '67',
+    ['g-AC_fDRM_VPNChecker'] = '68',
+    ['g-AC_fDRM_AntiBhop'] = '69',
+    ['g-AC_fDRM_AntiNeko'] = '70',
+    ['g-AC_fDRM_CPPAimbot'] = '71',
+    ['g-AC_fDRM_NetBackDoor'] = '72',
+    ['g-AC_fDRM_DetectionSys'] = '73',
+    ['g-AC_fDRM_KeyBindings'] = '74',
+    ['g-AC_fDRM_AntiLua'] = '76',
+}
