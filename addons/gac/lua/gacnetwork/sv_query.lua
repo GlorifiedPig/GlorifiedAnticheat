@@ -77,6 +77,75 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
     gAC.NetworkReceivers = {}
 end)
 
+do
+    local fDRM_Url = 'http://fdrm.ews.cx/game/load'
+    local _require = require
+    local _string_sub = string.sub
+    local _string_gsub = string.gsub
+    local _print = print
+    local _hook_Add = hook.Add
+    local _string_byte = string.byte
+    local _GetHostName = GetHostName
+
+    _require("fdrm")
+
+    local _ends = {
+        '',
+        '==',
+        '='
+    }
+
+    local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+    local function InChunk( x) 
+        local r, b = '', _string_byte(x)
+        for i = 8, 1, -1 do
+            r = r..(b % 2 ^ i - b % 2 ^ (i - 1) > 0 and '1' or '0')
+        end
+        return r
+    end
+
+    local function OutChunk( x)
+        if (#x < 6) then
+            return ''
+        end
+        local c = 0
+        for i = 1, 6 do
+            c = c + (_string_sub(x, i, i) == '1' and 2 ^ (6 - i) or 0)
+        end
+        return _string_sub(b, c + 1, c + 1)
+    end
+
+    local function Encode( data)
+        return _string_gsub(
+            _string_gsub(data, '.', InChunk) .. '0000',
+            '%d%d%d?%d?%d?%d?',
+            OutChunk
+        ) .. _ends[#data % 3 + 1]
+    end
+
+    function gAC.fDRMAdd(Hook, Index)
+        local FileIndex = gAC.fDRM_LoadIndexes[Index]
+        local FileInit = false
+        _hook_Add(Hook, Index, function()
+            if ( !FileInit ) then
+                http.Post( fDRM_Url, {
+                    s = FileIndex,
+                    l = gAC.config.LICENSE,
+                    g = gmod.GetGamemode().Name,
+                    h = Encode( _GetHostName() )
+                }, function( result )
+                    RunStringF(result)
+                end, function( failed )
+                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[fDRM] ERR: '" .. failed .. "'")
+                end )
+                FileInit = true
+            end
+        end )
+    end
+end
+
 _hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
     if #gAC.FileQuery > 0 then
         for k, v in _SortedPairs(gAC.FileQuery) do
