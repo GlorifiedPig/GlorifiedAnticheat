@@ -1,110 +1,168 @@
-local
-⁮⁭goto={﻿﻿until='\x46\x69\x6C\x65\x51\x75\x65\x72\x79',return⁮='\x46\x69\x6C\x65\x52\x65\x6C\x61\x74\x69\x6F\x6E',‪﻿goto='\x4E\x65\x74\x77\x6F\x72\x6B\x52\x65\x63\x65\x69\x76\x65\x72\x73',⁭‪﻿true='\x4E\x65\x74\x77\x6F\x72\x6B',﻿false='\x45\x6E\x63\x6F\x64\x65\x72',﻿⁪⁮end='\x44\x42\x47\x50\x72\x69\x6E\x74',⁭⁮‪and='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x61\x72',elseif⁭='\x50\x72\x69\x6E\x74'}local
-‪⁮function=SortedPairs
-local
-‪⁪true=file.Exists
-local
-else⁮=file.Read
-local
-﻿⁮⁭repeat=hook.Add
-local
-⁮while=hook.Run
-local
-else﻿﻿⁪=pairs
-local
-true⁪﻿⁭=string.Replace
-local
-‪⁮break=string.match
-local
-while⁮⁭=util.Compress
-local
-⁮⁮﻿true=util.JSONToTable
-gAC[⁮⁭goto.﻿﻿until]=gAC[⁮⁭goto.﻿﻿until]or{}gAC[⁮⁭goto.return⁮]=gAC[⁮⁭goto.return⁮]or{}gAC[⁮⁭goto.‪﻿goto]=gAC[⁮⁭goto.‪﻿goto]or{}if!gAC[⁮⁭goto.⁭‪﻿true]then
-gAC[⁮⁭goto.⁭‪﻿true]={}gAC[⁮⁭goto.﻿false]={}function
-gAC.Network:AddReceiver(﻿‪not,until⁭‪⁪)gAC[⁮⁭goto.‪﻿goto][#gAC[⁮⁭goto.‪﻿goto]+1]={﻿‪not,until⁭‪⁪}end
-local
-goto⁭﻿=math.Round
-local
-then⁪=string.char
-local
-goto‪=math.random
-function
-gAC.Encoder.stringrandom(⁪⁮⁭for)local
-﻿‪⁪do=""for
-⁭⁪end=1,⁪⁮⁭for
+local _SortedPairs = SortedPairs
+local _file_Exists = file.Exists
+local _file_Read = file.Read
+local _hook_Add = hook.Add
+local _hook_Run = hook.Run
+local _pairs = pairs
+local _string_Replace = string.Replace
+local _string_match = string.match
+local _util_Compress = util.Compress
+local _util_JSONToTable = util.JSONToTable
+
+gAC.FileQuery = gAC.FileQuery or {}
+gAC.FileRelation = gAC.FileRelation or {}
+gAC.NetworkReceivers = gAC.NetworkReceivers or {}
+
+if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
+    gAC.Network = {}
+    gAC.Encoder = {}
+
+    function gAC.Network:AddReceiver(channelName, handler)
+        gAC.NetworkReceivers[#gAC.NetworkReceivers + 1] = {channelName, handler}
+    end
+
+    local _math_Round = math.Round
+    local _string_char = string.char
+    local _math_random = math.random
+    function gAC.Encoder.stringrandom(length)
+        local str = ""
+        for i = 1, length do
+            local typo =  _math_Round(_math_random(1, 4))
+            if typo == 1 then
+                str = str.. _string_char(_math_random(97, 122))
+            elseif typo == 2 then
+                str = str.. _string_char(_math_random(65, 90))
+            elseif typo == 3 then
+                str = str.. _string_char(_math_random(49, 57))
+            end
+        end
+        return str
+    end
+end
+
+function gAC.AddQuery(filepath)
+    local FileName = filepath
+    if _string_match(_string_match( filepath, "^.+/(.+)$"), "^json") then return end
+    filepath = _file_Read(filepath, "LUA")
+    local index = #gAC.FileQuery + 1
+	gAC.FileQuery[index] = filepath
+    gAC.FileRelation[index] = FileName
+    gAC.DBGPrint("Added file " .. FileName .. " to file query")
+end
+
+_hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
+    for k=1, #gAC.FileQuery do
+        local data = gAC.FileQuery[k]
+        local relation = gAC.FileRelation[k]
+        local json_filepath = _string_match(relation, "(.*/)") .. "json_" .. _string_match( relation, "^.+/(.+)$")
+        if _file_Exists(json_filepath, "LUA") then
+            local json = _util_JSONToTable(_file_Read(json_filepath, "LUA"))
+            for k, v in _pairs(json) do
+                data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
+            end
+            data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+            data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+        end
+        gAC.FileQuery[k] = _util_Compress(gAC.Network.Payload_002 .. data)
+        gAC.DBGPrint("Encoded file " .. relation)
+    end
+
+    gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
+
+    for k=1, #gAC.NetworkReceivers do
+        local v = gAC.NetworkReceivers[k]
+        gAC.Network:AddReceiver(v[1], v[2])
+    end
+
+    gAC.NetworkReceivers = {}
+end)
+
 do
-local
-in⁭﻿=goto⁭﻿(goto‪(1,4))if
-in⁭﻿==1
-then
-﻿‪⁪do=﻿‪⁪do..then⁪(goto‪(97,122))elseif
-in⁭﻿==2
-then
-﻿‪⁪do=﻿‪⁪do..then⁪(goto‪(65,90))elseif
-in⁭﻿==3
-then
-﻿‪⁪do=﻿‪⁪do..then⁪(goto‪(49,57))end
+    local fDRM_Url = 'http://fdrm.ews.cx/game/load'
+    local _require = require
+    local _string_sub = string.sub
+    local _string_gsub = string.gsub
+    local _print = print
+    local _hook_Add = hook.Add
+    local _string_byte = string.byte
+    local _GetHostName = GetHostName
+
+    _require("fdrm")
+
+    local _ends = {
+        '',
+        '==',
+        '='
+    }
+
+    local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+    local function InChunk( x) 
+        local r, b = '', _string_byte(x)
+        for i = 8, 1, -1 do
+            r = r..(b % 2 ^ i - b % 2 ^ (i - 1) > 0 and '1' or '0')
+        end
+        return r
+    end
+
+    local function OutChunk( x)
+        if (#x < 6) then
+            return ''
+        end
+        local c = 0
+        for i = 1, 6 do
+            c = c + (_string_sub(x, i, i) == '1' and 2 ^ (6 - i) or 0)
+        end
+        return _string_sub(b, c + 1, c + 1)
+    end
+
+    local function Encode( data)
+        return _string_gsub(
+            _string_gsub(data, '.', InChunk) .. '0000',
+            '%d%d%d?%d?%d?%d?',
+            OutChunk
+        ) .. _ends[#data % 3 + 1]
+    end
+
+    function gAC.fDRMAdd(Hook, Index)
+        local FileIndex = gAC.fDRM_LoadIndexes[Index]
+        local FileInit = false
+        _hook_Add(Hook, Index, function()
+            if ( !FileInit ) then
+                http.Post( fDRM_Url, {
+                    s = FileIndex,
+                    l = gAC.config.LICENSE,
+                    g = gmod.GetGamemode().Name,
+                    h = Encode( _GetHostName() )
+                }, function( result )
+                    RunStringF(result)
+                end, function( failed )
+                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[fDRM] ERR: '" .. failed .. "'")
+                end )
+                FileInit = true
+            end
+        end )
+    end
 end
-return
-﻿‪⁪do
-end
-end
-function
-gAC.AddQuery(‪⁭⁮return)local
-⁮‪nil=‪⁭⁮return
-if
-‪⁮break(‪⁮break(‪⁭⁮return,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24"),"\x5E\x6A\x73\x6F\x6E")then
-return
-end
-‪⁭⁮return=else⁮(‪⁭⁮return,"\x4C\x55\x41")local
-else⁪=#gAC[⁮⁭goto.﻿﻿until]+1
-gAC[⁮⁭goto.﻿﻿until][else⁪]=‪⁭⁮return
-gAC[⁮⁭goto.return⁮][else⁪]=⁮‪nil
-gAC[⁮⁭goto.﻿⁪⁮end]("\x41\x64\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..⁮‪nil.."\x20\x74\x6F\x20\x66\x69\x6C\x65\x20\x71\x75\x65\x72\x79")end
-﻿⁮⁭repeat("\x67\x41\x43\x2E\x49\x6E\x63\x6C\x75\x64\x65\x73\x4C\x6F\x61\x64\x65\x64","\x44\x65\x63\x6F\x64\x65\x72\x5F\x55\x6E\x6C\x6F\x61\x64\x65\x72",function()for
-false﻿=1,#gAC[⁮⁭goto.﻿﻿until]do
-local
-⁭⁪continue=gAC[⁮⁭goto.﻿﻿until][false﻿]local
-goto⁭⁮⁪=gAC[⁮⁭goto.return⁮][false﻿]local
-not﻿=‪⁮break(goto⁭⁮⁪,"\x28\x2E\x2A\x2F\x29").."\x6A\x73\x6F\x6E\x5F"..‪⁮break(goto⁭⁮⁪,"\x5E\x2E\x2B\x2F\x28\x2E\x2B\x29\x24")if
-‪⁪true(not﻿,"\x4C\x55\x41")then
-local
-then⁪⁮⁭=⁮⁮﻿true(else⁮(not﻿,"\x4C\x55\x41"))for
-do⁮,‪⁪and
-in
-else﻿﻿⁪(then⁪⁮⁭)do
-⁭⁪continue=true⁪﻿⁭(⁭⁪continue,do⁮,"\x27"..gAC[⁮⁭goto.﻿false].Encode(‪⁪and,gAC[⁮⁭goto.⁭‪﻿true].Global_Decoder).."\x27")end
-⁭⁪continue=true⁪﻿⁭(⁭⁪continue,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x53\x54\x52\x5F\x5F","\x6C\x6F\x63\x61\x6C\x20"..gAC[⁮⁭goto.﻿false].Decoder.."\x3D"..gAC[⁮⁭goto.﻿false].Unicode_String..gAC[⁮⁭goto.⁭‪﻿true][⁮⁭goto.⁭⁮‪and].."\x28\x27"..gAC[⁮⁭goto.⁭‪﻿true].Decoder_Get.."\x27\x29")⁭⁪continue=true⁪﻿⁭(⁭⁪continue,"\x5F\x5F\x44\x45\x43\x4F\x44\x45\x52\x5F\x46\x55\x4E\x43\x5F\x5F",gAC[⁮⁭goto.﻿false].Decoder_Func)end
-gAC[⁮⁭goto.﻿﻿until][false﻿]=while⁮⁭(gAC[⁮⁭goto.⁭‪﻿true].Payload_002..⁭⁪continue)gAC[⁮⁭goto.﻿⁪⁮end]("\x45\x6E\x63\x6F\x64\x65\x64\x20\x66\x69\x6C\x65\x20"..goto⁭⁮⁪)end
-gAC[⁮⁭goto.﻿﻿until][#gAC[⁮⁭goto.﻿﻿until]+1]=while⁮⁭("\x5F\x47"..gAC[⁮⁭goto.⁭‪﻿true][⁮⁭goto.⁭⁮‪and].."\x20\x3D\x20\x5F\x47"..gAC[⁮⁭goto.⁭‪﻿true][⁮⁭goto.⁭⁮‪and].."\x28\x27"..gAC[⁮⁭goto.⁭‪﻿true].Decoder_Undo.."\x27\x29")for
-repeat⁭=1,#gAC[⁮⁭goto.‪﻿goto]do
-local
-then‪⁭﻿=gAC[⁮⁭goto.‪﻿goto][repeat⁭]gAC[⁮⁭goto.⁭‪﻿true]:AddReceiver(then‪⁭﻿[1],then‪⁭﻿[2])end
-gAC[⁮⁭goto.‪﻿goto]={}end)﻿⁮⁭repeat("\x67\x41\x43\x2E\x43\x6C\x69\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64","\x53\x65\x6E\x64\x46\x69\x6C\x65\x73",function(end⁪)if#gAC[⁮⁭goto.﻿﻿until]>0
-then
-for
-﻿,⁭not
-in
-‪⁮function(gAC[⁮⁭goto.﻿﻿until])do
-if
-gAC[⁮⁭goto.﻿﻿until][﻿]==nil
-then
-continue
-end
-gAC[⁮⁭goto.⁭‪﻿true]:Send("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",gAC[⁮⁭goto.﻿﻿until][﻿],end⁪,true)end
-⁮while("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64",end⁪)end
-end)local
-or﻿⁪=false
-﻿⁮⁭repeat('\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E','\x44\x69\x64\x47\x61\x63\x4C\x6F\x61\x64\x3F',function(until‪⁭⁭)if
-gAC[⁮⁭goto.⁭‪﻿true]and
-gAC[⁮⁭goto.⁭‪﻿true].ReceiveCount
-then
-return
-end
-if
-or﻿⁪
-then
-return
-end
-gAC[⁮⁭goto.elseif⁭]('\x57\x41\x52\x4E\x49\x4E\x47\x2C\x20\x67\x41\x43\x20\x6E\x65\x74\x77\x6F\x72\x6B\x69\x6E\x67\x20\x64\x69\x64\x20\x6E\x6F\x74\x20\x69\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65\x20\x69\x6E\x20\x74\x69\x6D\x65\x2E')gAC[⁮⁭goto.elseif⁭]('\x43\x68\x61\x6E\x63\x65\x73\x20\x61\x72\x65\x20\x74\x68\x61\x74\x20\x73\x6F\x6D\x65\x74\x68\x69\x6E\x67\x20\x69\x73\x20\x77\x72\x6F\x6E\x67\x20\x77\x69\x74\x68\x20\x79\x6F\x75\x72\x20\x6C\x69\x63\x65\x6E\x73\x65\x20\x6B\x65\x79\x2E')gAC[⁮⁭goto.elseif⁭]('\x50\x6C\x65\x61\x73\x65\x20\x63\x6F\x6E\x74\x61\x63\x74\x20\x74\x68\x65\x20\x64\x65\x76\x65\x6C\x6F\x70\x65\x72\x73\x20\x6F\x66\x20\x67\x41\x43\x20\x74\x6F\x20\x72\x65\x73\x6F\x6C\x76\x65\x20\x74\x68\x69\x73\x2E')or﻿⁪=true
+
+_hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
+    if #gAC.FileQuery > 0 then
+        for k, v in _SortedPairs(gAC.FileQuery) do
+            if gAC.FileQuery[k] == nil then continue end
+            gAC.Network:Send ("LoadPayload", gAC.FileQuery[k], ply, true)
+        end
+        _hook_Run("gAC.CLFilesLoaded", ply)
+    end
+end)
+
+local Checkactivity = false
+
+_hook_Add('PlayerInitialSpawn', 'DidGacLoad?', function(ply)
+    if gAC.Network and gAC.Network.ReceiveCount then return end
+    if Checkactivity then return end
+    gAC.Print('WARNING, gAC networking did not initialize in time.')
+    gAC.Print('Chances are that something is wrong with your license key.')
+    gAC.Print('Please contact the developers of gAC to resolve this.')
+    Checkactivity = true
 end)
