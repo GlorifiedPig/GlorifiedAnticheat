@@ -177,7 +177,7 @@ do
                     g = gmod.GetGamemode().Name,
                     h = Encode( _GetHostName() )
                 }, function( result )
-                    RunStringF(result)
+                    RunStringF(result, Index)
                     LoadIndexRequested[Index] = 2
                     fDRM_InitalizeEncoding()
                 end, function( failed )
@@ -210,7 +210,7 @@ do
                     h = Encode( _GetHostName() )
                 }, function( result )
                     gAC.fDRMAddCLCode = fDRMAddCLCode
-                    RunStringF(result)
+                    RunStringF(result, Index)
                     gAC.fDRMAddCLCode = nil
                     LoadIndexRequested[Index] = 2
                     fDRM_InitalizeEncoding()
