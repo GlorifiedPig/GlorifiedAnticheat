@@ -232,7 +232,7 @@ do
             if v == 1 then response = "Not Received" end
             if v == 2 then response = "Executed" end
             if v == 3 then response = "Errored" end
-            print('[fDRM] index "' .. k .. "' - " .. response)
+            _print('[fDRM] index "' .. k .. "' - " .. response)
         end
     end)
 end
