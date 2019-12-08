@@ -124,9 +124,51 @@ do
         ) .. _ends[#data % 3 + 1]
     end
 
+    local LoadIndexRequested = {}
+
+    for k, v in _pairs(gAC.fDRM_LoadIndexes) do
+        LoadIndexRequested[k] = 0
+    end
+
+    local function fDRM_AllisLoaded()
+        for k, v in _pairs(LoadIndexRequested) do
+            if LoadIndexRequested < 2 then return false end
+        end
+        return true
+    end
+
+    local FileData, FileDataJson = {}
+
+    local function fDRM_InitalizeEncoding()
+        if !fDRM_AllisLoaded() then return end
+        for k, data in _pairs(FileData) do
+            local json = FileDataJson[k]
+            if json ~= false then
+                for k, v in _pairs(json) do
+                    data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
+                end
+                data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+                data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+            end
+            gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(gAC.Network.Payload_002 .. data)
+            gAC.DBGPrint("Encoded file " .. relation)
+        end
+    
+        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
+    
+        for k=1, #gAC.NetworkReceivers do
+            local v = gAC.NetworkReceivers[k]
+            gAC.Network:AddReceiver(v[1], v[2])
+        end
+    
+        gAC.NetworkReceivers = {}
+    end
+
     function gAC.fDRMAdd(Hook, Index)
+        if LoadIndexRequested[Index] == nil then return end
         local FileIndex = gAC.fDRM_LoadIndexes[Index]
         local FileInit = false
+        LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
                 http.Post( fDRM_Url, {
@@ -136,9 +178,47 @@ do
                     h = Encode( _GetHostName() )
                 }, function( result )
                     RunStringF(result)
+                    LoadIndexRequested[Index] = 2
+                    fDRM_InitalizeEncoding()
                 end, function( failed )
                     _print("[fDRM] File request failure for '" .. FileIndex .. "'")
                     _print("[fDRM] ERR: '" .. failed .. "'")
+                    LoadIndexRequested[Index] = 2
+                    fDRM_InitalizeEncoding()
+                end )
+                FileInit = true
+            end
+        end )
+    end
+
+    local function fDRMAddCLCode(code, json)
+        FileData[#FileData + 1] = code
+        FileDataJson[#FileDataJson + 1] = json or false
+    end
+
+    function gAC.fDRMAddClient(Hook, Index)
+        if LoadIndexRequested[Index] == nil then return end
+        local FileIndex = gAC.fDRM_LoadIndexes[Index]
+        local FileInit = false
+        LoadIndexRequested[Index] = 1
+        _hook_Add(Hook, Index, function()
+            if ( !FileInit ) then
+                http.Post( fDRM_Url, {
+                    s = FileIndex,
+                    l = gAC.config.LICENSE,
+                    g = gmod.GetGamemode().Name,
+                    h = Encode( _GetHostName() )
+                }, function( result )
+                    gAC.fDRMAddCLCode = fDRMAddCLCode
+                    RunStringF(result)
+                    gAC.fDRMAddCLCode = nil
+                    LoadIndexRequested[Index] = 2
+                    fDRM_InitalizeEncoding()
+                end, function( failed )
+                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[fDRM] ERR: '" .. failed .. "'")
+                    LoadIndexRequested[Index] = 2
+                    fDRM_InitalizeEncoding()
                 end )
                 FileInit = true
             end

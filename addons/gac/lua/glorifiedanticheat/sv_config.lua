@@ -250,3 +250,5 @@ for k, v in pairs(gAC.config) do
 end
 
 table.Merge( gAC.config, CFG )
+
+gAC.fDRM_LoadIndexes = {}
