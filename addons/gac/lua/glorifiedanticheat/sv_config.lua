@@ -251,7 +251,11 @@ end
 
 table.Merge( gAC.config, CFG )
 
+-- If files do not load, type 'fdrm_filestatus' in console and send us a picture of it.
+-- Please do not edit these unless we tell you to.
+
 gAC.fDRM_LoadIndexes = {
+    --SV
     ['g-AC_fDRM_Networking'] = '48',
     ['g-AC_fDRM_AdminPrivilages'] = '49',
     ['g-AC_fDRM_AltDetection'] = '50',
@@ -280,4 +284,20 @@ gAC.fDRM_LoadIndexes = {
     ['g-AC_fDRM_DetectionSys'] = '73',
     ['g-AC_fDRM_KeyBindings'] = '74',
     ['g-AC_fDRM_AntiLua'] = '76',
+
+    --CL
+    ['g-AC_fDRM_CLAltDetection'] = '82',
+    ['g-AC_fDRM_CLAntiBigPackets'] = '83',
+    ['g-AC_fDRM_CLAntiEnginePred'] = '84',
+    ['g-AC_fDRM_CLAntiExternal'] = '85',
+    ['g-AC_fDRM_CLAntiHtmlRS'] = '86',
+    ['g-AC_fDRM_CLAntiMenuHook'] = '87',
+    ['g-AC_fDRM_CLAntiNeko'] = '89',
+    ['g-AC_fDRM_CLAntiVCoil'] = '90',
+    ['g-AC_fDRM_CLAntiRenderHack'] = '92',
+    ['g-AC_fDRM_CLConCommand_Abuse'] = '93',
+    ['g-AC_fDRM_CLCvarManip'] = '94',
+    ['g-AC_fDRM_CLDebugLib'] = '95',
+    ['g-AC_fDRM_CLNotifications'] = '96',
+    ['g-AC_fDRM_CLVerify'] = '97',
 }
