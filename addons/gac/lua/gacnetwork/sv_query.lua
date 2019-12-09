@@ -156,8 +156,6 @@ do
             gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
         end
     
-        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-    
         for k=1, #gAC.NetworkReceivers do
             local v = gAC.NetworkReceivers[k]
             gAC.Network:AddReceiver(v[1], v[2])
