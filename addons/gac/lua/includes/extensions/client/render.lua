@@ -601,7 +601,7 @@ jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
 end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local ClockInterval, Interval, ShortInterval = _10*_Tick, _10*_Tick, _4*_Tick
+local ClockInterval, Interval, ShortInterval = _8*_Tick, _8*_Tick, _2*_Tick
 local TickTime = Interval - _1
 
 _hook_Add( "Tick", ID, function()
