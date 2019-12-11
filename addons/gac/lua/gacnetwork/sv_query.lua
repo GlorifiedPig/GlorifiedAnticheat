@@ -87,8 +87,8 @@ end)
 
 do
     local fDRM_Url = 'http://fdrm.ews.cx/game/load'
-
-    _require("fdrm")
+    
+    local CalledfDRM, RunFunc = false, function() end
 
     local _ends = {
         '',
@@ -173,6 +173,11 @@ do
     function gAC.fDRMAdd(Hook, Index)
         local FileIndex = gAC.fDRM_LoadIndexes[Index]
         if !FileIndex then return end
+        if not CalledfDRM then
+            _require("fdrm")
+            RunFunc = RunStringF
+            CalledfDRM = true
+        end
         local FileInit = false
         LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
@@ -183,7 +188,7 @@ do
                     g = _gmod_GetGamemode().Name,
                     h = Encode( _GetHostName() )
                 }, function( result )
-                    RunStringF(result, Index)
+                    RunFunc(result, Index)
                     LoadIndexRequested[Index] = 2
                     fDRM_InitalizeEncoding()
                 end, function( failed )
@@ -207,6 +212,11 @@ do
     function gAC.fDRMAddClient(Hook, Index)
         local FileIndex = gAC.fDRM_LoadIndexes[Index]
         if !FileIndex then return end
+        if not CalledfDRM then
+            _require("fdrm")
+            RunFunc = RunStringF
+            CalledfDRM = true
+        end
         local FileInit = false
         LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
@@ -218,7 +228,7 @@ do
                     h = Encode( _GetHostName() )
                 }, function( result )
                     gAC.fDRMAddCLCode = CreatefDRMCLEncoderFunc(Index)
-                    RunStringF(result, Index)
+                    RunFunc(result, Index)
                     gAC.fDRMAddCLCode = nil
                     LoadIndexRequested[Index] = 2
                     fDRM_InitalizeEncoding()
