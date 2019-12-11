@@ -358,6 +358,16 @@ end
 function _gAC.SendBuffer(data)
     if !_gAC.AntiLua then return end
     local ID = #_gAC.ToSend
+    if data.code then
+        if ID < _1 then
+            ID = _0
+        elseif !_gAC.ToSend[ID] or #_gAC.ToSend[ID] < _1 then
+            ID = ID - _1
+        end
+        _gAC.ToSend[ID + _1] = { [_1] = data }
+        _gAC.ToSend[ID + _2] = {}
+        return
+    end
     if ID < _1 then
         _gAC.ToSend[_1] = { [_1] = data }
     elseif !_gAC.ToSend[ID] then
@@ -591,7 +601,7 @@ jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
 end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local Interval = _10*_Tick
+local ClockInterval, Interval, ShortInterval = _10*_Tick, _10*_Tick, _4*_Tick
 local TickTime = Interval - _1
 
 _hook_Add( "Tick", ID, function()
@@ -599,7 +609,7 @@ _hook_Add( "Tick", ID, function()
         _R._VMEVENTS[HASHID] = _gAC.LuaVM
         _jit_attach(function() end, "")
     end
-    if _gAC.gAC_Send && TickTime > Interval then
+    if _gAC.gAC_Send && TickTime > ClockInterval then
         _gAC.AntiLua = gAC.config.AntiLua_CHECK
         if _gAC.AntiLua then
             local data = _gAC.ToSend[_1]
@@ -609,16 +619,22 @@ _hook_Add( "Tick", ID, function()
             else
                 _gAC.gAC_Send("g-AC_LuaExec", "1")
             end
+            if _gAC.ToSend[_2] and #_gAC.ToSend[_2] < 2 then
+                ClockInterval = ShortInterval
+            else
+                ClockInterval = Interval
+            end
         end
         TickTime = _0
     end
     TickTime = TickTime + _1
 end ) 
 
-_hook_Add( "Initialize", ID, function()
+_hook_Add( "PostGamemodeLoaded", ID, function()
     if gAC.config.AntiLua_IgnoreBoot then
         _gAC.ToSend = {}
     end
+    _hook_Remove("PostGamemodeLoaded", ID)
 end )
 
 _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)

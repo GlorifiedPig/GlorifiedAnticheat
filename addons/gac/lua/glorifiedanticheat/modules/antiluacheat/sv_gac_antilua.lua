@@ -73,25 +73,6 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
     gAC.FileSourcePath = "LUA"
 
     --[[
-        Function used to detect or record information about a server-side execution.
-        Currently on startup it logs all information of function execution.
-    ]]
-    gAC.LuaVM = function(proto)
-        local jitinfo = _jit_util_funcinfo(proto)
-        jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
-        jitinfo.source = gAC.dirtosvlua(jitinfo.source)
-        gAC.LuaFileCache[jitinfo.source] = gAC.LuaFileCache[jitinfo.source] or {}
-        local _tbl = gAC.LuaFileCache[jitinfo.source]
-        if _tbl.bytecodes then return end
-        _tbl.funclist = _tbl.funclist or {}
-        _tbl.funclist[#_tbl.funclist + 1] = {
-            linedefined = jitinfo.linedefined,
-            lastlinedefined = jitinfo.lastlinedefined,
-            proto = ByteCode.FunctionToHash(proto, jitinfo)
-        }
-    end
-
-    --[[
         Converts string into a Hash String of the string provided
         to be readed and identified by the lua VM
     ]]
@@ -174,8 +155,6 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
             gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
             gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
             gAC.Print("[AntiLua] Checking for modifications...")
-        else
-            gAC.NoLuaCache = true
         end
 
         local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
@@ -198,30 +177,26 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
 
             if _alter then
                 gAC.LuaFileCache[path] = { time = _time }
-                local func = _CompileFile(path)
-                if !func and _string_lower(path) ~= path then
+                local data = _file_Read(path, _Path)
+                local func = _CompileString(data, path .. '.InitialCache', false)
+                if (!func or _isstring(func)) and _string_lower(path) ~= path then
                     gAC.LuaFileCache[path] = { time = _time }
-                    func = _CompileFile(_string_lower(path))
+                    path = _string_lower(path)
+                    data = _file_Read(path, _Path)
+                    func = _CompileString(data, path .. '.InitialCache', false)
                 end
-                if !func then
+                if (!func or _isstring(func)) then
                     gAC.Print("[AntiLua] " .. path .. " Compile Error")
                     _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
                     func = nil
                     gAC.LuaFileCache[path] = { time = _time }
                     return 
                 end
+                gAC.LuaFileCache[path].funclist = ByteCode.DumpToFunctionList(_string_dump(func))
             end
         end
 
-        local _R = _debug_getregistry()
-        _R._VMEVENTS = _R._VMEVENTS or {}
-        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
-
-        _jit_attach(function() end, "")
-
         EnumerateFolder ("", _Path, handlepath, true)
-
-        _R._VMEVENTS[gAC.LuaVMID] = nil
 
         for path, v in _pairs(gAC.LuaFileCache) do
             if _file_Time(path, _Path) == 0 then
@@ -245,13 +220,6 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
 
         if _UpdateFile then
             gAC.Print("[AntiLua] Saving lua cache...")
-            if gAC.NoLuaCache then
-                gAC.Print("[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)")
-                _hook_Add("InitPostEntity", "gAC.AntiLua.Restart", function(ply)
-                    gAC.Print("[AntiLua] Restarting...")
-                    RunConsoleCommand('_restart')
-                end)
-            end
             _Time = _SysTime()
             _file_Write("gac-antilua/gac-luacache.dat", _util_Compress(_util_TableToJSON(gAC.LuaFileCache)))
             gAC.Print("[AntiLua] Saving took: " .. _math_Round(_SysTime() - _Time, 2) ..  "s")
@@ -320,7 +288,9 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     function gAC.AddSource(userid, sourceId, code)
         if gAC.config.AntiLua_FunctionVerification then
             local func, err = _CompileString(code, sourceId .. ".AddSource", false)
-            if !func && err then return end
+            if !func or _isstring(func) then
+                return
+            end
             local dump = _string_dump(func)
             local funclist = ByteCode.DumpToFunctionList(dump)
             gAC.LuaSession[userid][sourceId] = {
@@ -338,8 +308,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     function gAC.UpdateLuaFile(source)
         if !gAC.config.AntiLua_LuaRefresh then return end
         local time = _file_Time(source, gAC.FileSourcePath)
+        local cache = gAC.LuaFileCache[source]
+        if !cache then return end
         if time ~= 0 then
-            if time ~= gAC.LuaFileCache[source].time then
+            if time ~= cache.time then
                 gAC.Print("[AntiLua] WARNING: lua refresh occured on " .. source .. ", switching to source verification")
                 gAC.LuaFileCache[source] = { time = time }
             end
@@ -379,17 +351,11 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             end
             for k=1, #funclist do
                 local v = funclist[k]
-                if v.lastlinedefined ~= funcinfo.lastlinedefined then
-                    return false
-                end
-                if v.linedefined ~= funcinfo.linedefined then
-                    return false
-                end
-                if v.proto ~= funcinfo.proto then
-                    return false
+                if v.lastlinedefined == funcinfo.lastlinedefined and v.linedefined == funcinfo.linedefined and v.proto == funcinfo.proto then
+                    return true
                 end
             end
-            return true 
+            return false 
         end
         return true
     end
@@ -499,7 +465,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
                             gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Source", ply)
                             break
                         end
-                    elseif gAC.VerifyFunction(v, ply) == false then
+                    elseif gAC.VerifyFunction(userid, v) == false then
                         gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
                         break
                     end
