@@ -1,175 +1,147 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/io/inbuffer.lua
-    Cake's io.inbuffer (converted to not use constuctor)
-]]
-local string_char = string.char
-
-function gAC.InBuffer()
-	local self = {
-		Position = 1
-	}
-
-	-- Position
-	function self:GetBytesRemaining ()
-		Error ("InBuffer:GetBytesRemaining : Not implemented.")
-	end
-
-	function self:GetPosition ()
-		return self.Position
-	end
-
-	function self:GetSize ()
-		Error ("InBuffer:GetSize : Not implemented.")
-	end
-
-	function self:IsEndOfStream ()
-		Error ("InBuffer:IsEndOfStream : Not implemented.")
-	end
-
-	function self:Pin ()
-		Error ("InBuffer:Pin : Not implemented.")
-	end
-
-	function self:SeekRelative (relativeSeekPos)
-		Error ("InBuffer:SeekRelative : Not implemented.")
-	end
-
-	function self:SeekAbsolute (seekPos)
-		Error ("InBuffer:SeekAbsolute : Not implemented.")
-	end
-
-	function self:UInt8 ()
-		Error ("InBuffer:UInt8 : Not implemented.")
-	end
-
-	function self:UInt16 ()
-		local low  = self:UInt8 ()
-		local high = self:UInt8 ()
-		return high * 0x0100 + low
-	end
-
-	function self:UInt32 ()
-		local low  = self:UInt16 ()
-		local high = self:UInt16 ()
-		return high * 0x00010000 + low
-	end
-
-	function self:UInt64 ()
-		local low  = self:UInt32 ()
-		local high = self:UInt32 ()
-		return high * 4294967296 + low
-	end
-
-	function self:ULEB128 ()
-		local n = 0
-		local factor = 1
-		
-		local done = false
-		repeat
-			local byte = self:UInt8 ()
-			if byte >= 0x80 then
-				byte = byte - 0x80
-			else
-				done = true
-			end
-			
-			n = n + byte * factor
-			factor = factor * 128
-		until done
-		
-		return n
-	end
-
-	function self:Int8 ()
-		Error ("InBuffer:Int8 : Not implemented.")
-	end
-
-	function self:Int16 ()
-		local low  = self:UInt8 ()
-		local high = self:Int8 ()
-		return high * 0x0100 + low
-	end
-
-	function self:Int32 ()
-		local low  = self:UInt16 ()
-		local high = self:Int16 ()
-		return high * 0x00010000 + low
-	end
-
-	function self:Int64 ()
-		local low  = self:UInt32 ()
-		local high = self:Int32 ()
-		return high * 4294967296 + low
-	end
-
-	function self:Float ()
-		local n = self:UInt32 ()
-		return gAC.BitConverter.UInt32ToFloat (n)
-	end
-
-	function self:Double ()
-		local low  = self:UInt32 ()
-		local high = self:UInt32 ()
-		return gAC.BitConverter.UInt32sToDouble (low, high)
-	end
-
-	function self:Vector ()
-		local x = self:Float ()
-		local y = self:Float ()
-		local z = self:Float ()
-		return Vector (x, y, z)
-	end
-
-	function self:Bytes (length)
-		local data = ""
-		for i = 1, length do
-			data = data .. string_char (self:UInt8 ())
-		end
-		
-		return data
-	end
-
-	function self:String ()
-		Error ("InBuffer:String : Not implemented.")
-	end
-
-	function self:StringN8 ()
-		local length = self:UInt8 ()
-		return self:Bytes (length)
-	end
-
-	function self:StringN16 ()
-		local length = self:UInt16 ()
-		return self:Bytes (length)
-	end
-
-	function self:StringN32 ()
-		local length = self:UInt32 ()
-		return self:Bytes (length)
-	end
-
-	function self:StringZ ()
-		local data = ""
-		local c = self:UInt8 ()
-		while c and c ~= 0 do
-			if #data > 65536 then
-				Error ("InBuffer:StringZ : String is too long, infinite loop?")
-				break
-			end
-			
-			data = data .. string_char (c)
-			c = self:UInt8 ()
-		end
-		
-		return data
-	end
-
-	function self:LongString ()
-		Error ("InBuffer:LongString : Not implemented.")
-	end
-
-	function self:Boolean ()
-		return self:UInt8 () ~= 0
-	end
-	return self
+local
+‪⁮nil={﻿return='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72'}local
+﻿⁪‪return=string.char
+function
+gAC.InBuffer()local
+self={Position=1}function
+self:GetBytesRemaining()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x47\x65\x74\x42\x79\x74\x65\x73\x52\x65\x6D\x61\x69\x6E\x69\x6E\x67\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:GetPosition()return
+self.Position
+end
+function
+self:GetSize()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x47\x65\x74\x53\x69\x7A\x65\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:IsEndOfStream()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x49\x73\x45\x6E\x64\x4F\x66\x53\x74\x72\x65\x61\x6D\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:Pin()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x50\x69\x6E\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:SeekRelative(elseif⁮)Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x53\x65\x65\x6B\x52\x65\x6C\x61\x74\x69\x76\x65\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:SeekAbsolute(⁮﻿end)Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x53\x65\x65\x6B\x41\x62\x73\x6F\x6C\x75\x74\x65\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:UInt8()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x55\x49\x6E\x74\x38\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:UInt16()local
+⁭‪while=self:UInt8()local
+true⁭⁭=self:UInt8()return
+true⁭⁭*0x0100+⁭‪while
+end
+function
+self:UInt32()local
+local‪=self:UInt16()local
+⁪⁮⁮and=self:UInt16()return
+⁪⁮⁮and*0x00010000+local‪
+end
+function
+self:UInt64()local
+⁪not=self:UInt32()local
+elseif⁭=self:UInt32()return
+elseif⁭*4294967296+⁪not
+end
+function
+self:ULEB128()local
+⁪⁭﻿and=0
+local
+then⁭=1
+local
+elseif⁭⁪⁪=!1
+repeat
+local
+⁭for=self:UInt8()if
+⁭for>=0x80
+then
+⁭for=⁭for-0x80
+else
+elseif⁭⁪⁪=!!1
+end
+⁪⁭﻿and=⁪⁭﻿and+⁭for*then⁭
+then⁭=then⁭*128
+until
+elseif⁭⁪⁪
+return
+⁪⁭﻿and
+end
+function
+self:Int8()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x49\x6E\x74\x38\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:Int16()local
+⁭﻿until=self:UInt8()local
+⁪⁮⁪function=self:Int8()return
+⁪⁮⁪function*0x0100+⁭﻿until
+end
+function
+self:Int32()local
+for⁪⁮=self:UInt16()local
+‪⁭false=self:Int16()return
+‪⁭false*0x00010000+for⁪⁮
+end
+function
+self:Int64()local
+in‪⁪=self:UInt32()local
+⁮while=self:Int32()return
+⁮while*4294967296+in‪⁪
+end
+function
+self:Float()local
+or⁭=self:UInt32()return
+gAC[‪⁮nil.﻿return].UInt32ToFloat(or⁭)end
+function
+self:Double()local
+‪‪‪while=self:UInt32()local
+⁭﻿if=self:UInt32()return
+gAC[‪⁮nil.﻿return].UInt32sToDouble(‪‪‪while,⁭﻿if)end
+function
+self:Vector()local
+⁪﻿or=self:Float()local
+nil⁮⁪=self:Float()local
+⁮⁭false=self:Float()return
+Vector(⁪﻿or,nil⁮⁪,⁮⁭false)end
+function
+self:Bytes(return‪﻿)local
+⁪elseif=""for
+⁪﻿﻿break=1,return‪﻿
+do
+⁪elseif=⁪elseif..﻿⁪‪return(self:UInt8())end
+return
+⁪elseif
+end
+function
+self:String()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x53\x74\x72\x69\x6E\x67\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:StringN8()local
+⁮do=self:UInt8()return
+self:Bytes(⁮do)end
+function
+self:StringN16()local
+until⁪=self:UInt16()return
+self:Bytes(until⁪)end
+function
+self:StringN32()local
+false⁪=self:UInt32()return
+self:Bytes(false⁪)end
+function
+self:StringZ()local
+⁮﻿﻿end=""local
+⁮⁪⁮break=self:UInt8()while
+⁮⁪⁮break
+and
+⁮⁪⁮break~=0
+do
+if#⁮﻿﻿end>65536
+then
+Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x53\x74\x72\x69\x6E\x67\x5A\x20\x3A\x20\x53\x74\x72\x69\x6E\x67\x20\x69\x73\x20\x74\x6F\x6F\x20\x6C\x6F\x6E\x67\x2C\x20\x69\x6E\x66\x69\x6E\x69\x74\x65\x20\x6C\x6F\x6F\x70\x3F")break
+end
+⁮﻿﻿end=⁮﻿﻿end..﻿⁪‪return(⁮⁪⁮break)⁮⁪⁮break=self:UInt8()end
+return
+⁮﻿﻿end
+end
+function
+self:LongString()Error("\x49\x6E\x42\x75\x66\x66\x65\x72\x3A\x4C\x6F\x6E\x67\x53\x74\x72\x69\x6E\x67\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:Boolean()return
+self:UInt8()~=0
+end
+return
+self
 end

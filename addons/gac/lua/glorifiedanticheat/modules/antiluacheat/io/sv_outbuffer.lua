@@ -1,139 +1,98 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/io/outbuffer.lua
-    Cake's io.outbuffer (converted to not use constuctor)
-]]
-local bit_band    = bit.band
-local math_floor  = math.floor
-local math_min    = math.min
-local string_byte = string.byte
-
-function gAC.OutBuffer()
-	local self = {}
-
-	function self:Clear ()
-		Error ("OutBuffer:Clear : Not implemented.")
-	end
-
-	function self:GetSize ()
-		Error ("OutBuffer:GetSize : Not implemented.")
-	end
-
-	function self:GetString ()
-		Error ("OutBuffer:GetString : Not implemented.")
-	end
-
-	function self:UInt8 (n)
-		Error ("OutBuffer:UInt8 : Not implemented.")
-	end
-
-	function self:UInt16 (n)
-		self:UInt8 (n % 0x0100)
-		self:UInt8 (math_floor (n / 0x0100))
-	end
-
-	function self:UInt32 (n)
-		self:UInt16 (n % 0x00010000)
-		self:UInt16 (math_floor (n / 0x00010000))
-	end
-
-	function self:UInt64 (n)
-		self:UInt32 (n % 4294967296)
-		self:UInt32 (math_floor (n / 4294967296))
-	end
-
-	function self:ULEB128 (n)
-		if n ~= n then n = 0 end
-		if n < 0 then n = -n end
-		if n >= 4294967296 then n = 4294967295 end
-		
-		while n > 0 do
-			if n >= 0x80 then
-				self:UInt8 (0x80 + bit_band (n, 0x7F))
-				n = math_floor (n / 0x80)
-			else
-				self:UInt8 (bit_band (n, 0x7F))
-			end
-		end
-	end
-
-	function self:Int8 (n)
-		Error ("OutBuffer:Int8 : Not implemented.")
-	end
-
-	function self:Int16 (n)
-		self:UInt8 (n % 0x0100)
-		self:Int8 (math_floor (n / 0x0100))
-	end
-
-	function self:Int32 (n)
-		self:UInt16 (n % 0x00010000)
-		self:Int16 (math_floor (n / 0x00010000))
-	end
-
-	function self:Int64 (n)
-		self:UInt32 (n % 4294967296)
-		self:Int32 (math_floor (n / 4294967296))
-	end
-
-	function self:Float (f)
-		local n = gAC.BitConverter.FloatToUInt32 (f)
-		self:UInt32 (n)
-	end
-
-	function self:Double (f)
-		local low, high = gAC.BitConverter.DoubleToUInt32s (f)
-		self:UInt32 (low)
-		self:UInt32 (high)
-	end
-
-	function self:Vector (v)
-		self:Float (v.x)
-		self:Float (v.y)
-		self:Float (v.z)
-	end
-
-	function self:Bytes (data, length)
-		length = length or #data
-		length = math_min (length, #data)
-		for i = 1, length do
-			self:UInt8 (string_byte (data, i))
-		end
-	end
-
-	function self:String (data)
-		Error ("OutBuffer:String : Not implemented.")
-	end
-
-	function self:StringN8 (data)
-		data = data or ""
-		
-		self:UInt8 (#data)
-		self:Bytes (data)
-	end
-
-	function self:StringN16 (data)
-		data = data or ""
-		
-		self:UInt16 (#data)
-		self:Bytes (data)
-	end
-
-	function self:StringN32 (data)
-		data = data or ""
-		
-		self:UInt32 (#data)
-		self:Bytes (data)
-	end
-
-	function self:StringZ (data)
-		data = data or ""
-		
-		self:Bytes (data)
-		self:UInt8 (0)
-	end
-
-	function self:Boolean (b)
-		self:UInt8 (b and 1 or 0)
-	end
-	return self
+local
+‪⁪if={break﻿⁭‪='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72'}local
+else‪=bit.band
+local
+⁪return=math.floor
+local
+function⁭=math.min
+local
+true﻿⁪=string.byte
+function
+gAC.OutBuffer()local
+self={}function
+self:Clear()Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x43\x6C\x65\x61\x72\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:GetSize()Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x47\x65\x74\x53\x69\x7A\x65\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:GetString()Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x47\x65\x74\x53\x74\x72\x69\x6E\x67\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:UInt8(⁪﻿﻿nil)Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x55\x49\x6E\x74\x38\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:UInt16(⁮true)self:UInt8(⁮true%0x0100)self:UInt8(⁪return(⁮true/0x0100))end
+function
+self:UInt32(⁪⁪true)self:UInt16(⁪⁪true%0x00010000)self:UInt16(⁪return(⁪⁪true/0x00010000))end
+function
+self:UInt64(⁭‪local)self:UInt32(⁭‪local%4294967296)self:UInt32(⁪return(⁭‪local/4294967296))end
+function
+self:ULEB128(nil⁭﻿⁭)if
+nil⁭﻿⁭~=nil⁭﻿⁭
+then
+nil⁭﻿⁭=0
+end
+if
+nil⁭﻿⁭<0
+then
+nil⁭﻿⁭=-nil⁭﻿⁭
+end
+if
+nil⁭﻿⁭>=4294967296
+then
+nil⁭﻿⁭=4294967295
+end
+while
+nil⁭﻿⁭>0
+do
+if
+nil⁭﻿⁭>=0x80
+then
+self:UInt8(0x80+else‪(nil⁭﻿⁭,0x7F))nil⁭﻿⁭=⁪return(nil⁭﻿⁭/0x80)else
+self:UInt8(else‪(nil⁭﻿⁭,0x7F))end
+end
+end
+function
+self:Int8(and⁭⁭⁮)Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x49\x6E\x74\x38\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:Int16(⁭function)self:UInt8(⁭function%0x0100)self:Int8(⁪return(⁭function/0x0100))end
+function
+self:Int32(﻿﻿return)self:UInt16(﻿﻿return%0x00010000)self:Int16(⁪return(﻿﻿return/0x00010000))end
+function
+self:Int64(end‪)self:UInt32(end‪%4294967296)self:Int32(⁪return(end‪/4294967296))end
+function
+self:Float(until‪﻿‪)local
+elseif⁭⁪=gAC[‪⁪if.break﻿⁭‪].FloatToUInt32(until‪﻿‪)self:UInt32(elseif⁭⁪)end
+function
+self:Double(⁮⁮﻿repeat)local
+true⁪‪‪,in⁪=gAC[‪⁪if.break﻿⁭‪].DoubleToUInt32s(⁮⁮﻿repeat)self:UInt32(true⁪‪‪)self:UInt32(in⁪)end
+function
+self:Vector(⁭⁪⁪for)self:Float(⁭⁪⁪for.x)self:Float(⁭⁪⁪for.y)self:Float(⁭⁪⁪for.z)end
+function
+self:Bytes(⁮⁭false,true⁮⁪﻿)true⁮⁪﻿=true⁮⁪﻿
+or#⁮⁭false
+true⁮⁪﻿=function⁭(true⁮⁪﻿,#⁮⁭false)for
+‪⁮⁪=1,true⁮⁪﻿
+do
+self:UInt8(true﻿⁪(⁮⁭false,‪⁮⁪))end
+end
+function
+self:String(for﻿﻿⁪)Error("\x4F\x75\x74\x42\x75\x66\x66\x65\x72\x3A\x53\x74\x72\x69\x6E\x67\x20\x3A\x20\x4E\x6F\x74\x20\x69\x6D\x70\x6C\x65\x6D\x65\x6E\x74\x65\x64\x2E")end
+function
+self:StringN8(⁮⁮false)⁮⁮false=⁮⁮false
+or""self:UInt8(#⁮⁮false)self:Bytes(⁮⁮false)end
+function
+self:StringN16(not⁪)not⁪=not⁪
+or""self:UInt16(#not⁪)self:Bytes(not⁪)end
+function
+self:StringN32(repeat⁮⁪﻿)repeat⁮⁪﻿=repeat⁮⁪﻿
+or""self:UInt32(#repeat⁮⁪﻿)self:Bytes(repeat⁮⁪﻿)end
+function
+self:StringZ(or‪)or‪=or‪
+or""self:Bytes(or‪)self:UInt8(0)end
+function
+self:Boolean(end⁭⁭⁭)self:UInt8(end⁭⁭⁭
+and
+1
+or
+0)end
+return
+self
 end

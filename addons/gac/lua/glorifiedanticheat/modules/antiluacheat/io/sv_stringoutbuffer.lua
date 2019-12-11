@@ -1,58 +1,60 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/io/stringoutbuffer.lua
-    Cake's io.stringoutbuffer (converted to not use constuctor)
-]]
-local bit_band     = bit.band
-local bit_rshift   = bit.rshift
-local math_floor   = math.floor
-local math_min     = math.min
-local string_char  = string.char
-local string_sub   = string.sub
-local table_concat = table.concat
-
-function gAC.StringOutBuffer()
-	local self = gAC.OutBuffer()
-	self.Data = {}
-
-	function self:Clear ()
-		self.Data = {}
-	end
-
-	function self:GetSize ()
-		return #self:GetString ()
-	end
-
-	function self:GetString ()
-		if #self.Data > 1 then
-			self.Data = { table_concat (self.Data) }
-		end
-		return self.Data [1] or ""
-	end
-
-	function self:UInt8  (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.UInt8ToUInt8s  (n)) end
-	function self:UInt16 (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.UInt16ToUInt8s (n)) end
-	function self:UInt32 (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.UInt32ToUInt8s (n)) end
-	function self:UInt64 (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.UInt64ToUInt8s (n)) end
-	function self:Int8   (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.Int8ToUInt8s   (n)) end
-	function self:Int16  (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.Int16ToUInt8s  (n)) end
-	function self:Int32  (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.Int32ToUInt8s  (n)) end
-	function self:Int64  (n) self.Data [#self.Data + 1] = string_char (gAC.BitConverter.Int64ToUInt8s  (n)) end
-
-	function self:Bytes (data, length)
-		length = length or #data
-		length = math_min (length, #data)
-		self.Data [#self.Data + 1] = length == #data and data or string_sub (data, 1, length)
-	end
-
-	function self:String (data)
-		self:StringN16 (data)
-	end
-
-	function self:LongString (data)
-		self:StringN32 (data)
-	end
-
-	self.__len      = self.GetSize
-	self.__tostring = self.GetString
-	return self
+local
+not⁪﻿⁪={while‪﻿='\x44\x61\x74\x61',‪⁮continue='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72'}local
+then⁮﻿‪=bit.band
+local
+⁮﻿﻿break=bit.rshift
+local
+‪⁭⁮else=math.floor
+local
+until⁮﻿⁭=math.min
+local
+⁪﻿nil=string.char
+local
+﻿⁪⁭=string.sub
+local
+﻿end=table.concat
+function
+gAC.StringOutBuffer()local
+self=gAC.OutBuffer()self[not⁪﻿⁪.while‪﻿]={}function
+self:Clear()self[not⁪﻿⁪.while‪﻿]={}end
+function
+self:GetSize()return#self:GetString()end
+function
+self:GetString()if#self[not⁪﻿⁪.while‪﻿]>1
+then
+self[not⁪﻿⁪.while‪﻿]={﻿end(self[not⁪﻿⁪.while‪﻿])}end
+return
+self[not⁪﻿⁪.while‪﻿][1]or""end
+function
+self:UInt8(⁮⁮if)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].UInt8ToUInt8s(⁮⁮if))end
+function
+self:UInt16(and﻿‪)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].UInt16ToUInt8s(and﻿‪))end
+function
+self:UInt32(⁮function)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].UInt32ToUInt8s(⁮function))end
+function
+self:UInt64(function﻿⁭⁮)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].UInt64ToUInt8s(function﻿⁭⁮))end
+function
+self:Int8(goto⁪‪)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].Int8ToUInt8s(goto⁪‪))end
+function
+self:Int16(do⁮)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].Int16ToUInt8s(do⁮))end
+function
+self:Int32(elseif⁮)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].Int32ToUInt8s(elseif⁮))end
+function
+self:Int64(‪﻿elseif)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁪﻿nil(gAC[not⁪﻿⁪.‪⁮continue].Int64ToUInt8s(‪﻿elseif))end
+function
+self:Bytes(⁮until,⁮)⁮=⁮
+or#⁮until
+⁮=until⁮﻿⁭(⁮,#⁮until)self[not⁪﻿⁪.while‪﻿][#self[not⁪﻿⁪.while‪﻿]+1]=⁮==#⁮until
+and
+⁮until
+or
+﻿⁪⁭(⁮until,1,⁮)end
+function
+self:String(not‪)self:StringN16(not‪)end
+function
+self:LongString(or⁭﻿)self:StringN32(or⁭﻿)end
+self.__len=self.GetSize
+self.__tostring=self.GetString
+return
+self
 end

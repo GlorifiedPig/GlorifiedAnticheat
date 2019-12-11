@@ -1,244 +1,265 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/bitconverter.lua
-    Cake's bitconverter
-]]
-gAC.BitConverter = {}
-
-local bit_band   = bit.band
-local bit_lshift = bit.lshift
-local bit_rshift = bit.rshift
-local math_floor = math.floor
-local math_frexp = math.frexp
-local math_ldexp = math.ldexp
-local math_huge  = math.huge
-
--- Integers
-function gAC.BitConverter.UInt8ToUInt8s (n)
-	return n
+local
+repeat⁭﻿‪={⁭⁮goto='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72',continue⁭='\x55\x49\x6E\x74\x33\x32\x54\x6F\x55\x49\x6E\x74\x38\x73',repeat⁭='\x55\x49\x6E\x74\x38\x73\x54\x6F\x55\x49\x6E\x74\x33\x32'}gAC[repeat⁭﻿‪.⁭⁮goto]={}local
+‪repeat=bit.band
+local
+﻿⁮else=bit.lshift
+local
+⁭⁭goto=bit.rshift
+local
+in‪⁭﻿=math.floor
+local
+continue⁪=math.frexp
+local
+⁭⁮‪else=math.ldexp
+local
+﻿⁭‪goto=math.huge
+function
+gAC.BitConverter.UInt8ToUInt8s(⁪⁮false)return
+⁪⁮false
 end
-
-function gAC.BitConverter.UInt16ToUInt8s (n)
-	return             n        % 256,
-	       math_floor (n / 256) % 256
+function
+gAC.BitConverter.UInt16ToUInt8s(if﻿⁪)return
+if﻿⁪%256,in‪⁭﻿(if﻿⁪/256)%256
 end
-
-function gAC.BitConverter.UInt32ToUInt8s (n)
-	return             n             % 256,
-	       math_floor (n /      256) % 256,
-	       math_floor (n /    65536) % 256,
-	       math_floor (n / 16777216) % 256
+function
+gAC.BitConverter.UInt32ToUInt8s(⁪‪not)return
+⁪‪not%256,in‪⁭﻿(⁪‪not/256)%256,in‪⁭﻿(⁪‪not/65536)%256,in‪⁭﻿(⁪‪not/16777216)%256
 end
-
-function gAC.BitConverter.UInt64ToUInt8s (n)
-	return             n                      % 256,
-	       math_floor (n /               256) % 256,
-	       math_floor (n /             65536) % 256,
-	       math_floor (n /          16777216) % 256,
-	       math_floor (n /        4294967296) % 256,
-	       math_floor (n /     1099511627776) % 256,
-	       math_floor (n /   281474976710656) % 256,
-	       math_floor (n / 72057594037927936) % 256
+function
+gAC.BitConverter.UInt64ToUInt8s(while⁭)return
+while⁭%256,in‪⁭﻿(while⁭/256)%256,in‪⁭﻿(while⁭/65536)%256,in‪⁭﻿(while⁭/16777216)%256,in‪⁭﻿(while⁭/4294967296)%256,in‪⁭﻿(while⁭/1099511627776)%256,in‪⁭﻿(while⁭/281474976710656)%256,in‪⁭﻿(while⁭/72057594037927936)%256
 end
-
-function gAC.BitConverter.UInt8sToUInt8(uint80)
-	return uint80
+function
+gAC.BitConverter.UInt8sToUInt8(‪⁪else)return
+‪⁪else
 end
-
-function gAC.BitConverter.UInt8sToUInt16 (uint80, uint81)
-	return uint80 +
-	       uint81 * 256
+function
+gAC.BitConverter.UInt8sToUInt16(end⁪,continue⁪⁮⁪)return
+end⁪+continue⁪⁮⁪*256
 end
-
-function gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	return uint80 +
-	       uint81 * 256 +
-	       uint82 * 65536 +
-	       uint83 * 16777216
+function
+gAC.BitConverter.UInt8sToUInt32(⁮goto,⁪⁪﻿false,‪⁭return,until⁭‪﻿)return
+⁮goto+⁪⁪﻿false*256+‪⁭return*65536+until⁭‪﻿*16777216
 end
-
-function gAC.BitConverter.UInt8sToUInt64 (uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87)
-	return uint80 +
-	       uint81 * 256 +
-	       uint82 * 65536 +
-	       uint83 * 16777216 +
-	       uint84 * 4294967296 +
-	       uint85 * 1099511627776 +
-	       uint86 * 281474976710656 +
-	       uint87 * 72057594037927936
+function
+gAC.BitConverter.UInt8sToUInt64(⁪⁭⁭return,not⁭,⁭⁮return,⁪⁮else,⁪‪continue,⁭⁭else,local⁮﻿,⁮﻿‪continue)return
+⁪⁭⁭return+not⁭*256+⁭⁮return*65536+⁪⁮else*16777216+⁪‪continue*4294967296+⁭⁭else*1099511627776+local⁮﻿*281474976710656+⁮﻿‪continue*72057594037927936
 end
-
-function gAC.BitConverter.Int8ToUInt8s (n)
-	if n < 0 then n = n + 256 end
-	return gAC.BitConverter.UInt8ToUInt8s (n)
+function
+gAC.BitConverter.Int8ToUInt8s(⁭﻿⁮continue)if
+⁭﻿⁮continue<0
+then
+⁭﻿⁮continue=⁭﻿⁮continue+256
 end
-
-function gAC.BitConverter.Int16ToUInt8s (n)
-	if n < 0 then n = n + 65536 end
-	return gAC.BitConverter.UInt16ToUInt8s (n)
+return
+gAC[repeat⁭﻿‪.⁭⁮goto].UInt8ToUInt8s(⁭﻿⁮continue)end
+function
+gAC.BitConverter.Int16ToUInt8s(goto⁭‪⁪)if
+goto⁭‪⁪<0
+then
+goto⁭‪⁪=goto⁭‪⁪+65536
 end
-
-function gAC.BitConverter.Int32ToUInt8s (n)
-	if n < 0 then n = n + 4294967296 end
-	return gAC.BitConverter.UInt32ToUInt8s (n)
+return
+gAC[repeat⁭﻿‪.⁭⁮goto].UInt16ToUInt8s(goto⁭‪⁪)end
+function
+gAC.BitConverter.Int32ToUInt8s(⁪and)if
+⁪and<0
+then
+⁪and=⁪and+4294967296
 end
-
-function gAC.BitConverter.Int64ToUInt8s (n)
-	local uint80, uint81, uint82, uint83 = gAC.BitConverter.UInt32ToUInt8s (n % 4294967296)
-	local uint84, uint85, uint86, uint87 = gAC.BitConverter.Int32ToUInt8s (math_floor (n / 4294967296))
-	return uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87
+return
+gAC[repeat⁭﻿‪.⁭⁮goto][repeat⁭﻿‪.continue⁭](⁪and)end
+function
+gAC.BitConverter.Int64ToUInt8s(⁭‪⁮repeat)local
+false⁪﻿⁪,⁮function,⁮‪⁪elseif,⁭⁭⁮repeat=gAC[repeat⁭﻿‪.⁭⁮goto][repeat⁭﻿‪.continue⁭](⁭‪⁮repeat%4294967296)local
+then‪,⁪return,elseif﻿,⁪⁭until=gAC[repeat⁭﻿‪.⁭⁮goto].Int32ToUInt8s(in‪⁭﻿(⁭‪⁮repeat/4294967296))return
+false⁪﻿⁪,⁮function,⁮‪⁪elseif,⁭⁭⁮repeat,then‪,⁪return,elseif﻿,⁪⁭until
 end
-
-function gAC.BitConverter.UInt8sToInt8 (uint80)
-	local n = gAC.BitConverter.UInt8sToUInt8 (uint80)
-	if n >= 128 then n = n - 256 end
-	return n
+function
+gAC.BitConverter.UInt8sToInt8(until⁪)local
+nil⁭=gAC[repeat⁭﻿‪.⁭⁮goto].UInt8sToUInt8(until⁪)if
+nil⁭>=128
+then
+nil⁭=nil⁭-256
 end
-
-function gAC.BitConverter.UInt8sToInt16 (uint80, uint81)
-	local n = gAC.BitConverter.UInt8sToUInt16 (uint80, uint81)
-	if n >= 32768 then n = n - 65536 end
-	return n
+return
+nil⁭
 end
-
-function gAC.BitConverter.UInt8sToInt32 (uint80, uint81, uint82, uint83)
-	local n = gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	if n >= 2147483648 then n = n - 4294967296 end
-	return n
+function
+gAC.BitConverter.UInt8sToInt16(⁮while,not⁪)local
+elseif⁭﻿=gAC[repeat⁭﻿‪.⁭⁮goto].UInt8sToUInt16(⁮while,not⁪)if
+elseif⁭﻿>=32768
+then
+elseif⁭﻿=elseif⁭﻿-65536
 end
-
-function gAC.BitConverter.UInt8sToInt64 (uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87)
-	local low  = gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	local high = gAC.BitConverter.UInt8sToInt32 (uint84, uint85, uint86, uint87)
-	return low + high * 4294967296
+return
+elseif⁭﻿
 end
-
--- IEEE floating point numbers
-function gAC.BitConverter.FloatToUInt32 (f)
-	-- 1 / f is needed to check for -0
-	local n = 0
-	if f < 0 or 1 / f < 0 then
-		n = n + 0x80000000
-		f = -f
-	end
-	
-	local mantissa = 0
-	local biasedExponent = 0
-	
-	if f == math_huge then
-		biasedExponent = 0xFF
-	elseif f ~= f then
-		biasedExponent = 0xFF
-		mantissa = 1
-	elseif f == 0 then
-		biasedExponent = 0x00
-	else
-		mantissa, biasedExponent = math_frexp (f)
-		biasedExponent = biasedExponent + 126
-		
-		if biasedExponent <= 0 then
-			-- Denormal
-			mantissa = math_floor (mantissa * 2 ^ (23 + biasedExponent) + 0.5)
-			biasedExponent = 0
-		else
-			mantissa = math_floor ((mantissa * 2 - 1) * 2 ^ 23 + 0.5)
-		end
-	end
-	
-	n = n + bit_lshift (bit_band (biasedExponent, 0xFF), 23)
-	n = n + bit_band (mantissa, 0x007FFFFF)
-	
-	return n
+function
+gAC.BitConverter.UInt8sToInt32(﻿and,‪function,⁭⁮else,⁭for)local
+false⁮=gAC[repeat⁭﻿‪.⁭⁮goto][repeat⁭﻿‪.repeat⁭](﻿and,‪function,⁭⁮else,⁭for)if
+false⁮>=2147483648
+then
+false⁮=false⁮-4294967296
 end
-
-function gAC.BitConverter.DoubleToUInt32s (f)
-	-- 1 / f is needed to check for -0
-	local high = 0
-	local low  = 0
-	if f < 0 or 1 / f < 0 then
-		high = high + 0x80000000
-		f = -f
-	end
-	
-	local mantissa = 0
-	local biasedExponent = 0
-	
-	if f == math_huge then
-		biasedExponent = 0x07FF
-	elseif f ~= f then
-		biasedExponent = 0x07FF
-		mantissa = 1
-	elseif f == 0 then
-		biasedExponent = 0x00
-	else
-		mantissa, biasedExponent = math_frexp (f)
-		biasedExponent = biasedExponent + 1022
-		
-		if biasedExponent <= 0 then
-			-- Denormal
-			mantissa = math_floor (mantissa * 2 ^ (52 + biasedExponent) + 0.5)
-			biasedExponent = 0
-		else
-			mantissa = math_floor ((mantissa * 2 - 1) * 2 ^ 52 + 0.5)
-		end
-	end
-	
-	low = mantissa % 4294967296
-	high = high + bit_lshift (bit_band (biasedExponent, 0x07FF), 20)
-	high = high + bit_band (math_floor (mantissa / 4294967296), 0x000FFFFF)
-	
-	return low, high
+return
+false⁮
 end
-
-function gAC.BitConverter.UInt32ToFloat (n)
-	-- 1 sign bit
-	-- 8 biased exponent bits (bias of 127, biased value of 0 if 0 or denormal)
-	-- 23 mantissa bits (implicit 1, unless biased exponent is 0)
-	
-	local negative = false
-	
-	if n >= 0x80000000 then
-		negative = true
-		n = n - 0x80000000
-	end
-	
-	local biasedExponent = bit_rshift (bit_band (n, 0x7F800000), 23)
-	local mantissa = bit_band (n, 0x007FFFFF) / (2 ^ 23)
-	
-	local f
-	if biasedExponent == 0x00 then
-		f = mantissa == 0 and 0 or math_ldexp (mantissa, -126)
-	elseif biasedExponent == 0xFF then
-		f = mantissa == 0 and math_huge or (math_huge - math_huge)
-	else
-		f = math_ldexp (1 + mantissa, biasedExponent - 127)
-	end
-	
-	return negative and -f or f
+function
+gAC.BitConverter.UInt8sToInt64(﻿﻿return,⁮break,⁮⁮then,return⁮,repeat⁪,⁭‪‪continue,or‪⁪,false⁭⁮)local
+⁭‪﻿nil=gAC[repeat⁭﻿‪.⁭⁮goto][repeat⁭﻿‪.repeat⁭](﻿﻿return,⁮break,⁮⁮then,return⁮)local
+‪⁮⁮else=gAC[repeat⁭﻿‪.⁭⁮goto].UInt8sToInt32(repeat⁪,⁭‪‪continue,or‪⁪,false⁭⁮)return
+⁭‪﻿nil+‪⁮⁮else*4294967296
 end
-
-function gAC.BitConverter.UInt32sToDouble (low, high)
-	-- 1 sign bit
-	-- 11 biased exponent bits (bias of 127, biased value of 0 if 0 or denormal)
-	-- 52 mantissa bits (implicit 1, unless biased exponent is 0)
-	
-	local negative = false
-	
-	if high >= 0x80000000 then
-		negative = true
-		high = high - 0x80000000
-	end
-	
-	local biasedExponent = bit_rshift (bit_band (high, 0x7FF00000), 20)
-	local mantissa = (bit_band (high, 0x000FFFFF) * 4294967296 + low) / 2 ^ 52
-	
-	local f
-	if biasedExponent == 0x0000 then
-		f = mantissa == 0 and 0 or math_ldexp (mantissa, -1022)
-	elseif biasedExponent == 0x07FF then
-		f = mantissa == 0 and math_huge or (math_huge - math_huge)
-	else
-		f = math_ldexp (1 + mantissa, biasedExponent - 1023)
-	end
-	
-	return negative and -f or f
+function
+gAC.BitConverter.FloatToUInt32(⁮‪⁪until)local
+repeat⁮=0
+if
+⁮‪⁪until<0
+or
+1/⁮‪⁪until<0
+then
+repeat⁮=repeat⁮+0x80000000
+⁮‪⁪until=-⁮‪⁪until
+end
+local
+while﻿⁭‪=0
+local
+and﻿⁭=0
+if
+⁮‪⁪until==﻿⁭‪goto
+then
+and﻿⁭=0xFF
+elseif
+⁮‪⁪until~=⁮‪⁪until
+then
+and﻿⁭=0xFF
+while﻿⁭‪=1
+elseif
+⁮‪⁪until==0
+then
+and﻿⁭=0x00
+else
+while﻿⁭‪,and﻿⁭=continue⁪(⁮‪⁪until)and﻿⁭=and﻿⁭+126
+if
+and﻿⁭<=0
+then
+while﻿⁭‪=in‪⁭﻿(while﻿⁭‪*2^(23+and﻿⁭)+0.5)and﻿⁭=0
+else
+while﻿⁭‪=in‪⁭﻿((while﻿⁭‪*2-1)*2^23+0.5)end
+end
+repeat⁮=repeat⁮+﻿⁮else(‪repeat(and﻿⁭,0xFF),23)repeat⁮=repeat⁮+‪repeat(while﻿⁭‪,0x007FFFFF)return
+repeat⁮
+end
+function
+gAC.BitConverter.DoubleToUInt32s(function⁪⁭⁭)local
+if⁪‪⁪=0
+local
+‪and=0
+if
+function⁪⁭⁭<0
+or
+1/function⁪⁭⁭<0
+then
+if⁪‪⁪=if⁪‪⁪+0x80000000
+function⁪⁭⁭=-function⁪⁭⁭
+end
+local
+if⁭⁪=0
+local
+⁭⁭local=0
+if
+function⁪⁭⁭==﻿⁭‪goto
+then
+⁭⁭local=0x07FF
+elseif
+function⁪⁭⁭~=function⁪⁭⁭
+then
+⁭⁭local=0x07FF
+if⁭⁪=1
+elseif
+function⁪⁭⁭==0
+then
+⁭⁭local=0x00
+else
+if⁭⁪,⁭⁭local=continue⁪(function⁪⁭⁭)⁭⁭local=⁭⁭local+1022
+if
+⁭⁭local<=0
+then
+if⁭⁪=in‪⁭﻿(if⁭⁪*2^(52+⁭⁭local)+0.5)⁭⁭local=0
+else
+if⁭⁪=in‪⁭﻿((if⁭⁪*2-1)*2^52+0.5)end
+end
+‪and=if⁭⁪%4294967296
+if⁪‪⁪=if⁪‪⁪+﻿⁮else(‪repeat(⁭⁭local,0x07FF),20)if⁪‪⁪=if⁪‪⁪+‪repeat(in‪⁭﻿(if⁭⁪/4294967296),0x000FFFFF)return
+‪and,if⁪‪⁪
+end
+function
+gAC.BitConverter.UInt32ToFloat(break‪)local
+true‪‪⁮=!1
+if
+break‪>=0x80000000
+then
+true‪‪⁮=!!1
+break‪=break‪-0x80000000
+end
+local
+﻿⁮then=⁭⁭goto(‪repeat(break‪,0x7F800000),23)local
+﻿false=‪repeat(break‪,0x007FFFFF)/(2^23)local
+and⁪⁮
+if
+﻿⁮then==0x00
+then
+and⁪⁮=﻿false==0
+and
+0
+or
+⁭⁮‪else(﻿false,-126)elseif
+﻿⁮then==0xFF
+then
+and⁪⁮=﻿false==0
+and
+﻿⁭‪goto
+or(﻿⁭‪goto-﻿⁭‪goto)else
+and⁪⁮=⁭⁮‪else(1+﻿false,﻿⁮then-127)end
+return
+true‪‪⁮
+and-and⁪⁮
+or
+and⁪⁮
+end
+function
+gAC.BitConverter.UInt32sToDouble(local⁭﻿⁪,⁮⁪⁭while)local
+⁮⁪break=!1
+if
+⁮⁪⁭while>=0x80000000
+then
+⁮⁪break=!!1
+⁮⁪⁭while=⁮⁪⁭while-0x80000000
+end
+local
+do⁪⁮⁪=⁭⁭goto(‪repeat(⁮⁪⁭while,0x7FF00000),20)local
+⁭‪⁪true=(‪repeat(⁮⁪⁭while,0x000FFFFF)*4294967296+local⁭﻿⁪)/2^52
+local
+until⁪⁭⁭
+if
+do⁪⁮⁪==0x0000
+then
+until⁪⁭⁭=⁭‪⁪true==0
+and
+0
+or
+⁭⁮‪else(⁭‪⁪true,-1022)elseif
+do⁪⁮⁪==0x07FF
+then
+until⁪⁭⁭=⁭‪⁪true==0
+and
+﻿⁭‪goto
+or(﻿⁭‪goto-﻿⁭‪goto)else
+until⁪⁭⁭=⁭⁮‪else(1+⁭‪⁪true,do⁪⁮⁪-1023)end
+return
+⁮⁪break
+and-until⁪⁭⁭
+or
+until⁪⁭⁭
 end
