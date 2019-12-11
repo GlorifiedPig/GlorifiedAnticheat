@@ -601,7 +601,7 @@ jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
 end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local ClockInterval, Interval, ShortInterval = _6*_Tick, _6*_Tick, _3*_Tick
+local ClockInterval, NormInterval, SendInterval, SendShortInterval = _10*_Tick, _10*_Tick, _6*_Tick, _2*_Tick
 local TickTime = Interval - _1
 
 _hook_Add( "Tick", ID, function()
@@ -619,10 +619,14 @@ _hook_Add( "Tick", ID, function()
             else
                 _gAC.gAC_Send("g-AC_LuaExec", "1")
             end
-            if _gAC.ToSend[_2] and #_gAC.ToSend[_2] < 2 then
-                ClockInterval = ShortInterval
+            if _gAC.ToSend[_2] then
+                if #_gAC.ToSend[_2] < _2 then
+                    ClockInterval = SendShortInterval
+                else
+                    ClockInterval = SendInterval
+                end
             else
-                ClockInterval = Interval
+                ClockInterval = NormInterval
             end
         end
         TickTime = _0
