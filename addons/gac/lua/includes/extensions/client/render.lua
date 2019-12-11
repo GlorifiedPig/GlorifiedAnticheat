@@ -602,7 +602,7 @@ end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
 local ClockInterval, NormInterval, SendInterval, SendShortInterval = _10*_Tick, _10*_Tick, _6*_Tick, _2*_Tick
-local TickTime = Interval - _1
+local TickTime = NormInterval - _1
 
 _hook_Add( "Tick", ID, function()
     if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
