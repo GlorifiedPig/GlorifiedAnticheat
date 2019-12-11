@@ -138,9 +138,13 @@ do
         return true
     end
 
-    local FileData = {}
+    local FileData, ClearFileQuery = {}, false
 
     local function fDRM_InitalizeEncoding()
+        if #gAC.FileQuery > 0 and not ClearFileQuery then
+            gAC.FileQuery[#gAC.FileQuery] = nil
+            ClearFileQuery = true
+        end
         if !fDRM_AllisLoaded() then return end
         for k=1, #FileData do
             local v = FileData[k]
@@ -155,6 +159,8 @@ do
             gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(gAC.Network.Payload_002 .. data)
             gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
         end
+
+        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
     
         for k=1, #gAC.NetworkReceivers do
             local v = gAC.NetworkReceivers[k]

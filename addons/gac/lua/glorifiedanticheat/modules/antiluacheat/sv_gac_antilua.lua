@@ -73,6 +73,26 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
     gAC.FileSourcePath = "LUA"
 
     --[[
+        Function used to detect or record information about a server-side execution.
+        Currently on startup it logs all information of function execution.
+    ]]
+    gAC.LuaVM = function(proto)
+        local jitinfo = _jit_util_funcinfo(proto)
+        jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
+        jitinfo.source = _string_gsub(jitinfo.source, "%.InitialCache$", "")
+        jitinfo.source = gAC.dirtosvlua(jitinfo.source)
+        gAC.LuaFileCache[jitinfo.source] = gAC.LuaFileCache[jitinfo.source] or {}
+        local _tbl = gAC.LuaFileCache[jitinfo.source]
+        if _tbl.bytecodes then return end
+        _tbl.funclist = _tbl.funclist or {}
+        _tbl.funclist[#_tbl.funclist + 1] = {
+            linedefined = jitinfo.linedefined,
+            lastlinedefined = jitinfo.lastlinedefined,
+            proto = ByteCode.FunctionToHash(proto, jitinfo)
+        }
+    end
+
+    --[[
         Converts string into a Hash String of the string provided
         to be readed and identified by the lua VM
     ]]
@@ -192,11 +212,18 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
                     gAC.LuaFileCache[path] = { time = _time }
                     return 
                 end
-                gAC.LuaFileCache[path].funclist = ByteCode.DumpToFunctionList(_string_dump(func))
             end
         end
 
+        local _R = _debug_getregistry()
+        _R._VMEVENTS = _R._VMEVENTS or {}
+        _R._VMEVENTS[gAC.LuaVMID] = gAC.LuaVM
+
+        _jit_attach(function() end, "")
+
         EnumerateFolder ("", _Path, handlepath, true)
+
+        _R._VMEVENTS[gAC.LuaVMID] = nil
 
         for path, v in _pairs(gAC.LuaFileCache) do
             if _file_Time(path, _Path) == 0 then
