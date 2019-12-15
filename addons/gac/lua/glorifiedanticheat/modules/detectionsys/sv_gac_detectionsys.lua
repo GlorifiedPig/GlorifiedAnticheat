@@ -2,6 +2,7 @@ local _util_JSONToTable = util.JSONToTable
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
+    if gAC.EmergencyHalt then return end
 
     gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
     if gAC.Debug then return end
