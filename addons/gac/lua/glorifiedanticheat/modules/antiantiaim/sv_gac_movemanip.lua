@@ -59,7 +59,7 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
     local sintheta = _math_asin( opp / hyp )
     local taninverse = _math_tan( opp / adj ) ^ -1
     
-    if ((opp == 10000 and adj < 10000 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
+    if ((opp == 10000 and adj < 10000 and adj > 0 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and opp > 0 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
         if ply.MoveManip_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "C-Movement Manipulation Detected [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
