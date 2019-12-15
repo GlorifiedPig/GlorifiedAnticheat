@@ -20,7 +20,7 @@ function gAC.GetBanSyntax(code)
 end
 
 function gAC.GetFormattedBanText( displayReason, banTime )
-    local banString = gAC.GetBanSyntax(displayReason) .. '\n'
+    local banString = (gAC.config.BAN_MESSAGE_SYNTAX or code) .. '\n'
     banTime = _tonumber( banTime )
     if( banTime == -1 ) then
         banString = banString .. "Type: Kick"
