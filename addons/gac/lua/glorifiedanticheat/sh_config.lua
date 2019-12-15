@@ -1,13 +1,5 @@
 --[[
-    Hai, NiceCream here again.
-    Just some recommendations i want to point out.
-    I suggest keeping all 'EXTERNAL CHECKS' to kick only
-    noticed some false bans before but that might be due to a de-syncroization for some people.
-    
-    Always keep meth detection on!
-    These guys even with other detections enabled will always try to do anything to ruin shit!
-
-    Also a warning to those with lua systems like GM-LUAI
+    Warning to those with lua systems like GM-LUAI
     DO NOT LIVE UPDATE THIS FILE, OR ELSE FILE VERIFICATION WILL FAIL!
 ]]
 
@@ -29,13 +21,12 @@
 --[[General cheating detections]]
     --[[ Lua Execution ]]
         -- This does something, yet, still in development.
-        -- WARNING: AntiLua has been considered intensive on cpu resources.
+        -- WARNING: AntiLua can be CPU intensive depending on how it is configured.
+        -- I've tried my best to make this as minimal as possible to reserve resources for the server.
         -- Only use this if your server has enough resources to spare.
         gAC.config.AntiLua_CHECK = false
 
-        -- Ignores code that was initialized from the server.
-        -- Things like code ran from autorun and etc, but still checks RunString and unauthorized execution.
-        -- WARNING, Code ran from compilers will not be logged, therefore any code ran inside the compiler after boot will cause a detection!
+        -- Please read sv-config for more info on this config.
         gAC.config.AntiLua_IgnoreBoot = true
     --[[ Lua Execution End]]
 
@@ -61,10 +52,3 @@
         gAC.config.ILLEGAL_CONCOMMAND_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
     --[[ ILLEGAL CONCOMMAND SETTINGS END ]]--
 --[[end]]
-
---[[ SOURCE CRASHER SETTINGS ]]-- WARNING: Due to some addons spamming commands this will now likely be removed in the future!
-    gAC.config.ENABLE_SOURCECRASHER_CHECKS = false -- Set to 'true' to enable sourcecrasher checks.
-
-    gAC.config.SOURCECRASHER_PUNISHMENT = true -- Set to 'true' if you wish to punish players for using sourcecrasher.
-    gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
---[[ SOURCE CRASHER SETTINGS END ]]--
