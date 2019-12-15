@@ -394,33 +394,28 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
         *Improvements needed for this function
         Improve how logging works by making more detailed responses.
     ]]
-    function gAC.AntiLuaAddDetection(jitinfo, detection, _type, ply)
-        if _type ~= "Probable Execution" then
-            ply.LuaExecDetected = true
-            gAC.AddDetection(ply, detection, gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
-        else
-            gAC.AddDetection(ply, detection, false, -1)
+    local detectiontypes = {
+        [1] = "Client's returned a malformed packet of data.",
+        [2] = "Client's executed function source differentiates from Server's lua cache.",
+        [3] = "Client's lua stack source differentiates from Server's lua cache.",
+        [4] = "Client's lua stack bytecode differentiates from Server's lua cache.",
+    }
+    function gAC.AntiLuaAddDetection(ply, reasoning, stacktype, clstack, svstack)
+        ply.LuaExecDetected = true
+        gAC.AddDetection(ply, reasoning, gAC.config.AntiLua_PUNISHMENT, gAC.config.AntiLua_BANTIME)
+
+        local ID64 = ply:SteamID64()
+        local time = os.time()
+        clstack = _util_TableToJSON(clstack, true)
+        local response = "WARNING: Do not reveal this to cheaters!"
+        response = response .. "\nDate of Occurance: " .. os.date("%I:%M:%S %p - %d/%m/%Y", time)
+        response = response .. "\nClient 'https://steamcommunity.com/profiles/" .. ID64 .. "' reply\n" .. clstack
+        if svstack then
+            response = response .. "\nServer reply\n" .. svstack
         end
+        if stacktype and detectiontypes[stacktype] then response = response .. '\n' .. detectiontypes[stacktype] end
 
-        local response = _util_TableToJSON(jitinfo, true)
-        response = "WARNING: Do not reveal this to cheaters!\nClient " .. ply:SteamID64() .. "'s reply\n" .. response
-        response = response .. "\nServer's reply\n" .. detection .. "\n"
-
-        if _type == "%unknown%" then
-            _type = "Client returned a traceback with nil or unknown type (likely a client detour attempt)"
-        elseif _type == "Invalid Source" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which does not exist in the lua cache"
-        elseif _type == "Invalid Bytecode" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which exists on the lua cache\n"
-            _type = _type .. "however the function information returned to it is different from the lua cache"
-        elseif _type == "Probable Execution" then
-            _type = "Client returned a traceback leading to '" .. jitinfo.source .. "' which does not exist in the lua cache\n"
-            _type = _type .. "however because of the given environment information, it's unable to be confirmed."
-        end
-
-        response = response .. _type
-
-        _file_Write("gac-antilua/" .. ply:SteamID64() .. "-" .. os.time() .. ".dat", response)
+        _file_Write("gac-antilua/" .. ply:SteamID64() .. "-" .. time .. ".dat", response)
     end
 
     gAC.Network:AddReceiver("g-AC_LuaExec",function(_, tabledata, ply)
@@ -471,7 +466,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
                             end
                             continue
                         end
-                        gAC.AntiLuaAddDetection(v, "Unauthorized lua execution (func: " .. v.funcname .. " | src: " ..  v.source .. ") [Code 123]", "Invalid Source", ply)
+                        gAC.AntiLuaAddDetection(ply, "Unauthorized lua execution (func: " .. v.funcname .. " | src: " ..  v.source .. ") [Code 123]", 2, v)
                         break
                     elseif v.funcname == "RunString"  or v.funcname == "RunStringEx" or v.funcname == "CompileString" then
                         if v.execidentifier then
@@ -479,7 +474,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
                         end
                     end
                 else
-                    gAC.AntiLuaAddDetection(v, "Unauthorized lua execution [Code 123]", "%unknown%", ply)
+                    gAC.AntiLuaAddDetection(ply, "Unauthorized lua execution [Code 123]", 1, v)
                     break
                 end
             else
@@ -489,15 +484,15 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
                             ply.gAC_LuaExecStartup = true
                             continue
                         else
-                            gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Source", ply)
+                            gAC.AntiLuaAddDetection(ply, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", 3, v)
                             break
                         end
                     elseif gAC.VerifyFunction(userid, v) == false then
-                        gAC.AntiLuaAddDetection(v, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", "Invalid Bytecode", ply)
+                        gAC.AntiLuaAddDetection(ply, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", 4, v)
                         break
                     end
                 else
-                    gAC.AntiLuaAddDetection(v, "Lua environment manipulation [Code 124]", "%unknown%", ply)
+                    gAC.AntiLuaAddDetection(ply, "Lua environment manipulation [Code 124]", 1, v)
                     break
                 end
             end
