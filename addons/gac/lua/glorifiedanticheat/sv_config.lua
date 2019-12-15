@@ -1,10 +1,16 @@
 local CFG = table.Copy(gAC.config or {}) -- for ignoring SV configs, don't remove
 gAC.config = {}
 
-
+--[[
+    Hello there and welcome to gAC!
+    Here are all the necessary configs for them pesky cheaters to stay off your server!
+    Please chose wisely on your decisions to enable/disable configs as
+    every server is unique and may create issues depending on what is on the server.
+]]
 
 gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact GlorifiedPig.
 
+-- Tutorial for new gAC users --
 --[[
     MySQLOO Table Setup, Simply query this into the SQL query and it should auto generate a table.
 
@@ -15,6 +21,32 @@ gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact
         `detection` text COLLATE utf8_unicode_ci NOT NULL,
         `index` int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+]]
+--Note: i will create a function that will be able to gather information on cheat records of a user, for now use this example to create your own command.
+--[[
+    How to setup cheatlog command.
+    targetid = player's SteamID (not 64 ok?)
+    pl = person who executed the command.
+    data = data retreived from the database
+    nameid = player's SteamID + Name like this, Cream (STEAM_0:0:8319238493)
+
+    Example,
+    gAC.GetLog( targetid, function(data)
+        if isstring(data) then
+            gAC.ClientMessage( pl, data, Color( 225, 150, 25 ) )
+        else
+            if data == {} or data == nil then
+                gAC.ClientMessage( pl, nameid .. " has no detections.", Color( 0, 255, 0 ) )
+            else
+                gAC.PrintMessage(pl, HUD_PRINTCONSOLE, "\n\n")
+                gAC.PrintMessage(pl, HUD_PRINTCONSOLE, "Detection Log for " .. nameid .. "\n")
+                for k, v in pairs(data) do
+                    gAC.PrintMessage(pl, HUD_PRINTCONSOLE, os.date( "[%H:%M:%S %p - %d/%m/%Y]", v["time"] ) .. " - " .. v["detection"] .. "\n")
+                end
+                gAC.ClientMessage( pl, "Look in console.", Color( 0, 255, 0 ) )
+            end
+        end
+    end)
 ]]
 
 --Recommend sqlite, Recommend mysql if you have more than one server (You must know basic knowledge of SQL programming).
@@ -158,7 +190,8 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
 
         -- This does something, yet, still in development.
-        -- WARNING: AntiLua has been considered intensive on cpu resources.
+        -- WARNING: AntiLua can be CPU intensive depending on how it is configured.
+        -- I've tried my best to make this as minimal as possible to reserve resources for the server.
         -- Only use this if your server has enough resources to spare.
         gAC.config.AntiLua_PUNISHMENT = false
         gAC.config.AntiLua_BANTIME = -1
@@ -172,12 +205,23 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.AntiLua_Fail_BANTIME = -1
 
         -- Uses a stronger method of lua verification, using functions to verify an execution.
-        -- However this works at a cost of some CPU usage server-side.
+        -- However this works at a cost of some small amounts of CPU usage server-side.
+        -- Verification only checks functions based on their line definitions.
         gAC.config.AntiLua_FunctionVerification = true
 
-        -- WARNING, try not to use this! this extremely CPU intensive!
+        -- Same as above however even further in depth by using a special method of function hashing
+        -- WARNING: This has been proven not to work in special cases, please do not turn this on.
+        gAC.config.AntiLua_HashFunctionVerification = false
+
+        -- WARNING, Only use this in the event of a lua refresh being necessary.
         -- This will auto reload verifications for a certain file on lua refresh.
+        -- This will also make the verification for that specific file to be changed to weak verification for security purposes.
         gAC.config.AntiLua_LuaRefresh = true
+
+        -- for "AntiLua_IgnoreBoot"
+        -- This will make it so that the client only starts sending data after the gamemode has loaded
+        -- So it makes it so that it's faster for the client to finish up sending all data of executed lua scripts.
+        -- However if code is compiled before the gamemode posts, it may cause false detections.
     --[[ Lua Execution End]]
 
     --[[ ANTI Aim SETTINGS ]]--

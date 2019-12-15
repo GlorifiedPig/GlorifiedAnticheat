@@ -362,6 +362,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     if !gAC.config.AntiLua_LuaRefresh then
         LuaFileUpdates = nil
     end
+    local ProtoCheck = gAC.config.AntiLua_HashFunctionVerification
     function gAC.VerifyFunction(userid, funcinfo)
         if !gAC.config.AntiLua_FunctionVerification then return true end
         local funclist = nil
@@ -378,7 +379,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             end
             for k=1, #funclist do
                 local v = funclist[k]
-                if v.lastlinedefined == funcinfo.lastlinedefined and v.linedefined == funcinfo.linedefined and v.proto == funcinfo.proto then
+                if v.lastlinedefined == funcinfo.lastlinedefined and v.linedefined == funcinfo.linedefined and (ProtoCheck == true and v.proto == funcinfo.proto or true) then
                     return true
                 end
             end

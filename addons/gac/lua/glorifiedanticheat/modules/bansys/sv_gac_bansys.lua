@@ -16,7 +16,7 @@ local _isstring = isstring
 local _player_GetBySteamID = player.GetBySteamID
 
 function gAC.GetBanSyntax(code)
-    return gAC.config.BAN_MESSAGE_SYNTAX or code
+    return code or gAC.config.BAN_MESSAGE_SYNTAX
 end
 
 function gAC.GetFormattedBanText( displayReason, banTime )
