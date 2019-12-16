@@ -504,7 +504,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     end )
 
     _hook_Add("gAC.CLFilesLoaded", "gAC.AntiLua", function(ply)
-        _timer_Create("gAC.AntiLua-" .. ply:UserID(), 120, 1, function()
+        _timer_Create("gAC.AntiLua-" .. ply:UserID(), gAC.config.AntiLua_Fail_TIMEOUT, 1, function()
             if _IsValid(ply) && !ply.LuaExecDetected then
                 ply.LuaExecDetected = true
                 gAC.AddDetection(ply, "AntiLua information did not arrive in time [Code 125]", gAC.config.AntiLua_Fail_PUNISHMENT, gAC.config.AntiLua_Fail_BANTIME)
