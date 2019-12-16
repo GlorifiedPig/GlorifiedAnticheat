@@ -203,6 +203,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         -- If they did not respond to the server in required time
         gAC.config.AntiLua_Fail_PUNISHMENT = true
         gAC.config.AntiLua_Fail_BANTIME = -1
+        gAC.config.AntiLua_Fail_TIMEOUT = 240 -- time it takes for them to be considered timed out.
 
         -- Uses a stronger method of lua verification, using functions to verify an execution.
         -- However this works at a cost of some small amounts of CPU usage server-side.
