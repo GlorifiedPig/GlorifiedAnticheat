@@ -22,14 +22,3 @@ else
     _include("gac_flatfile.lua")
 	gAC.Print("Established flatfile system")
 end
-
-_concommand_Add('gac_halt', function(pl)
-    if _IsValid(pl) then return end
-    if gAC.EmergencyHalt then
-        gAC.EmergencyHalt = nil
-        gAC.Print("Emergency Halt Disabled")
-    else
-        gAC.EmergencyHalt = true
-        gAC.Print("Emergency Halt Enabled")
-    end
-end)

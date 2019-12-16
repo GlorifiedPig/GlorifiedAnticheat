@@ -48,13 +48,6 @@ gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact
         end
     end)
 ]]
---Emergencies and Issues
---[[
-    If an issue does appear with gAC which causes users to be kicked/banned I have added an emergency
-    halt command to prevent further collateral damage.
-    Simply type in console "gac_halt"
-    This will halt and disrupt any further detections from gAC.
-]]
 
 --Recommend sqlite, Recommend mysql if you have more than one server (You must know basic knowledge of SQL programming).
 gAC.storage.Type = "sqlite" -- Types: flatfile, sqlite, mysql
