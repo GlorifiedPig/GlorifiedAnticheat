@@ -415,8 +415,11 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             response = response .. "\nServer reply\n" .. svstack
         end
         if stacktype and detectiontypes[stacktype] then response = response .. '\n' .. detectiontypes[stacktype] end
-
-        _file_Write("gac-antilua/" .. ply:SteamID64() .. "-" .. time .. ".dat", response)
+        local folderdate = 'gac-antilua/' .. os.date('%d-%m-%Y', time)
+        if !_file_Exists(folderdate, 'DATA') then
+            _file_CreateDir(folderdate)
+        end
+        _file_Write(folderdate .. '/' .. ply:SteamID64() .. "-" .. time .. ".dat", response)
     end
 
     gAC.Network:AddReceiver("g-AC_LuaExec",function(_, tabledata, ply)

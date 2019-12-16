@@ -193,6 +193,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         -- WARNING: AntiLua can be CPU intensive depending on how it is configured.
         -- I've tried my best to make this as minimal as possible to reserve resources for the server.
         -- Only use this if your server has enough resources to spare.
+        -- Debug data on users detections is sorted in folder gac-antilua as month-day-year
         gAC.config.AntiLua_PUNISHMENT = false
         gAC.config.AntiLua_BANTIME = -1
 
