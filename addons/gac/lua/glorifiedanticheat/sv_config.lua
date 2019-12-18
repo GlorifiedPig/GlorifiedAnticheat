@@ -94,11 +94,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     -- set to 'ulx' for ulx, 'serverguard' for ServerGuard, 'd3a' for d3a, 'sam' for SAM
     gAC.config.BAN_TYPE = "ulx"
     gAC.config.BAN_FUNC = function(ply, banlength, code)
-        if isstring(ply) then
-            -- bans by steamid
-        else
-            -- bans by player entity
-        end
+        -- bans by steamid ALWAYS
     end -- Only if you want custom ban names & etc.
 
     gAC.config.KICK_TYPE = "custom_func" -- set to 'default' for normal kick
