@@ -118,7 +118,7 @@ else
     local BannablePlys = {}
 
     function gAC.GetBanType(ply, banTime, displayReason)
-        local ply = _isstring(ply) and ply or ply:SteamID()
+        ply = (_isstring(ply) and ply or ply:SteamID())
         displayReason = gAC.GetBanSyntax(displayReason)
         if gAC.config.BAN_TYPE == "ulx" then
             _RunConsoleCommand( "ulx", "banid", ply, banTime, displayReason )
@@ -145,11 +145,14 @@ else
                 _timer_Remove('gAC.DelayedKick-' .. ID)
             end
             BannablePlys[ID] = {
-                displayReason = displayReason,
-                banTime = banTime
+                ['displayReason'] = displayReason,
+                ['banTime'] = banTime
             }
             _timer_Create('gAC.DelayedBan-' .. ID, gAC.config.DELAYEDBANS_TIME, 1, function()
-                gAC.GetBanType(ID, banTime, displayReason)
+                if BannablePlys[ID] then
+                    gAC.GetBanType(ID, BannablePlys[ID]['banTime'], BannablePlys[ID]['displayReason'])
+                    BannablePlys[ID] = nil
+                end
             end)
         else
             gAC.GetBanType(ply, banTime, displayReason)
@@ -162,7 +165,8 @@ else
             if _timer_Exists('gAC.DelayedBan-' .. ID) then
                 _timer_Remove('gAC.DelayedBan-' .. ID)
             end
-            gAC.GetBanType(ID, BannablePlys[ID].banTime, BannablePlys[ID].displayReason)
+            gAC.GetBanType(ID, BannablePlys[ID]['banTime'], BannablePlys[ID]['displayReason'])
+            BannablePlys[ID] = nil
         end
     end)
 end
