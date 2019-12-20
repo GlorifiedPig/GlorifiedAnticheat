@@ -140,7 +140,18 @@ else
     function gAC.AddBan( ply, displayReason, banTime )
         if gAC.config.DELAYEDBANS then
             local ID = ply:SteamID()
-            if _timer_Exists('gAC.DelayedBan-' .. ID) then return end
+            if _timer_Exists('gAC.DelayedBan-' .. ID) and BannablePlys[ID] then
+                if BannablePlys[ID]['banTime'] < banTime or (BannablePlys[ID]['banTime'] ~= 0 and banTime == 0) then
+                    if _timer_Exists('gAC.DelayedKick-' .. ID) then
+                        _timer_Remove('gAC.DelayedKick-' .. ID)
+                    end
+                    BannablePlys[ID] = {
+                        ['displayReason'] = displayReason,
+                        ['banTime'] = banTime
+                    }
+                end
+                return
+            end
             if _timer_Exists('gAC.DelayedKick-' .. ID) then
                 _timer_Remove('gAC.DelayedKick-' .. ID)
             end
