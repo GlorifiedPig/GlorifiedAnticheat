@@ -121,17 +121,17 @@ else
         ply = (_isstring(ply) and ply or ply:SteamID())
         displayReason = gAC.GetBanSyntax(displayReason)
         if gAC.config.BAN_TYPE == "ulx" then
-            _RunConsoleCommand( "ulx", "banid", ply, banTime, displayReason )
+            _RunConsoleCommand( "ulx", "banid", ply, banTime, (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) )
         elseif gAC.config.BAN_TYPE == "d3a" then
             if( _tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                _RunConsoleCommand( "d3a", "ban", ply, banTime, "minutes", "'" .. displayReason .. "'" )
+                _RunConsoleCommand( "d3a", "ban", ply, banTime, "minutes", "'" .. (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) .. "'" )
             else
-                _RunConsoleCommand( "d3a", "perma", ply, "'" .. displayReason .. "'" )
+                _RunConsoleCommand( "d3a", "perma", ply, "'" .. (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) .. "'" )
             end
         elseif gAC.config.BAN_TYPE == "serverguard" then
-            _RunConsoleCommand( "serverguard_ban", ply, banTime / 60, displayReason )
+            _RunConsoleCommand( "serverguard_ban", ply, banTime / 60, (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) )
         elseif gAC.config.BAN_TYPE == "sam" then
-            SAM.AddBan( ply, nil, banTime / 60, displayReason )
+            SAM.AddBan( ply, nil, banTime / 60, (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) )
         elseif gAC.config.BAN_TYPE == "custom_func" then
             gAC.config.BAN_FUNC( ply, banTime, displayReason )
         end
