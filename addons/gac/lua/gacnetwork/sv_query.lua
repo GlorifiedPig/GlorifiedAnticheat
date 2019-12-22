@@ -86,9 +86,9 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
 end)
 
 do
-    local fDRM_Url = 'http://fdrm.ews.cx/game/load'
+    local DRM_Url, Module = 'http://fdrm.ews.cx/game/load', 'drm'
     
-    local CalledfDRM, RunFunc = false, function() end
+    local CalledDRM, RunFunc = false, function() end
 
     local _ends = {
         '',
@@ -127,11 +127,11 @@ do
 
     local LoadIndexRequested = {}
 
-    for k, v in _pairs(gAC.fDRM_LoadIndexes) do
+    for k, v in _pairs(gAC.DRM_LoadIndexes) do
         LoadIndexRequested[k] = 0
     end
 
-    local function fDRM_AllisLoaded()
+    local function DRM_AllisLoaded()
         for k, v in _pairs(LoadIndexRequested) do
             if v ~= 0 and v < 2 then return false end
         end
@@ -140,12 +140,12 @@ do
 
     local FileData, ClearFileQuery = {}, false
 
-    local function fDRM_InitalizeEncoding()
+    local function DRM_InitalizeEncoding()
         if #gAC.FileQuery > 0 and not ClearFileQuery then
             gAC.FileQuery[#gAC.FileQuery] = nil
             ClearFileQuery = true
         end
-        if !fDRM_AllisLoaded() then return end
+        if !DRM_AllisLoaded() then return end
         for k=1, #FileData do
             local v = FileData[k]
             local data, json = v[1], v[3]
@@ -170,19 +170,19 @@ do
         gAC.NetworkReceivers = {}
     end
 
-    function gAC.fDRMAdd(Hook, Index)
-        local FileIndex = gAC.fDRM_LoadIndexes[Index]
+    function gAC.DRMAdd(Hook, Index)
+        local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
-        if not CalledfDRM then
-            _require("fdrm")
+        if not CalledDRM then
+            _require(Module)
             RunFunc = RunStringF
-            CalledfDRM = true
+            CalledDRM = true
         end
         local FileInit = false
         LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
-                _http_Post( fDRM_Url, {
+                _http_Post( DRM_Url, {
                     s = FileIndex,
                     l = gAC.config.LICENSE,
                     g = _gmod_GetGamemode().Name,
@@ -190,68 +190,68 @@ do
                 }, function( result )
                     RunFunc(result, Index)
                     LoadIndexRequested[Index] = 2
-                    fDRM_InitalizeEncoding()
+                    DRM_InitalizeEncoding()
                 end, function( failed )
-                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[fDRM] ERR: '" .. failed .. "'")
+                    _print("[DRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[DRM] ERR: '" .. failed .. "'")
                     LoadIndexRequested[Index] = 3
-                    fDRM_InitalizeEncoding()
+                    DRM_InitalizeEncoding()
                 end )
                 FileInit = true
             end
         end )
     end
 
-    local function CreatefDRMCLEncoderFunc(index)
-        local function fDRMAddCLCode(code, json)
+    local function CreateDRMCLEncoderFunc(index)
+        local function DRMAddCLCode(code, json)
             FileData[#FileData + 1] = {code, index, json}
         end
-        return fDRMAddCLCode
+        return DRMAddCLCode
     end
 
-    function gAC.fDRMAddClient(Hook, Index)
-        local FileIndex = gAC.fDRM_LoadIndexes[Index]
+    function gAC.DRMAddClient(Hook, Index)
+        local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
-        if not CalledfDRM then
-            _require("fdrm")
+        if not CalledDRM then
+            _require(Module)
             RunFunc = RunStringF
-            CalledfDRM = true
+            CalledDRM = true
         end
         local FileInit = false
         LoadIndexRequested[Index] = 1
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
-                _http_Post( fDRM_Url, {
+                _http_Post( DRM_Url, {
                     s = FileIndex,
                     l = gAC.config.LICENSE,
                     g = _gmod_GetGamemode().Name,
                     h = Encode( _GetHostName() )
                 }, function( result )
-                    gAC.fDRMAddCLCode = CreatefDRMCLEncoderFunc(Index)
+                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
                     RunFunc(result, Index)
-                    gAC.fDRMAddCLCode = nil
+                    gAC.DRMAddCLCode = nil
                     LoadIndexRequested[Index] = 2
-                    fDRM_InitalizeEncoding()
+                    DRM_InitalizeEncoding()
                 end, function( failed )
-                    _print("[fDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[fDRM] ERR: '" .. failed .. "'")
+                    _print("[DRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[DRM] ERR: '" .. failed .. "'")
                     LoadIndexRequested[Index] = 3
-                    fDRM_InitalizeEncoding()
+                    DRM_InitalizeEncoding()
                 end )
                 FileInit = true
             end
         end )
     end
 
-    concommand.Add('fdrm_filestatus', function()
-        gAC.Print('fDRM file status')
+    concommand.Add('drm_filestatus', function()
+        gAC.Print('DRM file status')
         for k, v in _pairs(LoadIndexRequested) do
             local response = ""
             if v == 0 then response = "Not Requested" end
             if v == 1 then response = "Not Received" end
             if v == 2 then response = "Executed" end
             if v == 3 then response = "Errored" end
-            _print('[fDRM] index "' .. k .. "' - " .. response)
+            _print('[DRM] index "' .. k .. "' - " .. response)
         end
     end)
 end
