@@ -34,6 +34,12 @@ local function roundangle(ang, idp)
     return ang
 end
 
+local CMoveValueWhitelist = {
+    [2500] = true,
+    [5000] = true,
+    [7500] = true
+}
+
 _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
     if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
     || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
@@ -60,11 +66,11 @@ _hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
     local taninverse = _math_tan( opp / adj ) ^ -1
 
     --[[
-        (opp == 10000 and adj < 10000 and adj ~= 5000 and adj > 0 and round(hyp) > 10000)
-        (adj == 10000 and opp < 10000 and opp ~= 5000 and opp > 0 and round(hyp) > 10000)
+        (opp == 10000 and adj < 10000 and CMoveValueWhitelist[adj] ~= true and adj > 0 and round(hyp) > 10000)
+        (adj == 10000 and opp < 10000 and CMoveValueWhitelist[opp] ~= true and opp > 0 and round(hyp) > 10000)
         (round(hyp) == 10000)
     ]]
-    if ((opp == 10000 and adj < 10000 and adj ~= 5000 and adj > 0 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and opp ~= 5000 and opp > 0 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
+    if ((opp == 10000 and adj < 10000 and CMoveValueWhitelist[adj] ~= true and adj > 0 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and CMoveValueWhitelist[opp] ~= true and opp > 0 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
         if ply.MoveManip_Threshold > 5 then
             ply.gAC_AimbotDetected = true
             gAC.AddDetection( ply, "C-Movement Manipulation Detected [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
