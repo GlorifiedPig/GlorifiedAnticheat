@@ -86,7 +86,7 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
 end)
 
 do
-    local DRM_Url, Module = 'http://fdrm.ews.cx/game/load', 'drm'
+    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'drm'
     
     local CalledDRM, RunFunc = false, function() end
 
@@ -183,10 +183,9 @@ do
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
                 _http_Post( DRM_Url, {
-                    s = FileIndex,
-                    l = gAC.config.LICENSE,
-                    g = _gmod_GetGamemode().Name,
-                    h = Encode( _GetHostName() )
+                    license = gAC.config.LICENSE,
+                    file_ID = FileIndex,
+                    addon = "GlorifiedAnticheat"
                 }, function( result )
                     RunFunc(result, Index)
                     LoadIndexRequested[Index] = 2
@@ -222,10 +221,9 @@ do
         _hook_Add(Hook, Index, function()
             if ( !FileInit ) then
                 _http_Post( DRM_Url, {
-                    s = FileIndex,
-                    l = gAC.config.LICENSE,
-                    g = _gmod_GetGamemode().Name,
-                    h = Encode( _GetHostName() )
+                    license = gAC.config.LICENSE,
+                    file_ID = FileIndex,
+                    addon = "GlorifiedAnticheat"
                 }, function( result )
                     gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
                     RunFunc(result, Index)
