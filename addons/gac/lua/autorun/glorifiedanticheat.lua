@@ -142,7 +142,7 @@ if SERVER then
     http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = util.JSONToTable(result)
         if(resp["success"] == "false") then
-            print("[g-AC] Generating statistics report failed: "..resp["error"])
+            print("[g-AC] Retreiving Server ID failed: "..resp["error"])
             gAC.server_id = 0
         else
             gAC.server_id = resp["id"]
