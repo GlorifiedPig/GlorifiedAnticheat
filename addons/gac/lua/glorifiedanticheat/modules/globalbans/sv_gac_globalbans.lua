@@ -1,4 +1,3 @@
-
 function gAC.GetFormattedGlobalText( displayReason, banTime )
     local banString = (gAC.config.BAN_MESSAGE_SYNTAX or code) .. '\n'
     banString = banString .. displayReason
