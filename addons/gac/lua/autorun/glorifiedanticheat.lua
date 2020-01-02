@@ -145,6 +145,7 @@ if SERVER then
             print("[g-AC] Retreiving Server ID failed: "..resp["error"])
             gAC.server_id = 0
         else
+            print("g-AC: Server ID has been assigned ("..resp["id"]..").")
             gAC.server_id = resp["id"]
         end
     end, function( failed )
