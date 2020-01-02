@@ -139,7 +139,7 @@ if SERVER then
     _hook_Run("gAC.Init")
     frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
 
-    http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, targetName = GetHostName() }, function( result )
+    http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = util.JSONToTable(result)
         if(resp["success"] == "false") then
             print("[g-AC] Generating statistics report failed: "..resp["error"])
