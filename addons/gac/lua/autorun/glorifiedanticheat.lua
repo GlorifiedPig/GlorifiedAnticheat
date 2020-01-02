@@ -143,3 +143,15 @@ end
 concommand.Add( "gac_version", function( ply, cmd, args )
 	print( "g-AC version 1.1.8" )
 end )
+
+http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, targetName = GetHostName() }, function( result )
+    local resp = util.JSONToTable(result)
+    if(resp["success"] == "false") then
+        print("[g-AC] Generating statistics report failed: "..resp["error"])
+        gAC.server_id = 0
+    else
+        gAC.server_id = resp["id"]
+    end
+end, function( failed )
+    print( "g-AC: Retreiving Server ID failed: " .. failed )
+end )
