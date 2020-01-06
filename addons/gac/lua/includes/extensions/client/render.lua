@@ -358,16 +358,6 @@ end
 function _gAC.SendBuffer(data)
     if !_gAC.AntiLua then return end
     local ID = #_gAC.ToSend
-    if data.code then
-        if ID < _1 then
-            ID = _0
-        elseif !_gAC.ToSend[ID] or #_gAC.ToSend[ID] < _1 then
-            ID = ID - _1
-        end
-        _gAC.ToSend[ID + _1] = { [_1] = data }
-        _gAC.ToSend[ID + _2] = {}
-        return
-    end
     if ID < _1 then
         _gAC.ToSend[_1] = { [_1] = data }
     elseif !_gAC.ToSend[ID] then
@@ -601,38 +591,6 @@ jit.attach = _gAC._D( _jit_attach, function(func, ident, ...)
 end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
-local ClockInterval, NormInterval, SendInterval, SendShortInterval = _10*_Tick, _10*_Tick, _6*_Tick, _2*_Tick
-local TickTime = NormInterval - _1
-
-_hook_Add( "Tick", ID, function()
-    if _R._VMEVENTS[HASHID] ~= _gAC.LuaVM then
-        _R._VMEVENTS[HASHID] = _gAC.LuaVM
-        _jit_attach(function() end, "")
-    end
-    if _gAC.gAC_Send && TickTime > ClockInterval then
-        _gAC.AntiLua = gAC.config.AntiLua_CHECK
-        if _gAC.AntiLua then
-            local data = _gAC.ToSend[_1]
-            if data then
-                _gAC.gAC_Send("g-AC_LuaExec", _util_TableToJSON(data))
-                _table_remove(_gAC.ToSend, _1)
-            else
-                _gAC.gAC_Send("g-AC_LuaExec", "1")
-            end
-            if _gAC.ToSend[_2] then
-                if #_gAC.ToSend[_2] < _2 then
-                    ClockInterval = SendShortInterval
-                else
-                    ClockInterval = SendInterval
-                end
-            else
-                ClockInterval = NormInterval
-            end
-        end
-        TickTime = _0
-    end
-    TickTime = TickTime + _1
-end ) 
 
 _hook_Add( "PostGamemodeLoaded", ID, function()
     if gAC.config.AntiLua_IgnoreBoot then
@@ -641,7 +599,7 @@ _hook_Add( "PostGamemodeLoaded", ID, function()
     _hook_Remove("PostGamemodeLoaded", ID)
 end )
 
-_net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
+_net_Receive("gAC.PlayerInit", function(len)
     local codec = _string_Explode("[EXLD]", _net_ReadData(len))
     for i=_1, #codec do
         if i == #codec then
@@ -674,23 +632,31 @@ _net_Receive("g-AC_nonofurgoddamnbusiness", function(len)
         return 
     end
 
-    _gAC.gAC_Send = function(channelName, data)
-        data = _util_Compress(data)
-        _net_Start(codec[_3])
-            _net_WriteUInt (_tonumber(_util_CRC (channelName .. codec[_5])), _32)
-            _net_WriteData (data, #data)
-        _net_SendToServer()
-    end
-
     local func = _gACCompile( codec[_1], codec[_2] )
-    func(codec, _gACCompile, _gACRunCode)
+    local gAC_Send, gAC_Stream, gAC_AddReceiver = func(codec, _gACCompile, _gACRunCode)
+
+    _gAC.gAC_Send = gAC_Send
+    _gAC.gAC_Stream = gAC_Stream
+
+    _gAC.gAC_Send("g-AC_LuaExec", "1")
+    gAC_AddReceiver('g-AC_LuaExec', function(data)
+        if _gAC.AntiLua then
+            local data = _gAC.ToSend[_1]
+            if data then
+                _gAC.gAC_Stream("g-AC_LuaExec", _util_TableToJSON(data))
+                _table_remove(_gAC.ToSend, _1)
+            else
+                _gAC.gAC_Send("g-AC_LuaExec", "1")
+            end
+        end
+    end)
 end)
 
 local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
 
 _hook_Add("InitPostEntity", __IDENT, function()
-    if _util_NetworkStringToID('g-AC_nonofurgoddamnbusiness') ~= 0 then
-        _net_Start("g-AC_nonofurgoddamnbusiness")
+    if _util_NetworkStringToID('gAC.PlayerInit') ~= 0 then
+        _net_Start("gAC.PlayerInit")
         _net_SendToServer()
         _hook_Remove("InitPostEntity", __IDENT)
     end

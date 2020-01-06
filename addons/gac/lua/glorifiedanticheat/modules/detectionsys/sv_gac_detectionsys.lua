@@ -36,7 +36,7 @@ end
 
 gAC.Network:AddReceiver(
     "g-AC_Detections",
-    function(_, data, plr)
+    function(data, plr)
         data = _util_JSONToTable(data)
         gAC.AddDetection( plr, data[1], data[2], data[3] )
     end

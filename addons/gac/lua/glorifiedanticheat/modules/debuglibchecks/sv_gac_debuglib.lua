@@ -75,7 +75,7 @@ gAC.FuncstoSend = _util_TableToJSON(gAC.FuncstoSend)
 
 gAC.Network:AddReceiver(
     "g-ACDebugLibResponse",
-    function(_, data, plr)
+    function(data, plr)
         plr.gAC_DebugLib = nil
         gAC.DBGPrint("received from " .. plr:SteamID() .. " debug library information")
         if data == "1" then

@@ -33,7 +33,7 @@ end)
 
 gAC.Network:AddReceiver(
     "g-AC_RenderHack_Checks",
-    function(_, __, ply)
+    function(__, ply)
         for k=1, #detections do
         	local v = detections[k]
             if(_tonumber(ply:GetInfo(v.name)) == v.value) then 

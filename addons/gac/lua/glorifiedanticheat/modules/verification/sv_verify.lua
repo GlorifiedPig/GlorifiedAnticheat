@@ -37,7 +37,7 @@ end)
 
 gAC.Network:AddReceiver(
     "g-AC_ACVerify",
-    function(_, data, plr)
+    function(data, plr)
         gAC.AddDetection( plr, "Integrity check failure [Code 117]", gAC.config.INTEGRITY_CHECKS_PUNISHMENT, gAC.config.INTEGRITY_CHECKS_BANTIME )
     end
 )

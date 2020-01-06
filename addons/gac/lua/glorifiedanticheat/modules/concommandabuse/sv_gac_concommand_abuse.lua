@@ -1,12 +1,12 @@
 local _util_TableToJSON = util.TableToJSON
 
 if !gAC.config.ILLEGAL_CONCOMMAND_CHECKS then return end
-gAC.Network:AddReceiver("g-ACIllegalConCommand",function(_, data, ply)
+gAC.Network:AddReceiver("g-ACIllegalConCommand",function(data, ply)
     gAC.AddDetection( ply, "Illegal console command detected [Code 104]", gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT, gAC.config.ILLEGAL_CONCOMMAND_BANTIME )
 end )
 
 local ExplotList = _util_TableToJSON(gAC.config.EXPLOIT_LIST)
 
-gAC.Network:AddReceiver("g-ACReceiveExploitListCS",function(_, data, ply)
+gAC.Network:AddReceiver("g-ACReceiveExploitListCS",function(data, ply)
     gAC.Network:Send("g-ACReceiveExploitList",ExplotList, ply)
 end )

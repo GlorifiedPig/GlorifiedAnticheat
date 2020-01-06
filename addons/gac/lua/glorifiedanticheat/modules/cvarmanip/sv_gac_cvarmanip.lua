@@ -6,7 +6,7 @@ local _util_JSONToTable = util.JSONToTable
 
 gAC.Network:AddReceiver(
     "G-ACcVarManipSV1",
-    function(_, checkedVariables, plr)
+    function(checkedVariables, plr)
         checkedVariables = _util_JSONToTable(checkedVariables)
         if( ( checkedVariables[0] != _GetConVar("sv_allowcslua"):GetInt() && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] != GetConVar("sv_cheats"):GetInt() && gAC.config.SVCHEATS_CHECKS ) ) then
             gAC.AddDetection( plr, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
