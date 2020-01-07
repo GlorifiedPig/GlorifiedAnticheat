@@ -193,6 +193,12 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.AntiLua_PUNISHMENT = false
         gAC.config.AntiLua_BANTIME = -1
 
+        -- For how fast you want AntiLua to check code
+        -- RequestTimeActive is for when the client is responding with data.
+        -- RequestTime is for when the client has no data to send and is idling till new execution.
+        gAC.config.AntiLua_RequestTimeActive = 0.25
+        gAC.config.AntiLua_RequestTime = 5
+
         -- If they try to manipulate the network of anti-lua
         gAC.config.AntiLua_Net_PUNISHMENT = true
         gAC.config.AntiLua_Net_BANTIME = -1
@@ -296,50 +302,50 @@ table.Merge( gAC.config, CFG )
 -- If files do not load, type 'fdrm_filestatus' in console and send us a picture of it.
 -- Please do not edit these unless we tell you to.
 
-gAC.fDRM_LoadIndexes = {
+gAC.DRM_LoadIndexes = {
     --SV
-    ['g-AC_fDRM_Networking'] = '48',
-    ['g-AC_fDRM_AdminPrivilages'] = '49',
-    ['g-AC_fDRM_AltDetection'] = '50',
-    ['g-AC_fDRM_AntiAntiAim'] = '51',
-    ['g-AC_fDRM_AntiBigPackets'] = '52',
-    ['g-AC_fDRM_AntiCitizen'] = '53',
-    ['g-AC_fDRM_AntiExternal'] = '54',
-    ['g-AC_fDRM_ByteCode'] = '55',
-    ['g-AC_fDRM_MoveManip'] = '81',
-    ['g-AC_fDRM_MethV4'] = '78',
-    ['g-AC_fDRM_AntiNoSpread'] = '58',
-    ['g-AC_fDRM_AntiRenderHack'] = '59',
-    ['g-AC_fDRM_BanSys'] = '60',
-    ['g-AC_fDRM_ConCommand_Abuse'] = '61',
-    ['g-AC_fDRM_CvarManip'] = '62',
-    ['g-AC_fDRM_DebugLib'] = '63',
-    ['g-AC_fDRM_FamilyShareCheck'] = '64',
-    ['g-AC_fDRM_Notifications'] = '65',
-    ['g-AC_fDRM_UniquePData'] = '66',
-    ['g-AC_fDRM_Verify'] = '67',
-    ['g-AC_fDRM_VPNChecker'] = '68',
-    ['g-AC_fDRM_AntiBhop'] = '69',
-    ['g-AC_fDRM_AntiNeko'] = '70',
-    ['g-AC_fDRM_CPPAimbot'] = '71',
-    ['g-AC_fDRM_NetBackDoor'] = '72',
-    ['g-AC_fDRM_DetectionSys'] = '73',
-    ['g-AC_fDRM_KeyBindings'] = '74',
-    ['g-AC_fDRM_AntiLua'] = '76',
+    ['g-AC_DRM_Networking'] = '48',
+    ['g-AC_DRM_AdminPrivilages'] = '49',
+    ['g-AC_DRM_AltDetection'] = '50',
+    ['g-AC_DRM_AntiAntiAim'] = '51',
+    ['g-AC_DRM_AntiBigPackets'] = '52',
+    ['g-AC_DRM_AntiCitizen'] = '53',
+    ['g-AC_DRM_AntiExternal'] = '54',
+    ['g-AC_DRM_ByteCode'] = '55',
+    ['g-AC_DRM_MoveManip'] = '81',
+    ['g-AC_DRM_MethV4'] = '78',
+    ['g-AC_DRM_AntiNoSpread'] = '58',
+    ['g-AC_DRM_AntiRenderHack'] = '59',
+    ['g-AC_DRM_BanSys'] = '60',
+    ['g-AC_DRM_ConCommand_Abuse'] = '61',
+    ['g-AC_DRM_CvarManip'] = '62',
+    ['g-AC_DRM_DebugLib'] = '63',
+    ['g-AC_DRM_FamilyShareCheck'] = '64',
+    ['g-AC_DRM_Notifications'] = '65',
+    ['g-AC_DRM_UniquePData'] = '66',
+    ['g-AC_DRM_Verify'] = '67',
+    ['g-AC_DRM_VPNChecker'] = '68',
+    ['g-AC_DRM_AntiBhop'] = '69',
+    ['g-AC_DRM_AntiNeko'] = '70',
+    ['g-AC_DRM_CPPAimbot'] = '71',
+    ['g-AC_DRM_NetBackDoor'] = '72',
+    ['g-AC_DRM_DetectionSys'] = '73',
+    ['g-AC_DRM_KeyBindings'] = '74',
+    ['g-AC_DRM_AntiLua'] = '76',
 
     --CL
-    ['g-AC_fDRM_CLAltDetection'] = '82',
-    ['g-AC_fDRM_CLAntiBigPackets'] = '83',
-    ['g-AC_fDRM_CLAntiEnginePred'] = '84',
-    ['g-AC_fDRM_CLAntiExternal'] = '85',
-    ['g-AC_fDRM_CLAntiHtmlRS'] = '86',
-    ['g-AC_fDRM_CLAntiMenuHook'] = '87',
-    ['g-AC_fDRM_CLAntiNeko'] = '89',
-    ['g-AC_fDRM_CLAntiVCoil'] = '90',
-    ['g-AC_fDRM_CLAntiRenderHack'] = '92',
-    ['g-AC_fDRM_CLConCommand_Abuse'] = '93',
-    ['g-AC_fDRM_CLCvarManip'] = '94',
-    ['g-AC_fDRM_CLDebugLib'] = '95',
-    ['g-AC_fDRM_CLNotifications'] = '96',
-    ['g-AC_fDRM_CLVerify'] = '97',
+    ['g-AC_DRM_CLAltDetection'] = '82',
+    ['g-AC_DRM_CLAntiBigPackets'] = '83',
+    ['g-AC_DRM_CLAntiEnginePred'] = '84',
+    ['g-AC_DRM_CLAntiExternal'] = '85',
+    ['g-AC_DRM_CLAntiHtmlRS'] = '86',
+    ['g-AC_DRM_CLAntiMenuHook'] = '87',
+    ['g-AC_DRM_CLAntiNeko'] = '89',
+    ['g-AC_DRM_CLAntiVCoil'] = '90',
+    ['g-AC_DRM_CLAntiRenderHack'] = '92',
+    ['g-AC_DRM_CLConCommand_Abuse'] = '93',
+    ['g-AC_DRM_CLCvarManip'] = '94',
+    ['g-AC_DRM_CLDebugLib'] = '95',
+    ['g-AC_DRM_CLNotifications'] = '96',
+    ['g-AC_DRM_CLVerify'] = '97',
 }
