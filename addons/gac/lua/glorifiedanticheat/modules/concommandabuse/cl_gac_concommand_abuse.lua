@@ -25,7 +25,7 @@ concommand.Add = function(name, callback, autoComplete, helpText, flags, ...)
     end
     _concommand_Add(name, callback, autoComplete, helpText, flags, ...)
 end
-gAC_AddReceiver("g-ACReceiveExploitList", function(_, data)
+gAC_AddReceiver("g-ACReceiveExploitList", function(data)
     TBL = _util_JSONToTable(data)
     if Logged then
         local notbad = true

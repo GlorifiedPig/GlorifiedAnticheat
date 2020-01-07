@@ -17,7 +17,11 @@ local _net_ReadBool = net.ReadBool
 local _util_TableToJSON = util.TableToJSON
 local _table_remove = table.remove
 local _net_WriteBool = net.WriteBool
+local _string_Explode = string.Explode
+local _string_byte = string.byte
+local _string_format = string.format
 local _util_JSONToTable = util.JSONToTable
+local _string_rep = string.rep
 local _net_Start = net.Start
 local _hook_Add = hook.Add
 local _net_BytesWritten = net.BytesWritten
@@ -35,7 +39,7 @@ local _SysTime = SysTime
 	GM-LUAI Networking
 
 local args = {...}
-local _1, _2, _3, _4, _5, _6, _7, _8, _11, _32 = 1,2,3,4,5,6,7,8,11,32
+local _1, _2, _3, _4, _5, _6, _7, _8, _10, _11, _32 = 1,2,3,4,5,6,7,8,10,11,32
 local CompileCode = args[_2]
 local RunCode = args[_3]
 args = args[_1]
@@ -146,7 +150,7 @@ gAC_AddReceiver("LoadString", function(data)
 end)
 gAC_AddReceiver("LoadPayload", function(data)
 	local includer = "local gAC_Net = {...} local gAC_Send = gAC_Net[1] local gAC_Stream = gAC_Net[2] local gAC_AddReceiver = gAC_Net[3] local gAC_GetHandler = gAC_Net[4]\n"
-    local func = CompileCode(includer .. data, args[_7] .. "gAC.LoadString-" .. #data)
+    local func = CompileCode(includer .. data, args[_7] .. args[_10] .. #data)
     func(gAC_Send, gAC_Stream, gAC_AddReceiver, gAC_GetHandler)
 end)
 gAC_AddReceiver("gAC.StreamResponse", function(data)
@@ -253,7 +257,7 @@ end
 function gAC.Encoder.ToHex(str)
 	local byte = ''
     for i = 1, #str do
-        byte = byte .. '\\x' .. string.format('%02X', _string_byte(str:sub(i, i)))
+        byte = byte .. '\\x' .. _string_format('%02X', _string_byte(str:sub(i, i)))
     end
 	return byte
 end
@@ -341,171 +345,171 @@ gAC.Network.Decoder_Var = PerformG(gAC.Network.Decoder_Var)
 local Payload_001 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
 
 local
-true⁪⁮﻿=(CLIENT
+for⁪‪=(CLIENT
 and
 net.SendToServer
 or
 nil)local
-not﻿=net.WriteData
+⁪﻿end=net.WriteData
 local
-﻿⁪⁮for=util.TableToJSON
+⁮false=util.TableToJSON
 local
-﻿‪⁮=net.Receive
+⁭‪﻿for=net.Receive
 local
-‪‪⁭else=util.Decompress
+if⁮⁪⁮=util.Decompress
 local
-⁭‪false=string.sub
+true⁮﻿=string.sub
 local
-until⁭‪⁮=tonumber
+local‪=tonumber
 local
-﻿﻿﻿=net.Start
+⁮⁭and=net.Start
 local
-﻿⁭⁪=math.ceil
+﻿⁪‪false=math.ceil
 local
-and‪⁪⁮=net.WriteUInt
+local⁭=net.WriteUInt
 local
-and﻿‪﻿=net.ReadUInt
+⁭‪⁮return=net.ReadUInt
 local
-for⁮=util.JSONToTable
+‪repeat=util.JSONToTable
 local
-⁭⁪elseif=util.CRC
+if⁪=util.CRC
 local
-not⁪‪⁮=util.Compress
+nil﻿﻿﻿=util.Compress
 local
-local⁪‪=net.WriteBool
+⁭﻿=net.WriteBool
 local
-⁮⁭﻿break=net.ReadData
+⁮⁪⁪and=net.ReadData
 local
-⁪⁭⁮while=net.ReadBool
+true⁪=net.ReadBool
 local
-repeat⁮⁮=table.remove
+until⁮⁭=table.remove
 local
-‪⁪goto={...}local
-then‪,‪‪⁮,while⁪,repeat⁪﻿⁭,⁮‪do,‪⁮⁭repeat,in⁭⁮⁭,then⁪⁮,⁭,⁪⁪⁮if=1,2,3,4,5,6,7,8,11,32
+‪and={...}local
+⁮⁪⁮and,do⁭﻿,‪⁪⁪true,⁭until,⁪return,repeat⁮﻿⁪,⁪do,do‪⁪,‪return,then﻿⁭⁮,function‪=1,2,3,4,5,6,7,8,10,11,32
 local
-for⁭⁭﻿=‪⁪goto[‪‪⁮]local
-⁭function=‪⁪goto[while⁪]‪⁪goto=‪⁪goto[then‪]_G[‪⁪goto[⁮‪do] ]={}local
+⁭⁭in=‪and[do⁭﻿]local
+⁪=‪and[‪⁪⁪true]‪and=‪and[⁮⁪⁮and]_G[‪and[⁪return] ]={}local
 function
-function⁮(for⁭⁪‪,do⁮‪‪)do⁮‪‪=not⁪‪⁮(do⁮‪‪)﻿﻿﻿(‪⁪goto[while⁪])and‪⁪⁮(until⁭‪⁮(⁭⁪elseif(for⁭⁪‪..‪⁪goto[repeat⁪﻿⁭])),⁪⁪⁮if)not﻿(do⁮‪‪,#do⁮‪‪)local⁪‪(!1)true⁪⁮﻿()end
+else⁮﻿﻿(⁭﻿repeat,⁭⁭⁭‪elseif)⁭⁭⁭‪elseif=nil﻿﻿﻿(⁭⁭⁭‪elseif)⁮⁭and(‪and[‪⁪⁪true])local⁭(local‪(if⁪(⁭﻿repeat..‪and[⁭until])),function‪)⁪﻿end(⁭⁭⁭‪elseif,#⁭⁭⁭‪elseif)⁭﻿(!1)for⁪‪()end
 local
 function
-‪⁪⁮if(‪‪﻿function)return
-_G[‪⁪goto[⁮‪do] ][until⁭‪⁮(⁭⁪elseif(‪‪﻿function..‪⁪goto[repeat⁪﻿⁭]))]end
+⁪﻿⁪⁮return(repeat⁪)return
+_G[‪and[⁪return] ][local‪(if⁪(repeat⁪..‪and[⁭until]))]end
 local
-local⁭⁪﻿⁮,⁮⁮return=0,{}local
+not﻿⁪‪﻿,⁮⁮then=0,{}local
 function
-⁭⁪⁮﻿(﻿⁪false,until⁪⁭,false⁮)local
-nil‪﻿=until⁭‪⁮(⁭⁪elseif(﻿⁪false..‪⁪goto[repeat⁪﻿⁭]))local
-function‪=not⁪‪⁮(until⁪⁭)local
-if﻿⁮﻿﻿=#function‪
-false⁮=(false⁮==nil
+end⁮⁭(‪⁮⁮⁪continue,⁭⁭﻿⁮else,⁭‪‪repeat)local
+⁮⁭‪local=local‪(if⁪(‪⁮⁮⁪continue..‪and[⁭until]))local
+goto﻿‪=nil﻿﻿﻿(⁭⁭﻿⁮else)local
+repeat﻿=#goto﻿‪
+⁭‪‪repeat=(⁭‪‪repeat==nil
 and
-10000
+30000
 or
-false⁮)local
-﻿not=﻿⁭⁪(if﻿⁮﻿﻿/false⁮)if
-﻿not==1
+⁭‪‪repeat)local
+⁮‪true=﻿⁪‪false(repeat﻿/⁭‪‪repeat)if
+⁮‪true==1
 then
-function⁮(﻿⁪false,until⁪⁭)return
+else⁮﻿﻿(‪⁮⁮⁪continue,⁭⁭﻿⁮else)return
 end
-local⁭⁪﻿⁮=local⁭⁪﻿⁮+1
+not﻿⁪‪﻿=not﻿⁪‪﻿+1
 local
-⁪‪false='\x23'..local⁭⁪﻿⁮
+elseif﻿='\x23'..not﻿⁪‪﻿
 local
-⁮⁭function={['\x43\x68\x61\x6E\x6E\x65\x6C']=nil‪﻿,['\x50\x61\x72\x74\x73']={}}for
-⁭⁮‪‪nil=1,﻿not
+or‪⁭={['\x43\x68\x61\x6E\x6E\x65\x6C']=⁮⁭‪local,['\x50\x61\x72\x74\x73']={}}for
+break﻿‪⁪=1,⁮‪true
 do
 local
-⁪⁪for
+nil⁭⁮‪
 local
-﻿else
+break⁪⁪‪
 if
-⁭⁮‪‪nil==1
+break﻿‪⁪==1
 then
-⁪⁪for=⁭⁮‪‪nil
-﻿else=false⁮
+nil⁭⁮‪=break﻿‪⁪
+break⁪⁪‪=⁭‪‪repeat
 elseif
-⁭⁮‪‪nil>1
+break﻿‪⁪>1
 and
-⁭⁮‪‪nil~=﻿not
+break﻿‪⁪~=⁮‪true
 then
-⁪⁪for=(⁭⁮‪‪nil-1)*false⁮+1
-﻿else=⁪⁪for+false⁮-1
+nil⁭⁮‪=(break﻿‪⁪-1)*⁭‪‪repeat+1
+break⁪⁪‪=nil⁭⁮‪+⁭‪‪repeat-1
 elseif
-⁭⁮‪‪nil>1
+break﻿‪⁪>1
 and
-⁭⁮‪‪nil==﻿not
+break﻿‪⁪==⁮‪true
 then
-⁪⁪for=(⁭⁮‪‪nil-1)*false⁮+1
-﻿else=if﻿⁮﻿﻿
+nil⁭⁮‪=(break﻿‪⁪-1)*⁭‪‪repeat+1
+break⁪⁪‪=repeat﻿
 end
 local
-return⁭‪⁮‪=⁭‪false(function‪,⁪⁪for,﻿else)if
-⁭⁮‪‪nil<﻿not&&⁭⁮‪‪nil>1
+⁭⁭=true⁮﻿(goto﻿‪,nil⁭⁮‪,break⁪⁪‪)if
+break﻿‪⁪<⁮‪true&&break﻿‪⁪>1
 then
-⁮⁭function['\x50\x61\x72\x74\x73'][#⁮⁭function['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=⁪‪false,['\x54\x79\x70\x65']=3,['\x44\x61\x74\x61']=return⁭‪⁮‪}else
+or‪⁭['\x50\x61\x72\x74\x73'][#or‪⁭['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=elseif﻿,['\x54\x79\x70\x65']=3,['\x44\x61\x74\x61']=⁭⁭}else
 if
-⁭⁮‪‪nil==1
+break﻿‪⁪==1
 then
-⁮⁭function['\x50\x61\x72\x74\x73'][#⁮⁭function['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=⁪‪false,['\x54\x79\x70\x65']=1,['\x44\x61\x74\x61']=return⁭‪⁮‪}end
+or‪⁭['\x50\x61\x72\x74\x73'][#or‪⁭['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=elseif﻿,['\x54\x79\x70\x65']=1,['\x44\x61\x74\x61']=⁭⁭}end
 if
-⁭⁮‪‪nil==﻿not
+break﻿‪⁪==⁮‪true
 then
-⁮⁭function['\x50\x61\x72\x74\x73'][#⁮⁭function['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=⁪‪false,['\x54\x79\x70\x65']=2,['\x44\x61\x74\x61']=return⁭‪⁮‪}end
+or‪⁭['\x50\x61\x72\x74\x73'][#or‪⁭['\x50\x61\x72\x74\x73']+1]={['\x49\x44']=elseif﻿,['\x54\x79\x70\x65']=2,['\x44\x61\x74\x61']=⁭⁭}end
 end
 end
 local
-⁭⁪⁭﻿break=﻿⁪⁮for(⁮⁭function['\x50\x61\x72\x74\x73'][1])repeat⁮⁮(⁮⁭function['\x50\x61\x72\x74\x73'],1)﻿﻿﻿(‪⁪goto[while⁪])and‪⁪⁮(nil‪﻿,32)not﻿(⁭⁪⁭﻿break,#⁭⁪⁭﻿break)local⁪‪(!!1)true⁪⁮﻿()⁮⁮return[⁪‪false]=⁮⁭function
+⁪false=⁮false(or‪⁭['\x50\x61\x72\x74\x73'][1])until⁮⁭(or‪⁭['\x50\x61\x72\x74\x73'],1)⁮⁭and(‪and[‪⁪⁪true])local⁭(⁮⁭‪local,32)⁪﻿end(⁪false,#⁪false)⁭﻿(!!1)for⁪‪()⁮⁮then[elseif﻿]=or‪⁭
 end
 local
 function
-else‪‪⁮(not﻿‪⁭,continue‪⁭)_G[‪⁪goto[⁮‪do] ][until⁭‪⁮(⁭⁪elseif(not﻿‪⁭..‪⁪goto[repeat⁪﻿⁭]))]=continue‪⁭
+‪﻿‪false(⁪‪return,in⁪⁭)_G[‪and[⁪return] ][local‪(if⁪(⁪‪return..‪and[⁭until]))]=in⁪⁭
 end
 local
-⁮end={}local
+until﻿⁭⁮⁪={}local
 function
-end⁮⁮(if‪﻿﻿⁮)local
-⁭﻿⁪⁪if=and﻿‪﻿(⁪⁪⁮if)local
-continue⁭﻿=_G[‪⁪goto[⁮‪do] ][⁭﻿⁪⁪if]if
+function⁭⁮﻿(⁭⁭﻿‪do)local
+else⁭=⁭‪⁮return(function‪)local
+nil﻿⁭=_G[‪and[⁪return] ][else⁭]if
 not
-continue⁭﻿
+nil﻿⁭
 then
 return
 end
 local
-⁭repeat=⁮⁭﻿break(if‪﻿﻿⁮/then⁪⁮-repeat⁪﻿⁭)local
-⁪﻿local=⁪⁭⁮while()if
-⁪﻿local
+goto⁪=⁮⁪⁪and(⁭⁭﻿‪do/do‪⁪-⁭until)local
+local﻿=true⁪()if
+local﻿
 then
-⁭repeat=for⁮(⁭repeat)if
-⁭repeat['\x54\x79\x70\x65']==1
+goto⁪=‪repeat(goto⁪)if
+goto⁪['\x54\x79\x70\x65']==1
 then
-⁮end[⁭repeat['\x49\x44'] ]=⁭repeat['\x44\x61\x74\x61']function⁮('\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65',⁭repeat['\x49\x44'])elseif
-⁭repeat['\x54\x79\x70\x65']==2
+until﻿⁭⁮⁪[goto⁪['\x49\x44'] ]=goto⁪['\x44\x61\x74\x61']else⁮﻿﻿('\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65',goto⁪['\x49\x44'])elseif
+goto⁪['\x54\x79\x70\x65']==2
 then
 local
-if⁮﻿‪⁪=⁮end[⁭repeat['\x49\x44'] ]..⁭repeat['\x44\x61\x74\x61']continue⁭﻿(‪‪⁭else(if⁮﻿‪⁪))⁮end[⁭repeat['\x49\x44'] ]=nil
+‪‪⁪⁮break=until﻿⁭⁮⁪[goto⁪['\x49\x44'] ]..goto⁪['\x44\x61\x74\x61']nil﻿⁭(if⁮⁪⁮(‪‪⁪⁮break))until﻿⁭⁮⁪[goto⁪['\x49\x44'] ]=nil
 elseif
-⁭repeat['\x54\x79\x70\x65']==3
+goto⁪['\x54\x79\x70\x65']==3
 then
-⁮end[⁭repeat['\x49\x44'] ]=⁮end[⁭repeat['\x49\x44'] ]..⁭repeat['\x44\x61\x74\x61']function⁮('\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65',⁭repeat['\x49\x44'])end
+until﻿⁭⁮⁪[goto⁪['\x49\x44'] ]=until﻿⁭⁮⁪[goto⁪['\x49\x44'] ]..goto⁪['\x44\x61\x74\x61']else⁮﻿﻿('\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65',goto⁪['\x49\x44'])end
 else
-continue⁭﻿(‪‪⁭else(⁭repeat))end
+nil﻿⁭(if⁮⁪⁮(goto⁪))end
 end
-else‪‪⁮("\x4C\x6F\x61\x64\x53\x74\x72\x69\x6E\x67",function(in‪)⁭function(in‪,‪⁪goto[in⁭⁮⁭].."\x67\x41\x43\x2E\x4C\x6F\x61\x64\x53\x74\x72\x69\x6E\x67\x2D"..#in‪)end)else‪‪⁮("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",function(and‪‪‪⁪)local
-﻿‪﻿⁭return="\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x4E\x65\x74\x20\x3D\x20\x7B\x2E\x2E\x2E\x7D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x53\x65\x6E\x64\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x31\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x53\x74\x72\x65\x61\x6D\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x32\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x41\x64\x64\x52\x65\x63\x65\x69\x76\x65\x72\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x33\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x47\x65\x74\x48\x61\x6E\x64\x6C\x65\x72\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x34\x5D\n"local
-⁮‪⁭‪local=for⁭⁭﻿(﻿‪﻿⁭return..and‪‪‪⁪,‪⁪goto[in⁭⁮⁭].."\x67\x41\x43\x2E\x4C\x6F\x61\x64\x53\x74\x72\x69\x6E\x67\x2D"..#and‪‪‪⁪)⁮‪⁭‪local(function⁮,⁭⁪⁮﻿,else‪‪⁮,‪⁪⁮if)end)else‪‪⁮("\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65",function(﻿continue)local
-if﻿⁪⁮=⁮⁮return[﻿continue]if
-if﻿⁪⁮
+‪﻿‪false("\x4C\x6F\x61\x64\x53\x74\x72\x69\x6E\x67",function(⁮return)⁪(⁮return,‪and[⁪do].."\x67\x41\x43\x2E\x4C\x6F\x61\x64\x53\x74\x72\x69\x6E\x67\x2D"..#⁮return)end)‪﻿‪false("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",function(⁮﻿⁮⁪continue)local
+‪⁪﻿⁪break="\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x4E\x65\x74\x20\x3D\x20\x7B\x2E\x2E\x2E\x7D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x53\x65\x6E\x64\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x31\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x53\x74\x72\x65\x61\x6D\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x32\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x41\x64\x64\x52\x65\x63\x65\x69\x76\x65\x72\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x33\x5D\x20\x6C\x6F\x63\x61\x6C\x20\x67\x41\x43\x5F\x47\x65\x74\x48\x61\x6E\x64\x6C\x65\x72\x20\x3D\x20\x67\x41\x43\x5F\x4E\x65\x74\x5B\x34\x5D\n"local
+nil⁮﻿‪=⁭⁭in(‪⁪﻿⁪break..⁮﻿⁮⁪continue,‪and[⁪do]..‪and[‪return]..#⁮﻿⁮⁪continue)nil⁮﻿‪(else⁮﻿﻿,end⁮⁭,‪﻿‪false,⁪﻿⁪⁮return)end)‪﻿‪false("\x67\x41\x43\x2E\x53\x74\x72\x65\x61\x6D\x52\x65\x73\x70\x6F\x6E\x73\x65",function(continue⁪)local
+function‪‪=⁮⁮then[continue⁪]if
+function‪‪
 then
 local
-for‪⁪﻿⁪=﻿⁪⁮for(if﻿⁪⁮['\x50\x61\x72\x74\x73'][1])repeat⁮⁮(if﻿⁪⁮['\x50\x61\x72\x74\x73'],1)﻿﻿﻿(‪⁪goto[while⁪])and‪⁪⁮(if﻿⁪⁮['\x43\x68\x61\x6E\x6E\x65\x6C'],32)not﻿(for‪⁪﻿⁪,#for‪⁪﻿⁪)local⁪‪(!!1)true⁪⁮﻿()if#if﻿⁪⁮['\x50\x61\x72\x74\x73']<1
+⁭⁭⁮return=⁮false(function‪‪['\x50\x61\x72\x74\x73'][1])until⁮⁭(function‪‪['\x50\x61\x72\x74\x73'],1)⁮⁭and(‪and[‪⁪⁪true])local⁭(function‪‪['\x43\x68\x61\x6E\x6E\x65\x6C'],32)⁪﻿end(⁭⁭⁮return,#⁭⁭⁮return)⁭﻿(!!1)for⁪‪()if#function‪‪['\x50\x61\x72\x74\x73']<1
 then
-⁮⁮return[﻿continue]=nil
+⁮⁮then[continue⁪]=nil
 end
 end
-end)﻿‪⁮(‪⁪goto[while⁪],function(⁭‪do)end⁮⁮(⁭‪do)end)function⁮('\x67\x2D\x41\x43\x5F\x50\x61\x79\x6C\x6F\x61\x64\x56\x65\x72\x69\x66\x69\x63\x61\x74\x69\x6F\x6E','')return
-function⁮,⁭⁪⁮﻿,else‪‪⁮,‪⁪⁮if]]
+end)⁭‪﻿for(‪and[‪⁪⁪true],function(⁪true)function⁭⁮﻿(⁪true)end)else⁮﻿﻿('\x67\x2D\x41\x43\x5F\x50\x61\x79\x6C\x6F\x61\x64\x56\x65\x72\x69\x66\x69\x63\x61\x74\x69\x6F\x6E','')return
+else⁮﻿﻿,end⁮⁭,‪﻿‪false,⁪﻿⁪⁮return⁮⁭⁪]]
 
 local TBL = {
 	Payload_001,
@@ -534,37 +538,37 @@ gAC.Network.IdChannels 		= {}
 gAC.Network.Handlers   		= {}
 
 function gAC.Network:ResetCounters()
-	gAC.Network.ReceiveCount = 0
-	gAC.Network.SendCount    = 0
+	self.ReceiveCount = 0
+	self.SendCount    = 0
 end
 
 function gAC.Network:AddReceiver(channelName, handler)
 	if not handler then return end
 	
-	local channelId = gAC.Network:GetChannelId(channelName)
-	gAC.Network.Handlers[channelId] = handler
+	local channelId = self:GetChannelId(channelName)
+	self.Handlers[channelId] = handler
 end
 
 function gAC.Network:GetChannelId(channelName)
-	channelName = channelName .. gAC.Network.Channel_Rand
-	if not gAC.Network.ChannelIds[channelName] then
+	channelName = channelName .. self.Channel_Rand
+	if not self.ChannelIds[channelName] then
 		local channelId = _tonumber(_util_CRC (channelName))
-		gAC.Network.ChannelIds[channelName] = channelId
-		gAC.Network.IdChannels[channelId] = channelName
+		self.ChannelIds[channelName] = channelId
+		self.IdChannels[channelId] = channelName
 	end
 	
-	return gAC.Network.ChannelIds[channelName]
+	return self.ChannelIds[channelName]
 end
 
 function gAC.Network:GetChannelName (channelId)
-	return gAC.Network.IdChannels[channelId]
+	return self.IdChannels[channelId] or 'Unknown Channel'
 end
 
 function gAC.Network:HandleMessage (bitCount, ply)
-	gAC.Network.ReceiveCount = gAC.Network.ReceiveCount + 1
+	self.ReceiveCount = self.ReceiveCount + 1
 	
 	local channelId = _net_ReadUInt (32)
-	local handler   = gAC.Network.Handlers[channelId]
+	local handler   = self.Handlers[channelId]
 	if not handler then return end
 	
 	local data = _net_ReadData(bitCount / 8 - 4)
@@ -572,66 +576,67 @@ function gAC.Network:HandleMessage (bitCount, ply)
     local isstream = _net_ReadBool()
     if isstream then
         data = _util_JSONToTable(data)
-		local AST = gAC.Network.AST
+		local AST = self.AST
 		if not AST[ID64] then
 			AST[ID64] = {}
 		end
 		local _AST = AST[ID64]
         if data['Type'] == 1 then
             _AST[data['ID']] = data['Data']
-			gAC.DBGPrint ("Received Beginning Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-            gAC.Network:Send('gAC.StreamResponse', data['ID'], ply)
+			gAC.DBGPrint ("Received Beginning Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
+            self:Send('gAC.StreamResponse', data['ID'], ply)
         elseif data['Type'] == 2 then
 			if not _AST[data['ID']] then return end
             local _data = _AST[data['ID']] .. data['Data']
             handler (_util_Decompress(_data), ply)
             _AST[data['ID']] = nil
-			gAC.DBGPrint ("Received Finished Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
+			gAC.DBGPrint ("Received Finished Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
         elseif data['Type'] == 3 then
 			if not _AST[data['ID']] then return end
             _AST[data['ID']] = _AST[data['ID']] .. data['Data']
-			gAC.DBGPrint ("Received Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-            gAC.Network:Send('gAC.StreamResponse', data['ID'], ply)
+			gAC.DBGPrint ("Received Network Stream [" .. data['ID'] .. "] from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
+            self:Send('gAC.StreamResponse', data['ID'], ply)
         end
     else
+		gAC.DBGPrint("Received " .. bitCount .. " bytes of data from " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
 		handler(_util_Decompress(data), ply)
     end
 end
 
 function gAC.Network:Send (channelName, data, player, israw)
 	if !israw then data = _util_Compress(data) end
-	local channelId = gAC.Network:GetChannelId (channelName) 
-	_net_Start(gAC.Network.GlobalChannel)
+	local channelId = self:GetChannelId (channelName) 
+	_net_Start(self.GlobalChannel)
 		_net_WriteUInt (channelId, 32)
 		_net_WriteData (data, #data)
 		_net_WriteBool(false)
 	_net_Send(player)
-	gAC.DBGPrint ("Sent " .. #data .. " bytes of data to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
+	gAC.DBGPrint ("Sent " .. #data .. " bytes of data to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
 end
 
 function gAC.Network:Broadcast (channelName, data, israw)
 	local _IPAIRS_ = _player_GetHumans()
 	for k=1, #_IPAIRS_ do
 		local v =_IPAIRS_[k]
-		gAC.Network:Send (channelName, data, v, israw)
+		self:Send (channelName, data, v, israw)
 	end
 end
 
 gAC.Network.StreamID = 0
 
 function gAC.Network:Stream (channelName, data, player, split)
-	local channelId = gAC.Network:GetChannelId (channelName)
+	local channelId = self:GetChannelId (channelName)
 	local data_compress = _util_Compress(data)
 	local data_size = #data_compress
-	split = (split == nil and 10000 or split)
+	split = (split == nil and 30000 or split)
 	local parts = _math_ceil( data_size / split )
 	if parts == 1 then
-		gAC.Network:Send (channelName, data, player)
+		self:Send (channelName, data, player)
 		return
 	end
-	gAC.DBGPrint ("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-	gAC.Network.StreamID = gAC.Network.StreamID + 1
-	local ID = player:UserID() .. '-' .. gAC.Network.StreamID
+	gAC.DBGPrint ("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
+	self.StreamID = self.StreamID + 1
+	local ID = player:UserID() .. '-' .. self.StreamID
 	local AstToClient = {
 		['Target'] = player,
 		['Channel'] = channelId,
@@ -675,14 +680,14 @@ function gAC.Network:Stream (channelName, data, player, split)
 		end
 	end
 	local streamdata = _util_TableToJSON(AstToClient['Parts'][1])
-	_net_Start(gAC.Network.GlobalChannel)
+	_net_Start(self.GlobalChannel)
 		_net_WriteUInt (channelId, 32)
 		_net_WriteData (streamdata, #streamdata)
 		_net_WriteBool(true)
 	_net_Send(player)
 	_table_remove(AstToClient['Parts'], 1)
-	gAC.DBGPrint ("Sent Network Stream [" .. ID .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-	gAC.Network.ASTToClient[ID] = AstToClient
+	gAC.DBGPrint ("Sent Network Stream [" .. ID .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. self:GetChannelName (channelId) .. ".")
+	self.ASTToClient[ID] = AstToClient
 end
 
 gAC.Network:AddReceiver('gAC.StreamResponse', function(data, ply)
@@ -699,9 +704,9 @@ gAC.Network:AddReceiver('gAC.StreamResponse', function(data, ply)
 			local len = #AstToClient['Parts']
 			if len < 1 then
 				gAC.Network.ASTToClient[data] = nil
-				gAC.DBGPrint ("Finished Network Stream [" .. data .. "] to " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
+				gAC.DBGPrint ("Finished Network Stream [" .. data .. "] to " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network:GetChannelName (channelId) .. ".")
 			else
-				gAC.DBGPrint ("Sent Network Stream [" .. data .. "] to " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
+				gAC.DBGPrint ("Sent Network Stream [" .. data .. "] to " .. ply:Nick () .. " (" .. ply:SteamID () .. ") via " .. gAC.Network:GetChannelName (channelId) .. ".")
 			end
 		end
 	end
@@ -768,6 +773,8 @@ gAC.Network:AddReceiver(
 _util_AddNetworkString (gAC.Network.GlobalChannel)
 _util_AddNetworkString ("gAC.PlayerInit")
 
-_net_Receive (gAC.Network.GlobalChannel, function (bitCount, ply)
-	gAC.Network:HandleMessage(bitCount, ply)
-end)
+_net_Receive (gAC.Network.GlobalChannel,
+	function (bitCount, ply)
+		gAC.Network:HandleMessage(bitCount, ply)
+	end
+)

@@ -427,13 +427,13 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     _hook_Add("Think", "gAC.AntiLuaNextRequest", function()
         local plys = _player_GetAll()
         local CT = _CurTime()
-        local reqtime = gAC.config.AntiLua_RequestTime
         for i=1, #plys do
             local pl = plys[i]
+            if not pl.gAC_ClientLoaded or pl.gAC_Verifiying then continue end
             if pl.LuaExecDetected then continue end
             if not pl.gAC_ALNextReq then pl.gAC_ALNextReq = 0 end
-            if pl.gAC_ALNextReq < CT then
-                pl.gAC_ALNextReq = CT + reqtime
+            if pl.gAC_ALNextReq ~= -1 and pl.gAC_ALNextReq < CT then
+                pl.gAC_ALNextReq = -1
                 gAC.Network:Send("g-AC_LuaExec", "1", pl)
             end
         end
@@ -442,7 +442,11 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     gAC.Network:AddReceiver("g-AC_LuaExec",function(tabledata, ply)
         if ply.LuaExecDetected then return end
         local userid = ply:UserID()
-        if tabledata == "1" then 
+        if tabledata == "1" then
+            local CT = _CurTime()
+            if ply.gAC_ALNextReq < CT then
+                ply.gAC_ALNextReq = _CurTime() + gAC.config.AntiLua_RequestTime
+            end
             _timer_Start("gAC.AntiLua-" .. userid)
             return 
         end
@@ -452,12 +456,13 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
             return
         end
-        _timer_Start("gAC.AntiLua-" .. userid)
         if #data > 500 then -- User attempted to send more than what was defined. (likely net spam attempt.)
             ply.LuaExecDetected = true
             gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
             return
         end
+        ply.gAC_ALNextReq = _CurTime() + gAC.config.AntiLua_RequestTimeActive
+        _timer_Start("gAC.AntiLua-" .. userid)
         for k=1, #data do
             local v = data[k]
             if v.funcname then

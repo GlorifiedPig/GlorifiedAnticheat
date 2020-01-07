@@ -4,7 +4,7 @@ local _util_TableToJSON = util.TableToJSON
 
 local _vgui_GetControlTable = (CLIENT and vgui.GetControlTable or NULL)
 
-gAC_AddReceiver("g-AC_antineko", function(_, data)
+gAC_AddReceiver("g-AC_antineko", function(data)
     _CreateConVar("neko_exit",data,{
         FCVAR_CHEAT,
         FCVAR_PROTECTED,

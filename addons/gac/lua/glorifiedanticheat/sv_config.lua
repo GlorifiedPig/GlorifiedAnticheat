@@ -192,7 +192,12 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         -- Debug data on users detections is sorted in folder gac-antilua as month-day-year
         gAC.config.AntiLua_PUNISHMENT = false
         gAC.config.AntiLua_BANTIME = -1
-        gAC.config.AntiLua_RequestTime = 2 -- how long till we can request again?
+
+        -- For how fast you want AntiLua to check code
+        -- RequestTimeActive is for when the client is responding with data.
+        -- RequestTime is for when the client has no data to send and is idling till new execution.
+        gAC.config.AntiLua_RequestTimeActive = 0.25
+        gAC.config.AntiLua_RequestTime = 5
 
         -- If they try to manipulate the network of anti-lua
         gAC.config.AntiLua_Net_PUNISHMENT = true

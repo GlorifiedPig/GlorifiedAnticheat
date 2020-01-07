@@ -95,8 +95,7 @@ end
 frile.includeFolder( "glorifiedanticheat/", false, true )
 
 if SERVER then
-    _hook_Add("gAC.Network.Loaded", "gAC.LoadFiles", function()
-        frile.includeFile( "gacnetwork/sv_receivers.lua", frile.STATE_SERVER )
+    _hook_Add("gAC.NetworkInit", "gAC.LoadFiles", function()
         function frile.includeFile( filename, state )
             if state == frile.STATE_SHARED or filename:find( "sh_" ) then
                 gAC.AddQuery( filename )

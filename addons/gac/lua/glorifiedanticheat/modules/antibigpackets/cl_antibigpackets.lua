@@ -3,7 +3,7 @@ local _tonumber = tonumber
 local _unpack = unpack
 local _util_JSONToTable = util.JSONToTable
 
-gAC_AddReceiver("g-AC_RenderHack_Checks", function(_, data)
+gAC_AddReceiver("g-AC_RenderHack_Checks", function(data)
     data = _util_JSONToTable(data)
     for k=1, #data do
     	local v = data[k]

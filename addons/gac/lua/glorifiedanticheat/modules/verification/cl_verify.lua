@@ -10,7 +10,7 @@ local function SendInfo()
     gAC_Send("g-AC_ACVerify", "")
 end
 
-gAC_AddReceiver("g-AC_ACVerify", function(_, data)
+gAC_AddReceiver("g-AC_ACVerify", function(data)
     local gAC_CFG = _util_JSONToTable(data)
     if !gAC or !_istable(gAC) then
         SendInfo()

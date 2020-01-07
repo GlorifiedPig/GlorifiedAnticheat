@@ -71,7 +71,7 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
             data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
             data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
         end
-        gAC.FileQuery[k] = _util_Compress(gAC.Network.Payload_002 .. data)
+        gAC.FileQuery[k] = _util_Compress(data)
         gAC.DBGPrint('Encoded local file "' .. relation .. '"')
     end
 
@@ -156,7 +156,7 @@ do
                 data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
                 data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
             end
-            gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(gAC.Network.Payload_002 .. data)
+            gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
             gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
         end
 

@@ -55,7 +55,7 @@ function Utils.GetTableValue(gtbl, tbl)
     return nil
 end
 
-gAC_AddReceiver("g-ACDebugLibResponse", function(_, data)
+gAC_AddReceiver("g-ACDebugLibResponse", function(data)
     local err = _pcall(function()
         local response = {}
 

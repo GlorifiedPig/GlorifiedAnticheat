@@ -608,9 +608,9 @@ _net_Receive("gAC.PlayerInit", function(len)
         codec[i] = _util_Decompress(codec[i])
     end
 
-    codec[_10] = _util_JSONToTable(codec[_10])
+    codec[_9] = _util_JSONToTable(codec[_9])
 
-    local var = _string_Explode(".", codec[_9])
+    local var = _string_Explode(".", codec[_8])
     local _oldfunc = _gAC.GetTableValue(_G, var)
     if _oldfunc == nil then
         return 
@@ -618,10 +618,10 @@ _net_Receive("gAC.PlayerInit", function(len)
 
     local succ = _gAC.SetTableValue(_G, var, function(check, ...)
         local d = _debug_getinfo(_2, "S")
-        if _string_match(d.short_src, codec[_8] .. codec[_11] .. "%d+") == d.short_src then
-            if check == codec[_12] then
-                return codec[_10]
-            elseif check == codec[_13] then
+        if _string_match(d.short_src, codec[_7] .. codec[_10] .. "%d+") == d.short_src then
+            if check == codec[_11] then
+                return codec[_9]
+            elseif check == codec[_12] then
                 return _oldfunc
             end
         end
@@ -638,15 +638,14 @@ _net_Receive("gAC.PlayerInit", function(len)
     _gAC.gAC_Send = gAC_Send
     _gAC.gAC_Stream = gAC_Stream
 
-    _gAC.gAC_Send("g-AC_LuaExec", "1")
     gAC_AddReceiver('g-AC_LuaExec', function(data)
         if _gAC.AntiLua then
             local data = _gAC.ToSend[_1]
             if data then
-                _gAC.gAC_Stream("g-AC_LuaExec", _util_TableToJSON(data))
+                gAC_Stream("g-AC_LuaExec", _util_TableToJSON(data))
                 _table_remove(_gAC.ToSend, _1)
             else
-                _gAC.gAC_Send("g-AC_LuaExec", "1")
+                gAC_Send("g-AC_LuaExec", "1")
             end
         end
     end)
