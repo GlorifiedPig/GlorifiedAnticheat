@@ -170,7 +170,7 @@ do
         gAC.NetworkReceivers = {}
     end
 
-    function gAC.fDRMAdd(Hook, Index)
+    function gAC.DRMAdd(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
@@ -202,13 +202,13 @@ do
     end
 
     local function CreateDRMCLEncoderFunc(index)
-        local function fDRMAddCLCode(code, json)
+        local function DRMAddCLCode(code, json)
             FileData[#FileData + 1] = {code, index, json}
         end
-        return fDRMAddCLCode
+        return DRMAddCLCode
     end
 
-    function gAC.fDRMAddClient(Hook, Index)
+    function gAC.DRMAddClient(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
@@ -225,9 +225,9 @@ do
                     file_ID = FileIndex,
                     addon = "GlorifiedAnticheat"
                 }, function( result )
-                    gAC.fDRMAddCLCode = CreateDRMCLEncoderFunc(Index)
+                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
                     RunFunc(result, Index)
-                    gAC.fDRMAddCLCode = nil
+                    gAC.DRMAddCLCode = nil
                     LoadIndexRequested[Index] = 2
                     DRM_InitalizeEncoding()
                 end, function( failed )
