@@ -1,1 +1,1 @@
-gAC.fDRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_KeyBindings')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_KeyBindings')

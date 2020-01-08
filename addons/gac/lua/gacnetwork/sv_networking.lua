@@ -1,1 +1,1 @@
-gAC.fDRMAdd('Think', 'g-AC_fDRM_Networking')
+gAC.DRMAdd('Think', 'g-AC_fDRM_Networking')

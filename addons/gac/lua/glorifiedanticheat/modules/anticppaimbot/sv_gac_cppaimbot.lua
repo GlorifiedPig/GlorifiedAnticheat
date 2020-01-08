@@ -1,1 +1,1 @@
-gAC.fDRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_CPPAimbot')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_CPPAimbot')

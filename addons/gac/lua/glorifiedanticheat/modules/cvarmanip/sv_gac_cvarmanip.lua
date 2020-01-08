@@ -1,2 +1,2 @@
-gAC.fDRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_CvarManip')
-gAC.fDRMAddClient('gAC.IncludesLoaded', 'g-AC_fDRM_CLCvarManip')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_CvarManip')
+gAC.DRMAddClient('gAC.IncludesLoaded', 'g-AC_fDRM_CLCvarManip')
