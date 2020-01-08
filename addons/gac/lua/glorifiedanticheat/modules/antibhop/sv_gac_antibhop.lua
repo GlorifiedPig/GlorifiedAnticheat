@@ -1,1 +1,1 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_AntiBhop')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_AntiBhop')

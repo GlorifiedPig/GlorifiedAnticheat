@@ -1,1 +1,1 @@
-gAC.DRMAddClient('gAC.IncludesLoaded', 'g-AC_fDRM_CLAntiHtmlRS')
+gAC.DRMAddClient('gAC.IncludesLoaded', 'g-AC_DRM_CLAntiHtmlRS')

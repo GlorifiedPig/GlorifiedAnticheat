@@ -1,1 +1,1 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_BanSys')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_BanSys')

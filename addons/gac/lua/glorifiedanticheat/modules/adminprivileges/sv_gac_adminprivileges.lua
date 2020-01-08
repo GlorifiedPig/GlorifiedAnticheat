@@ -1,1 +1,1 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_AdminPrivilages')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_AdminPrivilages')

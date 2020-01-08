@@ -1,4 +1,4 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_ByteCode')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_ByteCode')
 local
 b=bit.band
 local

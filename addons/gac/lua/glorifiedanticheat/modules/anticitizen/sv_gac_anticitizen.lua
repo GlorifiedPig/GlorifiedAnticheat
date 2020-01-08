@@ -1,1 +1,1 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_AntiCitizen')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_AntiCitizen')

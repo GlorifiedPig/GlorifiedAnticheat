@@ -332,6 +332,7 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_DetectionSys'] = '73',
     ['g-AC_DRM_KeyBindings'] = '74',
     ['g-AC_DRM_AntiLua'] = '76',
+    ['g-AC_DRM_GlobalBans'] = 'IDK',
 
     --CL
     ['g-AC_DRM_CLAltDetection'] = '82',

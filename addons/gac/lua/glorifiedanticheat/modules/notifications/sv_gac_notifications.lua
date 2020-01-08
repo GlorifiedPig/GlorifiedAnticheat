@@ -1,2 +1,2 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_Notifications')
-gAC.DRMAddClient('gAC.IncludesLoaded', 'g-AC_fDRM_CLNotifications')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_Notifications')
+gAC.DRMAddClient('gAC.IncludesLoaded', 'g-AC_DRM_CLNotifications')

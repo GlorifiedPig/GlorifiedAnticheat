@@ -1,1 +1,1 @@
-gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_fDRM_FamilyShareCheck')
+gAC.DRMAdd('gAC.IncludesLoaded', 'g-AC_DRM_FamilyShareCheck')
