@@ -137,19 +137,6 @@ if SERVER then
     end
     _hook_Run("gAC.Init")
     frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
-
-    http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
-        local resp = util.JSONToTable(result)
-        if(resp["success"] == "false") then
-            print("[g-AC] Retreiving Server ID failed: "..resp["error"])
-            gAC.server_id = 0
-        else
-            print("g-AC: Server ID has been assigned ("..resp["id"]..").")
-            gAC.server_id = resp["id"]
-        end
-    end, function( failed )
-        print( "g-AC: Retreiving Server ID failed: " .. failed )
-    end )
 end
 
 concommand.Add( "gac_version", function( ply, cmd, args )
