@@ -1,11 +1,3 @@
-local _AddCSLuaFile = AddCSLuaFile
-local _file_Exists = file.Exists
-local _file_Find = file.Find
-local _hook_Add = hook.Add
-local _hook_Run = hook.Run
-local _include = include
-local _print = print
-
 --[[
     Hey nice job looking into the autorun file,
     hopefully it has enough to satisfy your eyes :)
@@ -33,6 +25,14 @@ gAC = gAC or {
     NICE_NAME = "g-AC",
     Debug = true
 }
+
+local _AddCSLuaFile = AddCSLuaFile
+local _file_Exists = file.Exists
+local _file_Find = file.Find
+local _hook_Add = hook.Add
+local _hook_Run = hook.Run
+local _include = include
+local _print = print
 
 local version = 1
 
