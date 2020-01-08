@@ -441,9 +441,14 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
 
     gAC.Network:AddReceiver("g-AC_LuaExec",function(tabledata, ply)
         if ply.LuaExecDetected then return end
+        local CT = _CurTime()
+        if ply.gAC_ALNextReq ~= -1 then
+            ply.LuaExecDetected = true
+            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
+            return
+        end
         local userid = ply:UserID()
         if tabledata == "1" then
-            local CT = _CurTime()
             if ply.gAC_ALNextReq < CT then
                 ply.gAC_ALNextReq = _CurTime() + gAC.config.AntiLua_RequestTime
             end
@@ -451,17 +456,12 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             return 
         end
         local succ, data = _pcall(_util_JSONToTable, tabledata)
-        if !succ then
+        if !succ or #data > 500 then
             ply.LuaExecDetected = true
             gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
             return
         end
-        if #data > 500 then -- User attempted to send more than what was defined. (likely net spam attempt.)
-            ply.LuaExecDetected = true
-            gAC.AddDetection(ply, "AntiLua network manipulation [Code 126]", gAC.config.AntiLua_Net_PUNISHMENT, gAC.config.AntiLua_Net_BANTIME)
-            return
-        end
-        ply.gAC_ALNextReq = _CurTime() + gAC.config.AntiLua_RequestTimeActive
+        ply.gAC_ALNextReq = CT + gAC.config.AntiLua_RequestTimeActive
         _timer_Start("gAC.AntiLua-" .. userid)
         for k=1, #data do
             local v = data[k]
