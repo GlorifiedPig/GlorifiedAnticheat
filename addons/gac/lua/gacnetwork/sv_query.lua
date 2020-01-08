@@ -86,7 +86,7 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
 end)
 
 do
-    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'drm'
+    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'fdrm'
     
     local CalledDRM, RunFunc = false, function() end
 
@@ -170,7 +170,7 @@ do
         gAC.NetworkReceivers = {}
     end
 
-    function gAC.DRMAdd(Hook, Index)
+    function gAC.fDRMAdd(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
@@ -191,8 +191,8 @@ do
                     LoadIndexRequested[Index] = 2
                     DRM_InitalizeEncoding()
                 end, function( failed )
-                    _print("[DRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[DRM] ERR: '" .. failed .. "'")
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
                     LoadIndexRequested[Index] = 3
                     DRM_InitalizeEncoding()
                 end )
@@ -202,13 +202,13 @@ do
     end
 
     local function CreateDRMCLEncoderFunc(index)
-        local function DRMAddCLCode(code, json)
+        local function fDRMAddCLCode(code, json)
             FileData[#FileData + 1] = {code, index, json}
         end
-        return DRMAddCLCode
+        return fDRMAddCLCode
     end
 
-    function gAC.DRMAddClient(Hook, Index)
+    function gAC.fDRMAddClient(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
@@ -225,14 +225,14 @@ do
                     file_ID = FileIndex,
                     addon = "GlorifiedAnticheat"
                 }, function( result )
-                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
+                    gAC.fDRMAddCLCode = CreateDRMCLEncoderFunc(Index)
                     RunFunc(result, Index)
-                    gAC.DRMAddCLCode = nil
+                    gAC.fDRMAddCLCode = nil
                     LoadIndexRequested[Index] = 2
                     DRM_InitalizeEncoding()
                 end, function( failed )
-                    _print("[DRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[DRM] ERR: '" .. failed .. "'")
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
+                    _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
                     LoadIndexRequested[Index] = 3
                     DRM_InitalizeEncoding()
                 end )
@@ -242,14 +242,14 @@ do
     end
 
     concommand.Add('drm_filestatus', function()
-        gAC.Print('DRM file status')
+        gAC.Print('GlorifiedDRM file status')
         for k, v in _pairs(LoadIndexRequested) do
             local response = ""
             if v == 0 then response = "Not Requested" end
             if v == 1 then response = "Not Received" end
             if v == 2 then response = "Executed" end
             if v == 3 then response = "Errored" end
-            _print('[DRM] index "' .. k .. "' - " .. response)
+            _print('[GlorifiedDRM] index "' .. k .. "' - " .. response)
         end
     end)
 end
