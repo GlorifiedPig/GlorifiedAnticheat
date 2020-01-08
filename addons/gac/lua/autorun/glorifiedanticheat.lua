@@ -36,48 +36,46 @@ gAC = gAC or {
 
 local version = 1
 
-if not frile or frile.VERSION < version then
-    frile = {
-        VERSION = version,
+local frile = {
+    VERSION = version,
 
-        STATE_SERVER = 0,
-        STATE_CLIENT = 1,
-        STATE_SHARED = 2
-    }
+    STATE_SERVER = 0,
+    STATE_CLIENT = 1,
+    STATE_SHARED = 2
+}
 
-    function frile.includeFile( filename, state )
-        if state == frile.STATE_SHARED or filename:find( "sh_" ) then
-            if SERVER then _AddCSLuaFile( filename ) end
-            _include( filename )
-        elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
-            _include( filename )
-        elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
-            if SERVER then _AddCSLuaFile( filename )
-            else _include( filename ) end
+function frile.includeFile( filename, state )
+    if state == frile.STATE_SHARED or filename:find( "sh_" ) then
+        if SERVER then _AddCSLuaFile( filename ) end
+        _include( filename )
+    elseif state == frile.STATE_SERVER or SERVER and filename:find( "sv_" ) then
+        _include( filename )
+    elseif state == frile.STATE_CLIENT or filename:find( "cl_" ) then
+        if SERVER then _AddCSLuaFile( filename )
+        else _include( filename ) end
+    end
+end
+
+function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersInFolder )
+    if _file_Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
+        frile.includeFile( currentFolder .. "sh_frile.lua" )
+
+        return
+    end
+
+    local files, folders = _file_Find( currentFolder .. "*", "LUA" )
+
+    if not ignoreFilesInFolder then
+        for _=1, #files   do
+            local File = files[_]
+            frile.includeFile( currentFolder .. File )
         end
     end
 
-    function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersInFolder )
-        if _file_Exists( currentFolder .. "sh_frile.lua", "LUA" ) then
-            frile.includeFile( currentFolder .. "sh_frile.lua" )
-
-            return
-        end
-
-        local files, folders = _file_Find( currentFolder .. "*", "LUA" )
-
-        if not ignoreFilesInFolder then
-            for _=1, #files   do
-            	local File = files[_]
-                frile.includeFile( currentFolder .. File )
-            end
-        end
-
-        if not ignoreFoldersInFolder then
-            for _=1, #folders   do
-            	local folder = folders[_]
-                frile.includeFolder( currentFolder .. folder .. "/" )
-            end
+    if not ignoreFoldersInFolder then
+        for _=1, #folders   do
+            local folder = folders[_]
+            frile.includeFolder( currentFolder .. folder .. "/" )
         end
     end
 end
