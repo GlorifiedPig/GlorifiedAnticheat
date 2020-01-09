@@ -1,8 +1,10 @@
 local _hook_Add = hook.Add
+local _hook_Remove = hook.Remove
 local _util_JSONToTable = util.JSONToTable
 local _print = print
 
-_hook_Add('gAC.DRMInitalized', 'g-AC_getGlobalInfo', function()
+_hook_Add('Think', 'g-AC_getGlobalInfo', function()
+    _hook_Remove('Think', 'g-AC_getGlobalInfo')
     http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = _util_JSONToTable(result)
         if(resp["success"] == "false") then
