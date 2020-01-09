@@ -1,6 +1,7 @@
 local _hook_Add = hook.Add
 local _hook_Remove = hook.Remove
 local _util_JSONToTable = util.JSONToTable
+local _tonumber = tonumber
 local _print = print
 
 _hook_Add('Think', 'g-AC_getGlobalInfo', function()
