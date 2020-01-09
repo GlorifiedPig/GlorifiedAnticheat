@@ -9,6 +9,10 @@ _hook_Add('Think', 'g-AC_getGlobalInfo', function()
     _hook_Remove('Think', 'g-AC_getGlobalInfo')
     _http_Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = _util_JSONToTable(result)
+        if resp == nil then 
+            gAC.Print("[Global Bans] Welp I guess the api is dead... contact the developers about this.")
+            return
+        end
         if(resp["success"] == "false") then
             gAC.Print("[Global Bans] Retreiving Server ID failed: "..resp["error"])
             gAC.server_id = 0
@@ -42,6 +46,7 @@ end
 _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
     _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
         local resp = _util_JSONToTable(result)
+        if resp == nil then return end
         if(resp["success"] == "false") then
             gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
         else
