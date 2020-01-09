@@ -1,8 +1,26 @@
 local _hook_Add = hook.Add
 local _util_JSONToTable = util.JSONToTable
 local _print = print
+local called = false
+
+_hook_Add('InitPostEntity', 'g-AC_getGlobalInfo', function()
+    called = true
+    http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
+        local resp = _util_JSONToTable(result)
+        if(resp["success"] == "false") then
+            gAC.Print("[Global Bans] Retreiving Server ID failed: "..resp["error"])
+            gAC.server_id = 0
+        else
+            gAC.Print("[Global Bans] Server ID has been assigned ("..resp["id"]..").")
+            gAC.server_id = resp["id"]
+        end
+    end, function( failed )
+        gAC.Print("[Global Bans] Retreiving Server ID failed: " .. failed )
+    end )
+end)
 
 _hook_Add('gAC.DRMInitalized', 'g-AC_getGlobalInfo', function()
+    if called then return end
     http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = _util_JSONToTable(result)
         if(resp["success"] == "false") then
