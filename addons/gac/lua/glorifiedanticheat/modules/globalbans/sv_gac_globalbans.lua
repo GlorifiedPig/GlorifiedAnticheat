@@ -3,10 +3,11 @@ local _hook_Remove = hook.Remove
 local _util_JSONToTable = util.JSONToTable
 local _tonumber = tonumber
 local _print = print
+local _http_Post = http.Post
 
 _hook_Add('Think', 'g-AC_getGlobalInfo', function()
     _hook_Remove('Think', 'g-AC_getGlobalInfo')
-    http.Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
+    _http_Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = _util_JSONToTable(result)
         if(resp["success"] == "false") then
             gAC.Print("[Global Bans] Retreiving Server ID failed: "..resp["error"])
@@ -39,7 +40,7 @@ function gAC.GetFormattedGlobalText( displayReason, banTime )
 end
 
 _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
-    http.Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
+    _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
         local resp = _util_JSONToTable(result)
         if(resp["success"] == "false") then
             gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
