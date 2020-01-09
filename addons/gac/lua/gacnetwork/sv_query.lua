@@ -172,6 +172,12 @@ do
         _hook_Run('gAC.DRMInitalized', true)
     end
 
+    _hook_Add("gAC.IncludesLoaded", "gAC.DidDRMInitalized", function()
+        if DRM_AllisLoaded() then
+            _hook_Run('gAC.DRMInitalized', false)
+        end
+    end)
+
     function gAC.DRMAdd(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
