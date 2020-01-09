@@ -28,12 +28,12 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     _http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
         local resp = util.JSONToTable(result)
         if(resp["success"] == "false") then
-            _print("[g-AC] Generating statistics report failed: "..resp["error"])
+            gAC.Print("[Global Bans] Generating statistics report failed: "..resp["error"])
         else
-            _print("[g-AC] Stat report generated. ID: "..resp["id"])
+            gAC.Print("[Global Bans] Stat report generated. ID: "..resp["id"])
         end
     end, function( failed )
-        _print( "g-AC: Stats report failed: " .. failed )
+        gAC.Print( "[Global Bans] Stats report failed: " .. failed )
     end )
 end
 
