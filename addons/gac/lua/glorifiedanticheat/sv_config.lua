@@ -82,8 +82,8 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     gAC.config.BAN_MESSAGE_SYNTAX = "Cheating/Hacking" -- Syntax for ban messages.
 
     -- Your ban system must allow access to ban SteamID's
-    gAC.config.DELAYEDBANS = false --Delays bans to prevent cheaters from understanding the system
-    gAC.config.DELAYEDBANS_TIME = 120 --In seconds, how long to delay the ban
+    gAC.config.DELAYEDBANS = true --Delays bans to prevent cheaters from understanding the system
+    gAC.config.DELAYEDBANS_TIME = 60 --In seconds, how long to delay the ban
 
     -- Kick system will only kick those that are online
     gAC.config.DELAYEDKICKS = false --Delays kicks to prevent cheaters from understanding the system
