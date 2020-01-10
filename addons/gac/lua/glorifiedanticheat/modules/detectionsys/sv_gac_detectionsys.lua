@@ -6,10 +6,13 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
 
     gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
-    gAC.Print("Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. ") -> " .. displayReason)
+    gAC.Print( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. ") -> " .. displayReason )
+    gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
+    
     if gAC.Debug then return end
     
     gAC.LogEvent( ply, displayReason )
+
     if !shouldPunish then return end
 
     if( banTime >= 0 ) then
@@ -24,6 +27,7 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     else
         punishmentT = -2
     end
+
 
     _http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
         local resp = util.JSONToTable(result)
