@@ -331,7 +331,7 @@ function gAC.Encoder.Encode(data, key)
 				skips = skips + 3
 				encode[#encode + 1] = '\\' .. peek(i + 1) .. peek(i + 2) .. peek(i + 3)
 				CanContinue = false
-			elseif CharacterForEscape[peek(i + 1)] then
+			elseif CharacterForEscape[peek(i + 1)] and peek(i + 1) ~= 'x' then
 				skips = skips + 1
 				encode[#encode + 1] = '\\' .. peek(i + 1)
 				CanContinue = false
