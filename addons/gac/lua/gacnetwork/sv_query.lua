@@ -153,7 +153,7 @@ do
                 for k, v in _pairs(json) do
                     data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
                 end
-                data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+                data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
                 data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
             end
             gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
