@@ -86,9 +86,22 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
 end)
 
 do
-    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'fdrm'
+    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'gac'
     
-    local CalledDRM, RunFunc = false, function() end
+    local CalledDRM = false
+
+    local RunFunc = function( file, index )
+        if( tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( print ).func )
+        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( Msg ).func )
+        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgN ).func )
+        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgAll ).func )
+        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgC ).func )
+        or debug.getupvalue( debug.getinfo( RunString ).func, 1 ) != nil ) then
+            print( "Nice try! :)" ) -- runstring was detoured
+        else
+            RunStringG( file, index )
+        end
+    end
 
     local _ends = {
         '',
@@ -183,7 +196,6 @@ do
         if !FileIndex then return end
         if not CalledDRM then
             _require(Module)
-            RunFunc = RunStringF
             CalledDRM = true
         end
         local FileInit = false
@@ -221,7 +233,6 @@ do
         if !FileIndex then return end
         if not CalledDRM then
             _require(Module)
-            RunFunc = RunStringF
             CalledDRM = true
         end
         local FileInit = false
