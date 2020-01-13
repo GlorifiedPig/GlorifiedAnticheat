@@ -138,5 +138,5 @@ if SERVER then
 end
 
 concommand.Add( "gac_version", function( ply, cmd, args )
-	print( "g-AC version 1.1.8" )
+	print( "g-AC version 1.2.6" )
 end )

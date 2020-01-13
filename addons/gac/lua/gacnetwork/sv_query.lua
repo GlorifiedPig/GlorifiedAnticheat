@@ -50,7 +50,7 @@ end
 
 function gAC.AddQuery(filepath)
     local FileName = filepath
-    if _string_match(_string_match( filepath, "^.+/(.+)$"), "^json") then return end
+    if _string_match(_string_match( filepath, "^.+(%..+)$"), ".json") then return end
     filepath = _file_Read(filepath, "LUA")
     local index = #gAC.FileQuery + 1
 	gAC.FileQuery[index] = filepath
@@ -62,17 +62,18 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
     for k=1, #gAC.FileQuery do
         local data = gAC.FileQuery[k]
         local relation = gAC.FileRelation[k]
-        local json_filepath = _string_match(relation, "(.*/)") .. "json_" .. _string_match( relation, "^.+/(.+)$")
+        local json_filepath = _string_match( relation, "^(.+)%..+$") .. '.json'
         if _file_Exists(json_filepath, "LUA") then
             local json = _util_JSONToTable(_file_Read(json_filepath, "LUA"))
             for k, v in _pairs(json) do
-                data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
+                data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
             end
-            data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+            data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
             data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+            gAC.DBGPrint('Encoded local file "' .. relation .. '"')
         end
         gAC.FileQuery[k] = _util_Compress(data)
-        gAC.DBGPrint('Encoded local file "' .. relation .. '"')
+        gAC.DBGPrint('Added compressed file "' .. relation .. '" to file query')
     end
 
     gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
@@ -164,9 +165,9 @@ do
             local data, json = v[1], v[3]
             if json ~= false then
                 for k, v in _pairs(json) do
-                    data = _string_Replace(data, k, "'" .. gAC.Encoder.Encode(v, gAC.Network.Global_Decoder) .. "'")
+                    data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
                 end
-                data = _string_Replace(data, "__DECODER_STR__", "local " .. gAC.Encoder.Decoder .. "=" .. gAC.Encoder.Unicode_String .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+                data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
                 data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
             end
             gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
