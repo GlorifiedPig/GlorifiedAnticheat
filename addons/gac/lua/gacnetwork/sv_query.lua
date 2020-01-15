@@ -10,10 +10,13 @@ local _util_Compress = util.Compress
 local _util_JSONToTable = util.JSONToTable
 local _http_Post = http.Post
 local _gmod_GetGamemode = gmod.GetGamemode
+local _debug_getinfo = debug.getinfo
+local _debug_getupvalue = debug.getupvalue
 local _require = require
 local _string_sub = string.sub
 local _string_gsub = string.gsub
 local _print = print
+local _tostring = tostring
 local _string_byte = string.byte
 local _GetHostName = GetHostName
 
@@ -89,19 +92,34 @@ end)
 do
     local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'gac'
     
-    local CalledDRM = false
+    local CalledDRM, RunFunc = false, function() end
+    local CheckDetours = function(func)
+        if func == nil then return true end
+        local funcdetails = _debug_getinfo( func )
 
-    local RunFunc = function( file, index )
-        if( tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( print ).func )
-        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( Msg ).func )
-        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgN ).func )
-        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgAll ).func )
-        or tostring( debug.getinfo( RunString ).func ) == tostring( debug.getinfo( MsgC ).func )
-        or debug.getupvalue( debug.getinfo( RunString ).func, 1 ) != nil ) then
-            print( "Nice try! :)" ) -- runstring was detoured
+        if (funcdetails.what == 'C'
+        and funcdetails.source == '=[C]'
+        and funcdetails.shortsource == '[C]'
+        and funcdetails.nups == 0
+        and funcdetails.linedefined == -1
+        and funcdetails.lastlinedefined == -1
+        and funcdetails.currentline == -1
+        and _debug_getupvalue( funcdetails.func, 1 ) == nil) then
+            return true
         else
-            RunStringG( file, index )
+            return false
         end
+    end
+
+    local require_drm = function(name)
+        _require(name)
+        local _RunStringG = RunStringG
+        if CheckDetours(RunString) == true and CheckDetours(RunStringG) == true then
+            RunFunc = function( file, index )
+                _RunStringG( file, index )
+            end
+        end
+        RunStringG = nil
     end
 
     local _ends = {
@@ -196,7 +214,7 @@ do
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
-            _require(Module)
+            require_drm(Module)
             CalledDRM = true
         end
         local FileInit = false
@@ -233,7 +251,7 @@ do
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
         if not CalledDRM then
-            _require(Module)
+            require_drm(Module)
             CalledDRM = true
         end
         local FileInit = false
