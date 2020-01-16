@@ -323,6 +323,7 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CvarManip'] = '-1',
     ['g-AC_DRM_DebugLib'] = '-1',
     ['g-AC_DRM_DetectionSys'] = '-1',
+    ['g-AC_DRM_DiscordWebHook'] = '-1',
     ['g-AC_DRM_FamilyShareCheck'] = '-1',
     ['g-AC_DRM_GlobalBans'] = '-1',
     ['g-AC_DRM_KeyBindings'] = '-1',
