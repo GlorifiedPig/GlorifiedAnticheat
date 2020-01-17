@@ -17,6 +17,8 @@ local _string_sub = string.sub
 local _string_gsub = string.gsub
 local _print = print
 local _tostring = tostring
+local _xpcall = xpcall
+local _debug_traceback = debug.traceback
 local _string_byte = string.byte
 local _GetHostName = GetHostName
 
@@ -99,7 +101,7 @@ do
 
         if (funcdetails.what == 'C'
         and funcdetails.source == '=[C]'
-        and funcdetails.shortsource == '[C]'
+        and funcdetails.short_src == '[C]'
         and funcdetails.nups == 0
         and funcdetails.linedefined == -1
         and funcdetails.lastlinedefined == -1
@@ -113,10 +115,10 @@ do
 
     local require_drm = function(name)
         _require(name)
-        local _RunStringG = RunStringG
         if CheckDetours(RunString) == true and CheckDetours(RunStringG) == true then
+            local _RunStringG = RunStringG
             RunFunc = function( file, index )
-                _RunStringG( file, index )
+                return _xpcall(_RunStringG, _debug_traceback, file, index)
             end
         end
         RunStringG = nil
@@ -226,8 +228,20 @@ do
                     file_ID = FileIndex,
                     addon = "GlorifiedAnticheat"
                 }, function( result )
-                    RunFunc(result, Index)
-                    LoadIndexRequested[Index] = 2
+                    if _string_sub(result, 1, 4) == 'ERR:' then
+                        _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
+                        _print("[GlorifiedDRM] " .. result)
+                        LoadIndexRequested[Index] = 3
+                    else
+                        local stat, err = RunFunc(result, Index)
+                        if stat == false then
+                            _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                            _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                            LoadIndexRequested[Index] = 4
+                        else
+                            LoadIndexRequested[Index] = 2
+                        end
+                    end
                     DRM_InitalizeEncoding()
                 end, function( failed )
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
@@ -263,10 +277,22 @@ do
                     file_ID = FileIndex,
                     addon = "GlorifiedAnticheat"
                 }, function( result )
-                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
-                    RunFunc(result, Index)
-                    gAC.DRMAddCLCode = nil
-                    LoadIndexRequested[Index] = 2
+                    if _string_sub(result, 1, 4) == 'ERR:' then
+                        _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
+                        _print("[GlorifiedDRM] " .. result)
+                        LoadIndexRequested[Index] = 3
+                    else
+                        gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
+                        local stat, err = RunFunc(result, Index)
+                        gAC.DRMAddCLCode = nil
+                        if stat == false then
+                            _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                            _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                            LoadIndexRequested[Index] = 4
+                        else
+                            LoadIndexRequested[Index] = 2
+                        end
+                    end
                     DRM_InitalizeEncoding()
                 end, function( failed )
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
@@ -286,7 +312,8 @@ do
             if v == 0 then response = "Not Requested" end
             if v == 1 then response = "Not Received" end
             if v == 2 then response = "Executed" end
-            if v == 3 then response = "Errored" end
+            if v == 3 then response = "Request Error" end
+            if v == 4 then response = "Execution Error" end
             _print('[GlorifiedDRM] index "' .. k .. "' - " .. response)
         end
     end)
