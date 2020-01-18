@@ -257,11 +257,11 @@ local function _string_Explode(separator, str, withpattern)
 	for i = 1, _string_len( str ) do
 		local start_pos, end_pos = _string_find( str, separator, current_pos, !withpattern )
 		if ( !start_pos ) then break end
-		ret[ i ] = _string_len( str, current_pos, start_pos - 1 )
+		ret[ i ] = _string_sub( str, current_pos, start_pos - 1 )
 		current_pos = end_pos + 1
 	end
 
-	ret[ #ret + 1 ] = _string_len( str, current_pos )
+	ret[ #ret + 1 ] = _string_sub( str, current_pos )
 
 	return ret
 end
