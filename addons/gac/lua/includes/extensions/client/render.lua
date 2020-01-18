@@ -230,6 +230,9 @@ local _util_JSONToTable = util.JSONToTable
 local _string_match = string.match
 local _net_Start = net.Start
 local _type = type
+local _string_ToTable = string.ToTable
+local _string_find = string.find
+local _string_len = string.len
 local _net_SendToServer = net.SendToServer
 local _net_WriteUInt = net.WriteUInt
 local _net_WriteData = net.WriteData
@@ -243,6 +246,31 @@ local _util_NetworkStringToID = util.NetworkStringToID
 local _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _1000, _9000 = 0,1,2,3,4,5,6,7,8,9,10,11,12,13,1000,9000
 local __5, _97, _65, _49, _122, _90, _57, _26, _15, _32, _16, _30, _24 = .5,97,65,49,122,90,57,26,15,32,16,30,24
 local _500 = 500
+
+local function _string_Explode(separator, str, withpattern)
+	if ( separator == "" ) then return _string_ToTable( str ) end
+	if ( withpattern == nil ) then withpattern = false end
+
+	local ret = {}
+	local current_pos = 1
+
+	for i = 1, _string_len( str ) do
+		local start_pos, end_pos = _string_find( str, separator, current_pos, !withpattern )
+		if ( !start_pos ) then break end
+		ret[ i ] = _string_len( str, current_pos, start_pos - 1 )
+		current_pos = end_pos + 1
+	end
+
+	ret[ #ret + 1 ] = string_sub( str, current_pos )
+
+	return ret
+end
+
+local function _string_Replace( str, tofind, toreplace )
+	local tbl = _string_Explode( tofind, str )
+	if ( tbl[ _1 ] ) then return _table_concat( tbl, toreplace ) end
+	return str
+end
 
 local function floor(number)
     return number - (number % _1)
@@ -530,7 +558,10 @@ end
 local _RunString = _G.RunString
 _G.RunString = _gAC._D( _G.RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if !func or _isstring(func) then error(err or func) end
+    if !func or _isstring(func) then
+        err = _string_Replace(err or func, SafeCode, ident or "RunString")
+        error(err)
+    end
     ident = _gAC.CreateIdentifier(ident, "RunString")
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunString"
@@ -547,7 +578,10 @@ end, "RunString" )
 local _RunStringEx = _G.RunStringEx
 _G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if !func or _isstring(func) then error(err or func) end
+    if !func or _isstring(func) then
+        err = _string_Replace(err or func, SafeCode, ident or "RunString")
+        error(err)
+    end
     ident = _gAC.CreateIdentifier(ident, "RunStringEx")
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunStringEx"
@@ -564,10 +598,11 @@ end, "RunStringEx" )
 _G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if !func or _isstring(func) then
-        if safemode then
+        if safemode == false then
             return func, err
         else
-            error(err or func)
+            err = _string_Replace(err or func, SafeCode, ident or "RunString")
+            error(err)
         end
     end
     ident = _gAC.CreateIdentifier(ident, "CompileString")
