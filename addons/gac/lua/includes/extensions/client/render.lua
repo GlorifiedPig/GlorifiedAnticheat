@@ -261,7 +261,7 @@ local function _string_Explode(separator, str, withpattern)
 		current_pos = end_pos + 1
 	end
 
-	ret[ #ret + 1 ] = string_sub( str, current_pos )
+	ret[ #ret + 1 ] = _string_len( str, current_pos )
 
 	return ret
 end
