@@ -599,6 +599,11 @@ _G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ..
     local func, err = _CompileString(code, SafeCode, false)
     if !func or _isstring(func) then
         if safemode == false then
+            if _isstring(func) then
+                func = _string_Replace(func, SafeCode, ident or "RunString")
+            else
+                err = _string_Replace(err, SafeCode, ident or "RunString")
+            end
             return func, err
         else
             err = _string_Replace(err or func, SafeCode, ident or "RunString")
