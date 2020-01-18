@@ -579,7 +579,7 @@ local _RunStringEx = _G.RunStringEx
 _G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if !func or _isstring(func) then
-        err = _string_Replace(err or func, SafeCode, ident or "RunString")
+        err = _string_Replace(err or func, SafeCode, ident or "RunStringEx")
         error(err)
     end
     ident = _gAC.CreateIdentifier(ident, "RunStringEx")
@@ -600,13 +600,13 @@ _G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ..
     if !func or _isstring(func) then
         if safemode == false then
             if _isstring(func) then
-                func = _string_Replace(func, SafeCode, ident or "RunString")
+                func = _string_Replace(func, SafeCode, ident or "CompileString")
             else
-                err = _string_Replace(err, SafeCode, ident or "RunString")
+                err = _string_Replace(err, SafeCode, ident or "CompileString")
             end
             return func, err
         else
-            err = _string_Replace(err or func, SafeCode, ident or "RunString")
+            err = _string_Replace(err or func, SafeCode, ident or "CompileString")
             error(err)
         end
     end
