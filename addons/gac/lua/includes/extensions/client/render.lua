@@ -229,6 +229,7 @@ local _util_Decompress = util.Decompress
 local _util_JSONToTable = util.JSONToTable
 local _string_match = string.match
 local _net_Start = net.Start
+local _type = type
 local _net_SendToServer = net.SendToServer
 local _net_WriteUInt = net.WriteUInt
 local _net_WriteData = net.WriteData
@@ -522,10 +523,14 @@ function _gAC.CreateIdentifier(ident, funcname)
     return ident
 end
 
+local function _isstring(object)
+    return (_type(object) == 'string')
+end
+
 local _RunString = _G.RunString
 _G.RunString = _gAC._D( _G.RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return err end
+    if !func or _isstring(func) then error(err or func) end
     ident = _gAC.CreateIdentifier(ident, "RunString")
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunString"
@@ -542,7 +547,7 @@ end, "RunString" )
 local _RunStringEx = _G.RunStringEx
 _G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return err end
+    if !func or _isstring(func) then error(err or func) end
     ident = _gAC.CreateIdentifier(ident, "RunStringEx")
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "RunStringEx"
@@ -558,7 +563,13 @@ end, "RunStringEx" )
 
 _G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ...)
     local func, err = _CompileString(code, SafeCode, false)
-    if !func && err then return nil, err end
+    if !func or _isstring(func) then
+        if safemode then
+            return func, err
+        else
+            error(err or func)
+        end
+    end
     ident = _gAC.CreateIdentifier(ident, "CompileString")
     local dbginfo = _debug_getinfo(_2, "fS")
     dbginfo.funcname = "CompileString"

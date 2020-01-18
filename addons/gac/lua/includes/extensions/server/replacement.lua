@@ -56,7 +56,7 @@ _hook_Add('gAC.ClientLoaded', 'gAC.SendLua', function(pl)
 	local tbl = SendLuas[pl]
 	if tbl then
 		for i=1, #tbl do
-			gAC.Network:Send ("LoadString", tbl[i], pl)
+			gAC.Network:Send ("LoadString", tbl[i], pl, true)
 		end
 		SendLuas[pl] = nil
 	end
