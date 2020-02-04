@@ -117,6 +117,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     gAC.config.INTEGRITY_CHECKS = true
     gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
     gAC.config.INTEGRITY_CHECKS_BANTIME = -1
+    gAC.config.INTEGRITY_CHECKS_INTERVAL = 60 -- check a player every minute
 
     --Checks if the player has successfuly loaded with gAC's payload loader.
     --Verification failure means they did not receive the payload in required time.

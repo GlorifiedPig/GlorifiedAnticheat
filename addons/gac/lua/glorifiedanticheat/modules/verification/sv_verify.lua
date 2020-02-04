@@ -3,6 +3,8 @@ local _hook_Add = hook.Add
 local _isbool = isbool
 local _isnumber = isnumber
 local _pairs = pairs
+local _CurTime = CurTime
+local _player_GetHumans = player.GetHumans
 local _timer_Simple = timer.Simple
 local _util_TableToJSON = util.TableToJSON
 
@@ -29,10 +31,19 @@ end
 Configs = _util_TableToJSON(Configs)
 
 _hook_Add("gAC.CLFilesLoaded", "g-AC_verify_initialspawn", function(ply)
-    _timer_Simple(30, function()
-        if !_IsValid(ply) then return end
-        gAC.Network:Send("g-AC_ACVerify", Configs, ply)
-    end)
+    ply.GAC_IntegCheck = _CurTime() + gAC.config.INTEGRITY_CHECKS_INTERVAL
+end)
+
+_hook_Add("Think", "g-AC_IntergrityCheck", function()
+    local plys = _player_GetHumans()
+    local ct = _CurTime()
+    for i=1, #plys do
+        local v = plys[i]
+        if v.GAC_IntegCheck and v.GAC_IntegCheck < ct then
+            gAC.Network:Send("g-AC_ACVerify", Configs, v)
+            v.GAC_IntegCheck = ct + gAC.config.INTEGRITY_CHECKS_INTERVAL
+        end
+    end
 end)
 
 gAC.Network:AddReceiver(
