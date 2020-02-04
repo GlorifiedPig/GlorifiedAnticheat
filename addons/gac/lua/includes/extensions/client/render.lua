@@ -480,7 +480,10 @@ local Detourables = {
     {{"hook","Remove"}, "hook.Remove"},
     {{"hook","GetTable"}, "hook.GetTable"},
     {{"surface","CreateFont"}, "surface.CreateFont"},
-    {{"AddConsoleCommand"}, "AddConsoleCommand"}
+    {{"AddConsoleCommand"}, "AddConsoleCommand"},
+    {{"vgui","Register"}, "vgui.Register"},
+    {{"net","Receive"}, "net.Receive"},
+    {{"require"}, "require"},
 }
 
 for k=_1, #Detourables do
