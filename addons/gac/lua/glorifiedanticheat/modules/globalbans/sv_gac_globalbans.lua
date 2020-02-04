@@ -26,8 +26,7 @@ _hook_Add('Think', 'g-AC_getGlobalInfo', function()
 end)
 
 function gAC.GetFormattedGlobalText( displayReason, banTime )
-    local banString = (gAC.config.BAN_MESSAGE_SYNTAX or displayReason) .. '\n'
-    banString = banString .. displayReason
+    local banString = "g-AC Global Ban ["..displayReason.."]".. '\n'
 
     banTime = _tonumber( banTime )
     if( banTime == -1 ) then
@@ -49,9 +48,9 @@ _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
         if resp == nil then return end
         if(resp["success"] == "false") then
             gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
-        else
+        else    
             if(resp["banned"] == "true") then
-                ply:Kick(gAC.GetFormattedGlobalText("Global Ban #"..resp["id"], 0))
+                ply:Kick(gAC.GetFormattedGlobalText(resp["id"], 0))
             end
         end
     end, function( failed )
