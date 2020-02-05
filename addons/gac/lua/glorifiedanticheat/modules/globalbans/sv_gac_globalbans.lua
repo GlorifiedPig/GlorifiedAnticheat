@@ -48,7 +48,7 @@ end
 local GAMEMODE = GAMEMODE or GM
 if GAMEMODE.CheckPassword then
     gAC.CheckPassword_Old = GAMEMODE.CheckPassword
-    function GAMEMODE.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name, ...)
+    function GAMEMODE:CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name, ...)
         _http_Post( "https://stats.g-ac.dev/api/checkban", { player = SteamID }, function( result )
             local resp = _util_JSONToTable(result)
             if resp == nil then return end
@@ -62,7 +62,7 @@ if GAMEMODE.CheckPassword then
         end, function( failed )
             gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
         end )
-        return gAC.CheckPassword_Old(SteamID, IP, sv_Pass, cl_Pass, Name, ...)
+        return gAC.CheckPassword_Old(self, SteamID, IP, sv_Pass, cl_Pass, Name, ...)
     end
     --[[_hook_Add("CheckPassword", "g-AC_getGlobalInfo", function(SteamID, IP, sv_Pass, cl_Pass, Name)
         _http_Post( "https://stats.g-ac.dev/api/checkban", { player = SteamID }, function( result )
