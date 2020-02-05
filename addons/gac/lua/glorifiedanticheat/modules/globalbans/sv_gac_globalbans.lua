@@ -4,6 +4,8 @@ local _util_JSONToTable = util.JSONToTable
 local _tonumber = tonumber
 local _print = print
 local _http_Post = http.Post
+local _game_KickID = game.KickID
+local _util_SteamIDFrom64 = util.SteamIDFrom64
 
 _hook_Add('Think', 'g-AC_getGlobalInfo', function()
     _hook_Remove('Think', 'g-AC_getGlobalInfo')
@@ -42,18 +44,54 @@ function gAC.GetFormattedGlobalText( displayReason, banTime )
     return banString
 end
 
-_hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
-    _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
-        local resp = _util_JSONToTable(result)
-        if resp == nil then return end
-        if(resp["success"] == "false") then
-            gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
-        else    
-            if(resp["banned"] == "true") then
-                ply:Kick(gAC.GetFormattedGlobalText(resp["id"], 0))
+-- Due to how admin systems prevent any other system from using CheckPassword, :shrug:
+local GAMEMODE = GAMEMODE or GM
+if GAMEMODE.CheckPassword then
+    gAC.CheckPassword_Old = GAMEMODE.CheckPassword
+    function GAMEMODE.CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name)
+        _http_Post( "https://stats.g-ac.dev/api/checkban", { player = SteamID }, function( result )
+            local resp = _util_JSONToTable(result)
+            if resp == nil then return end
+            if(resp["success"] == "false") then
+                gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
+            else    
+                if(resp["banned"] == "true") then
+                    _game_KickID(_util_SteamIDFrom64(SteamID), gAC.GetFormattedGlobalText(resp["id"], 0));
+                end
             end
-        end
-    end, function( failed )
-        gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
-    end )
-end)
+        end, function( failed )
+            gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
+        end )
+    end
+    --[[_hook_Add("CheckPassword", "g-AC_getGlobalInfo", function(SteamID, IP, sv_Pass, cl_Pass, Name)
+        _http_Post( "https://stats.g-ac.dev/api/checkban", { player = SteamID }, function( result )
+            local resp = _util_JSONToTable(result)
+            if resp == nil then return end
+            if(resp["success"] == "false") then
+                gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
+            else    
+                if(resp["banned"] == "true") then
+                    _game_KickID(_util_SteamIDFrom64(SteamID), gAC.GetFormattedGlobalText(resp["id"], 0));
+                end
+            end
+        end, function( failed )
+            gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
+        end )
+    end)]]
+else
+    _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
+        _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
+            local resp = _util_JSONToTable(result)
+            if resp == nil then return end
+            if(resp["success"] == "false") then
+                gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
+            else    
+                if(resp["banned"] == "true") then
+                    ply:Kick(gAC.GetFormattedGlobalText(resp["id"], 0))
+                end
+            end
+        end, function( failed )
+            gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
+        end )
+    end)
+end
