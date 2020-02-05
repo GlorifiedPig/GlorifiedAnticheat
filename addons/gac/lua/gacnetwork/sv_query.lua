@@ -256,7 +256,7 @@ do
 
     local function CreateDRMCLEncoderFunc(index)
         local function DRMAddCLCode(code, json)
-            FileData[#FileData + 1] = {code, index, json}
+            FileData[#FileData + 1] = {code, index, _util_JSONToTable(json)}
         end
         return DRMAddCLCode
     end
