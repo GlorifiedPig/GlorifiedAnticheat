@@ -1,6 +1,7 @@
 local _concommand_Add = concommand.Add
 local _pairs = pairs
 local _util_JSONToTable = util.JSONToTable
+local _concommand_GetTable = concommand.GetTable
 
 if !gAC.config.ILLEGAL_CONCOMMAND_CHECKS then 
     return 
@@ -8,6 +9,12 @@ end
 
 local TBL = nil
 local Logged = {}
+
+local a = _concommand_GetTable()
+for k, v in _pairs(a) do
+    Logged[#Logged + 1] = k
+end
+
 concommand.Add = function(name, callback, autoComplete, helpText, flags, ...)
     if TBL == nil then
         Logged[#Logged + 1] = name
@@ -25,6 +32,7 @@ concommand.Add = function(name, callback, autoComplete, helpText, flags, ...)
     end
     _concommand_Add(name, callback, autoComplete, helpText, flags, ...)
 end
+
 gAC_AddReceiver("g-ACReceiveExploitList", function(data)
     TBL = _util_JSONToTable(data)
     if Logged then
@@ -43,4 +51,5 @@ gAC_AddReceiver("g-ACReceiveExploitList", function(data)
         Logged = nil
     end
 end)
+
 gAC_Send("g-ACReceiveExploitListCS", "")
