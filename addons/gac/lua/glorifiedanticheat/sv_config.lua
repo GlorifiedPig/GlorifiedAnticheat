@@ -63,6 +63,11 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     "76561198061230671", -- NiceCream - Remove me if you want.
 }
 
+--[[ DISCORD WEBHOOK SETTINGS ]]--
+    gAC.config.ENABLE_DISCORD_WEBHOOK = false
+    gAC.config.DISCORD_WEBHOOK_URL = "" -- To find this, right click a discord channel, go to "Edit Channel", click "Webhooks" and then create a new webhook. Copy and paste the URL here.
+--[[ DISCORD WEBHOOK SETTINGS END ]]--
+
 --[[ BAN SYSTEM SETTINGS ]]--
     --[[
         Just because some servers want their ban functions to be unique.
@@ -112,6 +117,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     gAC.config.INTEGRITY_CHECKS = true
     gAC.config.INTEGRITY_CHECKS_PUNISHMENT = true
     gAC.config.INTEGRITY_CHECKS_BANTIME = -1
+    gAC.config.INTEGRITY_CHECKS_INTERVAL = 60 -- check a player every minute
 
     --Checks if the player has successfuly loaded with gAC's payload loader.
     --Verification failure means they did not receive the payload in required time.
