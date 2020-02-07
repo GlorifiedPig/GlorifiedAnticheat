@@ -82,5 +82,5 @@ concommand.Remove = function(name)
 	if name then
 		gAC_ConCmdTable[name] = nil
 	end
-	return _concommand_Remove(name, cb, ...)
+	return _concommand_Remove(name, cb)
 end
