@@ -65,3 +65,22 @@ end)
 _hook_Add('PlayerDisconnected', 'gAC.SendLua', function(pl)
 	SendLuas[pl] = nil
 end)
+
+local _concommand_GetTable = concommand.GetTable
+
+gAC_ConCmdTable = _concommand_GetTable()
+local _concommand_Add = concommand.Add
+concommand.Add = function(name, cb, ...)
+	if cb and name then
+		gAC_ConCmdTable[name] = cb
+	end
+	return _concommand_Add(name, cb, ...)
+end
+
+local _concommand_Remove = concommand.Remove
+concommand.Remove = function(name)
+	if name then
+		gAC_ConCmdTable[name] = nil
+	end
+	return _concommand_Remove(name, cb, ...)
+end

@@ -26,7 +26,7 @@ function gAC.CheckExploitables()
 
     do
         local badcmds = nil
-        local cmdtable = _concommand_GetTable()
+        local cmdtable = gAC_ConCmdTable
         for k, v in _pairs(cmdtable) do
             if v == replacecmdfunction[k] then continue end
             for i=1, #backdoorcmds do
@@ -62,7 +62,7 @@ function gAC.CheckExploitables()
 
     do
         local badcmds = nil
-        local cmdtable = _concommand_GetTable()
+        local cmdtable = gAC_ConCmdTable
         for k, v in _pairs(cmdtable) do
             if v == replacecmdfunction then continue end
             for i=1, #backdoorcmds do
