@@ -136,7 +136,3 @@ if SERVER then
     _hook_Run("gAC.Init")
     frile.includeFile( "gacnetwork/sv_networking.lua", frile.STATE_SERVER )
 end
-
-concommand.Add( "gac_version", function( ply, cmd, args )
-	print( "g-AC version 1.2.6" )
-end )
