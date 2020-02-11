@@ -277,6 +277,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     local _util_JSONToTable = util.JSONToTable
     local _util_TableToJSON = util.TableToJSON
     local _debug_getregistry = debug.getregistry
+    local _file_Exists = file.Exists
     
     if !gAC.config.AntiLua_CHECK then return end
 
