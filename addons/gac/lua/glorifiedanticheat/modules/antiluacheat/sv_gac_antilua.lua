@@ -278,6 +278,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     local _util_TableToJSON = util.TableToJSON
     local _debug_getregistry = debug.getregistry
     local _file_Exists = file.Exists
+    local _file_CreateDir = file.CreateDir
     
     if !gAC.config.AntiLua_CHECK then return end
 
@@ -468,6 +469,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             local v = data[k]
             if v.funcname then
                 if v.source && _isstring(v.source) then
+                    if v.source == "Startup" and ply.gAC_LuaExecStartup and ply.gAC_LuaExecStartup ~= 2 then
+                        ply.gAC_LuaExecStartup = 2
+                        continue
+                    end
                     if gAC.VerifyLuaSource(v, userid) == false then
                         if v.func && gAC.LuaFuncSources[v.func] then
                             local isfine = nil
@@ -508,7 +513,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
                 if v.source && _isstring(v.source) then
                     if gAC.VerifyLuaSource(v, userid) == false then
                         if v.source == "Startup" && !ply.gAC_LuaExecStartup && !gAC.config.AntiLua_IgnoreBoot then
-                            ply.gAC_LuaExecStartup = true
+                            ply.gAC_LuaExecStartup = 1
                             continue
                         else
                             gAC.AntiLuaAddDetection(ply, "Lua environment manipulation (src: " ..  v.source .. ") [Code 124]", 3, v)
