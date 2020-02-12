@@ -27,6 +27,7 @@ local _hook_Add = hook.Add
 local _net_BytesWritten = net.BytesWritten
 local _IsValid = IsValid
 local _net_Receive = net.Receive
+local _player_GetBySteamID64 = player.GetBySteamID64
 local _timer_Simple = timer.Simple
 local _hook_Run = hook.Run
 local _net_ReadData = net.ReadData
@@ -1819,6 +1820,22 @@ _net_Receive("gAC.PlayerInit", function(_, ply)
 	_hook_Run('gAC.PlayerInit', ply)
 end)
 
+_hook_Add('gAC.DRMInitalized', 'gAC.Network.NonNetworkedUsers', function()
+	if gAC.Network.NonNetworkedPlayers then
+		local tbl = gAC.Network.NonNetworkedPlayers
+		for i=1, #tbl do
+			local ply = _player_GetBySteamID64(tbl[i])
+			if ply == false then continue end
+			ply.gAC_ClientLoaded = true
+			_net_Start("gAC.PlayerInit")
+			_net_WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
+			_net_Send(ply)
+			_hook_Run('gAC.PlayerInit', ply)
+		end
+		gAC.Network.NonNetworkedPlayers = nil
+	end
+end)
+
 _hook_Run('gAC.NetworkInit')
 
 --[[
@@ -1848,7 +1865,6 @@ gAC.Network:AddReceiver(
 )
 
 _util_AddNetworkString (gAC.Network.GlobalChannel)
-_util_AddNetworkString ("gAC.PlayerInit")
 
 _net_Receive (gAC.Network.GlobalChannel,
 	function (bitCount, ply)

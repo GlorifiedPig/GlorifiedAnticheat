@@ -13,41 +13,31 @@ local Player_SendLua = _R.Player.SendLua
 local SendLuas = {}
 
 _G.BroadcastLua = function (code)
-	if gAC and gAC.Network and gAC.Network.ReceiveCount then
-		code = _util_Compress(code)
-		local _IPAIRS_ = _player_GetHumans()
-		for k=1, #_IPAIRS_ do
-			local v =_IPAIRS_[k]
-			if not v.gAC_ClientLoaded then
-				if not SendLuas[v] then
-					SendLuas[v] = {}
-				end
-				local tbl = SendLuas[v]
-				tbl[#tbl + 1] = code
-			else
-				gAC.Network:Send ("LoadString", code, v, true)
+	for k=1, #_IPAIRS_ do
+		local v =_IPAIRS_[k]
+		if not v.gAC_ClientLoaded then
+			if not SendLuas[v] then
+				SendLuas[v] = {}
 			end
+			local tbl = SendLuas[v]
+			tbl[#tbl + 1] = code
+		else
+			gAC.Network:Send ("LoadString", code, v, true)
 		end
-	else
-		_BroadcastLua(code)
 	end
 end
 
 _R.Player.SendLua = function (ply, code)
 	if ply and Entity_IsValid (ply) then
-		if gAC and gAC.Network and gAC.Network.ReceiveCount then
-			code = _util_Compress(code)
-			if not ply.gAC_ClientLoaded then
-				if not SendLuas[ply] then
-					SendLuas[ply] = {}
-				end
-				local tbl = SendLuas[ply]
-				tbl[#tbl + 1] = code
-			else
-				gAC.Network:Send ("LoadString", code, ply, true)
+		code = _util_Compress(code)
+		if not ply.gAC_ClientLoaded then
+			if not SendLuas[ply] then
+				SendLuas[ply] = {}
 			end
+			local tbl = SendLuas[ply]
+			tbl[#tbl + 1] = code
 		else
-			Player_SendLua(ply, code)
+			gAC.Network:Send ("LoadString", code, ply, true)
 		end
 	end
 end

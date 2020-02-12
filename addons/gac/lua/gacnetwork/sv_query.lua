@@ -21,6 +21,12 @@ local _xpcall = xpcall
 local _debug_traceback = debug.traceback
 local _string_byte = string.byte
 local _GetHostName = GetHostName
+local _util_AddNetworkString = (SERVER and util.AddNetworkString or nil)
+local _net_Receive = net.Receive
+local _net_Start = net.Start
+local _net_WriteData = net.WriteData
+local _net_Send = net.Send
+local _hook_Run = hook.Run
 
 gAC.FileQuery = gAC.FileQuery or {}
 gAC.FileRelation = gAC.FileRelation or {}
@@ -51,6 +57,17 @@ if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
         end
         return str
     end
+
+    gAC.Network.NonNetworkedPlayers = {}
+
+    _util_AddNetworkString ("gAC.PlayerInit")
+
+    _net_Receive("gAC.PlayerInit", function(_, ply)
+        if ply.gAC_ClientLoaded then return end
+        if ply.gAC_NonNetClientLoaded then return end
+        ply.gAC_NonNetClientLoaded = true
+        gAC.Network.NonNetworkedPlayers[#gAC.Network.NonNetworkedPlayers + 1] = ply:SteamID64()
+    end)
 end
 
 function gAC.AddQuery(filepath)
@@ -202,6 +219,8 @@ do
         end
     
         gAC.NetworkReceivers = {}
+
+        gAC.Print('DRM files has initialized!')
 
         _hook_Run('gAC.DRMInitalized', true)
     end
