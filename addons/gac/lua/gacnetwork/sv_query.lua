@@ -192,11 +192,11 @@ do
     local FileData, ClearFileQuery = {}, false
 
     local function DRM_InitalizeEncoding()
+        if !DRM_AllisLoaded() then return end
         if #gAC.FileQuery > 0 and not ClearFileQuery then
             gAC.FileQuery[#gAC.FileQuery] = nil
             ClearFileQuery = true
         end
-        if !DRM_AllisLoaded() then return end
         for k=1, #FileData do
             local v = FileData[k]
             local data, json = v[1], v[3]
