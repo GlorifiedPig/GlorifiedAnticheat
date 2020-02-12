@@ -13,6 +13,8 @@ local Player_SendLua = _R.Player.SendLua
 local SendLuas = {}
 
 _G.BroadcastLua = function (code)
+	code = _util_Compress(code)
+	local _IPAIRS_ = _player_GetHumans()
 	for k=1, #_IPAIRS_ do
 		local v =_IPAIRS_[k]
 		if not v.gAC_ClientLoaded then
