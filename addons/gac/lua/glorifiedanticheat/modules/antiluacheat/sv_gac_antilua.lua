@@ -71,6 +71,8 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
     gAC.LuaFileCache = gAC.LuaFileCache or nil
     gAC.LuaSession = gAC.LuaSession or {}
     gAC.FileSourcePath = "LUA"
+    gAC.CacheVersionIndex = '.version.gac'
+    gAC.CacheVersion = '1.2.1'
 
     --[[
         Function used to detect or record information about a server-side execution.
@@ -174,42 +176,64 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
         if _file_Exists("gac-antilua/gac-luacache.dat", "DATA") then
             gAC.Print("[AntiLua] Detected an existing lua cache file, reading...")
             gAC.LuaFileCache = _util_JSONToTable(_util_Decompress(_file_Read("gac-antilua/gac-luacache.dat", "DATA")))
-            gAC.Print("[AntiLua] Checking for modifications...")
+            if gAC.LuaFileCache[gAC.CacheVersionIndex] ~= gAC.CacheVersion then
+                gAC.Print("[AntiLua] Lua cache file is outdated, recaching...")
+                gAC.LuaFileCache = {}
+            else
+                gAC.Print("[AntiLua] Checking for modifications...")
+            end
         end
 
         local _Errors, _UpdateFile, _Path = {}, false, gAC.FileSourcePath
 
+        gAC.LuaFileCache[gAC.CacheVersionIndex] = gAC.CacheVersion
+
         local function handlepath(path)
-            if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
             if path == "" then return end
+            if _string_lower (_string_sub (path, -4)) ~= ".lua" then return end
 
             local _time, _alter = _file_Time(path, _Path), nil
+            local lower_path, use_lowerpath = _string_lower(path), false
+            if lower_path ~= path then
+                use_lowerpath = true
+            end
 
-            if !gAC.LuaFileCache [path] then
+            if !gAC.LuaFileCache [lower_path] then
                 gAC.Print("[AntiLua] Excluding " .. path)
+                if use_lowerpath then
+                    gAC.Print("[AntiLua] WARNING: file '" .. path .. "' is using capitalized characters!")
+                end
                 _alter = true
                 _UpdateFile = true
-            elseif !_istable(gAC.LuaFileCache[path]) or _time ~= gAC.LuaFileCache[path].time then
+            elseif !_istable(gAC.LuaFileCache[lower_path]) or _time ~= gAC.LuaFileCache[lower_path].time then
                 gAC.Print("[AntiLua] Modifying exclusion " .. path)
+                if use_lowerpath then
+                    gAC.Print("[AntiLua] WARNING: file '" .. path .. "' is using capitalized characters!")
+                end
                 _alter = true
                 _UpdateFile = true
             end
 
             if _alter then
-                gAC.LuaFileCache[path] = { time = _time }
-                local data = _file_Read(path, _Path)
-                local func = _CompileString(data, path .. '.InitialCache', false)
-                if (!func or _isstring(func)) and _string_lower(path) ~= path then
-                    gAC.LuaFileCache[path] = { time = _time }
-                    path = _string_lower(path)
-                    data = _file_Read(path, _Path)
-                    func = _CompileString(data, path .. '.InitialCache', false)
+                gAC.LuaFileCache[lower_path] = { time = _time }
+
+                if use_lowerpath then
+                    gAC.LuaFileCache[lower_path].path = path
                 end
+
+                local data = _file_Read(path, _Path)
+                if not data then
+                    data = _file_Read(lower_path, _Path)
+                end
+                local func = _CompileString(data, path .. '.InitialCache', false)
                 if (!func or _isstring(func)) then
                     gAC.Print("[AntiLua] " .. path .. " Compile Error")
                     _Errors[#_Errors + 1] = path .. " - Compile Error (switch to source verification)"
                     func = nil
-                    gAC.LuaFileCache[path] = { time = _time }
+                    gAC.LuaFileCache[lower_path] = { time = _time }
+                    if use_lowerpath then
+                        gAC.LuaFileCache[lower_path].path = path
+                    end
                     return 
                 end
             end
@@ -226,7 +250,9 @@ _hook_Add("gAC.Init", "gAC.AntiLua", function()
         _R._VMEVENTS[gAC.LuaVMID] = nil
 
         for path, v in _pairs(gAC.LuaFileCache) do
-            if _file_Time(path, _Path) == 0 then
+            if path == gAC.CacheVersionIndex then continue end
+            local _path = v.path or path
+            if _file_Time(_path, _Path) == 0 then
                 _UpdateFile = true
                 gAC.Print("[AntiLua] Removing exclusion " .. path)
                 gAC.LuaFileCache[path] = nil
@@ -307,6 +333,9 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
         if defined source is not in the cache then it's not created by the server.
     ]]
     function gAC.VerifyLuaSource(funcinfo, userid)
+        if funcinfo.source == gAC.CacheVersionIndex then
+            return false
+        end
         if !gAC.LuaFileCache[funcinfo.source] && !gAC.LuaSession[userid][funcinfo.source] then
             return false
         end
@@ -562,6 +591,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             local jitinfo = _jit_util_funcinfo(proto)
             jitinfo.source = _string_gsub(jitinfo.source, "^@", "")
             jitinfo.source = gAC.dirtosvlua(jitinfo.source)
+            jitinfo.source = _string_lower(jitinfo.source)
             if _istable(gAC.LuaFileCache[jitinfo.source]) && gAC.LuaFileCache[jitinfo.source].funclist then
                 gAC.UpdateLuaFile(jitinfo.source)
             end

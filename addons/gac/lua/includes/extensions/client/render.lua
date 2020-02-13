@@ -483,8 +483,7 @@ local Detourables = {
     {{"AddConsoleCommand"}, "AddConsoleCommand"},
     {{"vgui","Register"}, "vgui.Register"},
     {{"net","Receive"}, "net.Receive"},
-    {{"require"}, "require"},
-    {{"RunConsoleCommand"}, "RunConsoleCommand"}
+    {{"require"}, "require"}
 }
 
 for k=_1, #Detourables do
