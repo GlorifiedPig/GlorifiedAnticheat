@@ -235,6 +235,7 @@ local _string_find = string.find
 local _string_len = string.len
 local _net_SendToServer = net.SendToServer
 local _net_WriteUInt = net.WriteUInt
+local _error = error
 local _net_WriteData = net.WriteData
 local _CompileString = CompileString
 local _hook_Add = hook.Add
@@ -563,7 +564,7 @@ _G.RunString = _gAC._D( _G.RunString, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if !func or _isstring(func) then
         err = _string_Replace(err or func, SafeCode, ident or "RunString")
-        error(err)
+        _error(err)
     end
     ident = _gAC.CreateIdentifier(ident, "RunString")
     local dbginfo = _debug_getinfo(_2, "fS")
@@ -583,7 +584,7 @@ _G.RunStringEx = _gAC._D( _G.RunStringEx, function(code, ident, ...)
     local func, err = _CompileString(code, SafeCode, false)
     if !func or _isstring(func) then
         err = _string_Replace(err or func, SafeCode, ident or "RunStringEx")
-        error(err)
+        _error(err)
     end
     ident = _gAC.CreateIdentifier(ident, "RunStringEx")
     local dbginfo = _debug_getinfo(_2, "fS")
@@ -610,7 +611,7 @@ _G.CompileString = _gAC._D( _G.CompileString, function(code, ident, safemode, ..
             return func, err
         else
             err = _string_Replace(err or func, SafeCode, ident or "CompileString")
-            error(err)
+            _error(err)
         end
     end
     ident = _gAC.CreateIdentifier(ident, "CompileString")
