@@ -216,7 +216,7 @@ do
             local v = CLFileData[k]
             local clcode = nil
             gAC.DRMAddCLCode = function(code, json)
-                clcode = {code, v[2], _util_JSONToTable(json)}
+                clcode = {code, _util_JSONToTable(json)}
             end
             local stat, err = RunFunc(result, Index)
             gAC.DRMAddCLCode = nil
@@ -228,7 +228,7 @@ do
                 LoadIndexRequested[v[2]] = 3
             end
             if clcode ~= nil then
-                local data, json = clcode[1], clcode[3]
+                local data, json = clcode[1], clcode[2]
                 if json ~= false then
                     for k, v in _pairs(json) do
                         data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
@@ -237,7 +237,7 @@ do
                     data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
                 end
                 gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
-                gAC.DBGPrint('Encoded DRM file "' .. clcode[2] .. '"')
+                gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
             end
         end
 
