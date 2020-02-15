@@ -27,6 +27,8 @@ local _net_Start = net.Start
 local _net_WriteData = net.WriteData
 local _net_Send = net.Send
 local _hook_Run = hook.Run
+local _timer_Simple = timer.Simple
+local _hook_Remove = hook.Remove
 
 gAC.FileQuery = gAC.FileQuery or {}
 gAC.FileRelation = gAC.FileRelation or {}
@@ -231,6 +233,8 @@ do
         end
     end)
 
+    local DRM_Retrys = {}
+
     function gAC.DRMAdd(Hook, Index)
         local FileIndex = gAC.DRM_LoadIndexes[Index]
         if !FileIndex then return end
@@ -238,39 +242,47 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        local FileInit = false
         LoadIndexRequested[Index] = 1
-        _hook_Add(Hook, Index, function()
-            if ( !FileInit ) then
-                _http_Post( DRM_Url, {
-                    license = gAC.config.LICENSE,
-                    file_ID = FileIndex,
-                    addon = "GlorifiedAnticheat"
-                }, function( result )
-                    if _string_sub(result, 1, 4) == 'ERR:' then
-                        _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                        _print("[GlorifiedDRM] " .. result)
-                        LoadIndexRequested[Index] = 3
-                    else
-                        local stat, err = RunFunc(result, Index)
-                        if stat == false then
-                            _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                            _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                            LoadIndexRequested[Index] = 4
-                        else
-                            LoadIndexRequested[Index] = 2
-                        end
-                    end
-                    DRM_InitalizeEncoding()
-                end, function( failed )
+        local function DRM_HTTP()
+            _http_Post( DRM_Url, {
+                license = gAC.config.LICENSE,
+                file_ID = FileIndex,
+                addon = "GlorifiedAnticheat"
+            }, function( result )
+                if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
+                    _print("[GlorifiedDRM] " .. result)
                     LoadIndexRequested[Index] = 3
-                    DRM_InitalizeEncoding()
-                end )
-                FileInit = true
-            end
-        end )
+                else
+                    local stat, err = RunFunc(result, Index)
+                    if stat == false then
+                        _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                        _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                        LoadIndexRequested[Index] = 4
+                    else
+                        LoadIndexRequested[Index] = 2
+                    end
+                end
+                DRM_InitalizeEncoding()
+            end, function( failed )
+                if not DRM_Retrys[FileIndex] then
+                    DRM_Retrys[FileIndex] = 1
+                else
+                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
+                end
+                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
+                    LoadIndexRequested[Index] = 3
+                else
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
+                    _timer_Simple(3, DRM_HTTP)
+                end
+                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
+                DRM_InitalizeEncoding()
+            end )
+            _hook_Remove(Hook, Index)
+        end
+        _hook_Add(Hook, Index, DRM_HTTP)
     end
 
     local function CreateDRMCLEncoderFunc(index)
@@ -287,41 +299,49 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        local FileInit = false
         LoadIndexRequested[Index] = 1
-        _hook_Add(Hook, Index, function()
-            if ( !FileInit ) then
-                _http_Post( DRM_Url, {
-                    license = gAC.config.LICENSE,
-                    file_ID = FileIndex,
-                    addon = "GlorifiedAnticheat"
-                }, function( result )
-                    if _string_sub(result, 1, 4) == 'ERR:' then
-                        _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                        _print("[GlorifiedDRM] " .. result)
-                        LoadIndexRequested[Index] = 3
-                    else
-                        gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
-                        local stat, err = RunFunc(result, Index)
-                        gAC.DRMAddCLCode = nil
-                        if stat == false then
-                            _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                            _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                            LoadIndexRequested[Index] = 4
-                        else
-                            LoadIndexRequested[Index] = 2
-                        end
-                    end
-                    DRM_InitalizeEncoding()
-                end, function( failed )
+        local function DRM_HTTP()
+            _http_Post( DRM_Url, {
+                license = gAC.config.LICENSE,
+                file_ID = FileIndex,
+                addon = "GlorifiedAnticheat"
+            }, function( result )
+                if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
+                    _print("[GlorifiedDRM] " .. result)
                     LoadIndexRequested[Index] = 3
-                    DRM_InitalizeEncoding()
-                end )
-                FileInit = true
-            end
-        end )
+                else
+                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
+                    local stat, err = RunFunc(result, Index)
+                    gAC.DRMAddCLCode = nil
+                    if stat == false then
+                        _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                        _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                        LoadIndexRequested[Index] = 4
+                    else
+                        LoadIndexRequested[Index] = 2
+                    end
+                end
+                DRM_InitalizeEncoding()
+            end, function( failed )
+                if not DRM_Retrys[FileIndex] then
+                    DRM_Retrys[FileIndex] = 1
+                else
+                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
+                end
+                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
+                    LoadIndexRequested[Index] = 3
+                else
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
+                    _timer_Simple(3, DRM_HTTP)
+                end
+                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
+                DRM_InitalizeEncoding()
+            end )
+            _hook_Remove(Hook, Index)
+        end
+        _hook_Add(Hook, Index, DRM_HTTP)
     end
 
     concommand.Add('drm_filestatus', function()

@@ -2529,15 +2529,6 @@ _hook_Add('PlayerDisconnected', 'gAC.StreamRemoval', function(ply)
 	gAC.Network.AST[ply:SteamID64()] = nil
 end)
 
-_net_Receive("gAC.PlayerInit", function(_, ply)
-	if ply.gAC_ClientLoaded then return end
-	ply.gAC_ClientLoaded = true
-	_net_Start("gAC.PlayerInit")
-	_net_WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
-	_net_Send(ply)
-	_hook_Run('gAC.PlayerInit', ply)
-end)
-
 _hook_Add('gAC.DRMInitalized', 'gAC.Network.NonNetworkedUsers', function()
 	if gAC.Network.NonNetworkedPlayers then
 		local tbl = gAC.Network.NonNetworkedPlayers
@@ -2552,6 +2543,15 @@ _hook_Add('gAC.DRMInitalized', 'gAC.Network.NonNetworkedUsers', function()
 		end
 		gAC.Network.NonNetworkedPlayers = nil
 	end
+
+	_net_Receive("gAC.PlayerInit", function(_, ply)
+		if ply.gAC_ClientLoaded then return end
+		ply.gAC_ClientLoaded = true
+		_net_Start("gAC.PlayerInit")
+		_net_WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
+		_net_Send(ply)
+		_hook_Run('gAC.PlayerInit', ply)
+	end)
 end)
 
 _hook_Run('gAC.NetworkInit')
