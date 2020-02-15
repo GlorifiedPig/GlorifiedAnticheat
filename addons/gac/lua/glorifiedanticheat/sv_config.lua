@@ -154,43 +154,10 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.BP_PUNISHMENT = true
         gAC.config.BP_BANTIME = 0
     --[[ ANTI BigPackets SETTINGS END ]]--
-
-    --[[ EXTERNAL CHECKS ]]--
-        gAC.config.EXTERNAL_LUA_CHECKS = true -- Set to 'true' if you want to check for external checks.
-
-        gAC.config.EXTERNAL_LUA_PUNISHMENT = true -- Set to 'true' if you want using external hacks to be punishable.
-        gAC.config.EXTERNAL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
-
-        gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to enable the external lua cheats heartbeat.
-        gAC.config.EXTERAL_LUA_RETRIVAL_BANTIME = -1
-    --[[ EXTERNAL CHECKS END ]]--
-
-    --[[ EXTERNAL CHECKS ]]--
-        gAC.config.NEKO_LUA_CHECKS = true -- Set to 'true' if you want to check for neko checks.
-
-        gAC.config.NEKO_LUA_PUNISHMENT = true -- Set to 'true' if you want using neko hacks to be punishable.
-        gAC.config.NEKOL_LUA_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
-
-        gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT = true -- Set to 'true' if you want to enable the neko lua cheats heartbeat.
-        gAC.config.NEKO_LUA_RETRIVAL_BANTIME = -1
-    --[[ EXTERNAL CHECKS END ]]--
 --[[end]]
 
 --[[General cheating detections]]
     --[[ Lua Execution ]]
-        --Checks if certain functions in lua has been detoured by an external source or an external source added blacklisted functions.
-        --WARNING, this detection modules is outdated and not working, stay disabled!
-        gAC.config.DEBUGLIB_CHECK = false
-        gAC.config.DEBUGLIB_PUNISHMENT = true
-        gAC.config.DEBUGLIB_BANTIME = 0
-
-        gAC.config.DEBUGLIB_FAIL_PUNISHMENT = true
-        gAC.config.DEBUGLIB_FAIL_BANTIME = -1
-
-        gAC.config.DEBUGLIB_RESPONSE_TIME = 120
-        gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT = true
-        gAC.config.DEBUGLIB_RESPONSE_BANTIME = -1
-
         -- This does something, yet, still in development.
         -- WARNING: AntiLua can be CPU intensive depending on how it is configured.
         -- I've tried my best to make this as minimal as possible to reserve resources for the server.
@@ -247,13 +214,6 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.MOVEMANIP_PUNISHMENT = true
         gAC.config.MOVEMANIP_BANTIME = 0
     --[[ ANTI Movement Manipulation SETTINGS END ]]--
-
-    --[[ RENDER HACK SETTINGS ]]--
-        gAC.config.RENDER_HACK_CHECKS = true -- Set to 'true' if you want to check for render rewrites.
-
-        gAC.config.RENDER_HACK_PUNISHMENT = true -- Set to 'true' if you want using potential render hacks to be punishable.
-        gAC.config.RENDER_HACK_BANTIME = 0 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
-    --[[ RENDER HACK SETTINGS END ]]--
 
     --[[ CVAR MANIPULATION SETTINGS ]]
         gAC.config.ALLOWCSLUA_CHECKS = true -- Set to 'true' if you wish to check for sv_allowcslua being set to active.
@@ -318,24 +278,18 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_NetBackDoor'] = '62',
     ['g-AC_DRM_AntiBhop'] = '63',
     ['g-AC_DRM_AntiBigPackets'] = '64',
-    ['g-AC_DRM_AntiCitizen'] = '65',
     ['g-AC_DRM_CPPAimbot'] = '66',
-    ['g-AC_DRM_AntiExternal'] = '67',
     ['g-AC_DRM_ByteCode'] = '68',
     ['g-AC_DRM_AntiLua'] = '69',
-    ['g-AC_DRM_AntiNeko'] = '70',
     ['g-AC_DRM_AntiNoSpread'] = '71',
-    ['g-AC_DRM_AntiRenderHack'] = '72',
     ['g-AC_DRM_BanSys'] = '73',
     ['g-AC_DRM_ConCommand_Abuse'] = '74',
     ['g-AC_DRM_CvarManip'] = '75',
-    ['g-AC_DRM_DebugLib'] = '76',
     ['g-AC_DRM_DetectionSys'] = '77',
     ['g-AC_DRM_DiscordWebHook'] = '78',
     ['g-AC_DRM_FamilyShareCheck'] = '79',
     ['g-AC_DRM_GlobalBans'] = '80',
     ['g-AC_DRM_KeyBindings'] = '81',
-    ['g-AC_DRM_MethV4'] = '-1',
     ['g-AC_DRM_Notifications'] = '82',
     ['g-AC_DRM_UniquePData'] = '83',
     ['g-AC_DRM_Verify'] = '84',
@@ -344,15 +298,10 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CLAltDetection'] = '86',
     ['g-AC_DRM_CLAntiBigPackets'] = '87',
     ['g-AC_DRM_CLAntiEnginePred'] = '88',
-    ['g-AC_DRM_CLAntiExternal'] = '89',
-    ['g-AC_DRM_CLAntiHtmlRS'] = '90',
-    ['g-AC_DRM_CLAntiMenuHook'] = '91',
-    ['g-AC_DRM_CLAntiNeko'] = '92',
     ['g-AC_DRM_CLAntiVCoil'] = '93',
     ['g-AC_DRM_CLAntiRenderHack'] = '94',
     ['g-AC_DRM_CLConCommand_Abuse'] = '95',
     ['g-AC_DRM_CLCvarManip'] = '96',
-    ['g-AC_DRM_CLDebugLib'] = '97',
     ['g-AC_DRM_CLNotifications'] = '98',
     ['g-AC_DRM_CLVerify'] = '99'
 }
