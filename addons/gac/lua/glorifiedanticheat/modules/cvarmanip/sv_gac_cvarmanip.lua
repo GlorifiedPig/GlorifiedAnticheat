@@ -10,7 +10,7 @@ gAC.Network:AddReceiver(
         checkedVariables = _util_JSONToTable(checkedVariables)
         if( ( checkedVariables[0] != _GetConVar("sv_allowcslua"):GetInt() && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] != GetConVar("sv_cheats"):GetInt() && gAC.config.SVCHEATS_CHECKS ) ) then
             gAC.AddDetection( plr, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
-            plr.VarManipCheater = true
+            plr.GAC_Cvar_Checks = nil
         end
         plr.HasReceivedVarManipResults = true
     end
@@ -22,7 +22,6 @@ if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true )
         for k=1, #_IPAIRS_   do
         	local ply =_IPAIRS_[k]
             if ply:IsBot() then continue end
-            if ply.VarManipCheater then continue end
             if !ply.GAC_Cvar_Checks then continue end
             if ply:IsTimingOut() then continue end
             if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 && ply.GAC_Cvar_Checks <= _CurTime() then
