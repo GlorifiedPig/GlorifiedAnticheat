@@ -215,17 +215,20 @@ do
         for k=1, #CLFileData do
             local v = CLFileData[k]
             local clcode = nil
-            gAC.DRMAddCLCode = function(code, json)
-                clcode = {code, _util_JSONToTable(json)}
-            end
-            local stat, err = RunFunc(result, Index)
-            gAC.DRMAddCLCode = nil
-            if stat == false then
-                _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                LoadIndexRequested[v[2]] = 5
-            else
-                LoadIndexRequested[v[2]] = 3
+            do
+                gAC.DRMAddCLCode = function(code, json)
+                    clcode = {code, _util_JSONToTable(json)}
+                end
+                local stat, err = RunFunc(result, Index)
+                gAC.DRMAddCLCode = nil
+                if stat == false then
+                    _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                    _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                    LoadIndexRequested[v[2]] = 5
+                    clcode = nil
+                else
+                    LoadIndexRequested[v[2]] = 3
+                end
             end
             if clcode ~= nil then
                 local data, json = clcode[1], clcode[2]
