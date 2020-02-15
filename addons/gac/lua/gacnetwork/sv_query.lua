@@ -82,7 +82,12 @@ function gAC.AddQuery(filepath)
     gAC.DBGPrint("Added file " .. FileName .. " to file query")
 end
 
+local DecoderUnloaderIndex = -1
+
 _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
+    if DecoderUnloaderIndex > 0 then
+        gAC.FileQuery[#gAC.FileQuery] = nil
+    end
     for k=1, #gAC.FileQuery do
         local data = gAC.FileQuery[k]
         local relation = gAC.FileRelation[k]
@@ -100,7 +105,10 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
         gAC.DBGPrint('Added compressed file "' .. relation .. '" to file query')
     end
 
-    gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
+    if #gAC.FileQuery > 0 then
+        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
+        DecoderUnloaderIndex = #gAC.FileQuery
+    end
 
     for k=1, #gAC.NetworkReceivers do
         local v = gAC.NetworkReceivers[k]
@@ -186,18 +194,17 @@ do
 
     local function DRM_AllisLoaded()
         for k, v in _pairs(LoadIndexRequested) do
-            if v ~= 0 and v < 2 then return false end
+            if v ~= 0 and (v < 2 or v == 4) then return false end
         end
         return true
     end
 
-    local CLFileData, SVFileData, ClearFileQuery = {}, {}, false
+    local CLFileData, SVFileData = {}, {}
 
     local function DRM_InitalizeEncoding()
         if !DRM_AllisLoaded() then return end
-        if #gAC.FileQuery > 0 and not ClearFileQuery then
+        if DecoderUnloaderIndex > 0 then
             gAC.FileQuery[#gAC.FileQuery] = nil
-            ClearFileQuery = true
         end
 
         for i=1, #SVFileData do
@@ -210,6 +217,7 @@ do
             else
                 LoadIndexRequested[v[2]] = 3
             end
+            SVFileData[i] = nil
         end
 
         for k=1, #CLFileData do
@@ -219,7 +227,7 @@ do
                 gAC.DRMAddCLCode = function(code, json)
                     clcode = {code, _util_JSONToTable(json)}
                 end
-                local stat, err = RunFunc(result, Index)
+                local stat, err = RunFunc(v[1], v[2])
                 gAC.DRMAddCLCode = nil
                 if stat == false then
                     _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
@@ -242,20 +250,22 @@ do
                 gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
                 gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
             end
+            CLFileData[k] = nil
         end
 
-        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-    
-        for k=1, #gAC.NetworkReceivers do
-            local v = gAC.NetworkReceivers[k]
-            gAC.Network:AddReceiver(v[1], v[2])
+        if DRM_AllisLoaded() then
+            if #gAC.FileQuery > 0 then
+                gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
+                DecoderUnloaderIndex = #gAC.FileQuery
+            end
+            for k=1, #gAC.NetworkReceivers do
+                local v = gAC.NetworkReceivers[k]
+                gAC.Network:AddReceiver(v[1], v[2])
+            end
+            gAC.NetworkReceivers = {}
+            gAC.Print('DRM files has initialized!')
+            _hook_Run('gAC.DRMInitalized', true)
         end
-    
-        gAC.NetworkReceivers = {}
-
-        gAC.Print('DRM files has initialized!')
-
-        _hook_Run('gAC.DRMInitalized', true)
     end
 
     _hook_Add("gAC.IncludesLoaded", "gAC.DidDRMInitalized", function()
@@ -273,8 +283,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
+            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
@@ -282,9 +292,13 @@ do
             }, function( result )
                 if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] " .. result)
+                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
+                    _print("[GlorifiedDRM] ERR: " .. result)
                     LoadIndexRequested[Index] = 4
                 else
+                    if DRM_Retrys[FileIndex] then
+                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
+                    end
                     SVFileData[#SVFileData + 1] = {result, Index}
                     LoadIndexRequested[Index] = 2
                 end
@@ -295,11 +309,12 @@ do
                 else
                     DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
                 end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
+                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
+                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
                     LoadIndexRequested[Index] = 4
                 else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
                     _timer_Simple(3, DRM_HTTP)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
@@ -317,8 +332,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
+            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
@@ -326,9 +341,13 @@ do
             }, function( result )
                 if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] " .. result)
+                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
+                    _print("[GlorifiedDRM] ERR: " .. result)
                     LoadIndexRequested[Index] = 4
                 else
+                    if DRM_Retrys[FileIndex] then
+                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
+                    end
                     CLFileData[#CLFileData + 1] = {result, Index}
                     LoadIndexRequested[Index] = 2
                 end
@@ -339,11 +358,12 @@ do
                 else
                     DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
                 end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
+                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
+                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
                     LoadIndexRequested[Index] = 4
                 else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
+                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
                     _timer_Simple(3, DRM_HTTP)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
