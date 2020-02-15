@@ -191,7 +191,7 @@ do
         return true
     end
 
-    local FileData, ClearFileQuery = {}, false
+    local CLFileData, SVFileData, ClearFileQuery = {}, {}, false
 
     local function DRM_InitalizeEncoding()
         if !DRM_AllisLoaded() then return end
@@ -199,18 +199,46 @@ do
             gAC.FileQuery[#gAC.FileQuery] = nil
             ClearFileQuery = true
         end
-        for k=1, #FileData do
-            local v = FileData[k]
-            local data, json = v[1], v[3]
-            if json ~= false then
-                for k, v in _pairs(json) do
-                    data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
-                end
-                data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-                data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+
+        for i=1, #SVFileData do
+            local v = SVFileData[i]
+            local stat, err = RunFunc(v[1], v[2])
+            if stat == false then
+                _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                LoadIndexRequested[v[2]] = 5
+            else
+                LoadIndexRequested[v[2]] = 3
             end
-            gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
-            gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
+        end
+
+        for k=1, #CLFileData do
+            local v = CLFileData[k]
+            local clcode = nil
+            gAC.DRMAddCLCode = function(code, json)
+                clcode = {code, v[2], _util_JSONToTable(json)}
+            end
+            local stat, err = RunFunc(result, Index)
+            gAC.DRMAddCLCode = nil
+            if stat == false then
+                _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
+                LoadIndexRequested[v[2]] = 5
+            else
+                LoadIndexRequested[v[2]] = 3
+            end
+            if clcode ~= nil then
+                local data, json = clcode[1], clcode[3]
+                if json ~= false then
+                    for k, v in _pairs(json) do
+                        data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
+                    end
+                    data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
+                    data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+                end
+                gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
+                gAC.DBGPrint('Encoded DRM file "' .. clcode[2] .. '"')
+            end
         end
 
         gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
@@ -252,16 +280,10 @@ do
                 if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
                     _print("[GlorifiedDRM] " .. result)
-                    LoadIndexRequested[Index] = 3
+                    LoadIndexRequested[Index] = 4
                 else
-                    local stat, err = RunFunc(result, Index)
-                    if stat == false then
-                        _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                        _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                        LoadIndexRequested[Index] = 4
-                    else
-                        LoadIndexRequested[Index] = 2
-                    end
+                    SVFileData[#SVFileData + 1] = {result, Index}
+                    LoadIndexRequested[Index] = 2
                 end
                 DRM_InitalizeEncoding()
             end, function( failed )
@@ -272,7 +294,7 @@ do
                 end
                 if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    LoadIndexRequested[Index] = 3
+                    LoadIndexRequested[Index] = 4
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
                     _timer_Simple(3, DRM_HTTP)
@@ -283,13 +305,6 @@ do
             _hook_Remove(Hook, Index)
         end
         _hook_Add(Hook, Index, DRM_HTTP)
-    end
-
-    local function CreateDRMCLEncoderFunc(index)
-        local function DRMAddCLCode(code, json)
-            FileData[#FileData + 1] = {code, index, _util_JSONToTable(json)}
-        end
-        return DRMAddCLCode
     end
 
     function gAC.DRMAddClient(Hook, Index)
@@ -309,18 +324,10 @@ do
                 if _string_sub(result, 1, 4) == 'ERR:' then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
                     _print("[GlorifiedDRM] " .. result)
-                    LoadIndexRequested[Index] = 3
+                    LoadIndexRequested[Index] = 4
                 else
-                    gAC.DRMAddCLCode = CreateDRMCLEncoderFunc(Index)
-                    local stat, err = RunFunc(result, Index)
-                    gAC.DRMAddCLCode = nil
-                    if stat == false then
-                        _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                        _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                        LoadIndexRequested[Index] = 4
-                    else
-                        LoadIndexRequested[Index] = 2
-                    end
+                    CLFileData[#CLFileData + 1] = {result, Index}
+                    LoadIndexRequested[Index] = 2
                 end
                 DRM_InitalizeEncoding()
             end, function( failed )
@@ -331,7 +338,7 @@ do
                 end
                 if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 3 then
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    LoadIndexRequested[Index] = 3
+                    LoadIndexRequested[Index] = 4
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/3")
                     _timer_Simple(3, DRM_HTTP)
@@ -350,9 +357,10 @@ do
             local response = ""
             if v == 0 then response = "Not Requested" end
             if v == 1 then response = "Not Received" end
-            if v == 2 then response = "Executed" end
-            if v == 3 then response = "Request Error" end
-            if v == 4 then response = "Execution Error" end
+            if v == 2 then response = "Finializing" end
+            if v == 3 then response = "Executed" end
+            if v == 4 then response = "Request Error" end
+            if v == 5 then response = "Execution Error" end
             _print('[GlorifiedDRM] index "' .. k .. "' - " .. response)
         end
     end)
