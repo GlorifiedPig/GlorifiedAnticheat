@@ -3,7 +3,7 @@ if gAC.config.ENABLE_CITIZENHACK_CHECKS then
         "gAC-CMV",
         function(data, plr)
             if plr.gAC_AimbotDetected then return end
-            gAC.AddDetection( ply, "C-Movement Manipulation Detected #2 [Code 129]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
+            gAC.AddDetection( plr, "C-Movement Manipulation Detected #2 [Code 129]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
             plr.gAC_AimbotDetected = true
         end
     )
