@@ -303,5 +303,6 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CLConCommand_Abuse'] = '95',
     ['g-AC_DRM_CLCvarManip'] = '96',
     ['g-AC_DRM_CLNotifications'] = '98',
-    ['g-AC_DRM_CLVerify'] = '99'
+    ['g-AC_DRM_CLVerify'] = '99',
+    ['g-AC_DRM_CLAntiCitizen'] = '101'
 }
