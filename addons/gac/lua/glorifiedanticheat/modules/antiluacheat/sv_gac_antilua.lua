@@ -305,6 +305,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     local _debug_getregistry = debug.getregistry
     local _file_Exists = file.Exists
     local _file_CreateDir = file.CreateDir
+    local _string_lower = string.lower
     
     if !gAC.config.AntiLua_CHECK then return end
 
