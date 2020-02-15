@@ -3,17 +3,20 @@
     hopefully it has enough to satisfy your eyes :)
 
     Hello methamphetamine developers,
-    You know that thing you called methamphetamine for a good time?
-    Well you know, you shouldn't have told Friendly to fix his
-    file stealer. Because guess what, your shit got leaked due to the patch
-    and not just g-AC's client files. So basically you played yourself,
-    dumb fucks. Maybe stop using Odium's loader for your shit,
-    i have never seen such brain dead people in my entire career at gAC.
+    Nice to know you guys still remain as the "top" cheating
+    group on the market. But watch out... I believe CitizenHack is trying to 
+    make a come back, OH NO.
 
     Hi FFF,
-    i'd like to congratulate you on your creation of cobalt
-    and the ass kicking you pulled on wolfie when he got salty.
-    Looking forward to that revamp of cobalt, we will be waiting :)
+    ~nothing~
+    Because he being good boi sometimes... I guess...
+
+    Hello CitizenHack Team,
+    Wow that was a nice update you guys pushed on the 2nd of
+    february, now the question stands... Will you still
+    be supporting your cheat that has been dead for nearly a year?
+    Or are you going to be competitive this time?
+    Also... Took you long enough... My gawd...
 ]]
 
 
