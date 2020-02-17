@@ -1,20 +1,9 @@
 if gAC.config.ENABLE_CITIZENHACK_CHECKS then
-    -- For citizen and meth
     gAC.Network:AddReceiver(
         "gAC-CMV",
         function(data, plr)
             if plr.gAC_AimbotDetected then return end
-            gAC.AddDetection( plr, "C-Movement Manipulation Detected #" .. data .. " [Code 129]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
-            plr.gAC_AimbotDetected = true
-        end
-    )
-
-    -- For meth instantanous
-    gAC.Network:AddReceiver(
-        "gAC-CRV",
-        function(data, plr)
-            if plr.gAC_AimbotDetected then return end
-            gAC.AddDetection( plr, "Methamphetamine User #" .. data, gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
+            gAC.AddDetection( plr, "C-Movement Manipulation Detected #2 [Code 129]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
             plr.gAC_AimbotDetected = true
         end
     )
