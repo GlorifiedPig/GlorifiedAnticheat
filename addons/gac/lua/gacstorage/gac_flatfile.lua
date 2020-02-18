@@ -3,7 +3,7 @@ local _file_CreateDir = file.CreateDir
 local _file_IsDir = file.IsDir
 local _file_Write = file.Write
 
-function gAC.LogEvent( plr, str )
+function gAC.LogEvent( ply, str )
     local eventLogFile = "g-ac-logs/eventlogs.txt"
     if !_file_IsDir( "g-ac-logs", "DATA" ) then
         _file_CreateDir( "g-ac-logs", "DATA" )
