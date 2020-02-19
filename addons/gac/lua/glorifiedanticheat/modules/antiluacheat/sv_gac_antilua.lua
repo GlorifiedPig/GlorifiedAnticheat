@@ -307,6 +307,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     local _string_Explode = string.Explode
     local _file_CreateDir = file.CreateDir
     local _string_lower = string.lower
+    local _string_char = string.char
     local _table_remove = table.remove
     
     if !gAC.config.AntiLua_CHECK then return end
@@ -357,41 +358,112 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
 
         An artificial way to parse code into function lists.
     ]]
-    local function ParseFunctionToList(code)
-        local code_newlined = _string_Explode("\n", code, false)
-        local statementlist, funclist = {}, {}
-        local codelinelen = #code_newlined
-        funclist[1] = {linedefined = 1, lastlinedefined = codelinelen}
-        for i=1, #code_newlined do
-            local v = code_newlined[i]
-            v = _string_Explode("[\t\r ]+", v, true)
-            for k=1, #v do
-                local arg = v[k]
-                if arg == "function" then
-                    statementlist[#statementlist + 1] = {'function', i}
-                elseif arg == "do" then
-                    statementlist[#statementlist + 1] = {'do', i}
-                elseif arg == "then" then
-                    statementlist[#statementlist + 1] = {'then', i}
+    local ParseFunctionToList = function() return false, "IDK" end
+    do
+        local function lookupify(tb)
+            for _, v in _pairs(tb) do
+                tb[v] = true
+            end
+            return tb
+        end
+        local WhiteChars = lookupify{' ', '\n', '\t', '\r'}
+        local EscapeForCharacter = {['\b'] = '\\b', ['\f'] = '\\f', ['\v'] = '\\v', ['\0'] = '\\0', ['\r'] = '\\r', ['\n'] = '\\n', ['\t'] = '\\t', ['"'] = '\\"', ["'"] = "\\'", ['\\'] = '\\'}
+        local Digits = lookupify{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}
+        local Symbols = lookupify{'|', '&', '!', '+', '-', '*', '/', '^', '%', ',', '{', '}', '[', ']', ';', '#', '.', ':'}
+        local EqualSymbols = lookupify{'!', '~', '>', '<'}
+        local BlockedChars = {
+            ['"'] = true,
+            ["'"] = true,
+            ['\\'] = true
+        }
+
+        local BlockedLuaChars = ""
+        for i = 1, 255 do 
+            local char = _string_char(i)
+            if EscapeForCharacter[char] == true or WhiteChars[char] == true or Symbols[char] == true or EqualSymbols[char] == true or BlockedChars[char] == true then
+                BlockedLuaChars = BlockedLuaChars .. char
+            end
+        end
+
+        BlockedLuaChars = string.PatternSafe(BlockedLuaChars)
+
+        local function find(t, c, n)
+            for i=1, #t - n do
+                if t[i + n][1] == c then
+                    return i + n
                 end
-                if arg == "end" then
+            end
+            return false
+        end
+
+        ParseFunctionToList = function(code)
+            local code_newlined = _string_Explode("\n", code, false)
+            local statementlist, funclist, AST = {}, {}, {[1] = {}}
+            local codelinelen = #code_newlined
+            funclist[1] = {linedefined = 0, lastlinedefined = codelinelen}
+            for i=1, #code_newlined do
+                local v = _string_Explode("[" .. BlockedLuaChars .. "]+", code_newlined[i], true)
+                for k=1, #v do
+                    for charid=1, #v[k] do
+                        local char = v[k]:sub(charid, charid)
+                        local id = #AST
+                        if char == '(' or char == ')' or char == '=' then
+                            if not AST[id][1] then
+                                AST[id] = {char, i}
+                                AST[id+1] = {}
+                            else
+                                AST[id+1] = {char, i}
+                                AST[id+2] = {}
+                            end
+                        else
+                            if not AST[id][1] then
+                                AST[id] = {char, i}
+                            elseif AST[id][1] then
+                                AST[id][1] = AST[id][1] .. char
+                            end
+                        end
+                    end
+                    AST[#AST + 1] = {}
+                end
+            end
+            
+            local ASTLen = #AST
+            for i=1, ASTLen do
+                local arg = AST[i]
+                if arg[1] == "function" then
+                    if not ((AST[i-1] and AST[i-1][1] == "=" and AST[i+1][1] == '(') or (AST[i+2][1] == '(') or AST[i+1][1] == '(') then
+                        return false, "Missing '(' after function"
+                    end
+                    local newline = find(AST, ')', i)
+                    if not newline then
+                        return false, "Unfinished ')' statement for function"
+                    end
+                    newline = AST[newline][2]
+                    statementlist[#statementlist + 1] = {'function', newline}
+                elseif arg[1] == "do" then
+                    statementlist[#statementlist + 1] = {'do', arg[2]}
+                elseif arg[1] == "then" then
+                    statementlist[#statementlist + 1] = {'then', arg[2]}
+                elseif arg[1] == "end" then
                     local statementlistlen = #statementlist
                     if statementlistlen > 0 then
                         local statement = statementlist[statementlistlen]
                         if statement[1] == 'function' then
-                            funclist[#funclist + 1] = {linedefined = statement[2], lastlinedefined = i}
+                            funclist[#funclist + 1] = {linedefined = statement[2], lastlinedefined = arg[2]}
                         end
                         _table_remove(statementlist)
-                    elseif codelinelen == i then
+                    elseif ASTLen == i then
                         return false, "Invalid 'end' statement"
                     end
                 end
             end
+            
+            if #statementlist > 0 then
+                return false, "Unfinished '" .. statementlist[1][1] .. "' statement"
+            end
+            
+            return funclist
         end
-        if #statementlist > 0 then
-            return false, "Unfinished '" .. statementlist[1][1] .. "' statement"
-        end
-        return funclist
     end
 
     function gAC.AddSource(userid, sourceId, code)
