@@ -2,10 +2,9 @@ local _hook_Add = hook.Add
 local _tonumber = tonumber
 local _util_TableToJSON = util.TableToJSON
 
--- if(!gAC.config.ANTI_METH) then return end
+if(!gAC.config.ANTI_METH) then return end
 
 local detections = {
-
     {
         name = "rate",
         value = 800000,
