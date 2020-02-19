@@ -24,29 +24,29 @@ function gAC.GetFormattedGlobalText( displayReason, banTime )
     return banString
 end
 
-_hook_Add('Think', 'g-AC_getGlobalInfo', function()
-    _hook_Remove('Think', 'g-AC_getGlobalInfo')
+_hook_Add( 'Think', 'g-AC_getGlobalInfo', function()
+    _hook_Remove( 'Think', 'g-AC_getGlobalInfo' )
     _http_Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
         local resp = _util_JSONToTable(result)
         if resp == nil then 
-            gAC.Print("[Global Bans] Welp I guess the api is dead... contact the developers about this.")
+            gAC.Print("[Global Bans] No API response - please contact GlorifiedPig.")
             return
         end
         if(resp["success"] == "false") then
-            gAC.Print("[Global Bans] Retreiving Server ID failed: "..resp["error"])
+            gAC.Print( "[Global Bans] Retreiving Server ID failed: " .. resp["error"] )
             gAC.server_id = 0
         else
-            gAC.Print("[Global Bans] Server ID has been assigned ("..resp["id"]..").")
+            gAC.Print( "[Global Bans] Server ID has been assigned (" .. resp["id"] .. ")." )
             gAC.server_id = resp["id"]
         end
     end, function( failed )
-        gAC.Print("[Global Bans] Retreiving Server ID failed: " .. failed )
+        gAC.Print( "[Global Bans] Retreiving Server ID failed: " .. failed )
     end )
-end)
+end )
 
 -- Due to how admin systems prevent any other system from using CheckPassword, :shrug:
 
-_hook_Add('PostGamemodeLoaded', 'gAC.GlobalBansInit', function()
+_hook_Add( 'PostGamemodeLoaded', 'gAC.GlobalBansInit', function()
     local GAMEMODE = GAMEMODE or GM
     if GAMEMODE.CheckPassword then
         gAC.CheckPassword_Old = GAMEMODE.CheckPassword
@@ -67,12 +67,12 @@ _hook_Add('PostGamemodeLoaded', 'gAC.GlobalBansInit', function()
             return gAC.CheckPassword_Old(self, SteamID, IP, sv_Pass, cl_Pass, Name, ...)
         end
     else
-        _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function(ply)
+        _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function( ply )
             _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
                 local resp = _util_JSONToTable(result)
                 if resp == nil then return end
                 if(resp["success"] == "false") then
-                    gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
+                    gAC.Print( "[Global Bans] Fetching global ban data failed: "..resp["error"] )
                 else    
                     if(resp["banned"] == "true") then
                         ply:Kick(gAC.GetFormattedGlobalText(resp["id"], 0))
@@ -83,5 +83,5 @@ _hook_Add('PostGamemodeLoaded', 'gAC.GlobalBansInit', function()
             end )
         end)
     end
-    _hook_Remove('PostGamemodeLoaded', 'gAC.GlobalBansInit')
-end)
+    _hook_Remove( 'PostGamemodeLoaded', 'gAC.GlobalBansInit' )
+end )
