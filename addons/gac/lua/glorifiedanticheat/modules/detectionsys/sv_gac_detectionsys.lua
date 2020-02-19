@@ -9,6 +9,13 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     gAC.Print( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. ") -> " .. displayReason )
     gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
 
+    local punishmentT = 0
+    if shouldPunish == 1 then
+        punishmentT = banTime
+    else
+        punishmentT = -2
+    end
+
     _http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
         local resp = util.JSONToTable(result)
         if resp == nil then return end
@@ -31,13 +38,6 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
         gAC.AddBan( ply, displayReason, banTime )
     elseif( banTime == -1 ) then
         gAC.Kick( ply, displayReason )
-    end
-
-    local punishmentT = 0
-    if shouldPunish == 1 then
-        punishmentT = banTime
-    else
-        punishmentT = -2
     end
 end
 
