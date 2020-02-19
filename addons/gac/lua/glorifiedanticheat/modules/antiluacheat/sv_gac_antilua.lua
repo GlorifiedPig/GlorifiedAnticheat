@@ -304,8 +304,10 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     local _util_TableToJSON = util.TableToJSON
     local _debug_getregistry = debug.getregistry
     local _file_Exists = file.Exists
+    local _string_Explode = string.Explode
     local _file_CreateDir = file.CreateDir
     local _string_lower = string.lower
+    local _table_remove = table.remove
     
     if !gAC.config.AntiLua_CHECK then return end
 
@@ -346,17 +348,74 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
     --[[
         Adds new sources to LuaSession, keeping track of all lua compiled code executed.
     ]]
+    
+
+    --[[
+        do > end
+        then > end
+        function > end
+
+        An artificial way to parse code into function lists.
+    ]]
+    local function ParseFunctionToList(code)
+        local code_newlined = _string_Explode("\n", code, false)
+        local statementlist, funclist = {}, {}
+        local codelinelen = #code_newlined
+        funclist[1] = {linedefined = 1, lastlinedefined = codelinelen}
+        for i=1, #code_newlined do
+            local v = code_newlined[i]
+            v = _string_Explode("[\t\r ]+", v, true)
+            for k=1, #v do
+                local arg = v[k]
+                if arg == "function" then
+                    statementlist[#statementlist + 1] = {'function', i}
+                elseif arg == "do" then
+                    statementlist[#statementlist + 1] = {'do', i}
+                elseif arg == "then" then
+                    statementlist[#statementlist + 1] = {'then', i}
+                end
+                if arg == "end" then
+                    local statementlistlen = #statementlist
+                    if statementlistlen > 0 then
+                        local statement = statementlist[statementlistlen]
+                        if statement[1] == 'function' then
+                            funclist[#funclist + 1] = {linedefined = statement[2], lastlinedefined = i}
+                        end
+                        _table_remove(statementlist)
+                    elseif codelinelen == i then
+                        return false, "Invalid 'end' statement"
+                    end
+                end
+            end
+        end
+        if #statementlist > 0 then
+            return false, "Unfinished '" .. statementlist[1][1] .. "' statement"
+        end
+        return funclist
+    end
+
     function gAC.AddSource(userid, sourceId, code)
         if gAC.config.AntiLua_FunctionVerification then
-            local func, err = _CompileString(code, sourceId .. ".AddSource", false)
-            if !func or _isstring(func) then
-                return
+            if gAC.config.AntiLua_FunctionVerificationArtificial then
+                local funclist, err = ParseFunctionToList(code)
+                if not funclist then
+                    gAC.LuaSession[userid][sourceId] = true
+                    gAC.Print("[AntiLua] WARNING: Session source addition for '" .. sourceId .. "'(" .. userid .. ") failed '" .. err .. "', switching to source verification")
+                end
+                gAC.LuaSession[userid][sourceId] = {
+                    funclist = funclist
+                }
+            else
+                local func, err = _CompileString(code, sourceId .. ".AddSource", false)
+                if !func or _isstring(func) then
+                    return
+                end
+                local dump = _string_dump(func)
+                local funclist = ByteCode.DumpToFunctionList(dump)
+                gAC.LuaSession[userid][sourceId] = {
+                    funclist = funclist
+                }
             end
-            local dump = _string_dump(func)
-            local funclist = ByteCode.DumpToFunctionList(dump)
-            gAC.LuaSession[userid][sourceId] = {
-                funclist = funclist
-            }
         else
             gAC.LuaSession[userid][sourceId] = true
         end
@@ -413,7 +472,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
             end
             for k=1, #funclist do
                 local v = funclist[k]
-                if v.lastlinedefined == funcinfo.lastlinedefined and v.linedefined == funcinfo.linedefined and (ProtoCheck == true and v.proto == funcinfo.proto or true) then
+                if v.lastlinedefined == funcinfo.lastlinedefined and v.linedefined == funcinfo.linedefined and (ProtoCheck == true and (v.proto and v.proto == funcinfo.proto or true) or true) then
                     return true
                 end
             end

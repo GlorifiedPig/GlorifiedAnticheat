@@ -185,6 +185,10 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         -- However this works at a cost of some small amounts of CPU usage server-side.
         -- Verification only checks functions based on their line definitions.
         gAC.config.AntiLua_FunctionVerification = true
+        
+        -- Uses a lua based method of compiling so that the lua stack isn't filled with compiles
+        -- This can be less lua intensive as we are not truely compiling code for checks
+        gAC.config.AntiLua_FunctionVerificationArtificial = true
 
         -- Same as above however even further in depth by using a special method of function hashing
         -- WARNING: This has been proven not to work in special cases, please do not turn this on.
