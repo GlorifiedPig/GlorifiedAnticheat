@@ -334,7 +334,7 @@ _hook_Add("gAC.IncludesLoaded", "gAC.AntiLua", function() -- this is for the DRM
         if defined source is not in the cache then it's not created by the server.
     ]]
     function gAC.VerifyLuaSource(funcinfo, userid)
-        if funcinfo.source == gAC.CacheVersionIndex then
+        if funcinfo.source == gAC.CacheVersionIndex and !gAC.LuaSession[userid][funcinfo.source] then
             return false
         end
         if !gAC.LuaFileCache[funcinfo.source] && !gAC.LuaSession[userid][funcinfo.source] then
