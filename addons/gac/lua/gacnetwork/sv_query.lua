@@ -283,8 +283,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
+        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
-            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
@@ -332,8 +332,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
+        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
-            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
