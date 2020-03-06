@@ -87,6 +87,7 @@ local DecoderUnloaderIndex = -1
 _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
     if DecoderUnloaderIndex > 0 then
         gAC.FileQuery[#gAC.FileQuery] = nil
+        DecoderUnloaderIndex = 0
     end
     for k=1, #gAC.FileQuery do
         local data = gAC.FileQuery[k]
@@ -205,6 +206,7 @@ do
         if !DRM_AllisLoaded() then return end
         if DecoderUnloaderIndex > 0 then
             gAC.FileQuery[#gAC.FileQuery] = nil
+            DecoderUnloaderIndex = 0
         end
 
         for i=1, #SVFileData do
@@ -283,8 +285,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
+            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
@@ -332,8 +334,8 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        LoadIndexRequested[Index] = 1
         local function DRM_HTTP()
+            LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
