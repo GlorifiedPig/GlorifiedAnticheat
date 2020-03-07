@@ -345,7 +345,8 @@ function gAC.Encoder.Encode(data, key)
 				CanContinue = false 
 			end
 			if CanContinue then
-				encode[#encode + 1] = bxor(_string_byte(data:sub(i, i)), key[key_dir] % 255, (data_len * key_len) % 255)
+				--encode[#encode + 1] = bxor(_string_byte(data:sub(i, i)), key[key_dir] % 255, (data_len * key_len) % 255)
+				encode[#encode + 1] = (_string_byte(data:sub(i, i)) * (key[key_dir] % 255) * ((data_len * key_len) % 255))
 			end
 		end
 		if key_dir == key_len then
@@ -366,7 +367,8 @@ function(data)
 		key_dir = key_dir + 1
 		local v = data[i]
 		if v .. '' ~= v then
-			decode = decode .. __CHAR( __XOR(v, key[key_dir] % 255, (data_len * key_len) % 255) )
+			--decode = decode .. __CHAR( __XOR(v, key[key_dir] % 255, (data_len * key_len) % 255) )
+			decode = decode .. __CHAR( v/((data_len * key_len) % 255)/(key[key_dir] % 255) )
 		else
 			decode = decode .. v
 		end
@@ -377,29 +379,29 @@ function(data)
     return decode
 end
 ]]
-gAC.Encoder.Decoder_Func = [[function(if⁪⁪‪﻿)local
-while⁪⁪‪=__EXTK
+gAC.Encoder.Decoder_Func = [[function(break﻿⁪⁭﻿)local
+not⁪⁮⁪=__EXTK
 local
-﻿,‪⁪⁭local,⁮﻿⁪﻿in,do⁮⁭='',0,#if⁪⁪‪﻿,#while⁪⁪‪
+⁪⁮⁮⁭for,﻿‪⁭‪not,⁪⁭⁭⁪break,⁪end='',0,#break﻿⁪⁭﻿,#not⁪⁮⁪
 for
-for⁭=1,⁮﻿⁪﻿in
+⁮⁪function=1,⁪⁭⁭⁪break
 do
-‪⁪⁭local=‪⁪⁭local+1
+﻿‪⁭‪not=﻿‪⁭‪not+1
 local
-and⁭⁪⁭=if⁪⁪‪﻿[for⁭]if
-and⁭⁪⁭..''~=and⁭⁪⁭
+repeat⁮⁭⁭=break﻿⁪⁭﻿[⁮⁪function]if
+repeat⁮⁭⁭..''~=repeat⁮⁭⁭
 then
-﻿=﻿..__CHAR(__XOR(and⁭⁪⁭,while⁪⁪‪[‪⁪⁭local]%255,(⁮﻿⁪﻿in*do⁮⁭)%255))else
-﻿=﻿..and⁭⁪⁭
+⁪⁮⁮⁭for=⁪⁮⁮⁭for..__CHAR(repeat⁮⁭⁭/((⁪⁭⁭⁪break*⁪end)%255)/(not⁪⁮⁪[﻿‪⁭‪not]%255))else
+⁪⁮⁮⁭for=⁪⁮⁮⁭for..repeat⁮⁭⁭
 end
 if
-‪⁪⁭local==do⁮⁭
+﻿‪⁭‪not==⁪end
 then
-‪⁪⁭local=0
+﻿‪⁭‪not=0
 end
 end
 return
-﻿
+⁪⁮⁮⁭for
 end]]
 
 gAC.Network = gAC.Network or {}
