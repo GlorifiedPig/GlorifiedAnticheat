@@ -121,6 +121,14 @@ end)
 
 do
     local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'gac'
+
+    local function hookremove(Hook, Index)
+        local tbl = hook.GetTable()
+        if tbl[Hook] and tbl[Hook][Index] then
+            _hook_Remove(Hook, Index)
+            tbl[Hook][Index] = nil
+        end
+    end
     
     local CalledDRM, RunFunc = false, function() end
     local CheckDetours = function(func)
@@ -286,6 +294,7 @@ do
             CalledDRM = true
         end
         local function DRM_HTTP()
+            hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
@@ -315,14 +324,13 @@ do
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
                     _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
                     LoadIndexRequested[Index] = 4
+                    DRM_InitalizeEncoding()
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
                     _timer_Simple(3, DRM_HTTP)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-                DRM_InitalizeEncoding()
             end )
-            _hook_Remove(Hook, Index)
         end
         _hook_Add(Hook, Index, DRM_HTTP)
     end
@@ -335,6 +343,7 @@ do
             CalledDRM = true
         end
         local function DRM_HTTP()
+            hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
@@ -364,14 +373,13 @@ do
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
                     _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
                     LoadIndexRequested[Index] = 4
+                    DRM_InitalizeEncoding()
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
                     _timer_Simple(3, DRM_HTTP)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-                DRM_InitalizeEncoding()
             end )
-            _hook_Remove(Hook, Index)
         end
         _hook_Add(Hook, Index, DRM_HTTP)
     end
