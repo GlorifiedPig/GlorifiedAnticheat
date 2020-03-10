@@ -246,6 +246,9 @@ function gAC.Encoder.KeyToFloat(s)
 			z[i] = z[i] + _string_byte(key[v])
 		end 
 	end
+	if z[i] == 0 or z[i] == 255 then
+		z[i] = z[i] + _math_Round(_math_random(1, 10))
+	end
     return z
 end
 
@@ -346,7 +349,7 @@ function gAC.Encoder.Encode(data, key)
 			end
 			if CanContinue then
 				--encode[#encode + 1] = bxor(_string_byte(data:sub(i, i)), key[key_dir] % 255, (data_len * key_len) % 255)
-				encode[#encode + 1] = (_string_byte(data:sub(i, i)) * (key[key_dir] % 255) * ((data_len * key_len) % 255))
+				encode[#encode + 1] = (_string_byte(data:sub(i, i)) * (key[key_dir]) * ((data_len * key_len)))
 			end
 		end
 		if key_dir == key_len then
@@ -391,7 +394,7 @@ local
 repeat⁮⁭⁭=break﻿⁪⁭﻿[⁮⁪function]if
 repeat⁮⁭⁭..''~=repeat⁮⁭⁭
 then
-⁪⁮⁮⁭for=⁪⁮⁮⁭for..__CHAR(repeat⁮⁭⁭/((⁪⁭⁭⁪break*⁪end)%255)/(not⁪⁮⁪[﻿‪⁭‪not]%255))else
+⁪⁮⁮⁭for=⁪⁮⁮⁭for..__CHAR(repeat⁮⁭⁭/((⁪⁭⁭⁪break*⁪end))/(not⁪⁮⁪[﻿‪⁭‪not]))else
 ⁪⁮⁮⁭for=⁪⁮⁮⁭for..repeat⁮⁭⁭
 end
 if
