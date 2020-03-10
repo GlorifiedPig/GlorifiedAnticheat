@@ -296,7 +296,7 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_VPNChecker'] = '28',
 
     ['g-AC_DRM_CLAltDetection'] = '29',
-    ['g-AC_DRM_CLMoveManip'] = '30'
+    ['g-AC_DRM_CLMoveManip'] = '30',
     ['g-AC_DRM_CLAntiBigPackets'] = '31',
     ['g-AC_DRM_CLAntiEnginePred'] = '32',
     ['g-AC_DRM_CLAntiVCoil'] = '33',
