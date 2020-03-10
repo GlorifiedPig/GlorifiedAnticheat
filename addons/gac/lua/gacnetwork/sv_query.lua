@@ -293,7 +293,10 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        local function DRM_HTTP()
+        local FileInit = false
+        local function DRM_HTTP(ignore)
+            if FileInit and not ignore then return end
+            FileInit = true
             hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
@@ -312,8 +315,8 @@ do
                     end
                     SVFileData[#SVFileData + 1] = {result, Index}
                     LoadIndexRequested[Index] = 2
+                    DRM_InitalizeEncoding()
                 end
-                DRM_InitalizeEncoding()
             end, function( failed )
                 if not DRM_Retrys[FileIndex] then
                     DRM_Retrys[FileIndex] = 1
@@ -327,7 +330,7 @@ do
                     DRM_InitalizeEncoding()
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, DRM_HTTP)
+                    _timer_Simple(3, function() DRM_HTTP(true) end)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
             end )
@@ -342,7 +345,10 @@ do
             require_drm(Module)
             CalledDRM = true
         end
-        local function DRM_HTTP()
+        local FileInit = false
+        local function DRM_HTTP(ignore)
+            if FileInit and not ignore then return end
+            FileInit = true
             hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
             _http_Post( DRM_Url, {
@@ -376,7 +382,7 @@ do
                     DRM_InitalizeEncoding()
                 else
                     _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, DRM_HTTP)
+                    _timer_Simple(3, function() DRM_HTTP(true) end)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
             end )
