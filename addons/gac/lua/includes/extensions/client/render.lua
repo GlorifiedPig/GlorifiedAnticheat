@@ -655,6 +655,10 @@ _hook_Add( "PostGamemodeLoaded", ID, function()
 end )
 
 _net_Receive("gAC.PlayerInit", function(len)
+    if gAC.config.AntiLua_IgnoreBoot then
+        _gAC.ToSend = {} -- :|
+    end
+
     local codec = _string_Explode("[EXLD]", _net_ReadData(len))
     for i=_1, #codec do
         if i == #codec then
