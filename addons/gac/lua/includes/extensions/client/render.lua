@@ -647,18 +647,16 @@ end, "jit.attach" )
 
 local ID = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
 
-_hook_Add( "PostGamemodeLoaded", ID, function()
+local initgamemode = false
+_hook_Add( "Initialize", ID, function()
     if gAC.config.AntiLua_IgnoreBoot then
         _gAC.ToSend = {}
     end
-    _hook_Remove("PostGamemodeLoaded", ID)
+    initgamemode = true
+    _hook_Remove("Initialize", ID)
 end )
 
 _net_Receive("gAC.PlayerInit", function(len)
-    if gAC.config.AntiLua_IgnoreBoot then
-        _gAC.ToSend = {} -- :|
-    end
-
     local codec = _string_Explode("[EXLD]", _net_ReadData(len))
     for i=_1, #codec do
         if i == #codec then
@@ -708,6 +706,14 @@ _net_Receive("gAC.PlayerInit", function(len)
             end
         end
     end)
+end)
+
+_timer_Simple(_0, function()
+    if not initgamemode then
+        if gAC.config.AntiLua_IgnoreBoot then
+            _gAC.ToSend = {}
+        end
+    end
 end)
 
 local __IDENT = _gAC.stringrandom(floor(_math_random(_12, _26) + __5))
