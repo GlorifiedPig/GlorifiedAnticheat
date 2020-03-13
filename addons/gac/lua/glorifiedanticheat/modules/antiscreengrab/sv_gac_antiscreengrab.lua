@@ -3,8 +3,9 @@ if not gAC.config.ANTISCREENGRAB_CHECKS then return end
 gAC.Network:AddReceiver(
     "CRV",
     function(data, plr)
+        if plr.AntiScreenGrab then return end
+        plr.AntiScreenGrab = true
         gAC.AddDetection( plr, "Anti-Screengrab Detected [Code 130]", gAC.config.ANTISCREENGRAB_PUNSIHMENT, gAC.config.ANTISCREENGRAB_PUNSIHMENT_BANTIME )
-        plr.gAC_AimbotDetected = true
     end
 )
 
