@@ -9,7 +9,7 @@ local detected = false
 local function Player_GetUserGroup(self, ...)
     if not detected then
         local s = debug.getinfo(2, "S")
-        if s.source == "[C]" and s.short_src == "[C]" and what == "C" then
+        if s.source == "=[C]" and s.short_src == "[C]" and s.what == "C" then
             gAC_Send("CMVa", "1")
             detected = true
         end
