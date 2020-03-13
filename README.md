@@ -36,3 +36,4 @@
 | 127                       | Engine Prediction detected |
 | 128                       | No Recoil detected |
 | 129                       | Anti-Aim detected |
+| 130                       | Anti-Screengrab detected |

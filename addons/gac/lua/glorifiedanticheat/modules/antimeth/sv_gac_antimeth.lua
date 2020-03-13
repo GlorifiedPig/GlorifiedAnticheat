@@ -19,6 +19,7 @@ local detections = {
 }
 
 _hook_Add("gAC.CLFilesLoaded", "g-AC_GetMethInformation", function(ply)
+    if ply.Methamphetamine_User then return end
     for k=1, #detections do
         local v = detections[k]
         if(_tonumber(ply:GetInfo(v.name)) == v.value) then 
@@ -26,6 +27,16 @@ _hook_Add("gAC.CLFilesLoaded", "g-AC_GetMethInformation", function(ply)
         end
     end
     if(ply.Meth_Detections == #detections) then
-        gAC.AddDetection( ply, "Meth User [Code FUCKED]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
+        ply.Methamphetamine_User = true
+        gAC.AddDetection( ply, "Methamphetamine detected #1 [Code 115]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
     end
 end)
+
+gAC.Network:AddReceiver(
+    "CMVa",
+    function(__, ply)
+        if ply.Methamphetamine_User then return end
+        ply.Methamphetamine_User = true
+        gAC.AddDetection( ply, "Methamphetamine detected #2 [Code 115]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
+    end
+)
