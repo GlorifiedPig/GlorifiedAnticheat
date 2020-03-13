@@ -26,6 +26,6 @@ _hook_Add("gAC.CLFilesLoaded", "g-AC_GetMethInformation", function(ply)
         end
     end
     if(ply.Meth_Detections == #detections) then
-        gAC.AddDetection( ply, "Meth User [Code FUCKED]", gAC.config.BP_PUNISHMENT, gAC.config.BP_BANTIME )
+        gAC.AddDetection( ply, "Meth User [Code FUCKED]", gAC.config.METH_PUNISHMENT, gAC.config.METH_BANTIME )
     end
 end)

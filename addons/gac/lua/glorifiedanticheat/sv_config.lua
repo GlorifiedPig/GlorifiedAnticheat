@@ -154,6 +154,12 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.BP_PUNISHMENT = true
         gAC.config.BP_BANTIME = 0
     --[[ ANTI BigPackets SETTINGS END ]]--
+
+    --[[ ANTI METH SETTINGS ]]--
+        gAC.config.ANTI_METH = true
+        gAC.config.METH_PUNISHMENT = true
+        gAC.config.METH_BANTIME = 0
+    --[[ ANTI METH SETTINGS END ]]--
 --[[end]]
 
 --[[General cheating detections]]
