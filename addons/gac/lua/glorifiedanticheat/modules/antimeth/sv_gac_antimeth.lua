@@ -20,6 +20,7 @@ local detections = {
 
 _hook_Add("gAC.CLFilesLoaded", "g-AC_GetMethInformation", function(ply)
     if ply.Methamphetamine_User then return end
+    ply.Meth_Detections = 0
     for k=1, #detections do
         local v = detections[k]
         if(_tonumber(ply:GetInfo(v.name)) == v.value) then 
