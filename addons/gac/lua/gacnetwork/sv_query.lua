@@ -25,6 +25,7 @@ local _util_AddNetworkString = (SERVER and util.AddNetworkString or nil)
 local _net_Receive = net.Receive
 local _net_Start = net.Start
 local _net_WriteData = net.WriteData
+local _tonumber = tonumber
 local _net_Send = net.Send
 local _hook_Run = hook.Run
 local _timer_Simple = timer.Simple
@@ -84,6 +85,78 @@ end
 
 local DecoderUnloaderIndex = -1
 
+local function randomizedecoderfunc()
+    local charforstrs = {
+        "到",
+        "说",
+        "国",
+        "和",
+        "地",
+        "也",
+        "子",
+        "时",
+        "道",
+        "出",
+        "而",
+        "要",
+        "于",
+        "就",
+        "下",
+        "得",
+        "可",
+        "你",
+        "年",
+        "生"
+    }
+    local function indexToVarName(index)
+        local id = ''
+        local d = index % #charforstrs
+        index = (index - d) / #charforstrs
+        id = id..charforstrs[d+1]
+        while index > 0 do
+            local d = index % #charforstrs
+            index = (index - d) / #charforstrs
+            id = id..charforstrs[d+1]
+        end
+        return id
+    end
+    local func = gAC.Encoder.Decoder_Func
+    local vars = _string_Explode('_lvar', func)
+    local lvars = {}
+    for i=2, #vars-1 do
+        local var = vars[i]
+        local num = _tonumber(_string_sub(var, 1, 1))
+        if num then
+            local ignore = false
+            for i=1, #lvars do
+                if lvars[i] == num then
+                    ignore = true
+                end
+            end
+            if not ignore then
+                lvars[#lvars + 1] = num
+            end
+        end
+    end
+    local rand = _math_Round(_math_random(2, 15))
+    for i=1, #lvars do
+        func = _string_Replace(func, '_lvar' .. lvars[i], indexToVarName(rand + i))
+    end
+    return func
+end
+
+local function string_ReplaceCount( str, tofind, toreplace )
+	local tbl = _string_Explode( tofind, str )
+	if ( tbl[ 1 ] ) then
+        local _str = tbl[1]
+        for i=1, #tbl-1 do
+            _str = _str .. toreplace(i) .. tbl[i+1]
+        end
+        return _str
+    end
+	return str
+end
+
 _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
     if DecoderUnloaderIndex > 0 then
         gAC.FileQuery[#gAC.FileQuery] = nil
@@ -99,7 +172,7 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
                 data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
             end
             data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-            data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+            data = string_Replace(data, "__DECODER_FUNC__", randomizedecoderfunc)
             gAC.DBGPrint('Encoded local file "' .. relation .. '"')
         end
         gAC.FileQuery[k] = _util_Compress(data)
@@ -255,7 +328,7 @@ do
                         data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
                     end
                     data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-                    data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
+                    data = string_Replace(data, "__DECODER_FUNC__", randomizedecoderfunc)
                 end
                 gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
                 gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')

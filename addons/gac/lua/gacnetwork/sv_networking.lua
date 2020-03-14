@@ -382,29 +382,29 @@ function(data)
     return decode
 end
 ]]
-gAC.Encoder.Decoder_Func = [[function(break﻿⁪⁭﻿)local
-not⁪⁮⁪=__EXTK
+gAC.Encoder.Decoder_Func = [[function(_lvar1)local
+_lvar2=__EXTK
 local
-⁪⁮⁮⁭for,﻿‪⁭‪not,⁪⁭⁭⁪break,⁪end='',0,#break﻿⁪⁭﻿,#not⁪⁮⁪
+_lvar3,_lvar4,_lvar5,_lvar6='',0,#_lvar1,#_lvar2
 for
-⁮⁪function=1,⁪⁭⁭⁪break
+_lvar7=1,_lvar5
 do
-﻿‪⁭‪not=﻿‪⁭‪not+1
+_lvar4=_lvar4+1
 local
-repeat⁮⁭⁭=break﻿⁪⁭﻿[⁮⁪function]if
-repeat⁮⁭⁭..''~=repeat⁮⁭⁭
+_lvar8=_lvar1[_lvar7]if
+_lvar8..''~=_lvar8
 then
-⁪⁮⁮⁭for=⁪⁮⁮⁭for..__CHAR(repeat⁮⁭⁭/((⁪⁭⁭⁪break*⁪end))/(not⁪⁮⁪[﻿‪⁭‪not]))else
-⁪⁮⁮⁭for=⁪⁮⁮⁭for..repeat⁮⁭⁭
+_lvar3=_lvar3..__CHAR(_lvar8/((_lvar5*_lvar6)%255)/(_lvar2[_lvar4]%255))else
+_lvar3=_lvar3.._lvar8
 end
 if
-﻿‪⁭‪not==⁪end
+_lvar4==_lvar6
 then
-﻿‪⁭‪not=0
+_lvar4=0
 end
 end
 return
-⁪⁮⁮⁭for
+_lvar3
 end]]
 
 gAC.Network = gAC.Network or {}
