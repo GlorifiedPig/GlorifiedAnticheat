@@ -31,6 +31,9 @@ local _hook_Run = hook.Run
 local _timer_Simple = timer.Simple
 local _string_Explode = string.Explode
 local _hook_Remove = hook.Remove
+local _math_Round = math.Round
+local _string_char = string.char
+local _math_random = math.random
 
 gAC.FileQuery = gAC.FileQuery or {}
 gAC.FileRelation = gAC.FileRelation or {}
@@ -44,9 +47,6 @@ if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
         gAC.NetworkReceivers[#gAC.NetworkReceivers + 1] = {channelName, handler}
     end
 
-    local _math_Round = math.Round
-    local _string_char = string.char
-    local _math_random = math.random
     function gAC.Encoder.stringrandom(length)
         local str = ""
         for i = 1, length do
