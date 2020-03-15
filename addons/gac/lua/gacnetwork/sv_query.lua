@@ -29,6 +29,7 @@ local _tonumber = tonumber
 local _net_Send = net.Send
 local _hook_Run = hook.Run
 local _timer_Simple = timer.Simple
+local _string_Explode = string.Explode
 local _hook_Remove = hook.Remove
 
 gAC.FileQuery = gAC.FileQuery or {}
