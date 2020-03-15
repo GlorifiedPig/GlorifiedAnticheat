@@ -394,7 +394,7 @@ local
 _lvar8=_lvar1[_lvar7]if
 _lvar8..''~=_lvar8
 then
-_lvar3=_lvar3..__CHAR(_lvar8/((_lvar5*_lvar6)%255)/(_lvar2[_lvar4]%255))else
+_lvar3=_lvar3..__CHAR(_lvar8/((_lvar5*_lvar6))/(_lvar2[_lvar4]))else
 _lvar3=_lvar3.._lvar8
 end
 if
