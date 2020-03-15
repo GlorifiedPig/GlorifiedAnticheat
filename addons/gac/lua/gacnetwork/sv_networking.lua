@@ -382,7 +382,7 @@ function(data)
     return decode
 end
 ]]
-gAC.Encoder.Decoder_Func = [[function(_lvar1)local
+gAC.Encoder.Decoder_Func = [[(function(_lvar1)local
 _lvar2=__EXTK
 local
 _lvar3,_lvar4,_lvar5,_lvar6='',0,#_lvar1,#_lvar2
@@ -405,7 +405,7 @@ end
 end
 return
 _lvar3
-end]]
+end)]]
 
 gAC.Network = gAC.Network or {}
 gAC.Network.ReceiveCount = 0
