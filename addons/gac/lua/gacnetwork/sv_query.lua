@@ -295,7 +295,7 @@ do
             local v = SVFileData[i]
             local stat, err = RunFunc(v[1], v[2])
             if stat == false then
-                _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                _print("[GlorifiedDRM] Execution error for file '" .. v[2] .. "'")
                 _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
                 LoadIndexRequested[v[2]] = 5
             else
@@ -314,7 +314,7 @@ do
                 local stat, err = RunFunc(v[1], v[2])
                 gAC.DRMAddCLCode = nil
                 if stat == false then
-                    _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
+                    _print("[GlorifiedDRM] Execution error for file '" .. v[2] .. "'")
                     _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
                     LoadIndexRequested[v[2]] = 5
                     clcode = nil
