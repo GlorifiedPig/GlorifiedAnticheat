@@ -8,7 +8,7 @@ local _string_char = string.char
 local _render_Capture = (CLIENT and render.Capture or nil)
 -- Anthony, FFF, NiceCream - Anti Screengrab
 local function floor(number)
-    return number - (number % _1)
+    return number - (number % 1)
 end
 
 local function stringrandom(length)
