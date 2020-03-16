@@ -1,3 +1,4 @@
+local _hook_Add = hook.Add
 if not gAC.config.ANTISCREENGRAB_CHECKS then return end
 
 gAC.Network:AddReceiver(
