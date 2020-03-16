@@ -154,6 +154,13 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         gAC.config.BP_PUNISHMENT = true
         gAC.config.BP_BANTIME = 0
     --[[ ANTI BigPackets SETTINGS END ]]--
+
+	--[[ ANTI METH SETTINGS ]]--
+        gAC.config.ANTI_METH = true
+        gAC.config.METH_PUNISHMENT = true
+        gAC.config.METH_BANTIME = 0
+    --[[ ANTI METH SETTINGS END ]]--
+
 --[[end]]
 
 --[[General cheating detections]]
@@ -251,7 +258,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
 
     gAC.config.ENABLE_FAMILY_SHARE_CHECKS = false -- Whether or not to check if the player is using a family shared account.
 
-    gAC.config.FAMILY_SHARE_PUNISHMENT = false -- Set to 'true' if you want using a family shared account to be punishable. 
+    gAC.config.FAMILY_SHARE_PUNISHMENT = false -- Set to 'true' if you want using a family shared account to be punishable.
     gAC.config.FAMILY_SHARE_BANTIME = -1 -- Set to '0' for permban, '-1' for kick and anything above for ban time in minutes.
     --[[ FAMILY SHARING CHECK END ]]--
 --[[end]]
@@ -304,7 +311,7 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CLCvarManip'] = '35',
     ['g-AC_DRM_CLNotifications'] = '36',
     ['g-AC_DRM_CLVerify'] = '37',
-	
+
 	['g-AC_DRM_AntiMeth'] = '38',
 	['g-AC_DRM_CLAntiMeth'] = '39'
 }
