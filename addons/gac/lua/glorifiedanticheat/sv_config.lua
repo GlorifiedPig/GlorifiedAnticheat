@@ -208,6 +208,12 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         -- However if code is compiled before the gamemode posts, it may cause false detections.
     --[[ Lua Execution End]]
 
+    --[[ ANTI Screengrab SETTINGS ]]--
+        gAC.config.ANTISCREENGRAB_CHECKS = true
+        gAC.config.ANTISCREENGRAB_PUNSIHMENT = true
+        gAC.config.ANTISCREENGRAB_PUNSIHMENT_BANTIME = 0
+    --[[ ANTI Aim SETTINGS END ]]--
+
     --[[ ANTI Aim SETTINGS ]]--
         -- WARNING, This detection is untested!
         gAC.config.ANTI_ANTIAIM = false
@@ -301,6 +307,8 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_UniquePData'] = '26',
     ['g-AC_DRM_Verify'] = '27',
     ['g-AC_DRM_VPNChecker'] = '28',
+    ['g-AC_DRM_AntiMeth'] = '38',
+    ['g-AC_DRM_AntiScreenGrab'] = '',
 
     ['g-AC_DRM_CLAltDetection'] = '29',
     ['g-AC_DRM_CLMoveManip'] = '30',
@@ -311,7 +319,6 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CLCvarManip'] = '35',
     ['g-AC_DRM_CLNotifications'] = '36',
     ['g-AC_DRM_CLVerify'] = '37',
-
-	['g-AC_DRM_AntiMeth'] = '38',
-	['g-AC_DRM_CLAntiMeth'] = '39'
+	['g-AC_DRM_CLAntiMeth'] = '39',
+    ['g-AC_DRM_CLAntiScreenGrab'] = '',
 }
