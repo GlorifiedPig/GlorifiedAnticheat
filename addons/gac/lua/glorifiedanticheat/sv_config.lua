@@ -308,7 +308,7 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_Verify'] = '27',
     ['g-AC_DRM_VPNChecker'] = '28',
     ['g-AC_DRM_AntiMeth'] = '38',
-    ['g-AC_DRM_AntiScreenGrab'] = '',
+    ['g-AC_DRM_AntiScreenGrab'] = '40',
 
     ['g-AC_DRM_CLAltDetection'] = '29',
     ['g-AC_DRM_CLMoveManip'] = '30',
@@ -320,5 +320,5 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_CLNotifications'] = '36',
     ['g-AC_DRM_CLVerify'] = '37',
 	['g-AC_DRM_CLAntiMeth'] = '39',
-    ['g-AC_DRM_CLAntiScreenGrab'] = '',
+    ['g-AC_DRM_CLAntiScreenGrab'] = '41',
 }
