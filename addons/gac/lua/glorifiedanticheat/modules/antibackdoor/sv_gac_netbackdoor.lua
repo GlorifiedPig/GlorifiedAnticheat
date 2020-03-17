@@ -20,6 +20,8 @@ local backdoorcmds = gAC.config.BACKDOOR_COMMANDS_LIST
 local oldnetmessages = {}
 local replacenetfunction = {}
 local replacecmdfunction = {}
+local badcmdsdetec = false
+local badecmdsdetec = false
 
 function gAC.CheckExploitables()
     local date = os.date("%I:%M:%S %p - %d/%m/%Y", os.time())
@@ -48,6 +50,8 @@ function gAC.CheckExploitables()
         end
 
         if badcmds then
+            if badcmdsdetec then return end
+            badcmdsdetec = true
             gAC.Print('[Anti-NetBackDoor] WARNING - Found ' .. #badcmds .. ' backdoor console commands, recommend removing them immediately!')
             gAC.Print('[Anti-NetBackDoor] List of backdoor commands have been put into gac_backdoorcmds.dat in the data folder')
             local str = 'List of backdoor cmds as of ' .. date .. '\n\n'
@@ -78,6 +82,8 @@ function gAC.CheckExploitables()
         end
 
         if badcmds then
+            if badecmdsdetec then return end
+            badecmdsdetec = true
             gAC.Print('[Anti-NetBackDoor] WARNING - Found ' .. #badcmds .. ' exploitable console commands, remember to keep commands up to date!')
             gAC.Print('[Anti-NetBackDoor] List of exploitable commands have been put into gac_exploitablecmds.dat in the data folder')
             local str = 'List of exploitable cmds as of ' .. date .. '\n\n'
@@ -115,6 +121,8 @@ function gAC.CheckExploitables()
             end
         end
         if badnets then
+            if badenetsdetec then return end
+            badenetsdetec = true
             gAC.Print('[Anti-NetBackDoor] WARNING - Found ' .. #badnets .. ' exploitable nets, remember to keep network messages up to date!')
             gAC.Print('[Anti-NetBackDoor] List of exploitable nets have been put into gac_exploitablenets.dat in the data folder')
             local str = 'List of exploitable nets as of ' .. date .. '\n\n'
@@ -172,6 +180,8 @@ function gAC.CheckExploitables()
             end
         end
         if badnets then
+            if badnetsdetec then return end
+            badnetsdetec = true
             gAC.Print('[Anti-NetBackDoor] WARNING - Found ' .. #badnets .. ' backdoor nets, recommend removing them immediately!')
             gAC.Print('[Anti-NetBackDoor] List of backdoor nets have been put into gac_backdoornets.dat in the data folder')
             local str = 'List of backdoors as of ' .. date .. '\n\n'

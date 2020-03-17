@@ -285,7 +285,6 @@ do
     local CLFileData, SVFileData = {}, {}
 
     local function DRM_InitalizeEncoding()
-        if !DRM_AllisLoaded() then return end
         if DecoderUnloaderIndex > 0 then
             gAC.FileQuery[#gAC.FileQuery] = nil
             DecoderUnloaderIndex = 0
@@ -357,112 +356,6 @@ do
             _hook_Run('gAC.DRMInitalized', false)
         end
     end)
-
-    local DRM_Retrys = {}
-
-    function gAC.DRMAdd(Hook, Index)
-        local FileIndex = gAC.DRM_LoadIndexes[Index]
-        if !FileIndex then return end
-        if not CalledDRM then
-            require_drm(Module)
-            CalledDRM = true
-        end
-        local FileInit = false
-        local function DRM_HTTP(ignore)
-            if FileInit and not ignore then return end
-            FileInit = true
-            hookremove(Hook, Index)
-            LoadIndexRequested[Index] = 1
-            --[[_http_Post( DRM_Url, {
-                license = gAC.config.LICENSE,
-                file_ID = FileIndex,
-                addon = "GlorifiedAnticheat"
-            }, function( result )
-                if _string_sub(result, 1, 4) == 'ERR:' then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    _print("[GlorifiedDRM] ERR: " .. result)
-                    LoadIndexRequested[Index] = 4
-                else
-                    if DRM_Retrys[FileIndex] then
-                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
-                    end
-                    SVFileData[#SVFileData + 1] = {result, Index}
-                    LoadIndexRequested[Index] = 2
-                    DRM_InitalizeEncoding()
-                end
-            end, function( failed )
-                if not DRM_Retrys[FileIndex] then
-                    DRM_Retrys[FileIndex] = 1
-                else
-                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
-                end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    LoadIndexRequested[Index] = 4
-                    DRM_InitalizeEncoding()
-                else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, function() DRM_HTTP(true) end)
-                end
-                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-            end )--]]
-        end
-        _hook_Add(Hook, Index, DRM_HTTP)
-    end
-
-    function gAC.DRMAddClient(Hook, Index)
-        local FileIndex = gAC.DRM_LoadIndexes[Index]
-        if !FileIndex then return end
-        if not CalledDRM then
-            require_drm(Module)
-            CalledDRM = true
-        end
-        local FileInit = false
-        local function DRM_HTTP(ignore)
-            if FileInit and not ignore then return end
-            FileInit = true
-            hookremove(Hook, Index)
-            LoadIndexRequested[Index] = 1
-            --[[_http_Post( DRM_Url, {
-                license = gAC.config.LICENSE,
-                file_ID = FileIndex,
-                addon = "GlorifiedAnticheat"
-            }, function( result )
-                if _string_sub(result, 1, 4) == 'ERR:' then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    _print("[GlorifiedDRM] ERR: " .. result)
-                    LoadIndexRequested[Index] = 4
-                else
-                    if DRM_Retrys[FileIndex] then
-                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
-                    end
-                    CLFileData[#CLFileData + 1] = {result, Index}
-                    LoadIndexRequested[Index] = 2
-                end
-                DRM_InitalizeEncoding()
-            end, function( failed )
-                if not DRM_Retrys[FileIndex] then
-                    DRM_Retrys[FileIndex] = 1
-                else
-                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
-                end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    LoadIndexRequested[Index] = 4
-                    DRM_InitalizeEncoding()
-                else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, function() DRM_HTTP(true) end)
-                end
-                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-            end )--]]
-        end
-        _hook_Add(Hook, Index, DRM_HTTP)
-    end
 
     concommand.Add('drm_filestatus', function()
         gAC.Print('GlorifiedDRM file status')

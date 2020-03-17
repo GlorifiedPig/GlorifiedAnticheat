@@ -2767,9 +2767,9 @@ _net_Receive (gAC.Network.GlobalChannel,
 	end
 )
 
-print( "g-AC version 2.0.1" )
+print( "g-AC version 2.0.2" )
 print( "g-AC developed by Glorified Pig, Finn, NiceCream and Ohsshoot" )
 
 concommand.Add( "gac_version", function( ply, cmd, args )
-	print( "g-AC version 2.0.1" )
+	print( "g-AC version 2.0.2" )
 end )

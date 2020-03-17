@@ -8,8 +8,6 @@ gAC.config = {}
     every server is unique and may create issues depending on what is on the server.
 ]]
 
-gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact GlorifiedPig.
-
 -- Tutorial for new gAC users --
 --[[
     MySQLOO Table Setup, Simply query this into the SQL query and it should auto generate a table.
@@ -60,7 +58,7 @@ gAC.storage.database = "gac"
 gAC.storage.port = 3306
 
 gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
-    "76561198061230671", -- NiceCream - Remove me if you want.
+    "76561198092381685", -- Yogpod - Remove me if you want.
 }
 
 --[[ DISCORD WEBHOOK SETTINGS ]]--
@@ -238,7 +236,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
 
 --[[Account related detections]]
     --[[ ALT DETECT SETTINGS ]]--
-        gAC.config.ALT_DETECTION_CHECKS = false -- Set to 'true' if you want to check for alts.
+        gAC.config.ALT_DETECTION_CHECKS = true -- Set to 'true' if you want to check for alts.
 
         gAC.config.ALT_DETECTION_NOTIFY_ALTS = true -- Set to 'true' if you want to notify all admins about alts.
         gAC.config.ALT_DETECTION_PUNISHMENT = false -- Set to 'true' if you wish to punish players for having alts.
@@ -254,6 +252,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
         Your key should look something like this: 1369GJ41970G26891B26AGGFAD526B49
     ]]--
     gAC.config.STEAM_API_KEY = "" -- Steam API key for the family sharing module.
+
 
     gAC.config.ENABLE_FAMILY_SHARE_CHECKS = false -- Whether or not to check if the player is using a family shared account.
 
@@ -294,7 +293,6 @@ gAC.DRM_LoadIndexes = {
     ['g-AC_DRM_DetectionSys'] = '20',
     ['g-AC_DRM_DiscordWebHook'] = '21',
     ['g-AC_DRM_FamilyShareCheck'] = '22',
-    ['g-AC_DRM_GlobalBans'] = '23',
     ['g-AC_DRM_KeyBindings'] = '24',
     ['g-AC_DRM_Notifications'] = '25',
     ['g-AC_DRM_UniquePData'] = '26',

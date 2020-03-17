@@ -1,6 +1,5 @@
 local _util_JSONToTable = util.JSONToTable
 local _print = print
-local _http_Post = http.Post
 
 function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
@@ -9,24 +8,11 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
     gAC.Print( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. ") -> " .. displayReason )
     gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
 
-    local punishmentT = 0
     if shouldPunish == 1 then
         punishmentT = banTime
     else
         punishmentT = -2
     end
-
-    --[[_http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
-        local resp = util.JSONToTable(result)
-        if resp == nil then return end
-        if(resp["success"] == "false") then
-            gAC.Print("[Statistics] Generating statistics report failed: "..resp["error"])
-        else
-            gAC.Print("[Statistics] Stat report generated. ID: "..resp["id"])
-        end
-    end, function( failed )
-        gAC.Print( "[Statistics] Stats report failed: " .. failed )
-    end )--]]
 
     if gAC.Debug then return end
 

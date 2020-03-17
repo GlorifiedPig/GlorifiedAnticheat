@@ -3,12 +3,13 @@ local _string_len = string.len
 local _tonumber = tonumber
 local _util_JSONToTable = util.JSONToTable
 local _http_Fetch = http.Fetch
+local _api_key = gAC.config.STEAM_API_KEY
 
 
 function gAC.FamilyShareCheck( ply )
     if( _string_len( gAC.config.STEAM_API_KEY ) <= 1 || !gAC.config.ENABLE_FAMILY_SHARE_CHECKS ) then return end
 
-    _http_Fetch( "http://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v0001/?key=" .. gAC.config.STEAM_API_KEY .. "&format=json&steamid=" .. ply:SteamID64() .. "&appid_playing=4000",
+    _http_Fetch( "http://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v0001/?key=" .. _api_key .. "&format=json&steamid=" .. ply:SteamID64() .. "&appid_playing=4000",
         function( body )
             if( !body ) then return end
             local bodyTable = _util_JSONToTable( body )
