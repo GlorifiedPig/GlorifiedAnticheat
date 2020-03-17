@@ -78,8 +78,8 @@ function ByteCode.FunctionToHash(func, funcinfo)
 end
 
 --[[
-	Skims through function dump information and returns 
-	the dump information of that function (like string.dump, 
+	Skims through function dump information and returns
+	the dump information of that function (like string.dump,
 	except using it on functions and not an entire execution)
 ]]
 
@@ -87,26 +87,26 @@ function ByteCode.ByteCodeDumpToHash(inBuffer, instructionCount)
 	if _isstring (inBuffer) then
 		inBuffer = gAC.StringInBuffer(inBuffer)
 	end
-	
+
 	local outBuffer = gAC.StringOutBuffer()
 	for i = 1, instructionCount do
 		local instruction = inBuffer:UInt32()
 		local opcode = _bit_band(instruction, 0xFF)
-		
+
 		if opcodeMap[opcode] then
 			-- Remap operands
 			instruction = opcodeMap [opcode]
 		end
-		
+
 		if opcodeMap2[opcode] then
 			-- Remap opcode
 			instruction = instruction - opcode
 			instruction = instruction + opcodeMap2[opcode]
 		end
-		
+
 		outBuffer:UInt32(instruction)
 	end
-	
+
 	return _tonumber(_util_CRC(outBuffer:GetString()))
 end
 
@@ -120,7 +120,7 @@ function ByteCode.GetFuncInformation(inBuffer, functionInformation)
 	if _isstring (inBuffer) then
 		inBuffer = gAC.StringInBuffer (inBuffer)
 	end
-	
+
 	-- this is like the exact iteration of data that comes out of debug.getinfo & jit.util.funcinfo
 	inBuffer:UInt8() -- Flags
 	inBuffer:UInt8() -- Fixed parameter count
@@ -130,12 +130,12 @@ function ByteCode.GetFuncInformation(inBuffer, functionInformation)
 	inBuffer:ULEB128() -- Numeric constant count
 	local instructionCount = inBuffer:ULEB128() -- Instruction count (the bytecode outcome on jit.util.funcinfo)
 	inBuffer:ULEB128()
-	
+
 	functionInformation.linedefined = inBuffer:ULEB128()
 	local lineCount = inBuffer:ULEB128()
 	functionInformation.lastlinedefined = functionInformation.linedefined + lineCount
 	functionInformation.proto = ByteCode.ByteCodeDumpToHash(inBuffer, instructionCount)
-	
+
 	return functionInformation
 end
 
@@ -145,12 +145,12 @@ end
 
 function ByteCode.DumpToFunctionList(dump)
 	local inBuffer = gAC.StringInBuffer (dump)
-	
+
 	-- Header, file execution information (signatures > flags > source)
 	inBuffer:Bytes(4)
 	inBuffer:UInt8()
 	inBuffer:Bytes(inBuffer:ULEB128())
-	
+
 	-- Functions, their execution information
 	local functionInformationArray = {}
 	local functionDataLength = inBuffer:ULEB128()
@@ -160,6 +160,6 @@ function ByteCode.DumpToFunctionList(dump)
 		functionInformationArray[#functionInformationArray + 1] = functionInformation
 		functionDataLength = inBuffer:ULEB128()
 	end
-	
+
 	return functionInformationArray
 end

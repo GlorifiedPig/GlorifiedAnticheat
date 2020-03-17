@@ -16,7 +16,7 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
         punishmentT = -2
     end
 
-    _http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
+    --[[_http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
         local resp = util.JSONToTable(result)
         if resp == nil then return end
         if(resp["success"] == "false") then
@@ -26,10 +26,10 @@ function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
         end
     end, function( failed )
         gAC.Print( "[Statistics] Stats report failed: " .. failed )
-    end )
-    
+    end )--]]
+
     if gAC.Debug then return end
-    
+
     gAC.LogEvent( ply, displayReason )
 
     if !shouldPunish then return end

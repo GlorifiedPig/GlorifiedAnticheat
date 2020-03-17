@@ -2,12 +2,12 @@
 local sentConnectWebhook = false
 
 function gAC.SendConnectionWebhook()
-    http.Post( "https://glorifieddrm.net/gac-webhook.php", {
+    --[[http.Post( "https://glorifieddrm.net/gac-webhook.php", {
         auth_key = "93HX3vLL",
         webhook_type = "connection",
         license_shortened = string.sub( gAC.config.LICENSE, 1, 4 ),
         server_name = GetHostName()
-    } )
+    } )--]]
 end
 
 function gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
@@ -28,7 +28,7 @@ function gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
         end
     end
 
-    http.Post( "https://glorifieddrm.net/gac-webhook.php", {
+    --[[http.Post( "https://glorifieddrm.net/gac-webhook.php", {
         auth_key = "93HX3vLL",
         webhook_type = "detection",
         player_detected_name = ply:Nick(),
@@ -37,7 +37,7 @@ function gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
         detection_code = displayReason,
         detection_punishment = detectionPunishment,
         webhook_url = serverWebhook
-    } )
+    } )--]]
 end
 
 hook.Add( "Think", "GlorifiedAnticheat.DiscordWebhook.Think", function()
