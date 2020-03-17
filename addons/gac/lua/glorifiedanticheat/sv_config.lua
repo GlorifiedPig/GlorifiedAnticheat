@@ -60,7 +60,7 @@ gAC.storage.database = "gac"
 gAC.storage.port = 3306
 
 gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
-    "76561198061230671", -- NiceCream - Remove me if you want.
+    "76561198092381685",
 }
 
 --[[ DISCORD WEBHOOK SETTINGS ]]--
