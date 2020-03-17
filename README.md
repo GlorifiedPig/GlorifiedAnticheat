@@ -1,4 +1,9 @@
+
 # g-AC
+
+It's been a good run, it truly has. After around two years, we've had a leak where I believe that me simply releasing g-AC as public will be a better alternative than attempting to recover via new detections. Hopefully it contains a few useful tools/snippets for you to imrpove your server. I feel weight lifted off my chest being able to release this publicly, so enjoy. Just note that it won't be supported or updated until perhaps one day far in the future.
+
+A very special thanks to NiceCream for all the effort he's put in over the years.
 
 ## Documentation
 
