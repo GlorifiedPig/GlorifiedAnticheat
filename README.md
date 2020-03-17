@@ -5,6 +5,8 @@ It's been a good run, it truly has. After around two years, we've had a leak whe
 
 A very special thanks to NiceCream for all the effort he's put in over the years.
 
+Please note that this isn't designed to work off the bat - please spend time configuring it before adding it to your server.
+
 ## Documentation
 
 ### Codes
