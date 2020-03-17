@@ -1,17 +1,10 @@
 
-# ~~g-AC
-
 # graphite- antichinese
 
 
 hello today i prevent spread of pandemic by releasing graphite antichinese, a new ip from graphite industries.
 this block stupid idiot cheat from loading, unfortunately, it used to detect amazing ultra cheat known as methamphetamine.solutions.
 that is not the case any more, as meth is super ultra amazing toos code.
-
-~~It's been a good run, it truly has. After around two years, we've had a leak where I believe that me simply releasing g-AC as public will be a better alternative than attempting to recover via new detections. Hopefully it contains a few useful tools/snippets for you to imrpove your server. I feel weight lifted off my chest being able to release this publicly, so enjoy. Just note that it won't be supported or updated until perhaps one day far in the future.
-
-~~A very special thanks to NiceCream for all the effort he's put in over the years.
-
 
 ## Documentation
 
@@ -34,8 +27,8 @@ that is not the case any more, as meth is super ultra amazing toos code.
 | 112                       | Anti menuhook detected |
 | 113                       | Source Crasher detected |
 | 114                       | Anti-neko cvar response not returned |
-~~| 115                      | Methamphetamine detected |~~
 | 116                       | Payload Verification failure |
+| 115                       | Placeholder
 | 117                       | Integrity check failure |
 | 118                       | Bigpackets detected |
 | 119                       | Join verification failure |
