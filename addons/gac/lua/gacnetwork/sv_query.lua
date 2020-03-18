@@ -194,7 +194,7 @@ _hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
 end)
 
 do
-    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'gac'
+    local DRM_Url, Module = '', ''
 
     local function hookremove(Hook, Index)
         local tbl = hook.GetTable()
@@ -224,13 +224,13 @@ do
     end
 
     local require_drm = function(name)
-        _require(name)
+        --[[_require(name)
         if CheckDetours(RunString) == true and CheckDetours(RunStringG) == true then
             local _RunStringG = RunStringG
             RunFunc = function( file, index )
                 return _xpcall(_RunStringG, _debug_traceback, file, index)
             end
-        end
+        end]]--
         RunStringG = nil
     end
 
@@ -373,7 +373,7 @@ do
             FileInit = true
             hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
-            _http_Post( DRM_Url, {
+            --[[_http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
                 addon = "GlorifiedAnticheat"
@@ -407,7 +407,7 @@ do
                     _timer_Simple(3, function() DRM_HTTP(true) end)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-            end )
+            end )]]--
         end
         _hook_Add(Hook, Index, DRM_HTTP)
     end
@@ -425,7 +425,7 @@ do
             FileInit = true
             hookremove(Hook, Index)
             LoadIndexRequested[Index] = 1
-            _http_Post( DRM_Url, {
+            --[[_http_Post( DRM_Url, {
                 license = gAC.config.LICENSE,
                 file_ID = FileIndex,
                 addon = "GlorifiedAnticheat"
@@ -459,7 +459,7 @@ do
                     _timer_Simple(3, function() DRM_HTTP(true) end)
                 end
                 _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-            end )
+            end ) --]]
         end
         _hook_Add(Hook, Index, DRM_HTTP)
     end
