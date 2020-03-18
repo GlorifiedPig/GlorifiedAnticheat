@@ -5,6 +5,8 @@ gAC = gAC or {
 
     IDENTIFIER = "g-AC",
     NICE_NAME = "g-AC",
+
+    Version = "2.1.5",
     Debug = false
 }
 
@@ -62,15 +64,17 @@ function frile.includeFolder( currentFolder, ignoreFilesInFolder, ignoreFoldersI
     end
 end
 
-_print( "[GlorifiedAnticheat] This server is running g-AC @ https://github.com/GlorifiedPig/g-ac" )
+-- DO NOT REMOVE OR EDIT THESE 2 LINES, READ THE LICENSE @ https://github.com/GlorifiedPig/g-ac
+_print( "g-AC > This server is running GlorifiedAnticheat Version " .. gAC.Version .. " @ https://github.com/GlorifiedPig/g-ac" )
+_print( "g-AC > GlorifiedAnticheat is developed by GlorifiedPig, NiceCream & Finn" )
 
-function gAC.Print(txt)
-    _print(gAC.NICE_NAME .. " > " .. txt)
+function gAC.Print( txt )
+    _print( gAC.NICE_NAME .. " > " .. txt )
 end
 
-function gAC.DBGPrint(txt)
+function gAC.DBGPrint( txt )
     if !gAC.Debug then return end
-    _print(gAC.NICE_NAME .. " [DBG] > " .. txt)
+    _print( gAC.NICE_NAME .. " [DBG] > " .. txt )
 end
 
 -- Do not adjust the load order. You must first load the libraries, followed by the module and last the languages.

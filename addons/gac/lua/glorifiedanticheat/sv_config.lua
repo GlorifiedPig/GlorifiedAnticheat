@@ -5,7 +5,7 @@ gAC.config = {}
     Hello there and welcome to gAC!
     Here are all the necessary configs for them pesky cheaters to stay off your server!
     Please chose wisely on your decisions to enable/disable configs as
-    every server is unique and may create issues depending on what is on the server.
+    Every server is unique and may create issues depending on what is on the server.
 ]]
 
 gAC.config.LICENSE = "LICENSE" -- If you didn't receive a license please contact GlorifiedPig.
@@ -59,8 +59,8 @@ gAC.storage.password = "root"
 gAC.storage.database = "gac"
 gAC.storage.port = 3306
 
-gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g-AC detections.
-    "76561198061230671", -- NiceCream - Remove me if you want.
+gAC.config.IMMUNE_USERS = { -- Set all the people you want to be immune to detections here, SteamID64s only.
+    "76561198061230671", -- NiceCream, remove me if you want.
 }
 
 --[[ DISCORD WEBHOOK SETTINGS ]]--
@@ -84,7 +84,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
             default - normal gAC kick system
             custom_func - uses KICK_FUNC to kick users, basically make your own kick type
     ]]
-    gAC.config.BAN_MESSAGE_SYNTAX = "Cheating/Hacking" -- Syntax for ban messages.
+    gAC.config.BAN_MESSAGE_SYNTAX = "GlorifiedAnticheat > Banned for Cheating/Hacking" -- Syntax for ban messages.
 
     -- Your ban system must allow access to ban SteamID's
     gAC.config.DELAYEDBANS = true --Delays bans to prevent cheaters from understanding the system
@@ -238,7 +238,7 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
 
 --[[Account related detections]]
     --[[ ALT DETECT SETTINGS ]]--
-        gAC.config.ALT_DETECTION_CHECKS = false -- Set to 'true' if you want to check for alts.
+        gAC.config.ALT_DETECTION_CHECKS = true -- Set to 'true' if you want to check for alts.
 
         gAC.config.ALT_DETECTION_NOTIFY_ALTS = true -- Set to 'true' if you want to notify all admins about alts.
         gAC.config.ALT_DETECTION_PUNISHMENT = false -- Set to 'true' if you wish to punish players for having alts.
@@ -262,52 +262,13 @@ gAC.config.IMMUNE_USERS = { -- Set all user's steamid64 here who are immune to g
     --[[ FAMILY SHARING CHECK END ]]--
 --[[end]]
 
--- Prevents integrity checks from going haywire on these configs
+--[[ DO NOT TOUCH BELOW THIS LINE ]]--
 gAC.config.INTEGRITY_INGORES = {}
 
-for k, v in pairs(gAC.config) do
+for k, v in pairs( gAC.config ) do
     gAC.config.INTEGRITY_INGORES[k] = true
 end
 
 table.Merge( gAC.config, CFG )
 
--- If files do not load, type 'fdrm_filestatus' in console and send us a picture of it.
--- Please do not edit these unless we tell you to.
-
-gAC.DRM_LoadIndexes = {
-    ['g-AC_DRM_Networking'] = '5',
-
-    ['g-AC_DRM_AdminPrivilages'] = '6',
-    ['g-AC_DRM_AltDetection'] = '7',
-    ['g-AC_DRM_AntiAntiAim'] = '8',
-    ['g-AC_DRM_MoveManip'] = '9',
-    ['g-AC_DRM_NetBackDoor'] = '10',
-    ['g-AC_DRM_AntiBhop'] = '11',
-    ['g-AC_DRM_AntiBigPackets'] = '12',
-    ['g-AC_DRM_CPPAimbot'] = '13',
-    ['g-AC_DRM_ByteCode'] = '14',
-    ['g-AC_DRM_AntiLua'] = '15',
-    ['g-AC_DRM_AntiNoSpread'] = '16',
-    ['g-AC_DRM_BanSys'] = '17',
-    ['g-AC_DRM_ConCommand_Abuse'] = '18',
-    ['g-AC_DRM_CvarManip'] = '19',
-    ['g-AC_DRM_DetectionSys'] = '20',
-    ['g-AC_DRM_DiscordWebHook'] = '21',
-    ['g-AC_DRM_FamilyShareCheck'] = '22',
-    ['g-AC_DRM_GlobalBans'] = '23',
-    ['g-AC_DRM_KeyBindings'] = '24',
-    ['g-AC_DRM_Notifications'] = '25',
-    ['g-AC_DRM_UniquePData'] = '26',
-    ['g-AC_DRM_Verify'] = '27',
-    ['g-AC_DRM_VPNChecker'] = '28',
-
-    ['g-AC_DRM_CLAltDetection'] = '29',
-    ['g-AC_DRM_CLMoveManip'] = '30',
-    ['g-AC_DRM_CLAntiBigPackets'] = '31',
-    ['g-AC_DRM_CLAntiEnginePred'] = '32',
-    ['g-AC_DRM_CLAntiVCoil'] = '33',
-    ['g-AC_DRM_CLConCommand_Abuse'] = '34',
-    ['g-AC_DRM_CLCvarManip'] = '35',
-    ['g-AC_DRM_CLNotifications'] = '36',
-    ['g-AC_DRM_CLVerify'] = '37'
-}
+gAC.DRM_LoadIndexes = {} -- empty table cause i'm too lazy to refactor everything to work around no query file
