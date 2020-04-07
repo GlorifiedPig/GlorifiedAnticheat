@@ -1,3 +1,6 @@
+If you're interested in an anti alt system, [contact me on Steam](https://steamcommunity.com/id/GlorifiedPig).
+
+
 [![Use code "glorified" on Crident Networks](https://cdn.discordapp.com/attachments/520721886326554629/691409295505621082/glorified.png)](https://crident.com/portal/aff.php?aff=906)
 
 # g-AC
