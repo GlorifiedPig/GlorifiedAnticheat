@@ -6,7 +6,7 @@ gAC = gAC or {
     IDENTIFIER = "g-AC",
     NICE_NAME = "g-AC",
 
-    Version = "2.1.5",
+    Version = "2.1.6",
     Debug = false
 }
 
