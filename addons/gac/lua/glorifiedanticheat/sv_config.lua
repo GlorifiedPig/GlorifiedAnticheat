@@ -60,7 +60,8 @@ gAC.storage.database = "gac"
 gAC.storage.port = 3306
 
 gAC.config.IMMUNE_USERS = { -- Set all the people you want to be immune to detections here, SteamID64s only.
-    "76561198061230671", -- NiceCream, remove me if you want.
+    ["76561198061230671"] = true, -- NiceCream
+    ["76561198073308340"] = true -- GlorifiedPig
 }
 
 --[[ DISCORD WEBHOOK SETTINGS ]]--
