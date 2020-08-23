@@ -2,11 +2,9 @@
 
 # GlorifiedAnticheat
 
-A very special thanks to NiceCream for all the effort he's put in over the years.
-
-I am not providing support for this! Please do not add me on Steam about it.
-
 Please note that this isn't designed to work off the bat - please spend time configuring it on a private development server before adding it to your server. Be sure to read the license.
+
+Open source and completely free to use. If you find an issue, open an issue or create a pull request and fix it.
 
 ## Documentation
 

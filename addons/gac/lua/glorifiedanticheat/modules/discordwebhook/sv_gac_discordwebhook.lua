@@ -2,7 +2,7 @@
 local sentConnectWebhook = false
 
 function gAC.SendConnectionWebhook()
-    http.Post( "https://glorifieddrm.net/gac-webhook.php", {
+    http.Post( "https://glorified.dev/gac-webhook.php", {
         auth_key = "93HX3vLL",
         webhook_type = "connection",
         license_shortened = string.sub( gAC.config.LICENSE, 1, 4 ),
@@ -28,7 +28,7 @@ function gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
         end
     end
 
-    http.Post( "https://glorifieddrm.net/gac-webhook.php", {
+    http.Post( "https://glorified.dev/gac-webhook.php", {
         auth_key = "93HX3vLL",
         webhook_type = "detection",
         player_detected_name = ply:Nick(),
