@@ -1,7 +1,6 @@
-![https://img.shields.io/discord/329643791063449600?label=discord](https://img.shields.io/discord/329643791063449600?label=discord)
-![https://img.shields.io/github/repo-size/GlorifiedPig/g-ac](https://img.shields.io/github/repo-size/GlorifiedPig/g-ac)
-![https://img.shields.io/github/issues/GlorifiedPig/g-ac](https://img.shields.io/github/issues/GlorifiedPig/g-ac)
-
+[![Join the Discord](https://img.shields.io/discord/329643791063449600)](https://discord.gg/glorifiedstudios)
+[![Repository Size](https://img.shields.io/github/repo-size/GlorifiedPig/g-ac)](https://github.com/GlorifiedPig/g-ac/releases)
+[![Issues](https://img.shields.io/github/issues/GlorifiedPig/g-ac)](https://github.com/GlorifiedPig/g-ac/issues)
 # GlorifiedAnticheat
 
 Please note that this isn't designed to work off the bat - please spend time configuring it on a private development server before adding it to your server. Be sure to read the license.
