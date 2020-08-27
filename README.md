@@ -1,10 +1,16 @@
-[![Use code "glorified" on Crident Networks](https://cdn.discordapp.com/attachments/520721886326554629/691409295505621082/glorified.png)](https://crident.com/portal/aff.php?aff=906)
+![https://img.shields.io/discord/329643791063449600?label=discord](https://img.shields.io/discord/329643791063449600?label=discord)
+![https://img.shields.io/github/repo-size/GlorifiedPig/g-ac](https://img.shields.io/github/repo-size/GlorifiedPig/g-ac)
+![https://img.shields.io/github/issues/GlorifiedPig/g-ac](https://img.shields.io/github/issues/GlorifiedPig/g-ac)
 
 # GlorifiedAnticheat
 
 Please note that this isn't designed to work off the bat - please spend time configuring it on a private development server before adding it to your server. Be sure to read the license.
 
 Open source and completely free to use. If you find an issue, open an issue or create a pull request and fix it.
+
+No Warranty. ALL INFORMATION IS PROVIDED “AS IS”. EACH PARTY MAKES NO WARRANTIES, EXPRESS, IMPLIED OR OTHERWISE, REGARDING ITS ACCURACY, COMPLETENESS OR PERFORMANCE.
+
+[![Use code "glorified" on Crident Networks](https://cdn.discordapp.com/attachments/520721886326554629/691409295505621082/glorified.png)](https://crident.com/portal/aff.php?aff=906)
 
 ## Documentation
 
