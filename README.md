@@ -3,7 +3,7 @@
 [![Issues](https://img.shields.io/github/issues/GlorifiedPig/g-ac)](https://github.com/GlorifiedPig/g-ac/issues)
 # GlorifiedAnticheat
 
-### ***STOP FUCKING CONTACTING ME ABOUT G-AC, I WILL NOT HELP YOU***
+### ***PLEASE STOP CONTACTING ME ABOUT G-AC, I WILL NOT HELP YOU***
 
 Please note that this isn't designed to work off the bat - please spend time configuring it on a private development server before adding it to your server. Be sure to read the license.
 
