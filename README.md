@@ -1,4 +1,3 @@
-[![Join the Discord](https://img.shields.io/discord/329643791063449600)](https://discord.gg/glorifiedstudios)
 [![Repository Size](https://img.shields.io/github/repo-size/GlorifiedPig/g-ac)](https://github.com/GlorifiedPig/g-ac/releases)
 [![Issues](https://img.shields.io/github/issues/GlorifiedPig/g-ac)](https://github.com/GlorifiedPig/g-ac/issues)
 # GlorifiedAnticheat
